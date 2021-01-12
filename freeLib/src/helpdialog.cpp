@@ -1,5 +1,6 @@
 #include <QDebug>
-#include <QWebEnginePage>
+#include <QTextBrowser>
+#include <QFile>
 
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
@@ -9,7 +10,12 @@ HelpDialog::HelpDialog(QWidget *parent) :
     ui(new Ui::HelpDialog)
 {
     ui->setupUi(this);
-    ui->webView->load(QUrl::fromLocalFile(QApplication::applicationDirPath()+"/Help/index.html"));
+
+    QFile file(QApplication::applicationDirPath() + "/Help/index.html");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->webView->setHtml(file.readAll());
+    }
 }
 
 HelpDialog::~HelpDialog()
