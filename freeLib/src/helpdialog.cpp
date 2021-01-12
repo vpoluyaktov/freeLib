@@ -11,10 +11,25 @@ HelpDialog::HelpDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QFile file(QApplication::applicationDirPath() + "/Help/index.html");
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    QFile fileAbout(QApplication::applicationDirPath() + "/Help/about.html");
+    if (fileAbout.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        ui->webView->setHtml(file.readAll());
+        ui->webViewAbout->setHtml(fileAbout.readAll());
+    }
+    QFile fileChangeLog(QApplication::applicationDirPath() + "/Help/changelog.html");
+    if (fileChangeLog.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->webViewChangeLog->setHtml(fileChangeLog.readAll());
+    }
+    QFile fileParams(QApplication::applicationDirPath() + "/Help/params.html");
+    if (fileParams.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->webViewParametrs->setHtml(fileParams.readAll());
+    }
+    QFile fileCommandLineParametrs(QApplication::applicationDirPath() + "/Help/cmd_params.html");
+    if (fileCommandLineParametrs.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->webViewCommandLineParametrs->setHtml(fileCommandLineParametrs.readAll());
     }
 }
 
