@@ -1,0 +1,602 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts;xlf</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts;xlf</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="quazip\quazip\JlCompress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aboutdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="addlibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bookeditdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dropform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\emailaddress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exportdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exportframe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exportthread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2mobi\fb2mobi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fontframe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="genresortfilterproxymodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helpdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2mobi\hyphenations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="importthread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libwizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimeattachment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimecontentformatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimefile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimehtml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimeinlinefile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimemessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimemultipart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimepart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\mimetext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mobiEdit\mobiedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="opds_server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\qioapi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quaadler32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quacrc32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quagzipfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quaziodevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quazip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quazipdir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quazipfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quazipfileinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\quazipnewinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\quotedprintable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settingsdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmtpClient\smtpclient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tagdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="treebookitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\unzip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quazip\quazip\zip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="quazip\quazip\JlCompress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="aboutdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="addlibrary.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="bookeditdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="build_number.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quazip\quazip\crypt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="dropform.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\emailaddress.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="exportdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="exportframe.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="exportthread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="fb2mobi\fb2mobi.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="fontframe.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="genresortfilterproxymodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="helpdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="fb2mobi\hyphenations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="importthread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="quazip\quazip\ioapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="libwizard.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\mimeattachment.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\mimecontentformatter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\mimefile.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\mimehtml.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="SmtpClient\mimeinlinefile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmtpClient\mimemessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="SmtpClient\mimemultipart.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\mimepart.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="SmtpClient\mimetext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mobiEdit\mobiedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="opds_server.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="quazip\quazip\quaadler32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quazip\quazip\quachecksum32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quazip\quazip\quacrc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="quazip\quazip\quagzipfile.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="quazip\quazip\quaziodevice.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="quazip\quazip\quazip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quazip\quazip\quazip_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quazip\quazip\quazipdir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="quazip\quazip\quazipfile.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="quazip\quazip\quazipfileinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quazip\quazip\quazipnewinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="SmtpClient\quotedprintable.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="settingsdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SmtpClient\smtpclient.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="tagdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="treebookitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="language_en.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="language_ru.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="language_uk.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="aboutdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="addlibrary.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="bookeditdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="dropform.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="exportdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="exportframe.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="fontframe.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="helpdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="libwizard.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="settingsdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="tagdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\icons\stars\0star.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\0star@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\1star.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\1star@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\2star.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\2star@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\3star.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\3star@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\4star.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\4star@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\5star.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\stars\5star@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\Streamline.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\Streamline@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\Streamline_big.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\Streamline_big@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\arrow_sans_down.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\arrow_sans_down@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\arrow_sans_up.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\arrow_sans_up@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\book.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\book@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\checkbox.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\checkbox@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\clear.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\clear@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\close.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\close@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\contact.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\contact@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\contact_big.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\contact_big@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="freeLib.sqlite">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="library.iconset\icon_128x128.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="library.iconset\icon_16x16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="library.iconset\icon_16x16@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\icon_48x48.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\library.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\library@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\minus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\minus@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\open.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\open@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\pen_alt_fill.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\pen_alt_fill@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\plus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\plus@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="preview.html">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="img\icons\save.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\save@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\settings.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\icons\settings@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\splash.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\splash@2x.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\tray0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\tray1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\tray2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build_number.sh">
+      <Filter>Distribution Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\win.rc" />
+  </ItemGroup>
+</Project>

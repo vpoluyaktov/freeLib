@@ -10,6 +10,7 @@
 #include <QSplashScreen>
 #include <QPainter>
 #include <QMap>
+#include <locale>
 
 
 #include "mainwindow.h"

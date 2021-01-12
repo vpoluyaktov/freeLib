@@ -7,7 +7,7 @@
 
 #contains(sql-drivers,sqlite):include("$${_PRO_FILE_PWD_}/../../sqlite/qsql_sqlite.pri")
 #QT       += core
-QT += sql xml network widgets xmlpatterns concurrent printsupport gui webenginewidgets
+QT += sql xml network widgets xmlpatterns concurrent printsupport gui
 TARGET = freeLib
 TEMPLATE = app
 
@@ -114,7 +114,6 @@ SOURCES += main.cpp\
     quazip/quazip/unzip.c \
     quazip/quazip/zip.c \
     bookeditdlg.cpp \
-    webpage.cpp \
     treebookitem.cpp \
     genresortfilterproxymodel.cpp
 
@@ -164,7 +163,6 @@ HEADERS  += mainwindow.h \
     quazip/quazip/quazipfile.h \
     quazip/quazip/crypt.h \
     bookeditdlg.h \
-    webpage.h \
     treebookitem.h \
     genresortfilterproxymodel.h \
     build_number.h

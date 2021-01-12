@@ -1022,7 +1022,10 @@
                    </property>
                   </column>
                  </widget>
-                 <widget class="QWebEngineView" name="Review" native="true">
+                 <widget class="QTextBrowser" name="Review">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1033,15 +1036,10 @@
                    <enum>Qt::NoFocus</enum>
                   </property>
                   <property name="contextMenuPolicy">
-                   <enum>Qt::NoContextMenu</enum>
+                   <enum>Qt::DefaultContextMenu</enum>
                   </property>
                   <property name="acceptDrops">
                    <bool>false</bool>
-                  </property>
-                  <property name="url" stdset="0">
-                   <url>
-                    <string>about:blank</string>
-                   </url>
                   </property>
                  </widget>
                 </widget>
@@ -1179,7 +1177,7 @@
      <x>0</x>
      <y>0</y>
      <width>1297</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -1304,13 +1302,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header>qwebengineview.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="resource.qrc"/>
  </resources>

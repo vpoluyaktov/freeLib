@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QWebEngineView>
+#include <qtextbrowser.h>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QToolButton>
 #include <QSqlQuery>
@@ -131,7 +131,7 @@ private slots:
     void set_tag();
     void ChangingPort(int i);
     void ChangingLanguage(bool change_language=true);
-    void ReviewLink(QUrl url);
+    void onAnchorClicked(const QUrl& link);
     void SelectLibrary();
     void on_actionSwitch_to_convert_mode_triggered();
     void on_actionSwitch_to_library_mode_triggered();

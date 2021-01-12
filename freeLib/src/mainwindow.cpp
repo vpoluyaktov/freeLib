@@ -9,6 +9,7 @@
 #include <QTextCodec>
 #include <QMap>
 #include <QButtonGroup>
+#include <QPainter>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -27,7 +28,6 @@
 #include "tagdialog.h"
 #include "libwizard.h"
 #include "bookeditdlg.h"
-#include "webpage.h"
 #include "treebookitem.h"
 #include "genresortfilterproxymodel.h"
 #include "library.h"
@@ -201,8 +201,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Books->setColumnWidth(5,250);
     ui->Books->setColumnWidth(6,50);
 
-    ui->Review->setPage(new WebPage());
-    connect(ui->Review->page(),SIGNAL(linkClicked(QUrl)),this,SLOT(ReviewLink(QUrl)));
+    // деактивировация действий, которые генерируют ссылку в браузере
+    ui->Review->setOpenLinks(false);
+    ui->Review->setOpenExternalLinks(false);
+
+    connect(
+        ui->Review, &QTextBrowser::anchorClicked,
+        this, &MainWindow::onAnchorClicked
+    );
 
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
 
@@ -459,7 +465,6 @@ MainWindow::~MainWindow()
     settings.beginGroup("Columns");
     QByteArray baHeaders = ui->Books->header()->saveState();
     settings.setValue("headers",baHeaders);
-    delete ui->Review->page();
     delete ui;
 }
 
@@ -498,22 +503,22 @@ void MainWindow::newLibWizard(bool AddLibOnly)
     }
 }
 
-void MainWindow::ReviewLink(QUrl url)
+void MainWindow::onAnchorClicked(const QUrl& url)
 {
     QString sPath = url.path();
-    if(sPath.startsWith("/author_"))
+    if(sPath.startsWith("author_"))
     {
-        MoveToAuthor(sPath.right(sPath.length()-9).toLongLong(),sPath.mid(8,1).toUpper());
+        MoveToAuthor(sPath.right(sPath.length()-8).toLongLong(),sPath.mid(7,1).toUpper());
     }
-    else if(sPath.startsWith("/genre_"))
+    else if(sPath.startsWith("genre_"))
     {
-        MoveToGenre(sPath.right(sPath.length()-8).toLongLong());
+        MoveToGenre(sPath.right(sPath.length()-7).toLongLong());
     }
-    else if(sPath.startsWith("/seria_"))
+    else if(sPath.startsWith("seria_"))
     {
-        MoveToSeria(sPath.right(sPath.length()-8).toLongLong(),sPath.mid(7,1).toUpper());
+        MoveToSeria(sPath.right(sPath.length()-7).toLongLong(),sPath.mid(6,1).toUpper());
     }
-    else if(sPath.startsWith("/show_fileinfo"))
+    else if(sPath.startsWith("show_fileinfo"))
     {
         QSettings settings;
         settings.setValue("show_fileinfo",!settings.value("show_fileinfo",false).toBool());
@@ -1303,7 +1308,7 @@ void MainWindow::SelectBook()
                 replace("#file_name#",fi.fileName()).
                 replace("#image#",bi.img).
                 replace("#file_info#",settings->value("show_fileinfo",true).toBool()?"block":"none");
-        ui->Review->page()->setHtml(content,/*QUrl("file:")*/QUrl("file:/"+QStandardPaths::writableLocation(QStandardPaths::TempLocation)));
+        ui->Review->setHtml(content);
     }
 }
 
