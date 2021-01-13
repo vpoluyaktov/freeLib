@@ -337,9 +337,11 @@ void AddLibrary::ExportLib()
 {
     //accept();
     QString dirName = QFileDialog::getExistingDirectory(this, tr("Select destination directory"));
-    ExportDlg ed(this);
-    ed.exec(idCurrentLib_,dirName);
-
+    if (dirName != "")
+    {
+        ExportDlg ed(this);
+        ed.exec(idCurrentLib_, dirName);
+    }
 }
 
 
