@@ -2029,12 +2029,12 @@ void MainWindow::ShowDropForm()
     pDropForm->raise();
 }
 
-void MainWindow::dragEnterEvent(QDragEnterEvent *ev)
+void MainWindow::dragEnterEvent(QDragEnterEvent* ev)
 {
-    if(ev->mimeData()->urls().count()>0)
+    if (ev->mimeData()->urls().count() > 0)
     {
         ev->accept();
-        if(mode==MODE_LIBRARY)
+        if (mode == MODE_LIBRARY)
         {
             DeleteDropForm();
             ShowDropForm();
@@ -2043,8 +2043,11 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *ev)
     else
     {
         ev->setAccepted(false);
-        if(mode==MODE_LIBRARY)
-            pDropForm->hide();
+        if (mode == MODE_LIBRARY)
+        {
+            if (pDropForm != nullptr)
+                pDropForm->hide();
+        }
     }
 }
 void MainWindow::dragMoveEvent(QDragMoveEvent *ev)
