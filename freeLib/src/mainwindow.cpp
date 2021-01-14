@@ -1201,14 +1201,27 @@ void MainWindow::SelectAuthor()
     ExportBookListBtn(false);
     if(ui->AuthorList->selectedItems().count()==0)
         return;
+    
     QListWidgetItem* cur_item=ui->AuthorList->selectedItems()[0];
-
-    QSettings settings;
 
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
 
     QList<uint> booksId = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
     FillListBooks(booksId,idCurrentAuthor_);
+    
+    // Выделение жирным выбранного Автора
+    QFont font = ui->AuthorList->font();
+    for (int i = 0; i < ui->AuthorList->count(); ++i)
+    {
+        QListWidgetItem* item = ui->AuthorList->item(i);
+        if (item != cur_item)
+            font.setBold(false);
+        else
+            font.setBold(true);
+        item->setFont(font);
+    }
+
+    QSettings settings;
     if(settings.value("store_position",true).toBool()){
         settings.setValue("current_author_id",idCurrentAuthor_);
     }
