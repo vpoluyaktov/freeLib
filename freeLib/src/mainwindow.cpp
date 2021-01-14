@@ -1727,7 +1727,9 @@ void MainWindow::FillSerials()
     while(iSerial!=mCounts.constEnd()){
         QString SeriaName = mLibs[idCurrentLib].mSerials[iSerial.key()].sName;
         QString NewSeriaName = SeriaName != "" ? SeriaName : NoSeries_;
-        item=new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
+        QBrush Brush; Brush = SeriaName != "" ? Qt::darkBlue : Qt::darkMagenta;
+        item = new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
+        item->setForeground(Brush);
         item->setData(Qt::UserRole,iSerial.key());
         if(bUseTag_)
             item->setIcon(GetTag(mLibs[idCurrentLib].mSerials[iSerial.key()].nTag));
@@ -1736,7 +1738,7 @@ void MainWindow::FillSerials()
         {
             item->setSelected(true);
             ui->SeriaList->scrollToItem(item);
-         }
+        }
 
         ++iSerial;
     }
