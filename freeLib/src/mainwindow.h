@@ -72,6 +72,7 @@ private:
     uint idCurrentBook_;
     bool bUseTag_;
     bool bShowDeleted_;
+    QString NoSeries_;
 
 protected:
     void showEvent(QShowEvent *ev);
@@ -97,6 +98,7 @@ protected:
     void SendToDevice();
     void changeEvent(QEvent *event);
     void ShowHeaderCoulmn(int nColumn,QString sSetting,bool bHide);
+
 private slots:
     void ShowDropForm();
     void ExportAction();
@@ -148,6 +150,7 @@ private slots:
 
 public slots:
     void newLibWizard(bool AddLibOnly=true);
+
 signals:
     void window_loaded();
 };

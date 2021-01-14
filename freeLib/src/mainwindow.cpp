@@ -160,6 +160,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    NoSeries_ = tr("<<< Books without series >>>");
+
     trIcon=nullptr;
     pDropForm=nullptr;
     error_quit=false;
@@ -1723,7 +1725,9 @@ void MainWindow::FillSerials()
     QListWidgetItem *item;
     auto iSerial = mCounts.constBegin();
     while(iSerial!=mCounts.constEnd()){
-        item=new QListWidgetItem(QString("%1 (%2)").arg(mLibs[idCurrentLib].mSerials[iSerial.key()].sName).arg(iSerial.value()));
+        QString SeriaName = mLibs[idCurrentLib].mSerials[iSerial.key()].sName;
+        QString NewSeriaName = SeriaName != "" ? SeriaName : NoSeries_;
+        item=new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
         item->setData(Qt::UserRole,iSerial.key());
         if(bUseTag_)
             item->setIcon(GetTag(mLibs[idCurrentLib].mSerials[iSerial.key()].nTag));
@@ -1880,7 +1884,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 }
                 if(iSerial==mSerias.constEnd()){
                     item_seria = new TreeBookItem(mAuthors[idAuthor],ITEM_TYPE_SERIA);
-                    item_seria->setText(0,mLibs[idCurrentLib].mSerials[idSerial].sName);
+                    QString SeriaName = mLibs[idCurrentLib].mSerials[idSerial].sName;
+                    QString NewSeriaName = SeriaName != "" ? SeriaName : NoSeries_;
+                    item_seria->setText(0, NewSeriaName);
                     item_author->addChild(item_seria);
                     item_seria->setExpanded(true);
                     item_seria->setFont(0,bold_font);
