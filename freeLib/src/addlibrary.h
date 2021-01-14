@@ -21,7 +21,7 @@ public:
     void AddNewLibrary(SLib &lib);
     void StartImport(SLib &Lib);
     void SelectLibrary(int idLib);
-    bool bLibChanged;
+    bool IsLibraryChanged();
     
 private:
     Ui::AddLibrary *ui;
@@ -30,6 +30,8 @@ private:
     void UpdateLibList();
     void SaveLibrary(int idLib, SLib& Lib);
     int idCurrentLib_;
+    bool bLibChanged;
+
 private slots:
     void LogMessage(QString msg);
     void InputINPX();
@@ -43,7 +45,6 @@ private slots:
     void reject();
     void ExistingLibsChanged();
     void ExportLib();
-
 
 signals:
     void break_import();

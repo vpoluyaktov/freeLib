@@ -55,6 +55,11 @@ AddLibrary::~AddLibrary()
     delete ui;
 }
 
+bool AddLibrary::IsLibraryChanged()
+{
+    return bLibChanged;
+}
+
 void AddLibrary::Add_Library()
 {
     idCurrentLib_ =-1;

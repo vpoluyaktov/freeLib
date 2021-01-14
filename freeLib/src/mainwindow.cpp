@@ -1352,7 +1352,7 @@ void MainWindow::ManageLibrary()
     SaveLibPosition();
     AddLibrary al(this);
     al.exec();
-    if(al.bLibChanged){
+    if(al.IsLibraryChanged()){
         loadLibrary(idCurrentLib);
         UpdateTags();
         UpdateBooks();
