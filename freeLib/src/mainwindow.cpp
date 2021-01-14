@@ -255,7 +255,7 @@ MainWindow::MainWindow(QWidget *parent) :
     FillSerials();
     FillGenres();
 
-    connect(ui->searchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchCanged(QString)));
+    connect(ui->searchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
     connect(tbClear,SIGNAL(clicked()),this,SLOT(searchClear()));
     connect(ui->actionAddLibrary,SIGNAL(triggered()),this,SLOT(ManageLibrary()));
     connect(ui->btnLibrary,SIGNAL(clicked()),this,SLOT(ManageLibrary()));
@@ -497,7 +497,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         FillAuthors();
         FillSerials();
         FillGenres();
-        searchCanged(ui->searchString->text());
+        searchChanged(ui->searchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
     }
@@ -1123,7 +1123,7 @@ void MainWindow::SelectLibrary()
     FillAuthors();
     FillSerials();
     FillGenres();
-    searchCanged(ui->searchString->text());
+    searchChanged(ui->searchString->text());
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
     FillLibrariesMenu();
 }
@@ -1356,7 +1356,7 @@ void MainWindow::ManageLibrary()
         loadLibrary(idCurrentLib);
         UpdateTags();
         UpdateBooks();
-        searchCanged(ui->searchString->text());
+        searchChanged(ui->searchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
     }
@@ -1401,7 +1401,7 @@ void MainWindow::btnSearch()
 {
     QToolButton *button = qobject_cast<QToolButton*>(sender());
     ui->searchString->setText(button->text());
-    searchCanged(ui->searchString->text());
+    searchChanged(ui->searchString->text());
 }
 
 void MainWindow::About()
@@ -1416,7 +1416,7 @@ void MainWindow::DoSearch()
 
 }
 
-void MainWindow::searchCanged(QString str)
+void MainWindow::searchChanged(QString str)
 {
     if(str.length()==0)
     {
@@ -1451,7 +1451,7 @@ void MainWindow::searchCanged(QString str)
 void MainWindow::searchClear()
 {
     ui->searchString->setText(ui->searchString->text().left(1));
-    searchCanged(ui->searchString->text());
+    searchChanged(ui->searchString->text());
 }
 
 
@@ -1591,7 +1591,7 @@ void MainWindow::MoveToAuthor(qlonglong id, QString FirstLetter)
 {
     ui->searchString->setText(/*id<0?Item->text(0).left(1).toUpper():*/FirstLetter);
     ui->btnAuthor->setChecked(true);
-    searchCanged(FirstLetter);
+    searchChanged(FirstLetter);
     btnAuthor();
     ui->AuthorList->clearSelection();
     for (int i=0;i<ui->AuthorList->count();i++)

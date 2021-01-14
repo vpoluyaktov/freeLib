@@ -104,7 +104,7 @@ private slots:
     void CheckBooks();
     void EditBooks();
     void Settings();
-    void searchCanged(QString str);
+    void searchChanged(QString str);
     void searchClear();
     void btnSearch();
     void btnAuthor();
