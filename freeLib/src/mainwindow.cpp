@@ -1177,6 +1177,18 @@ void MainWindow::SelectSeria()
     }
     FillListBooks(listBooks,0);
 
+    // Выделение жирным выбранной Серии
+    QFont font = ui->SeriaList->font();
+    for (int i = 0; i < ui->SeriaList->count(); ++i)
+    {
+        QListWidgetItem* item = ui->SeriaList->item(i);
+        if (item != cur_item)
+            font.setBold(false);
+        else
+            font.setBold(true);
+        item->setFont(font);
+    }
+
     QSettings settings;
     idCurrentSerial_= idSerial;
     if(settings.value("store_position",true).toBool()){
