@@ -581,7 +581,7 @@ void ImportThread::importFB2(QString path, int &count)
                     QString arh_name=file_name.right(file_name.length()-_path.length());
                     if(arh_name.left(1)=="/" || arh_name.left(1)=="\\")
                             arh_name=arh_name.right(arh_name.length()-1);
-                    query->exec(QString("SELECT * FROM book where archive='%1' LIMIT 1").arg(arh_name));
+                    query->exec(QString("SELECT * FROM book where id_lib=%1 and archive='%2' LIMIT 1").arg(QString::number(existingID), arh_name));
                     if(query->next())
                         continue;
                 }
