@@ -160,7 +160,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    NoSeries_ = tr("<<< Books without series >>>");
+    NoSeries_ = tr("{ Books without series }");
 
     trIcon=nullptr;
     pDropForm=nullptr;
