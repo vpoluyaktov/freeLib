@@ -152,6 +152,6 @@ QString SAuthor::getName() const
 {
     QString sAuthorName = QString("%1 %2 %3").arg(sLastName,sFirstName,sMiddleName).trimmed();
     if(sAuthorName.isEmpty())
-        sAuthorName = QCoreApplication::translate("MainWindow","unknown author");
+        sAuthorName = QCoreApplication::translate("MainWindow","Unknown Author");
     return sAuthorName;
 }
