@@ -56,11 +56,11 @@ void loadLibrary(uint idLibrary)
         qDebug() << query.lastError().text();
     while (query.next()) {
         QString sName = query.value(1).toString();
-        if(sName.isEmpty())
-            continue;
+        //if(sName.isEmpty())
+        //    continue;
         uint id = query.value(0).toUInt();
         SBook &book = lib.mBooks[id];
-        book.sName = sName;
+        book.sName = sName.isEmpty() ? "[ The Book Without a Title ]" : sName;
         book.nStars = qvariant_cast<uchar>(query.value(2));
         book.idSerial = query.value(3).toUInt();
         book.numInSerial = query.value(4).toUInt();
