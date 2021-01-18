@@ -2310,7 +2310,7 @@ void MainWindow::ExportAction()
 }
 
 /*
-    обработчик переключения в режим конвертера
+    обработчик переключения в режим конвертера из меню
 */
 void MainWindow::on_actionSwitch_to_convert_mode_triggered()
 {
@@ -2350,7 +2350,7 @@ void MainWindow::on_actionSwitch_to_convert_mode_triggered()
 }
 
 /*
-    обработчик переключения в режим библиотеки
+    обработчик переключения в режим библиотеки из меню
 */
 void MainWindow::on_actionSwitch_to_library_mode_triggered()
 {
@@ -2389,6 +2389,9 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
     settings.setValue("ApplicationMode", mode);
 }
 
+/*
+    загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
+*/
 void MainWindow::on_language_currentIndexChanged(const QString &arg1)
 {
     QSettings settings;
@@ -2401,11 +2404,17 @@ void MainWindow::on_language_currentIndexChanged(const QString &arg1)
     FillListBooks();
 }
 
+/*
+    обработчик переключения в режим библиотеки из конвертера по нажатию кнопки
+*/
 void MainWindow::on_btnSwitchToLib_clicked()
 {
     on_actionSwitch_to_library_mode_triggered();
 }
 
+/*
+    обработчик вызова диалога настроек из конвертера по нажатию кнопки
+*/
 void MainWindow::on_btnPreference_clicked()
 {
     Settings();

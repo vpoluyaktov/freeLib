@@ -127,7 +127,6 @@ private slots:
     void ChangingLanguage(bool change_language = true);
     // запуск поиска Серии/Автора по нажатию кнопки на панели кнопок символов языка
     void LangBtnSearch();
-//    void LanguageChange();
     // создание и вызов контекстного меню для списков Авторов, Серий и Книг
     void ContextMenu(QPoint point);
     // создание и вызов контекстного меню заголовков таблицы Книг
@@ -191,12 +190,15 @@ private slots:
     // установка иконки цветного тэга для Автора/Серии/Книги
     void SetTag();
 
-    // обработчик переключения в режим конвертера
+    // обработчик переключения в режим конвертера из меню
     void on_actionSwitch_to_convert_mode_triggered();
-    // обработчик переключения в режим библиотеки
+    // обработчик переключения в режим библиотеки из меню
     void on_actionSwitch_to_library_mode_triggered();
+    // обработчик переключения в режим библиотеки из конвертера по нажатию кнопки
     void on_btnSwitchToLib_clicked();
+    // обработчик вызова диалога настроек из конвертера по нажатию кнопки
     void on_btnPreference_clicked();
+    // загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
     void on_language_currentIndexChanged(const QString& arg1);
 
     //void on_splitter_splitterMoved(int pos, int index);
