@@ -167,7 +167,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     trIcon=nullptr;
     pDropForm=nullptr;
-    errorQuit=false;
+    errorQuit_=false;
     QSettings settings;
 
     if(db_is_open)
@@ -185,11 +185,11 @@ MainWindow::MainWindow(QWidget *parent) :
             if(QMessageBox::question(nullptr,tr("Database"),tr("This version needs new database version. All your old books data will be lost. Continue?"),QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::Yes)
             {
                 if(!openDB(false,true))
-                    errorQuit=true;
+                    errorQuit_=true;
             }
             else
             {
-                errorQuit=true;
+                errorQuit_=true;
             }
         }
     }
@@ -397,7 +397,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 bool MainWindow::IsErrorQuit()
 {
-    return errorQuit;
+    return errorQuit_;
 }
 
 void MainWindow::showEvent(QShowEvent *ev)
@@ -644,7 +644,7 @@ void MainWindow::ChangingLanguage(bool change_language)
                 if(!FirstButton && abc.at(i)=='A')
                     FirstButton=btn;
                 if(abc.at(i)=='#')
-                    btn_Hash=btn;
+                    langBtnHash=btn;
             }
             layout_abc->addStretch();
             layout_abc->setSpacing(1);
@@ -677,7 +677,7 @@ void MainWindow::SetTag()
     uint id;
     QSqlQuery query(QSqlDatabase::database("libdb"));
 
-    if(current_list_for_tag==qobject_cast<QObject*>(ui->Books))
+    if(currentListForTag==qobject_cast<QObject*>(ui->Books))
     {
         QTreeWidgetItem* item=ui->Books->selectedItems()[0];
         id=item->data(0,Qt::UserRole).toUInt();
@@ -713,7 +713,7 @@ void MainWindow::SetTag()
             break;
         }
     }
-    else if(current_list_for_tag==qobject_cast<QObject*>(ui->AuthorList))
+    else if(currentListForTag==qobject_cast<QObject*>(ui->AuthorList))
     {
         id=ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,1,tag_id);
@@ -723,7 +723,7 @@ void MainWindow::SetTag()
         query.exec();
         mLibs[idCurrentLib].mAuthors[id].nTag = tag_id;
     }
-    else if(current_list_for_tag==qobject_cast<QObject*>(ui->SeriaList))
+    else if(currentListForTag==qobject_cast<QObject*>(ui->SeriaList))
     {
         id=ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,2 ,tag_id);
@@ -1510,12 +1510,12 @@ void MainWindow::searchChanged(QString str)
 {
     if(str.length()==0)
     {
-        ui->searchString->setText(last_search_symbol);
+        ui->searchString->setText(lastSearchSymbol);
         ui->searchString->selectAll();
     }
     else
     {
-        last_search_symbol=ui->searchString->text().left(1);
+        lastSearchSymbol=ui->searchString->text().left(1);
         if((ui->searchString->text().left(1)=="*" || ui->searchString->text().left(1)=="#" ) && ui->searchString->text().length()>1)
         {
             ui->searchString->setText(ui->searchString->text().right(ui->searchString->text().length()-1));
@@ -1531,7 +1531,7 @@ void MainWindow::searchChanged(QString str)
             }
         }
         if(!find)
-            btn_Hash->setChecked(true);
+            langBtnHash->setChecked(true);
         FillSerials();
         FillAuthors();
     }
@@ -1564,7 +1564,7 @@ void MainWindow::ContextMenu(QPoint point)
     if(QObject::sender()==qobject_cast<QObject*>(ui->SeriaList) && !ui->SeriaList->itemAt(point))
         return;
     QMenu menu;
-    current_list_for_tag=QObject::sender();
+    currentListForTag=QObject::sender();
     if(QObject::sender()==qobject_cast<QObject*>(ui->Books))
     {
         QMenu *save=menu.addMenu(tr("Save as"));
@@ -1880,7 +1880,7 @@ void MainWindow::FillSerials()
 
         ++iSerial;
     }
-//    if(current_list_for_tag==(QObject*)ui->SeriaList)
+//    if(currentListForTag==(QObject*)ui->SeriaList)
 //        current_list_id=-1;
 
     ui->SeriaList->blockSignals(wasBlocked);

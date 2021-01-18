@@ -43,13 +43,13 @@ private:
     QToolButton *tbClear;
     DropForm *pDropForm;
     HelpDialog *pHelpDlg;
-    QString last_search_symbol;
+    QString lastSearchSymbol;
     QMenu TagMenu;
-    QObject* current_list_for_tag;
+    QObject* currentListForTag;
     QList<Stag> tagsPicList;
     opds_server opds;
     QToolButton *FirstButton;
-    QToolButton *btn_Hash;
+    QToolButton *langBtnHash;
 
     int idCurrentLanguage_;
     uint idCurrentAuthor_;
@@ -59,7 +59,7 @@ private:
     bool bUseTag_;
     bool bShowDeleted_;
     QString noSeries_;
-    bool errorQuit;
+    bool errorQuit_;
 
 private:
     QPixmap GetTagFromTagsPicList(int id);
@@ -131,9 +131,6 @@ private slots:
     void ContextMenu(QPoint point);
     // создание и вызов контекстного меню заголовков таблицы Книг
     void HeaderContextMenu(QPoint point);
-    void About();
-    void HelpDlg();
-    void ShowDropForm();
 
     // обработчик кнопки отображения списка Авторов
     void btnAuthor();
@@ -190,6 +187,15 @@ private slots:
     // установка иконки цветного тэга для Автора/Серии/Книги
     void SetTag();
 
+    void About();
+    void HelpDlg();
+    void ShowDropForm();
+    void ChangingPort(int i);
+    void ChangingTrayIcon(int index = -1, int color = -1);
+    void TrayMenuAction(QSystemTrayIcon::ActivationReason reson);
+    void dockClicked();
+    void MinimizeWindow();
+
     // обработчик переключения в режим конвертера из меню
     void on_actionSwitch_to_convert_mode_triggered();
     // обработчик переключения в режим библиотеки из меню
@@ -202,12 +208,6 @@ private slots:
     void on_language_currentIndexChanged(const QString& arg1);
 
     //void on_splitter_splitterMoved(int pos, int index);
-
-    void ChangingPort(int i);
-    void ChangingTrayIcon(int index=-1, int color=-1);
-    void TrayMenuAction(QSystemTrayIcon::ActivationReason reson);
-    void dockClicked();
-    void MinimizeWindow();
 
 public slots:
     // обработчик экшена "Помощник добавления библиотеки"
