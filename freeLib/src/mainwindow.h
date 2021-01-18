@@ -35,35 +35,21 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    bool error_quit;
+    bool IsErrorQuit();
     
 private:
     Ui::MainWindow *ui;
     QSystemTrayIcon *trIcon;
     QToolButton *tbClear;
-    void UpdateBooks();
-    void UpdateTags();
     DropForm *pDropForm;
     HelpDialog *pHelpDlg;
     QString last_search_symbol;
     QMenu TagMenu;
     QObject* current_list_for_tag;
-    void SaveLibPosition();
-    QList<Stag> tags_pic;
-    QPixmap GetTag(int id);
-    void update_list_pix(qlonglong id,int list,int tag_id);
-    void uncheck_books(QList<qlonglong> list);
+    QList<Stag> tagsPicList;
     opds_server opds;
     QToolButton *FirstButton;
     QToolButton *btn_Hash;
-    void UpdateExportMenu();
-    void DeleteDropForm();
-    void FillAuthors();
-    void FillSerials();
-    void FillGenres();
-    void FillListBooks();
-    void FillListBooks(QList<uint> listBook, uint idCurrentAuthor);
-    bool IsBookInList(const SBook &book);
 
     int idCurrentLanguage_;
     uint idCurrentAuthor_;
@@ -72,83 +58,157 @@ private:
     uint idCurrentBook_;
     bool bUseTag_;
     bool bShowDeleted_;
-    QString NoSeries_;
+    QString noSeries_;
+    bool errorQuit;
+
+private:
+    QPixmap GetTagFromTagsPicList(int id);
+    // заполнение меню цветных тегов панели инструментов
+    void UpdateTags();
+    // обновление контролов панели инструментов для списка книг
+    void UpdateBooks();
+    // обновление контролов меню экспорта книг на панели инструментов
+    void UpdateExportMenu();
+    
+    // заполнение контрола списка Авторов из базы для выбранной библиотеки
+    void FillAuthors();
+    // заполнение контрола списка Серий из базы для выбранной библиотеки
+    void FillSerials();
+    // заполнение контрола дерева Жанров из базы для выбранной библиотеки
+    void FillGenres();
+    // выбор (выделение) Автора, Серии, Жанра, в зависимости от активного виджета списков Авторов, Серий или Жанров
+    void FillListBooks();
+    // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
+    void FillListBooks(QList<uint> listBook, uint idCurrentAuthor);
+
+    bool IsBookInList(const SBook &book);
+    // обновление иконки тэга в списках Авторов, Серий, Книг
+    void UpdateListPix(qlonglong id, int list, int tag_id);
+    void UncheckBooks(QList<qlonglong> list);
+    // сохранение настроек Библиотеки
+    void SaveLibPosition();
+    void DeleteDropForm();
+
+protected:
+    APP_MODE mode;
 
 protected:
     void showEvent(QShowEvent *ev);
+    void changeEvent(QEvent* event);
     void resizeEvent(QResizeEvent * e);
-    void mouseMoveEvent(QMouseEvent *e);
-    void mouseReleaseEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent* event);
     void leaveEvent(QEvent *e);
-    APP_MODE mode;
-    void closeEvent(QCloseEvent *event);
-    void FillBookList(QSqlQuery &query);
+    void dropEvent(QDropEvent* ev);
+    void dragEnterEvent(QDragEnterEvent* ev);
+    void dragLeaveEvent(QDragLeaveEvent*);
+    void dragMoveEvent(QDragMoveEvent* ev);
+    void mouseMoveEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent* e);
+
+    // доступность/недоступность кнопок Экспорта и Открытия книги на панели инструментов
+    void ExportBookListBtn(bool Enable);
+
     void CheckParent(QTreeWidgetItem* parent);
     void CheckChild(QTreeWidgetItem* parent);
-    void FillCheckedBookList(QList<book_info> &list, QTreeWidgetItem* item=nullptr, bool send_all=false, bool count_only=false, bool checked_only=false);
-    void FillCheckedItemsBookList(QList<book_info> &list, QTreeWidgetItem* item, bool send_all,bool count_only);
-    void ExportBookListBtn(bool Enable);
-    void dropEvent(QDropEvent *ev);
-    void dragEnterEvent(QDragEnterEvent *ev);
-    void dragLeaveEvent(QDragLeaveEvent *);
-    void dragMoveEvent(QDragMoveEvent *ev);
-    void proc_path(QString path, QStringList *book_list);
-    void FillLibrariesMenu();
-    void SendMail();
     void SendToDevice();
-    void changeEvent(QEvent *event);
-    void ShowHeaderCoulmn(int nColumn,QString sSetting,bool bHide);
+    void SendMail();
+
+    // Заполнение меню списка Библиотек
+    void FillLibrariesMenu();
+    //void FillBookList(QSqlQuery& query);
+    void FillCheckedBookList(QList<book_info>& list, QTreeWidgetItem* item = nullptr, bool send_all = false, bool count_only = false, bool checked_only = false);
+    void FillCheckedItemsBookList(QList<book_info>& list, QTreeWidgetItem* item, bool send_all, bool count_only);
+
+    void ProcPath(QString path, QStringList* book_list);
+    void ShowHeaderCoulmn(int nColumn, QString sSetting, bool bHide);
 
 private slots:
+    // панель кнопок-букв, символов
+    void ChangingLanguage(bool change_language = true);
+    // запуск поиска Серии/Автора по нажатию кнопки на панели кнопок символов языка
+    void LangBtnSearch();
+//    void LanguageChange();
+    // создание и вызов контекстного меню для списков Авторов, Серий и Книг
+    void ContextMenu(QPoint point);
+    // создание и вызов контекстного меню заголовков таблицы Книг
+    void HeaderContextMenu(QPoint point);
+    void About();
+    void HelpDlg();
     void ShowDropForm();
-    void ExportAction();
-    void ManageLibrary();
-    void CheckBooks();
-    void EditBooks();
-    void Settings();
+
+    // обработчик кнопки отображения списка Авторов
+    void btnAuthor();
+    // обработчик кнопки отображения списка Серий
+    void btnSeries();
+    // обработчик кнопки отображения дерева Жанров
+    void btnGenres();
+    // обработчик кнопки отображения панели Поиска книг
+    void btnPageSearch();
+    // обработчик кнопки Найти на вкладке Поиск
+    void StartSearch();
+    // обработчик изменения текста в контроле строки поиска
     void searchChanged(QString str);
     void searchClear();
-    void btnSearch();
-    void btnAuthor();
-    void btnSeries();
-    void btnPageSearch();
-    void DoSearch();
-    void btnGenres();
-    void SelectAuthor();
-    void SelectBook();
-    void SelectGenre();
-    void SelectSeria();
-    void itemChanged(QTreeWidgetItem*,int);
-    void BookDblClick();
-    void About();
-//    void LanguageChange();
-    void StartSearch();
-    void HelpDlg();
-    void ContextMenu(QPoint point);
-    void HeaderContextMenu(QPoint point);
-    void MoveToAuthor(qlonglong id=-1,QString FirstLetter="");
-    void MoveToGenre(qlonglong id);
-    void MoveToSeria(qlonglong id=-1,QString FirstLetter="");
-    void tag_select(int index);
-    void set_tag();
-    void ChangingPort(int i);
-    void ChangingLanguage(bool change_language=true);
-    void onAnchorClicked(const QUrl& link);
+
+    // экспорт выделенных книг
+    void ExportAction();
+    // правка метаданных книги
+    void EditBooks();
+    // обработчик экшена "Отметить/снять отметки с книг" 
+    void CheckBooks();
+    // обработчик экшена "Управления библиотеками" 
+    void ManageLibrary();
+    // обработчик экшена "Настройки" 
+    void Settings();
+
+    // выбор библиотеки для ее загрузки
     void SelectLibrary();
-    void on_actionSwitch_to_convert_mode_triggered();
-    void on_actionSwitch_to_library_mode_triggered();
+    // выбор (выделение) Автора в списке Авторов
+    void SelectAuthor();
+    // выбор (выделение) Серии в списке Серий
+    void SelectSeria();
+    // выбор (выделение) Жанра в дереве Жанров
+    void SelectGenre();
+    // выбор (выделение) Книги в списке Книг
+    void SelectBook();
+
+    // обработчик клика мышкой на ссылках в описании Книги
+    void onAnchorClicked(const QUrl& link);
+    // переход к выбранному Автору в списке Авторов по клику на Авторе-ссылке в описании Книги
+    void MoveToAuthor(qlonglong id = -1, QString FirstLetter = "");
+    // переход к выбранной Серии в списке Серий по клику на Серии-ссылке в описании Книги
+    void MoveToSeria(qlonglong id = -1, QString FirstLetter = "");
+    // переход к выбранному Жанру в дереве Жанров по клику на Жанре-ссылке в описании Книги
+    void MoveToGenre(qlonglong id);
+
+    // обработчик состояния пометки Книги
+    void BookItemChanged(QTreeWidgetItem*,int);
+    // обработчик двойного клика по выбранной Книге
+    void BookDblClick();
+    
+    // обработчик выбора цветного тэга в выпадающем списке цветных тэгов
+    void TagSelect(int index);
+    // установка иконки цветного тэга для Автора/Серии/Книги
+    void SetTag();
+
+    // обработчик переключения в режим конвертера
+    void onActionSwitchToConvertModeTriggered();
+    // обработчик переключения в режим библиотеки
+    void onActionSwitchToLibraryModeTriggered();
     void on_btnSwitchToLib_clicked();
     void on_btnPreference_clicked();
+    void on_language_currentIndexChanged(const QString& arg1);
 
     //void on_splitter_splitterMoved(int pos, int index);
 
+    void ChangingPort(int i);
     void ChangingTrayIcon(int index=-1, int color=-1);
     void TrayMenuAction(QSystemTrayIcon::ActivationReason reson);
     void dockClicked();
     void MinimizeWindow();
-    void on_language_currentIndexChanged(const QString &arg1);
 
 public slots:
+    // обработчик экшена "Помощник добавления библиотеки"
     void newLibWizard(bool AddLibOnly=true);
 
 signals:

@@ -1193,7 +1193,7 @@
      <string>Library</string>
     </property>
     <addaction name="actionLibraries"/>
-    <addaction name="actionNew_labrary_wizard"/>
+    <addaction name="actionNew_library_wizard"/>
     <addaction name="actionAddLibrary"/>
     <addaction name="actionCheck_uncheck"/>
     <addaction name="separator"/>
@@ -1269,7 +1269,7 @@
     <string>Move to series</string>
    </property>
   </action>
-  <action name="actionNew_labrary_wizard">
+  <action name="actionNew_library_wizard">
    <property name="text">
     <string>New library wizard</string>
    </property>

@@ -431,10 +431,10 @@ bool openDB(bool create, bool replace)
 void UpdateLibs()
 {
     db_is_open=false;
-    //error_quit=false;
+    //errorQuit=false;
     openDB(true,false);
 //    if(!openDB(false,false))
-//        error_quit=true;
+//        errorQuit=true;
     if(!db_is_open)
         idCurrentLib=-1;
     else{
@@ -564,7 +564,7 @@ int main(int argc, char *argv[])
   //  w.setWindowFlags(w.windowFlags() & ~Qt::WindowFullscreenButtonHint);
 #endif
 
-    if(!w.error_quit)
+    if(!w.IsErrorQuit())
     {
         if(!CMDparser.isSet("tray") && settings.value("tray_icon",0).toInt()!=2)
             w.show();

@@ -15,7 +15,7 @@ TagDialog::TagDialog(QWidget *parent) :
     while(query.next())
     {
 
-        QListWidgetItem *item=new QListWidgetItem(GetTag(QColor(query.value(0).toString().trimmed()),size),query.value(1).toString().trimmed(),ui->listWidget);
+        QListWidgetItem *item=new QListWidgetItem(CreateTag(QColor(query.value(0).toString().trimmed()),size),query.value(1).toString().trimmed(),ui->listWidget);
         item->setFlags(item->flags() | Qt::ItemIsEditable);
         item->setData(Qt::UserRole,query.value(2).toString());
         con++;
