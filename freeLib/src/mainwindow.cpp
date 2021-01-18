@@ -1442,11 +1442,13 @@ void MainWindow::ManageLibrary()
 */
 void MainWindow::btnAuthor()
 {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(0);
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
     ui->language->setEnabled(true);
     SelectAuthor();
+    QApplication::restoreOverrideCursor();
 }
 
 /*
@@ -1454,11 +1456,13 @@ void MainWindow::btnAuthor()
 */
 void MainWindow::btnSeries()
 {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(1);
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
     ui->language->setEnabled(true);
     SelectSeria();
+    QApplication::restoreOverrideCursor();
 }
 
 /*
@@ -1466,11 +1470,13 @@ void MainWindow::btnSeries()
 */
 void MainWindow::btnGenres()
 {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(2);
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->language->setEnabled(true);
     SelectGenre();
+    QApplication::restoreOverrideCursor();
 }
 
 /*
