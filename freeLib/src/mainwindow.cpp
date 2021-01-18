@@ -1430,6 +1430,7 @@ void MainWindow::ManageLibrary()
         loadLibrary(idCurrentLib);
         UpdateTags();
         UpdateBooks();
+        FillGenres();
         searchChanged(ui->searchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
