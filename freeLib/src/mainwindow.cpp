@@ -310,14 +310,14 @@ MainWindow::MainWindow(QWidget *parent) :
     switch(mode)
     {
     case MODE_LIBRARY:
-        onActionSwitchToLibraryModeTriggered();
+        on_actionSwitch_to_library_mode_triggered();
         break;
     case MODE_SHELF:
         //on_actionSwitch_to_shelf_mode_triggered();
         break;
     default:
-        connect(this, SIGNAL(window_loaded()), this, SLOT(onActionSwitchToConvertModeTriggered()));
-        onActionSwitchToConvertModeTriggered();
+        connect(this, SIGNAL(window_loaded()), this, SLOT(on_actionSwitch_to_convert_mode_triggered()));
+        on_actionSwitch_to_convert_mode_triggered();
         break;
     }
 
@@ -500,7 +500,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
     {
         if(wiz.mode==MODE_CONVERTER)
         {
-            onActionSwitchToConvertModeTriggered();
+            on_actionSwitch_to_convert_mode_triggered();
             return;
         }
         AddLibrary al(this);
@@ -2312,7 +2312,7 @@ void MainWindow::ExportAction()
 /*
     обработчик переключения в режим конвертера
 */
-void MainWindow::onActionSwitchToConvertModeTriggered()
+void MainWindow::on_actionSwitch_to_convert_mode_triggered()
 {
     QSettings settings;
     if(mode==MODE_LIBRARY)
@@ -2352,7 +2352,7 @@ void MainWindow::onActionSwitchToConvertModeTriggered()
 /*
     обработчик переключения в режим библиотеки
 */
-void MainWindow::onActionSwitchToLibraryModeTriggered()
+void MainWindow::on_actionSwitch_to_library_mode_triggered()
 {
     QSettings settings;
     if(mode==MODE_CONVERTER)
@@ -2403,7 +2403,7 @@ void MainWindow::on_language_currentIndexChanged(const QString &arg1)
 
 void MainWindow::on_btnSwitchToLib_clicked()
 {
-    onActionSwitchToLibraryModeTriggered();
+    on_actionSwitch_to_library_mode_triggered();
 }
 
 void MainWindow::on_btnPreference_clicked()

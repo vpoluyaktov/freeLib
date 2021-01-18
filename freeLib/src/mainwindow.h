@@ -192,9 +192,9 @@ private slots:
     void SetTag();
 
     // обработчик переключения в режим конвертера
-    void onActionSwitchToConvertModeTriggered();
+    void on_actionSwitch_to_convert_mode_triggered();
     // обработчик переключения в режим библиотеки
-    void onActionSwitchToLibraryModeTriggered();
+    void on_actionSwitch_to_library_mode_triggered();
     void on_btnSwitchToLib_clicked();
     void on_btnPreference_clicked();
     void on_language_currentIndexChanged(const QString& arg1);
