@@ -1143,6 +1143,7 @@ void MainWindow::StartSearch()
 */
 void MainWindow::SelectLibrary()
 {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QAction* action=qobject_cast<QAction*>(sender());
 
     SaveLibPosition();
@@ -1158,6 +1159,7 @@ void MainWindow::SelectLibrary()
     searchChanged(ui->searchString->text());
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
     FillLibrariesMenu();
+    QApplication::restoreOverrideCursor();
 }
 
 /*
