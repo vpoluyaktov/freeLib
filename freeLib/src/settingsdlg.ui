@@ -232,6 +232,11 @@
              <string>600 x 800</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>Original</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
