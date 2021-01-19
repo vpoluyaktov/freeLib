@@ -45,6 +45,8 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     layout->setMargin(0);
     connect(btnDirPath,SIGNAL(clicked()),this,SLOT(btnDirPath()));
 
+    ui->comboBoxCoverSize->setCurrentIndex(4);
+
     LoadSettings();
 
     ChangePort(ui->OPDS_port->value());
@@ -110,6 +112,8 @@ void SettingsDlg::LoadSettings()
     ui->proxy_host->setText(settings.value("proxy_host").toString());
     ui->proxy_password->setText(settings.value("proxy_password").toString());
     ui->proxy_user->setText(settings.value("proxy_user").toString());
+
+    ui->comboBoxCoverSize->setCurrentIndex(settings.value("CoverSize", 0).toInt());
 
     int count=settings.beginReadArray("tools");
     ui->ExportList->setRowCount(count);
@@ -356,6 +360,8 @@ void SettingsDlg::btnOK()
     settings.setValue("proxy_user",ui->proxy_user->text());
     settings.setValue("proxy_host",ui->proxy_host->text());
     settings.setValue("proxy_password",ui->proxy_password->text());
+
+    settings.setValue("CoverSize", ui->comboBoxCoverSize->currentIndex());
 
     SaveTools();
     settings.beginWriteArray("application");
