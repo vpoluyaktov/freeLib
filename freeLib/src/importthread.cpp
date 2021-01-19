@@ -28,6 +28,7 @@ void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
 
 void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_only,uint id_book)
 {
+    QSettings settings;
     bi.id=id_book;
     if(id_book==0 || !info_only)
     {
@@ -173,6 +174,44 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                             ba.append(binarys.at(i).toElement().text());
                             QByteArray ba64 = QByteArray::fromBase64(ba);
                             image.loadFromData(ba64);
+                            // масштабирование обложки книги
+                            QSize picSize;
+                            switch (settings.value("CoverSize", 0).toInt())
+                            {
+                            case 0:
+                                picSize.setWidth(90);
+                                picSize.setHeight(120);
+                                break;
+                            case 1:
+                                picSize.setWidth(120);
+                                picSize.setHeight(160);
+                                break;
+                            case 2:
+                                picSize.setWidth(150);
+                                picSize.setHeight(200);
+                                break;
+                            case 3:
+                                picSize.setWidth(240);
+                                picSize.setHeight(320);
+                                break;
+                            case 4:
+                                picSize.setWidth(300);
+                                picSize.setHeight(400);
+                                break;
+                            case 5:
+                                picSize.setWidth(480);
+                                picSize.setHeight(640);
+                                break;
+                            case 6:
+                                picSize.setWidth(600);
+                                picSize.setHeight(800);
+                                break;
+                            default:
+                                picSize.setWidth(300);
+                                picSize.setHeight(400);
+                                break;
+                            }
+                            image = image.scaled(picSize, Qt::KeepAspectRatio);
                             image.save(sImgFile);
                             bi.img=QString("<td valign=top><center><img src=\"file:%1\"></center></td>").arg(sImgFile);
                             break;

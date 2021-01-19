@@ -832,6 +832,7 @@ void MainWindow::Settings()
         FillGenres();
         FillListBooks();
     }
+    SelectBook();
     opds.server_run();
     UpdateExportMenu();
     resizeEvent(nullptr);
