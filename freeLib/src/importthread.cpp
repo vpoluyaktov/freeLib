@@ -158,6 +158,8 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             if(!info_only)
             {
                 QString cover=QString::fromStdString( title_info.elementsByTagName("coverpage").at(0).toElement().elementsByTagName("image").at(0).attributes().namedItem("l:href").toAttr().value().toStdString());
+                if (cover == "")
+                    cover = QString::fromStdString(title_info.elementsByTagName("coverpage").at(0).toElement().elementsByTagName("image").at(0).attributes().namedItem("xlink:href").toAttr().value().toStdString());
                 if(cover.left(1)=="#")
                 {
                     QDomNodeList binarys=doc.elementsByTagName("binary");
