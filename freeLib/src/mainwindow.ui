@@ -1021,6 +1021,14 @@
                     <set>AlignCenter</set>
                    </property>
                   </column>
+                  <column>
+                   <property name="text">
+                    <string>Format</string>
+                   </property>
+                   <property name="textAlignment">
+                    <set>AlignCenter</set>
+                   </property>
+                  </column>
                  </widget>
                  <widget class="QTextBrowser" name="Review">
                   <property name="enabled">

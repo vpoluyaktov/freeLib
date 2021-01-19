@@ -387,6 +387,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Books->setColumnHidden(4,!settings.value("ShowImportDate",true).toBool());
     ui->Books->setColumnHidden(5,!settings.value("ShowGenre",true).toBool());
     ui->Books->setColumnHidden(6,!settings.value("ShowLanguage",false).toBool());
+    ui->Books->setColumnHidden(7,!settings.value("ShowFormat", true).toBool());
     QVariant varHeaders = settings.value("headers");
     if(varHeaders.type() == QVariant::ByteArray){
         ui->Books->header()->restoreState(varHeaders.toByteArray());
@@ -1643,6 +1644,12 @@ void MainWindow::HeaderContextMenu(QPoint /*point*/)
     connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(6,"ShowLanguage",!action->isChecked());});
     menu.addAction(action);
 
+    action = new QAction(tr("Format"), this);
+    action->setCheckable(true);
+    action->setChecked(!ui->Books->isColumnHidden(7));
+    connect(action, &QAction::triggered, this, [action, this] {ShowHeaderCoulmn(7, "ShowFormat", !action->isChecked()); });
+    menu.addAction(action);
+
     menu.exec(QCursor::pos());
 }
 
@@ -2088,6 +2095,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             item_book->setText(6,mLibs[idCurrentLib].vLaguages[book.idLanguage]);
             item_book->setTextAlignment(6, Qt::AlignCenter);
 
+            item_book->setText(7, book.sFormat);
+            item_book->setTextAlignment(7, Qt::AlignCenter);
+
             if(book.bDeleted)
             {
                 QBrush brush(QColor::fromRgb(96,96,96));
@@ -2097,6 +2107,8 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 item_book->setForeground(3,brush);
                 item_book->setForeground(4,brush);
                 item_book->setForeground(5,brush);
+                item_book->setForeground(6,brush);
+                item_book->setForeground(7,brush);
             }
 
             if(idBook==idCurrentBook_)
