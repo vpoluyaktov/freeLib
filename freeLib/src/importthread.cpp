@@ -26,6 +26,54 @@ void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
     }
 }
 
+/*
+    Масштаб обложки книги из настроек
+*/
+QSize GetCoverSize()
+{
+    QSettings settings;
+    QSize picSize;
+    switch (settings.value("CoverSize", 0).toInt())
+    {
+    case 0:
+        picSize.setWidth(90);
+        picSize.setHeight(120);
+        break;
+    case 1:
+        picSize.setWidth(120);
+        picSize.setHeight(160);
+        break;
+    case 2:
+        picSize.setWidth(150);
+        picSize.setHeight(200);
+        break;
+    case 3:
+        picSize.setWidth(240);
+        picSize.setHeight(320);
+        break;
+    case 4:
+        picSize.setWidth(300);
+        picSize.setHeight(400);
+        break;
+    case 5:
+        picSize.setWidth(480);
+        picSize.setHeight(640);
+        break;
+    case 6:
+        picSize.setWidth(600);
+        picSize.setHeight(800);
+        break;
+    case 7:
+        return QSize();
+        break;
+    default:
+        picSize.setWidth(300);
+        picSize.setHeight(400);
+        break;
+    }
+    return picSize;
+}
+
 void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_only,uint id_book)
 {
     QSettings settings;
@@ -176,55 +224,8 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                             image.loadFromData(ba64);
 
                             // масштабирование обложки книги, если необходимо
-                            QSize picSize;
-                            bool isOriginal = false;
-                            switch (settings.value("CoverSize", 0).toInt())
-                            {
-                            case 0:
-                                picSize.setWidth(90);
-                                picSize.setHeight(120);
-                                isOriginal = false;
-                                break;
-                            case 1:
-                                picSize.setWidth(120);
-                                picSize.setHeight(160);
-                                isOriginal = false;
-                                break;
-                            case 2:
-                                picSize.setWidth(150);
-                                picSize.setHeight(200);
-                                isOriginal = false;
-                                break;
-                            case 3:
-                                picSize.setWidth(240);
-                                picSize.setHeight(320);
-                                isOriginal = false;
-                                break;
-                            case 4:
-                                picSize.setWidth(300);
-                                picSize.setHeight(400);
-                                isOriginal = false;
-                                break;
-                            case 5:
-                                picSize.setWidth(480);
-                                picSize.setHeight(640);
-                                isOriginal = false;
-                                break;
-                            case 6:
-                                picSize.setWidth(600);
-                                picSize.setHeight(800);
-                                isOriginal = false;
-                                break;
-                            case 7:
-                                isOriginal = true;
-                                break;
-                            default:
-                                picSize.setWidth(300);
-                                picSize.setHeight(400);
-                                isOriginal = false;
-                                break;
-                            }
-                            if (!isOriginal)
+                            QSize picSize = GetCoverSize();
+                            if (picSize.width() != -1 && picSize.height() != -1)
                                 image = image.scaled(picSize, Qt::KeepAspectRatio);
 
                             image.save(sImgFile);
