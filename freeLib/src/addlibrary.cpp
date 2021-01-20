@@ -62,6 +62,7 @@ bool AddLibrary::IsLibraryChanged()
 
 void AddLibrary::Add_Library()
 {
+    ui->Log->clear();
     idCurrentLib_ =-1;
     QString sNewName = tr("new");
     ui->ExistingLibs->blockSignals(true);
@@ -283,6 +284,7 @@ void AddLibrary::DeleteLibrary()
         return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ui->Log->clear();
     ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_,false);
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.exec("DELETE FROM lib where ID="+QString::number(idCurrentLib_));
