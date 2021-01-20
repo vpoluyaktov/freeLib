@@ -1337,7 +1337,11 @@ void MainWindow::SelectBook()
         QTreeWidgetItem *parent=item->parent();
         if(parent->type() == ITEM_TYPE_SERIA) //если это серия
         {
-            seria=QString("<a href=seria_%3%1>%2</a>").arg(QString::number(/*-*/parent->data(0,Qt::UserRole).toLongLong()),parent->text(0),parent->text(0).left(1).toUpper());
+            QString sequenceName = parent->text(0);
+            if(sequenceName != noSeries_)
+                seria=QString("<a href=seria_%3%1>%2</a>").arg(
+                    QString::number(/*-*/parent->data(0,Qt::UserRole).toLongLong()), sequenceName, parent->text(0).left(1).toUpper()
+                );
         }
 
         QString sAuthors;
