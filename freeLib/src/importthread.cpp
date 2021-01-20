@@ -262,7 +262,9 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             QDomNodeList genre=title_info.elementsByTagName("genre");
             for(int i=0;i<genre.count();i++)
             {
-                bi.genres<<genre_info(genre.at(i).toElement().text().trimmed(),0);
+                QString g = genre.at(i).toElement().text().trimmed();
+                if(!g.isEmpty())
+                    bi.genres<<genre_info(genre.at(i).toElement().text().trimmed(),0);
             }
             QDomElement publish_info=doc.elementsByTagName("publish-info").at(0).toElement();
             bi.isbn=publish_info.elementsByTagName("isbn").at(0).toElement().text();
@@ -289,10 +291,9 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             bi.genres << genre_info(mGenre[idGenre].sName,idGenre);
         }
 
-
     }
     if(bi.genres.count()==0)
-        bi.genres<<genre_info("",0);
+        bi.genres<<genre_info("Without Genre",0);
     if(bi.authors.count()==0)
         bi.authors<<author_info("",0);
     if(bi.language.isEmpty())
