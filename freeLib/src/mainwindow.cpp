@@ -1379,8 +1379,7 @@ void MainWindow::SelectBook()
                 replace("#file_size#",sizeToString(size)/*QString::number(size)+(mem_i>0?"."+QString::number((rest*10+5)/1024):"")+" "+mem[mem_i]*/).
                 replace("#file_data#",book_date.toString("dd.MM.yyyy hh:mm:ss")).
                 replace("#file_name#",fi.fileName()).
-                replace("#image#",bi.img).
-                replace("#file_info#",settings->value("show_fileinfo",true).toBool()?"block":"none");
+                replace("#image#",bi.img);
         ui->Review->setHtml(content);
     }
 }
@@ -1679,12 +1678,6 @@ void MainWindow::onAnchorClicked(const QUrl& url)
     else if (sPath.startsWith("seria_"))
     {
         MoveToSeria(sPath.right(sPath.length() - 7).toLongLong(), sPath.mid(6, 1).toUpper());
-    }
-    else if (sPath.startsWith("show_fileinfo"))
-    {
-        QSettings settings;
-        settings.setValue("show_fileinfo", !settings.value("show_fileinfo", false).toBool());
-        SelectBook();
     }
 }
 
