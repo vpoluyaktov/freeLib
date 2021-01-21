@@ -49,6 +49,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
 
     SelectLibrary(idCurrentLib_);
 //    SelectLibrary();
+    ui->btnUpdate->setDisabled(idCurrentLib_ < 0 || ui->BookDir->text().trimmed().isEmpty());
 }
 
 AddLibrary::~AddLibrary()
