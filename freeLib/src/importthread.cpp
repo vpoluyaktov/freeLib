@@ -639,7 +639,7 @@ void ImportThread::importFB2(QString path, int &count)
             {
                 if(_update_type==UT_NEW)
                 {
-                    emit Message(tr("Read archive:") + " " + iter->fileName());
+                    //emit Message(tr("Read archive:") + " " + iter->fileName());
                     QString arh_name=file_name.right(file_name.length()-_path.length());
                     if(arh_name.left(1)=="/" || arh_name.left(1)=="\\")
                             arh_name=arh_name.right(arh_name.length()-1);
