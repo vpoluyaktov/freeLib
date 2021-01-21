@@ -44,6 +44,7 @@ private slots:
     void terminateImport();
     void reject();
     void ExistingLibsChanged();
+    void BookDirChanged(const QString&);
     void ExportLib();
 
 signals:
