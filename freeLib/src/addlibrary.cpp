@@ -44,6 +44,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->Del,SIGNAL(clicked()),this,SLOT(DeleteLibrary()));
     connect(ui->Add,SIGNAL(clicked()),this,SLOT(Add_Library()));
     connect(ui->ExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
+    connect(ui->BookDir, &QLineEdit::textChanged, this, &AddLibrary::BookDirChanged);
     ui->add_new->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
@@ -74,6 +75,7 @@ void AddLibrary::Add_Library()
     SaveLibrary(idCurrentLib_,lib);
     ui->ExistingLibs->blockSignals(false);
     ui->ExistingLibs->setCurrentIndex(ui->ExistingLibs->count()-1);
+    ui->btnUpdate->setDisabled(true);
 }
 
 void AddLibrary::LogMessage(QString msg)
@@ -239,8 +241,8 @@ void AddLibrary::SelectLibrary()
     ui->ExistingLibs->setDisabled(idCurrentLib_<0);
     ui->inpx->setDisabled(idCurrentLib_<0);
     ui->BookDir->setDisabled(idCurrentLib_<0);
-    ui->btnExport->setDisabled(idCurrentLib_<0);
-    ui->btnUpdate->setDisabled(idCurrentLib_<0);
+    ui->btnExport->setDisabled(idCurrentLib_ < 0);
+    ui->btnUpdate->setDisabled(idCurrentLib_ < 0 || ui->BookDir->text().trimmed().isEmpty());
     QSettings* settings=GetSettings();
     ui->OPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
     ui->HTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
@@ -342,6 +344,14 @@ void AddLibrary::reject()
 void AddLibrary::ExistingLibsChanged()
 {
     ui->ExistingLibs->setItemText(ui->ExistingLibs->currentIndex(),ui->ExistingLibs->lineEdit()->text());
+}
+
+void AddLibrary::BookDirChanged(const QString& text)
+{
+    if (ui->BookDir->text().trimmed().isEmpty())
+        ui->btnUpdate->setDisabled(true);
+    else
+        ui->btnUpdate->setDisabled(false);
 }
 
 void AddLibrary::ExportLib()
