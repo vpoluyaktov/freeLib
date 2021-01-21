@@ -555,7 +555,7 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
         query->exec("update book set deleted=0 where id="+query->value(0).toString());
         return;
     }
-    emit Message(tr("Book add: ")+file_name);
+    emit Message(tr("epub Book add: ")+file_name);
 
     book_info bi;
     GetBookInfo(bi,ba,"epub",true);
