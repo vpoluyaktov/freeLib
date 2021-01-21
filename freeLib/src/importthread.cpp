@@ -689,8 +689,8 @@ void ImportThread::importFB2(QString path, int &count)
                         if(fi.completeBaseName().left(1)!="." && !fi.completeBaseName().isEmpty())
                         {
                             QString fbd = fi.path() != "."
-                                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* zip: файлы в папке*/
-                                : fi.completeBaseName() + ".fbd";                   /* zip: файлы без папки*/
+                                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке*/
+                                : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки*/
                             if(SetCurrentZipFileName(&uz,fbd))
                             {
                                 SetCurrentZipFileName(&uz,zip_fi.name);
