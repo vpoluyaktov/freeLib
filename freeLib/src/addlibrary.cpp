@@ -137,6 +137,14 @@ void AddLibrary::UpdateLibList()
 
 void AddLibrary::StartImport()
 {
+    QString BookDir = ui->BookDir->text().trimmed();
+    if (BookDir == "" || !QDir(BookDir).exists())
+    {
+        QMessageBox::critical(NULL, QObject::tr("Error"), tr("Specify the correct path to the books folder."));
+        ui->BookDir->setFocus();
+        ui->BookDir->selectAll();
+        return;
+    }
     SLib lib;//{ui->ExistingLibs->currentText().trimmed(),ui->BookDir->text().trimmed(),ui->inpx->text().trimmed(),
                // ui->firstAuthorOnly->isChecked(),ui->checkwoDeleted->isChecked()};
     lib.name = ui->ExistingLibs->currentText().trimmed();
