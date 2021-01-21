@@ -496,6 +496,7 @@ void ImportThread::readFB2_test(const QByteArray& ba,QString file_name,QString a
 
 void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
+    QString archPath = arh_name;
     if(arh_name.isEmpty())
     {
         file_name=file_name.right(file_name.length()-_path.length());
@@ -517,7 +518,18 @@ void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_
         return;
     }
 
-    emit Message(QString(tr("Book add (%1): %2")).arg(fi.suffix(), file_name));
+    if (!archPath.isEmpty()) // zip
+    {
+        int index = file_name.indexOf("/");
+        if (index == -1)
+            index = file_name.indexOf("\\");
+        if (index != -1)
+            file_name = file_name.mid(index+1, file_name.length());
+    }
+    QString message = QString(tr("Book add (%1):  %2")).arg(fi.suffix(), file_name);
+    if (!archPath.isEmpty()) // zip
+        message += "  " + QString(tr("from zip:  %1")).arg(archPath);
+    emit Message(message);
 
     book_info bi;
     GetBookInfo(bi,ba,"fb2",true);
