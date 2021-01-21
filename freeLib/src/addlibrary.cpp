@@ -150,6 +150,7 @@ void AddLibrary::StartImport(SLib &Lib)
 
     int update_type=(ui->add_new->isChecked()?UT_NEW:ui->del_old->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
+    ui->btnExport->setDisabled(true);
     ui->btnUpdate->setDisabled(true);
     ui->BookDir->setDisabled(true);
     ui->inpx->setDisabled(true);
@@ -210,6 +211,7 @@ void AddLibrary::SelectLibrary(int idLib)
     ui->ExistingLibs->setDisabled(idLib<0);
     ui->inpx->setDisabled(idLib<0);
     ui->BookDir->setDisabled(idLib<0);
+    ui->btnExport->setDisabled(idLib<0);
     ui->btnUpdate->setDisabled(idLib<0);
     ui->ExistingLibs->blockSignals(block);
 }
@@ -237,6 +239,7 @@ void AddLibrary::SelectLibrary()
     ui->ExistingLibs->setDisabled(idCurrentLib_<0);
     ui->inpx->setDisabled(idCurrentLib_<0);
     ui->BookDir->setDisabled(idCurrentLib_<0);
+    ui->btnExport->setDisabled(idCurrentLib_<0);
     ui->btnUpdate->setDisabled(idCurrentLib_<0);
     QSettings* settings=GetSettings();
     ui->OPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
@@ -300,6 +303,7 @@ void AddLibrary::DeleteLibrary()
 void AddLibrary::EndUpdate()
 {
     LogMessage(tr("Ending"));
+    ui->btnExport->setDisabled(false);
     ui->btnUpdate->setDisabled(false);
     ui->btnCancel->setText(tr("Close"));
     ui->BookDir->setDisabled(false);
