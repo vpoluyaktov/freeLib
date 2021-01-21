@@ -494,8 +494,9 @@ void ImportThread::readFB2_test(const QByteArray& ba,QString file_name,QString a
     AddGenre(id_book,"sf",existingID,language);
 }
 
-void ImportThread::readFB2(bool isFB2, const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
+void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
+    QString archPath = arh_name;
     if(arh_name.isEmpty())
     {
         file_name=file_name.right(file_name.length()-_path.length());
@@ -517,10 +518,18 @@ void ImportThread::readFB2(bool isFB2, const QByteArray& ba, QString file_name, 
         return;
     }
 
-    if(isFB2)
-        emit Message(tr("Book add (fb2):") + " " + file_name);
-    else
-        emit Message(tr("Book add (fbd):") + " " + file_name);
+    if (!archPath.isEmpty()) // zip
+    {
+        int index = file_name.indexOf("/");
+        if (index == -1)
+            index = file_name.indexOf("\\");
+        if (index != -1)
+            file_name = file_name.mid(index+1, file_name.length());
+    }
+    QString message = QString(tr("Book add (%1):  %2")).arg(fi.suffix(), file_name);
+    if (!archPath.isEmpty()) // zip
+        message += "  " + QString(tr("from zip:  %1")).arg(archPath);
+    emit Message(message);
 
     book_info bi;
     GetBookInfo(bi,ba,"fb2",true);
@@ -618,7 +627,7 @@ void ImportThread::importFB2(QString path, int &count)
                 if(file.exists())
                 {
                     file.open(QFile::ReadOnly);
-                    readFB2(false, file.readAll(), file_name, "", iter->size());
+                    readFB2(file.readAll(), file_name, "", iter->size());
                     count++;
                 }
             }
@@ -630,7 +639,7 @@ void ImportThread::importFB2(QString path, int &count)
                 file.open(QFile::ReadOnly);
                 QByteArray ba=file.readAll();
                 if(iter->suffix().toLower()=="fb2")
-                    readFB2(true, ba, file_name, "");
+                    readFB2(ba, file_name, "");
                 else
                     readEPUB(ba,file_name,"");
                 count++;
@@ -674,7 +683,7 @@ void ImportThread::importFB2(QString path, int &count)
                         zip_file.open(QIODevice::ReadOnly);
                         buffer.setData(zip_file.read(16*1024));
                         zip_file.close();
-                        readFB2(true, buffer.data(), str.name, file_name, str.uncompressedSize);
+                        readFB2(buffer.data(), str.name, file_name, str.uncompressedSize);
                     }
                     else if(zip_fi.name.right(3).toLower()=="epub")
                     {
@@ -689,14 +698,14 @@ void ImportThread::importFB2(QString path, int &count)
                         if(fi.completeBaseName().left(1)!="." && !fi.completeBaseName().isEmpty())
                         {
                             QString fbd = fi.path() != "."
-                                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* zip: файлы в папке*/
-                                : fi.completeBaseName() + ".fbd";                   /* zip: файлы без папки*/
+                                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке*/
+                                : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки*/
                             if(SetCurrentZipFileName(&uz,fbd))
                             {
                                 SetCurrentZipFileName(&uz,zip_fi.name);
                                 zip_file.open(QIODevice::ReadOnly);
                                 buffer.setData(zip_file.readAll());
-                                readFB2(false, buffer.data(), str.name, file_name, str.uncompressedSize);
+                                readFB2(buffer.data(), str.name, file_name, str.uncompressedSize);
                             }
                         }
                     }
