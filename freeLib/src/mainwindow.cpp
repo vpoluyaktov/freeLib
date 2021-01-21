@@ -407,7 +407,7 @@ void MainWindow::showEvent(QShowEvent *ev)
     emit window_loaded();
 }
 
-QPixmap MainWindow::GetTagFromTagsPicList(int id)
+QPixmap MainWindow::GetTagFromTagsPicList(int id) const
 {
     foreach(Stag tag,tagsPicList)
     {
@@ -2127,7 +2127,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
     qDebug()<< "FillListBooks " << t_end-t_start << "msec";
 }
 
-bool MainWindow::IsBookInList(const SBook &book)
+bool MainWindow::IsBookInList(const SBook &book) const
 {
     int current_tag=ui->TagFilter->itemData(ui->TagFilter->currentIndex()).toInt();
     uint idSerial=book.idSerial;

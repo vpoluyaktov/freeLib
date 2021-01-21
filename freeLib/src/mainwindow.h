@@ -62,7 +62,7 @@ private:
     bool errorQuit_;
 
 private:
-    QPixmap GetTagFromTagsPicList(int id);
+    QPixmap GetTagFromTagsPicList(int id) const;
     // заполнение меню цветных тегов панели инструментов
     void UpdateTags();
     // обновление контролов панели инструментов для списка книг
@@ -81,7 +81,7 @@ private:
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     void FillListBooks(QList<uint> listBook, uint idCurrentAuthor);
 
-    bool IsBookInList(const SBook &book);
+    bool IsBookInList(const SBook &book) const;
     // обновление иконки тэга в списках Авторов, Серий, Книг
     void UpdateListPix(qlonglong id, int list, int tag_id);
     void UncheckBooks(QList<qlonglong> list);
