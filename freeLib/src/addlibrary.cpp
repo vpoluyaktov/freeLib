@@ -57,7 +57,7 @@ AddLibrary::~AddLibrary()
     delete ui;
 }
 
-bool AddLibrary::IsLibraryChanged()
+bool AddLibrary::IsLibraryChanged() const
 {
     return bLibChanged;
 }

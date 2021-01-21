@@ -21,16 +21,17 @@ public:
     void AddNewLibrary(SLib &lib);
     void StartImport(SLib &Lib);
     void SelectLibrary(int idLib);
-    bool IsLibraryChanged();
+    bool IsLibraryChanged() const;
     
 private:
     Ui::AddLibrary *ui;
     ImportThread *imp_tr;
     QThread *thread;
-    void UpdateLibList();
-    void SaveLibrary(int idLib, SLib& Lib);
     int idCurrentLib_;
     bool bLibChanged;
+
+    void UpdateLibList();
+    void SaveLibrary(int idLib, SLib& Lib);
 
 private slots:
     void LogMessage(QString msg);
