@@ -33,7 +33,7 @@ protected:
     void importFB2(QString path,int &count);
     void importFB2_main(QString path);
 
-    void readFB2(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
+    void readFB2(bool isFB2, const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
     void readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
     void readFB2_test(const QByteArray& ba,QString file_name,QString arh_name);
 private:
