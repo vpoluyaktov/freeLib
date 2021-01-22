@@ -1600,7 +1600,7 @@ void MainWindow::HelpDlg()
 }
 
 /*
-    оздание и вызов контекстного меню для списков Авторов, Серий и Книг
+    создание и вызов контекстного меню для списков Авторов, Серий и Книг
 */
 void MainWindow::ContextMenu(QPoint point)
 {
@@ -2454,6 +2454,7 @@ void MainWindow::on_language_currentIndexChanged(const QString &arg1)
     FillSerials();
     FillAuthors();
     FillGenres();
+    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
     FillListBooks();
 }
 
