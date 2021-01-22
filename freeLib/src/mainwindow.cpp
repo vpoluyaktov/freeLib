@@ -1505,7 +1505,6 @@ void MainWindow::btnPageSearch()
 */
 void MainWindow::LangBtnSearch()
 {
-    ui->Books->clear();
     QToolButton *button = qobject_cast<QToolButton*>(sender());
     ui->searchString->setText(button->text());
     searchChanged(ui->searchString->text());
@@ -1979,6 +1978,7 @@ void MainWindow::FillGenres()
 */
 void MainWindow::FillListBooks()
 {
+    ui->Books->clear();
     switch(ui->tabWidget->currentIndex()){
         case 0:
             SelectAuthor();
