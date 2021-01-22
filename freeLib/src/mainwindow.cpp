@@ -1163,6 +1163,10 @@ void MainWindow::SelectLibrary()
     searchChanged(ui->searchString->text());
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
     FillLibrariesMenu();
+
+    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
+    FillListBooks();
+
     QApplication::restoreOverrideCursor();
 }
 
