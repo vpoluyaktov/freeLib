@@ -1436,6 +1436,7 @@ void MainWindow::ManageLibrary()
     AddLibrary al(this);
     al.exec();
     if(al.IsLibraryChanged()){
+        ui->Books->clear();
         loadLibrary(idCurrentLib);
         UpdateTags();
         UpdateBooks();
@@ -1443,9 +1444,33 @@ void MainWindow::ManageLibrary()
         searchChanged(ui->searchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
+
+        // Выделение 1-го элемента списка Авторов или Серии
+        SelectFirstItemList();
+
+        FillListBooks();
     }
 }
 
+/*
+    Выделение 1-го элемента списка Авторов или Сери
+*/
+void MainWindow::SelectFirstItemList()
+{
+    switch (ui->tabWidget->currentIndex()) {
+    case 0:
+        if (ui->AuthorList->count() > 0)
+            ui->AuthorList->item(0)->setSelected(true);
+        break;
+    case 1:
+        if (ui->SeriaList->count() > 0)
+            ui->SeriaList->item(0)->setSelected(true);
+        break;
+    case 2:
+        ui->GenreList->setFocus();
+        break;
+    }
+}
 /*
     обработчик кнопки отображения списка Авторов
 */
