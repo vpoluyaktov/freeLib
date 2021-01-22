@@ -45,6 +45,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->Add,SIGNAL(clicked()),this,SLOT(Add_Library()));
     connect(ui->ExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
     connect(ui->BookDir, &QLineEdit::textChanged, this, &AddLibrary::BookDirChanged);
+    connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     ui->add_new->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
@@ -77,6 +78,7 @@ void AddLibrary::Add_Library()
     ui->ExistingLibs->blockSignals(false);
     ui->ExistingLibs->setCurrentIndex(ui->ExistingLibs->count()-1);
     ui->btnUpdate->setDisabled(true);
+    ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
 }
 
 void AddLibrary::LogMessage(QString msg)
@@ -85,6 +87,7 @@ void AddLibrary::LogMessage(QString msg)
         delete ui->Log->takeItem(0);
     ui->Log->addItem(msg);
     ui->Log->setCurrentRow(ui->Log->count()-1);
+    m_LogList << msg;
 }
 void AddLibrary::InputINPX()
 {
@@ -158,7 +161,7 @@ void AddLibrary::StartImport()
 void AddLibrary::StartImport(SLib &Lib)
 {
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-
+    m_LogList.clear();
     int update_type=(ui->add_new->isChecked()?UT_NEW:ui->del_old->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
     ui->btnExport->setDisabled(true);
@@ -308,6 +311,7 @@ void AddLibrary::DeleteLibrary()
         ui->ExistingLibs->setCurrentIndex(0);
         SelectLibrary();
     }
+    ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     bLibChanged = true;
     QApplication::restoreOverrideCursor();
 }
@@ -325,6 +329,14 @@ void AddLibrary::EndUpdate()
     ui->update_group->show();
     ui->firstAuthorOnly->setDisabled(false);
     ui->checkwoDeleted->setDisabled(false);
+    
+    // загрузка полного лога в Log контрол
+    ui->Log->clear();
+    ui->Log->addItems(m_LogList);
+    ui->Log->setCurrentRow(ui->Log->count() - 1);
+    m_LogList.clear();
+
+    ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     bLibChanged = true;
     QApplication::restoreOverrideCursor();
 
@@ -374,4 +386,25 @@ void AddLibrary::ExportLib()
     }
 }
 
-
+void AddLibrary::ButtonSaveLogClicked()
+{
+    if (ui->Log->count() > 0)
+    {
+        QString filePath = QFileDialog::getSaveFileName(this, tr("Save Log to file"), "", tr("*.txt"));
+        QStringList list;
+        list << QObject::tr("Library:") + " " + ui->ExistingLibs->lineEdit()->text().trimmed();
+        list << QObject::tr("Books dir:") + " " + ui->BookDir->text().trimmed();
+        for (int i = 0; i < ui->Log->count(); i++)
+            list << ui->Log->item(i)->text();
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out.setCodec("UTF-8");
+            for (const auto& row : list)
+                out << row << endl;
+            file.close();
+            QMessageBox::information(NULL, QObject::tr("Save Log to File"), tr("Log saved to file."));
+        }
+    }
+}
