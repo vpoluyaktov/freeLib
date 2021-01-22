@@ -1146,6 +1146,8 @@ void MainWindow::StartSearch()
 void MainWindow::SelectLibrary()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ui->Books->clear();
+
     QAction* action=qobject_cast<QAction*>(sender());
 
     SaveLibPosition();
