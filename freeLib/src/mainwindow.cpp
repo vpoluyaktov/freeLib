@@ -1535,6 +1535,7 @@ void MainWindow::LangBtnSearch()
     QToolButton *button = qobject_cast<QToolButton*>(sender());
     ui->searchString->setText(button->text());
     searchChanged(ui->searchString->text());
+    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
     FillListBooks();
 }
 
