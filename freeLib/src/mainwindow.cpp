@@ -754,10 +754,11 @@ void MainWindow::TagSelect(int index)
     else if(index>=0)
     {
         settings.setValue("current_tag",index);
-        FillListBooks();
         FillAuthors();
         FillSerials();
         FillGenres();
+        SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
+        FillListBooks();
     }
 }
 
