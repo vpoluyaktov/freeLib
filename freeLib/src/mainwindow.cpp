@@ -1505,9 +1505,11 @@ void MainWindow::btnPageSearch()
 */
 void MainWindow::LangBtnSearch()
 {
+    ui->Books->clear();
     QToolButton *button = qobject_cast<QToolButton*>(sender());
     ui->searchString->setText(button->text());
     searchChanged(ui->searchString->text());
+    FillListBooks();
 }
 
 void MainWindow::About()
