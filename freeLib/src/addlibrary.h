@@ -29,6 +29,7 @@ private:
     QThread *thread;
     int idCurrentLib_;
     bool bLibChanged;
+    QStringList m_LogList;
 
     void UpdateLibList();
     void SaveLibrary(int idLib, SLib& Lib);
@@ -47,6 +48,7 @@ private slots:
     void ExistingLibsChanged();
     void BookDirChanged(const QString&);
     void ExportLib();
+    void ButtonSaveLogClicked();
 
 signals:
     void break_import();
