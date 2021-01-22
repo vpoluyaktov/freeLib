@@ -89,6 +89,9 @@ private:
     void SaveLibPosition();
     void DeleteDropForm();
 
+    // Выделение 1-го элемента списка Авторов или Серии
+    void SelectFirstItemList();
+
 protected:
     APP_MODE mode;
 
