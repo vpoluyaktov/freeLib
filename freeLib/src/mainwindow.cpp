@@ -31,6 +31,7 @@
 #include "treebookitem.h"
 #include "genresortfilterproxymodel.h"
 #include "library.h"
+#include <QStandardItemModel>
 
 extern QSplashScreen *splash;
 
@@ -372,12 +373,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(MyPrivate::instance(), SIGNAL(dockClicked()), SLOT(dockClicked()));
 #endif
     connect(ui->actionMinimize_window,SIGNAL(triggered(bool)),SLOT(MinimizeWindow()));
-
-    GenreSortFilterProxyModel *MyProxySortModel = new GenreSortFilterProxyModel(ui->s_genre);
-    MyProxySortModel->setSourceModel(ui->s_genre->model());
-    ui->s_genre->model()->setParent(MyProxySortModel);
-    ui->s_genre->setModel(MyProxySortModel);
-    ui->s_genre->model()->sort(0);
 
     settings.beginGroup("Columns");
     ui->Books->setColumnHidden(0,!settings.value("ShowName",true).toBool());
@@ -1976,7 +1971,6 @@ void MainWindow::FillGenres()
             item->setData(0,Qt::UserRole,iGenre.key());
             item->setExpanded(false);
             mTopGenresItem[iGenre.key()] = item;
-            ui->s_genre->addItem(iGenre->sName,iGenre.key());
         }else{
             if(mCounts.contains(iGenre.key())){
                 if(!mTopGenresItem.contains(iGenre->idParrentGenre)){
@@ -1990,7 +1984,6 @@ void MainWindow::FillGenres()
                 item=new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
                 item->setText(0,QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
                 item->setData(0,Qt::UserRole,iGenre.key());
-                ui->s_genre->addItem("   "+iGenre->sName,iGenre.key());
                 if(iGenre.key()==idCurrentGenre_)
                 {
                     item->setSelected(true);
@@ -1999,6 +1992,33 @@ void MainWindow::FillGenres()
             }
         }
         ++iGenre;
+    }
+
+    // заполнение комбобокса на вкладке Жанров 'Поиск' (дерево с 2-мя уровнями ветвей, обход без рекурсии)
+    int topCount = ui->GenreList->topLevelItemCount();
+    QStandardItemModel* model = (QStandardItemModel*)ui->s_genre->model();
+    for (int i = 0; i < topCount; i++)
+    {
+        QTreeWidgetItem* topLevelItem = ui->GenreList->topLevelItem(i);
+        int childCount = topLevelItem->childCount();
+        uint topLevelKey = topLevelItem->data(0, Qt::UserRole).toUInt();
+        auto topLevelGenre = mGenre.find(topLevelKey);
+        if (childCount == 0)
+        {
+            ui->s_genre->addItem(topLevelGenre.value().sName, topLevelKey);
+            model->item(ui->s_genre->count()-1)->setFont(bold_font);
+        }
+        else
+        {
+            ui->s_genre->addItem(topLevelGenre.value().sName, topLevelKey);
+            model->item(ui->s_genre->count()-1)->setFont(bold_font);
+            for (int j = 0; j < childCount; j++) {
+                QTreeWidgetItem* childItem = topLevelItem->child(j);
+                uint childLevelKey = childItem->data(0, Qt::UserRole).toUInt();
+                auto childGenre = mGenre.find(childLevelKey);
+                ui->s_genre->addItem("   " + childGenre.value().sName, childLevelKey);
+            }
+        }
     }
 
     ui->GenreList->blockSignals(wasBlocked);
