@@ -1618,6 +1618,18 @@ void MainWindow::ContextMenu(QPoint point)
             connect(action,SIGNAL(triggered()),this,SLOT(ExportAction()));
             save->addAction(action);
         }
+        if (menu.actions().count() > 0)
+            menu.addSeparator();
+        
+        // меню Оценки
+        QMenu* rating = menu.addMenu(tr("Rating"));
+        for (int i = 0; i < 6; i++)
+        {
+            QAction* actionStar = new QAction(QString("%1").arg(i), this);
+            actionStar->setData(QString::number(i).toInt());
+            connect(actionStar, SIGNAL(triggered()), this, SLOT(RatingAction()));
+            rating->addAction(actionStar);
+        }
     }
     if(menu.actions().count()>0)
         menu.addSeparator();
@@ -2383,6 +2395,32 @@ void MainWindow::ExportAction()
         SendMail();
 }
 
+/*
+    установка рейтинга (оценки) книги
+*/
+void MainWindow::RatingAction()
+{
+    QImage image;
+    QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
+    uint id = bookItem->data(0, Qt::UserRole).toUInt();
+    uchar star_id = static_cast<uchar>(qobject_cast<QAction*>(QObject::sender())->data().toInt());
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    switch (bookItem->type()) {
+    case ITEM_TYPE_BOOK:
+        query.prepare("UPDATE book set star=:star where id=:id");
+        query.bindValue(":star", star_id);
+        query.bindValue(":id", id);
+        query.exec();
+        mLibs[idCurrentLib].mBooks[id].nStars = star_id;
+        image.load(":/icons/img/icons/stars/" + QString::number(mLibs[idCurrentLib].mBooks[id].nStars).trimmed() + QString("star%1.png").arg(app->devicePixelRatio() >= 2 ? "@2x" : ""));
+        image.setDevicePixelRatio(app->devicePixelRatio());
+        bookItem->setData(3, Qt::DecorationRole, image);
+        break;
+
+    default:
+        break;
+    }
+}
 /*
     обработчик переключения в режим конвертера из меню
 */
