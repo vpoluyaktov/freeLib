@@ -252,10 +252,10 @@ MainWindow::MainWindow(QWidget *parent) :
         nCurrentTab = 0;
     }
 
-    UpdateTags();
+    UpdateTagsMenu();
     loadGenres();
     loadLibrary(idCurrentLib);
-    UpdateBooks();
+    UpdateBookLanguageControls();
 
     FillAuthors();
     FillSerials();
@@ -416,7 +416,7 @@ QPixmap MainWindow::GetTagFromTagsPicList(int id) const
 /*
     заполнение меню цветных тегов панели инструментов
 */
-void MainWindow::UpdateTags()
+void MainWindow::UpdateTagsMenu()
 {
     if(!db_is_open)
         return;
@@ -508,7 +508,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         lib.bFirstAuthor = false;
         al.AddNewLibrary(lib);
         loadLibrary(idCurrentLib);
-        UpdateBooks();
+        UpdateBookLanguageControls();
         FillAuthors();
         FillSerials();
         FillGenres();
@@ -744,7 +744,7 @@ void MainWindow::TagSelect(int index)
         ui->TagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
         if(td.exec())
-            UpdateTags();
+            UpdateTagsMenu();
     }
     else if(index>=0)
     {
@@ -822,7 +822,7 @@ void MainWindow::Settings()
     {
         bUseTag_ = settings.value("use_tag").toBool();
         bShowDeleted_ = settings.value("ShowDeleted").toBool();
-        UpdateTags();
+        UpdateTagsMenu();
         SaveLibPosition();
         FillAuthors();
         FillGenres();
@@ -1152,7 +1152,7 @@ void MainWindow::SelectLibrary()
     idCurrentLib=action->data().toInt();
 
     loadLibrary(idCurrentLib);
-    UpdateBooks();
+    UpdateBookLanguageControls();
     FillAuthors();
     FillSerials();
     FillGenres();
@@ -1391,9 +1391,9 @@ void MainWindow::SelectBook()
 }
 
 /*
-    обновление контролов панели инструментов для списка книг
+    обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
 */
-void MainWindow::UpdateBooks()
+void MainWindow::UpdateBookLanguageControls()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     SLib &currentLib = mLibs[idCurrentLib];
@@ -1438,8 +1438,8 @@ void MainWindow::ManageLibrary()
     if(al.IsLibraryChanged()){
         ui->Books->clear();
         loadLibrary(idCurrentLib);
-        UpdateTags();
-        UpdateBooks();
+        UpdateTagsMenu();
+        UpdateBookLanguageControls();
         FillGenres();
         searchChanged(ui->searchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
@@ -1627,7 +1627,7 @@ void MainWindow::ContextMenu(QPoint point)
         {
             QAction* actionStar = new QAction(QString("%1").arg(i), this);
             actionStar->setData(QString::number(i).toInt());
-            connect(actionStar, SIGNAL(triggered()), this, SLOT(RatingAction()));
+            connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
             rating->addAction(actionStar);
         }
     }
