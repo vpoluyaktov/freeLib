@@ -197,7 +197,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->btnEdit->setVisible(false);
-    ui->searchString->setFocus();
+    ui->lineEditSearchString->setFocus();
     ui->tabWidget->setCurrentIndex(0);
     ui->Books->setColumnWidth(0,400);
     ui->Books->setColumnWidth(1,50);
@@ -224,7 +224,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tbClear->setStyleSheet("border: none;");
     tbClear->setCursor(Qt::ArrowCursor);
     tbClear->setVisible(false);
-    QHBoxLayout* layout=new QHBoxLayout(ui->searchString);
+    QHBoxLayout* layout=new QHBoxLayout(ui->lineEditSearchString);
     layout->addWidget(tbClear,0,Qt::AlignRight);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -241,7 +241,7 @@ MainWindow::MainWindow(QWidget *parent) :
         idCurrentBook_ = settings.value("current_book_id",0).toUInt();
         idCurrentGenre_ = settings.value("current_genre_id",0).toUInt();
         nCurrentTab = settings.value("current_tab",0).toInt();
-        ui->searchString->setText(settings.value("filter_set").toString());
+        ui->lineEditSearchString->setText(settings.value("filter_set").toString());
     }
     else
     {
@@ -261,7 +261,7 @@ MainWindow::MainWindow(QWidget *parent) :
     FillSerials();
     FillGenres();
 
-    connect(ui->searchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
+    connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
     connect(tbClear,SIGNAL(clicked()),this,SLOT(searchClear()));
     connect(ui->actionAddLibrary,SIGNAL(triggered()),this,SLOT(ManageLibrary()));
     connect(ui->btnLibrary,SIGNAL(clicked()),this,SLOT(ManageLibrary()));
@@ -339,7 +339,7 @@ MainWindow::MainWindow(QWidget *parent) :
         break;
     }
 
-    if(ui->searchString->text().trimmed().isEmpty())
+    if(ui->lineEditSearchString->text().trimmed().isEmpty())
         FirstButton->click();
 
     ui->date_to->setDate(QDate::currentDate());
@@ -512,7 +512,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         FillAuthors();
         FillSerials();
         FillGenres();
-        searchChanged(ui->searchString->text());
+        searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
     }
@@ -763,7 +763,7 @@ void MainWindow::TagSelect(int index)
 void MainWindow::SaveLibPosition()
 {
     QSettings settings;
-    settings.setValue("filter_set",ui->searchString->text());
+    settings.setValue("filter_set",ui->lineEditSearchString->text());
     settings.setValue("current_tab",ui->tabWidget->currentIndex());
     settings.setValue("current_book_id",idCurrentBook_);
 }
@@ -1156,7 +1156,7 @@ void MainWindow::SelectLibrary()
     FillAuthors();
     FillSerials();
     FillGenres();
-    searchChanged(ui->searchString->text());
+    searchChanged(ui->lineEditSearchString->text());
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
     FillLibrariesMenu();
 
@@ -1441,7 +1441,7 @@ void MainWindow::ManageLibrary()
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         FillGenres();
-        searchChanged(ui->searchString->text());
+        searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
 
@@ -1533,8 +1533,8 @@ void MainWindow::btnPageSearch()
 void MainWindow::LangBtnSearch()
 {
     QToolButton *button = qobject_cast<QToolButton*>(sender());
-    ui->searchString->setText(button->text());
-    searchChanged(ui->searchString->text());
+    ui->lineEditSearchString->setText(button->text());
+    searchChanged(ui->lineEditSearchString->text());
     SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
     FillListBooks();
 }
@@ -1553,21 +1553,21 @@ void MainWindow::searchChanged(QString str)
 {
     if(str.length()==0)
     {
-        ui->searchString->setText(lastSearchSymbol);
-        ui->searchString->selectAll();
+        ui->lineEditSearchString->setText(lastSearchSymbol);
+        ui->lineEditSearchString->selectAll();
     }
     else
     {
-        lastSearchSymbol=ui->searchString->text().left(1);
-        if((ui->searchString->text().left(1)=="*" || ui->searchString->text().left(1)=="#" ) && ui->searchString->text().length()>1)
+        lastSearchSymbol=ui->lineEditSearchString->text().left(1);
+        if((ui->lineEditSearchString->text().left(1)=="*" || ui->lineEditSearchString->text().left(1)=="#" ) && ui->lineEditSearchString->text().length()>1)
         {
-            ui->searchString->setText(ui->searchString->text().right(ui->searchString->text().length()-1));
+            ui->lineEditSearchString->setText(ui->lineEditSearchString->text().right(ui->lineEditSearchString->text().length()-1));
         }
         QList<QToolButton *> allButtons = findChildren<QToolButton *>();
         bool find=false;
         foreach(QToolButton *tb,allButtons)
         {
-            if(tb->text()==ui->searchString->text().left(1).toUpper())
+            if(tb->text()==ui->lineEditSearchString->text().left(1).toUpper())
             {
                 find=true;
                 tb->setChecked(true);
@@ -1578,13 +1578,13 @@ void MainWindow::searchChanged(QString str)
         FillSerials();
         FillAuthors();
     }
-    tbClear->setVisible(ui->searchString->text().length()>1);
+    tbClear->setVisible(ui->lineEditSearchString->text().length()>1);
 }
 
 void MainWindow::searchClear()
 {
-    ui->searchString->setText(ui->searchString->text().left(1));
-    searchChanged(ui->searchString->text());
+    ui->lineEditSearchString->setText(ui->lineEditSearchString->text().left(1));
+    searchChanged(ui->lineEditSearchString->text());
 }
 
 
@@ -1736,7 +1736,7 @@ void MainWindow::onAnchorClicked(const QUrl& url)
 */
 void MainWindow::MoveToAuthor(qlonglong id, QString FirstLetter)
 {
-    ui->searchString->setText(/*id<0?Item->text(0).left(1).toUpper():*/FirstLetter);
+    ui->lineEditSearchString->setText(/*id<0?Item->text(0).left(1).toUpper():*/FirstLetter);
     ui->btnAuthor->setChecked(true);
     searchChanged(FirstLetter);
     btnAuthor();
@@ -1758,7 +1758,7 @@ void MainWindow::MoveToAuthor(qlonglong id, QString FirstLetter)
 */
 void MainWindow::MoveToSeria(qlonglong id,QString FirstLetter)
 {
-    ui->searchString->setText(FirstLetter);
+    ui->lineEditSearchString->setText(FirstLetter);
     ui->btnSeries->setChecked(true);
     btnSeries();
     ui->SeriaList->clearSelection();
@@ -1857,7 +1857,7 @@ void MainWindow::FillAuthors()
     ui->AuthorList->clear();
     SLib &currentLib = mLibs[idCurrentLib];
     QListWidgetItem *selectedItem = nullptr;
-    QString sSearch = ui->searchString->text();
+    QString sSearch = ui->lineEditSearchString->text();
     auto i = currentLib.mAuthors.constBegin();
 
     while(i!=currentLib.mAuthors.constEnd()){
@@ -1903,7 +1903,7 @@ void MainWindow::FillSerials()
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->SeriaList->blockSignals(true);
     ui->SeriaList->clear();
-    QString sSearch = ui->searchString->text();
+    QString sSearch = ui->lineEditSearchString->text();
 
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
