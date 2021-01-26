@@ -106,6 +106,14 @@ void loadLibrary(uint idLibrary)
         }
         ++iBook;
     }
+
+    // код Жанра Прочие/Неотсортированное
+    query.prepare("SELECT id FROM janre WHERE name LIKE '%Неотсортированное%';");
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    query.next();
+    uint idGenreUnsorted = query.value(0).toUInt();
+
     query.prepare("SELECT id_book, id_janre FROM book_janre WHERE id_lib=:id_lib;");
     //                     0       1
     query.bindValue(":id_lib",idLibrary);
@@ -114,7 +122,7 @@ void loadLibrary(uint idLibrary)
     while (query.next()) {
         uint idBook = query.value(0).toUInt();
         uint idGenre = query.value(1).toUInt();
-        if(idGenre==0) idGenre = 1112; // Прочие/Неотсортированное
+        if (idGenre == 0) idGenre = idGenreUnsorted;// 1112; // Прочие/Неотсортированное
         if(lib.mBooks.contains(idBook))
             lib.mBooks[idBook].listIdGenres << idGenre;
     }
