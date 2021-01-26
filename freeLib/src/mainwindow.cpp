@@ -294,7 +294,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btnGenre,SIGNAL(clicked()),this,SLOT(btnGenres()));
     connect(ui->btnSeries,SIGNAL(clicked()),this,SLOT(btnSeries()));
     connect(ui->btnSearch,SIGNAL(clicked()),this,SLOT(btnPageSearch()));
-    connect(ui->do_search,SIGNAL(clicked()),this,SLOT(StartSearch()));
+    connect(ui->btnFind,SIGNAL(clicked()),this,SLOT(StartSearch()));
     connect(ui->s_author,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->s_seria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->s_name,SIGNAL(returnPressed()),this,SLOT(StartSearch()));

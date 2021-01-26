@@ -603,7 +603,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="do_search">
+                      <widget class="QPushButton" name="btnFind">
                        <property name="text">
                         <string>Find</string>
                        </property>
