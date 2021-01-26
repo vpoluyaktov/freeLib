@@ -1618,17 +1618,22 @@ void MainWindow::ContextMenu(QPoint point)
             connect(action,SIGNAL(triggered()),this,SLOT(ExportAction()));
             save->addAction(action);
         }
-        if (menu.actions().count() > 0)
-            menu.addSeparator();
         
-        // меню Оценки
-        QMenu* rating = menu.addMenu(tr("Rating"));
-        for (int i = 0; i < 6; i++)
+        QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
+        if (bookItem->type() == ITEM_TYPE_BOOK)
         {
-            QAction* actionStar = new QAction(QString("%1").arg(i), this);
-            actionStar->setData(QString::number(i).toInt());
-            connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
-            rating->addAction(actionStar);
+            // меню Оценки
+            if (menu.actions().count() > 0)
+                menu.addSeparator();
+
+            QMenu* rating = menu.addMenu(tr("Rating"));
+            for (int i = 0; i < 6; i++)
+            {
+                QAction* actionStar = new QAction(QString("%1").arg(i), this);
+                actionStar->setData(QString::number(i).toInt());
+                connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
+                rating->addAction(actionStar);
+            }
         }
     }
     if(menu.actions().count()>0)
