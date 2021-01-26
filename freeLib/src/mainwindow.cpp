@@ -352,7 +352,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->AuthorList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
     ui->SeriaList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->SeriaList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
-    connect(ui->TagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(TagSelect(int)));
+    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(TagSelect(int)));
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
 
@@ -425,14 +425,14 @@ void MainWindow::UpdateTagsMenu()
 
     QButtonGroup *group=new QButtonGroup(this);
     group->setExclusive(true);
-    const bool wasBlocked = ui->TagFilter->blockSignals(true);
+    const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
 
-    int size =static_cast<int>(ui->TagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
+    int size =static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.exec("SELECT color,name,id from favorite");
-    ui->TagFilter->clear();
+    ui->comboBoxTagFilter->clear();
     int con=1;
-    ui->TagFilter->addItem("*",0);
+    ui->comboBoxTagFilter->addItem("*",0);
     TagMenu.clear();
     QAction *ac=new QAction(tr("no tag"),&TagMenu);
     ac->setData(0);
@@ -443,18 +443,18 @@ void MainWindow::UpdateTagsMenu()
     pix.setDevicePixelRatio(app->devicePixelRatio());
     Stag new_tag={pix,0};
     tagsPicList<<new_tag;
-    ui->TagFilter->setVisible(bUseTag_);
+    ui->comboBoxTagFilter->setVisible(bUseTag_);
     ui->tag_label->setVisible(bUseTag_);
 
     while(query.next())
     {
-        ui->TagFilter->addItem(query.value(1).toString().trimmed(),query.value(2).toInt());
-        if(settings.value("current_tag").toInt()==ui->TagFilter->count()-1 && bUseTag_)
-            ui->TagFilter->setCurrentIndex(ui->TagFilter->count()-1);
+        ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(),query.value(2).toInt());
+        if(settings.value("current_tag").toInt()==ui->comboBoxTagFilter->count()-1 && bUseTag_)
+            ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count()-1);
         pix=::CreateTag(QColor(query.value(0).toString().trimmed()),size);
         Stag new_tag={pix,query.value(2).toInt()};
         tagsPicList<<new_tag;
-        ui->TagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
+        ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         con++;
         QAction *ac=new QAction(pix,query.value(1).toString().trimmed(),&TagMenu);
         ac->setData(query.value(2).toString());
@@ -462,8 +462,8 @@ void MainWindow::UpdateTagsMenu()
         TagMenu.addAction(ac);
     }
 
-    ui->TagFilter->addItem(tr("setup ..."),-1);
-    ui->TagFilter->blockSignals(wasBlocked);
+    ui->comboBoxTagFilter->addItem(tr("setup ..."),-1);
+    ui->comboBoxTagFilter->blockSignals(wasBlocked);
 
     QApplication::restoreOverrideCursor();
 }
@@ -737,11 +737,11 @@ void MainWindow::SetTag()
 void MainWindow::TagSelect(int index)
 {
     QSettings settings;
-    if(ui->TagFilter->itemData(ui->TagFilter->currentIndex()).toInt()==-1)
+    if(ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt()==-1)
     {
-        const bool wasBlocked = ui->TagFilter->blockSignals(true);
-        ui->TagFilter->setCurrentIndex(settings.value("current_tag",0).toInt());
-        ui->TagFilter->blockSignals(wasBlocked);
+        const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
+        ui->comboBoxTagFilter->setCurrentIndex(settings.value("current_tag",0).toInt());
+        ui->comboBoxTagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
         if(td.exec())
             UpdateTagsMenu();
@@ -2201,7 +2201,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
 
 bool MainWindow::IsBookInList(const SBook &book) const
 {
-    int current_tag=ui->TagFilter->itemData(ui->TagFilter->currentIndex()).toInt();
+    int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
     uint idSerial=book.idSerial;
 
     return (idCurrentLanguage_==-1 || idCurrentLanguage_ == book.idLanguage)

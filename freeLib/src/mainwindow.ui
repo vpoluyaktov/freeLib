@@ -852,7 +852,7 @@
                 </layout>
                </item>
                <item>
-                <widget class="QComboBox" name="TagFilter">
+                <widget class="QComboBox" name="comboBoxTagFilter">
                  <property name="insertPolicy">
                   <enum>QComboBox::NoInsert</enum>
                  </property>
