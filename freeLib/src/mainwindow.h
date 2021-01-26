@@ -64,9 +64,9 @@ private:
 private:
     QPixmap GetTagFromTagsPicList(int id) const;
     // заполнение меню цветных тегов панели инструментов
-    void UpdateTags();
-    // обновление контролов панели инструментов для списка книг
-    void UpdateBooks();
+    void UpdateTagsMenu();
+    // обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
+    void UpdateBookLanguageControls();
     // обновление контролов меню экспорта книг на панели инструментов
     void UpdateExportMenu();
     
