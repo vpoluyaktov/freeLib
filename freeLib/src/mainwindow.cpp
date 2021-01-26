@@ -1099,7 +1099,7 @@ void MainWindow::StartSearch()
     QDate dateTo = ui->date_to->date();
     int nMaxCount = ui->maxBooks->value();
     uint idGenre = ui->s_genre->currentData().toUInt();
-    int idLanguage = ui->findLanguage->currentData().toInt();
+    int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
 
     QList<uint> listBooks;
     int nCount = 0;
@@ -1399,13 +1399,13 @@ void MainWindow::UpdateBookLanguageControls()
     SLib &currentLib = mLibs[idCurrentLib];
 
     ui->comboBoxLanguageFilter->blockSignals(true);
-    ui->findLanguage->blockSignals(true);
+    ui->comboBoxFindLanguage->blockSignals(true);
     ui->comboBoxLanguageFilter->clear();
     ui->comboBoxLanguageFilter->addItem("*",-1);
     ui->comboBoxLanguageFilter->setCurrentIndex(0);
-    ui->findLanguage->clear();
-    ui->findLanguage->addItem("*",-1);
-    ui->findLanguage->setCurrentIndex(0);
+    ui->comboBoxFindLanguage->clear();
+    ui->comboBoxFindLanguage->addItem("*",-1);
+    ui->comboBoxFindLanguage->setCurrentIndex(0);
 
     QSettings settings;
     QString sCurrentLanguage=settings.value("BookLanguage","*").toString();
@@ -1413,7 +1413,7 @@ void MainWindow::UpdateBookLanguageControls()
         QString sLanguage = currentLib.vLaguages[iLang].toUpper();
         if(!sLanguage.isEmpty()){
             ui->comboBoxLanguageFilter->addItem(sLanguage,iLang);
-            ui->findLanguage->addItem(sLanguage,iLang);
+            ui->comboBoxFindLanguage->addItem(sLanguage,iLang);
             if(sLanguage == sCurrentLanguage){
                 ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count()-1);
                 idCurrentLanguage_ = iLang;
@@ -1423,7 +1423,7 @@ void MainWindow::UpdateBookLanguageControls()
     ui->comboBoxLanguageFilter->model()->sort(0);
     settings.setValue("BookLanguage",ui->comboBoxLanguageFilter->currentText());
     ui->comboBoxLanguageFilter->blockSignals(false);
-    ui->findLanguage->blockSignals(false);
+    ui->comboBoxFindLanguage->blockSignals(false);
     QApplication::restoreOverrideCursor();
 }
 
