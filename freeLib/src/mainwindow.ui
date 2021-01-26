@@ -265,7 +265,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="searchString">
+                <widget class="QLineEdit" name="lineEditSearchString">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
