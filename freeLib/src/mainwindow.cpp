@@ -1398,11 +1398,11 @@ void MainWindow::UpdateBookLanguageControls()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     SLib &currentLib = mLibs[idCurrentLib];
 
-    ui->language->blockSignals(true);
+    ui->comboBoxLanguageFilter->blockSignals(true);
     ui->findLanguage->blockSignals(true);
-    ui->language->clear();
-    ui->language->addItem("*",-1);
-    ui->language->setCurrentIndex(0);
+    ui->comboBoxLanguageFilter->clear();
+    ui->comboBoxLanguageFilter->addItem("*",-1);
+    ui->comboBoxLanguageFilter->setCurrentIndex(0);
     ui->findLanguage->clear();
     ui->findLanguage->addItem("*",-1);
     ui->findLanguage->setCurrentIndex(0);
@@ -1412,17 +1412,17 @@ void MainWindow::UpdateBookLanguageControls()
     for(int iLang=0;iLang<currentLib.vLaguages.size();iLang++){
         QString sLanguage = currentLib.vLaguages[iLang].toUpper();
         if(!sLanguage.isEmpty()){
-            ui->language->addItem(sLanguage,iLang);
+            ui->comboBoxLanguageFilter->addItem(sLanguage,iLang);
             ui->findLanguage->addItem(sLanguage,iLang);
             if(sLanguage == sCurrentLanguage){
-                ui->language->setCurrentIndex(ui->language->count()-1);
+                ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count()-1);
                 idCurrentLanguage_ = iLang;
             }
         }
     }
-    ui->language->model()->sort(0);
-    settings.setValue("BookLanguage",ui->language->currentText());
-    ui->language->blockSignals(false);
+    ui->comboBoxLanguageFilter->model()->sort(0);
+    settings.setValue("BookLanguage",ui->comboBoxLanguageFilter->currentText());
+    ui->comboBoxLanguageFilter->blockSignals(false);
     ui->findLanguage->blockSignals(false);
     QApplication::restoreOverrideCursor();
 }
@@ -1480,7 +1480,7 @@ void MainWindow::btnAuthor()
     ui->tabWidget->setCurrentIndex(0);
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
-    ui->language->setEnabled(true);
+    ui->comboBoxLanguageFilter->setEnabled(true);
     SelectAuthor();
     QApplication::restoreOverrideCursor();
 }
@@ -1494,7 +1494,7 @@ void MainWindow::btnSeries()
     ui->tabWidget->setCurrentIndex(1);
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
-    ui->language->setEnabled(true);
+    ui->comboBoxLanguageFilter->setEnabled(true);
     SelectSeria();
     QApplication::restoreOverrideCursor();
 }
@@ -1508,7 +1508,7 @@ void MainWindow::btnGenres()
     ui->tabWidget->setCurrentIndex(2);
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
-    ui->language->setEnabled(true);
+    ui->comboBoxLanguageFilter->setEnabled(true);
     SelectGenre();
     QApplication::restoreOverrideCursor();
 }
@@ -1521,7 +1521,7 @@ void MainWindow::btnPageSearch()
     ui->tabWidget->setCurrentIndex(3);
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
-    ui->language->setEnabled(false);
+    ui->comboBoxLanguageFilter->setEnabled(false);
     ui->Books->clear();
     ui->find_books->setText("0");
     ExportBookListBtn(false);
@@ -2509,11 +2509,11 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
 /*
     загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
 */
-void MainWindow::on_language_currentIndexChanged(const QString &arg1)
+void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &arg1)
 {
     QSettings settings;
     settings.setValue("BookLanguage",arg1);
-    idCurrentLanguage_ = ui->language->currentData().toInt();
+    idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
     FillSerials();
     FillAuthors();
