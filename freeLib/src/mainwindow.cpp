@@ -1098,7 +1098,7 @@ void MainWindow::StartSearch()
     QDate dateFrom = ui->date_from->date();
     QDate dateTo = ui->date_to->date();
     int nMaxCount = ui->maxBooks->value();
-    uint idGenre = ui->s_genre->currentData().toUInt();
+    uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
 
     QList<uint> listBooks;
@@ -1956,8 +1956,8 @@ void MainWindow::FillGenres()
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GenreList->blockSignals(true);
     ui->GenreList->clear();
-    ui->s_genre->clear();
-    ui->s_genre->addItem("*",0);
+    ui->comboBoxFindGenre->clear();
+    ui->comboBoxFindGenre->addItem("*",0);
     QFont bold_font(ui->AuthorList->font());
     bold_font.setBold(true);
 
@@ -2013,7 +2013,7 @@ void MainWindow::FillGenres()
 
     // заполнение комбобокса на вкладке Жанров 'Поиск' (дерево с 2-мя уровнями ветвей, обход без рекурсии)
     int topCount = ui->GenreList->topLevelItemCount();
-    QStandardItemModel* model = (QStandardItemModel*)ui->s_genre->model();
+    QStandardItemModel* model = (QStandardItemModel*)ui->comboBoxFindGenre->model();
     for (int i = 0; i < topCount; i++)
     {
         QTreeWidgetItem* topLevelItem = ui->GenreList->topLevelItem(i);
@@ -2022,18 +2022,18 @@ void MainWindow::FillGenres()
         auto topLevelGenre = mGenre.find(topLevelKey);
         if (childCount == 0)
         {
-            ui->s_genre->addItem(topLevelGenre.value().sName, topLevelKey);
-            model->item(ui->s_genre->count()-1)->setFont(bold_font);
+            ui->comboBoxFindGenre->addItem(topLevelGenre.value().sName, topLevelKey);
+            model->item(ui->comboBoxFindGenre->count()-1)->setFont(bold_font);
         }
         else
         {
-            ui->s_genre->addItem(topLevelGenre.value().sName, topLevelKey);
-            model->item(ui->s_genre->count()-1)->setFont(bold_font);
+            ui->comboBoxFindGenre->addItem(topLevelGenre.value().sName, topLevelKey);
+            model->item(ui->comboBoxFindGenre->count()-1)->setFont(bold_font);
             for (int j = 0; j < childCount; j++) {
                 QTreeWidgetItem* childItem = topLevelItem->child(j);
                 uint childLevelKey = childItem->data(0, Qt::UserRole).toUInt();
                 auto childGenre = mGenre.find(childLevelKey);
-                ui->s_genre->addItem("   " + childGenre.value().sName, childLevelKey);
+                ui->comboBoxFindGenre->addItem("   " + childGenre.value().sName, childLevelKey);
             }
         }
     }
