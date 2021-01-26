@@ -210,7 +210,7 @@ private slots:
     // обработчик вызова диалога настроек из конвертера по нажатию кнопки
     void on_btnPreference_clicked();
     // загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
-    void on_language_currentIndexChanged(const QString& arg1);
+    void on_comboBoxLanguageFilter_currentIndexChanged(const QString& arg1);
 
     //void on_splitter_splitterMoved(int pos, int index);
 
