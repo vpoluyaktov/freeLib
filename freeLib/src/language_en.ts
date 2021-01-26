@@ -87,66 +87,91 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="238"/>
+        <location filename="addlibrary.ui" line="222"/>
+        <source>Save Log...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="248"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="251"/>
+        <location filename="addlibrary.ui" line="261"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="270"/>
-        <location filename="addlibrary.cpp" line="297"/>
-        <location filename="addlibrary.cpp" line="317"/>
+        <location filename="addlibrary.ui" line="280"/>
+        <location filename="addlibrary.cpp" line="323"/>
+        <location filename="addlibrary.cpp" line="351"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="83"/>
-        <location filename="addlibrary.cpp" line="249"/>
+        <location filename="addlibrary.cpp" line="95"/>
+        <location filename="addlibrary.cpp" line="272"/>
         <source>Add library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="83"/>
+        <location filename="addlibrary.cpp" line="95"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="109"/>
+        <location filename="addlibrary.cpp" line="121"/>
         <source>Select books directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="61"/>
+        <location filename="addlibrary.cpp" line="70"/>
         <source>new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="155"/>
+        <location filename="addlibrary.cpp" line="146"/>
+        <source>Specify the correct path to the books folder.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="176"/>
         <source>Break</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="260"/>
+        <location filename="addlibrary.cpp" line="283"/>
         <source>Update library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="277"/>
+        <location filename="addlibrary.cpp" line="300"/>
         <source>Delete library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="295"/>
+        <location filename="addlibrary.cpp" line="320"/>
         <source>Ending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="339"/>
+        <location filename="addlibrary.cpp" line="381"/>
         <source>Select destination directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="393"/>
+        <source>Save Log to file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="393"/>
+        <source>*.txt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="407"/>
+        <source>Log saved to file.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -674,35 +699,55 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="helpdialog.ui" line="36"/>
-        <source>about:blank</source>
+        <location filename="helpdialog.ui" line="39"/>
+        <source>About freeLib</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="helpdialog.ui" line="64"/>
+        <source>freeLib ChangeLog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="helpdialog.ui" line="89"/>
+        <source>freeLib Parametrs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="helpdialog.ui" line="114"/>
+        <source>freeLib Command Line Parametrs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImportThread</name>
     <message>
-        <location filename="importthread.cpp" line="457"/>
-        <source>Book add:</source>
+        <location filename="importthread.cpp" line="529"/>
+        <source>Book add (%1):  %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="496"/>
-        <source>Book add: </source>
+        <location filename="importthread.cpp" line="531"/>
+        <source>from zip:  %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="662"/>
+        <location filename="importthread.cpp" line="571"/>
+        <source>Book add (epub):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="importthread.cpp" line="739"/>
         <source>Empty library name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="977"/>
+        <location filename="importthread.cpp" line="1095"/>
         <source>Books adds:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="989"/>
+        <location filename="importthread.cpp" line="1107"/>
         <source>Books adds: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -808,7 +853,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="976"/>
-        <location filename="mainwindow.cpp" line="1663"/>
+        <location filename="mainwindow.cpp" line="1655"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -820,7 +865,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1013"/>
-        <location filename="mainwindow.cpp" line="1694"/>
+        <location filename="mainwindow.cpp" line="1685"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
@@ -900,13 +945,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1278"/>
+        <location filename="mainwindow.ui" line="1287"/>
         <source>Check/uncheck books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="757"/>
-        <location filename="mainwindow.ui" line="1260"/>
+        <location filename="mainwindow.ui" line="1269"/>
         <source>Libraries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -938,201 +983,236 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="989"/>
-        <location filename="mainwindow.cpp" line="1676"/>
+        <location filename="mainwindow.cpp" line="1667"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="997"/>
-        <location filename="mainwindow.cpp" line="1682"/>
+        <location filename="mainwindow.cpp" line="1673"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1005"/>
-        <location filename="mainwindow.cpp" line="1688"/>
+        <location filename="mainwindow.cpp" line="1679"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1018"/>
+        <location filename="mainwindow.cpp" line="1691"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1040"/>
-        <source>about:blank</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="1220"/>
+        <location filename="mainwindow.ui" line="1229"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1291"/>
+        <location filename="mainwindow.ui" line="1300"/>
         <source>Switch to library mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1296"/>
+        <location filename="mainwindow.ui" line="1305"/>
         <source>Minimize window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1154"/>
+        <location filename="mainwindow.ui" line="1163"/>
         <source>Drop files for convert!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1184"/>
-        <location filename="mainwindow.ui" line="1236"/>
+        <location filename="mainwindow.ui" line="1193"/>
+        <location filename="mainwindow.ui" line="1245"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1106"/>
-        <location filename="mainwindow.ui" line="1192"/>
+        <location filename="mainwindow.ui" line="1115"/>
+        <location filename="mainwindow.ui" line="1201"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1212"/>
+        <location filename="mainwindow.ui" line="1221"/>
         <source>Add/Edit library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1286"/>
+        <location filename="mainwindow.ui" line="1295"/>
         <source>Switch to convert mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1096"/>
+        <location filename="mainwindow.ui" line="1105"/>
         <source>Preference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="981"/>
-        <location filename="mainwindow.cpp" line="1670"/>
+        <location filename="mainwindow.cpp" line="1661"/>
         <source>No.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1228"/>
+        <location filename="mainwindow.ui" line="1026"/>
+        <location filename="mainwindow.cpp" line="1697"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1237"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1247"/>
+        <location filename="mainwindow.ui" line="1256"/>
         <source>Move to author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1252"/>
+        <location filename="mainwindow.ui" line="1261"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1268"/>
+        <location filename="mainwindow.ui" line="1277"/>
         <source>Move to series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1273"/>
+        <location filename="mainwindow.ui" line="1282"/>
         <source>New library wizard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="423"/>
+        <location filename="mainwindow.cpp" line="437"/>
         <source>no tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="451"/>
+        <location filename="mainwindow.cpp" line="465"/>
         <source>setup ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="190"/>
+        <location filename="mainwindow.cpp" line="186"/>
         <source>Database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="190"/>
+        <location filename="mainwindow.cpp" line="167"/>
+        <source>{ Books without series }</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="186"/>
         <source>This version needs new database version. All your old books data will be lost. Continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1236"/>
+        <location filename="mainwindow.cpp" line="1320"/>
         <source>Can&apos;t find file: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1279"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1279"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>kB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1279"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1279"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1279"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>TB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1279"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>PB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1339"/>
-        <source>unknown author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="1641"/>
+        <location filename="mainwindow.cpp" line="1613"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2250"/>
+        <location filename="mainwindow.cpp" line="1629"/>
+        <source>Rating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="2347"/>
         <source>Send to ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2446"/>
+        <location filename="mainwindow.cpp" line="2588"/>
         <source>Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2447"/>
+        <location filename="mainwindow.cpp" line="2589"/>
         <source>Book`s files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="library.cpp" line="163"/>
+        <source>Unknown Author</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="main.cpp" line="117"/>
-        <location filename="main.cpp" line="128"/>
-        <location filename="main.cpp" line="139"/>
-        <location filename="main.cpp" line="150"/>
+        <location filename="main.cpp" line="116"/>
+        <location filename="main.cpp" line="127"/>
+        <location filename="main.cpp" line="138"/>
+        <location filename="main.cpp" line="149"/>
         <source>Save as</source>
         <oldsource>Send as</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="addlibrary.cpp" line="146"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="395"/>
+        <source>Library:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="396"/>
+        <source>Books dir:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="407"/>
+        <source>Save Log to File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1162,12 +1242,12 @@
 <context>
     <name>QuaZIODevice</name>
     <message>
-        <location filename="quazip/quazip/quaziodevice.cpp" line="145"/>
+        <location filename="quazip/quazip/quaziodevice.cpp" line="188"/>
         <source>QIODevice::Append is not supported for QuaZIODevice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="quazip/quazip/quaziodevice.cpp" line="150"/>
+        <location filename="quazip/quazip/quaziodevice.cpp" line="193"/>
         <source>QIODevice::ReadWrite is not supported for QuaZIODevice</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1175,7 +1255,7 @@
 <context>
     <name>QuaZipFile</name>
     <message>
-        <location filename="quazip/quazip/quazipfile.cpp" line="218"/>
+        <location filename="quazip/quazip/quazipfile.cpp" line="251"/>
         <source>ZIP/UNZIP API error %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1244,175 +1324,220 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="243"/>
+        <location filename="settingsdlg.ui" line="194"/>
+        <source>Cover size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="202"/>
+        <source>90 x 120</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="207"/>
+        <source>12 x 160</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="212"/>
+        <source>150 x 200</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="217"/>
+        <source>240 x 320</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="222"/>
+        <source>300 x 400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="227"/>
+        <source>480 x 640</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="232"/>
+        <source>600 x 800</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="237"/>
+        <source>Original</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdlg.ui" line="311"/>
         <source>Profile:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="283"/>
+        <location filename="settingsdlg.ui" line="351"/>
         <source>Add profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="303"/>
+        <location filename="settingsdlg.ui" line="371"/>
         <source>Remove profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="323"/>
+        <location filename="settingsdlg.ui" line="391"/>
         <source>Open export settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="326"/>
+        <location filename="settingsdlg.ui" line="394"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="343"/>
+        <location filename="settingsdlg.ui" line="411"/>
         <source>Save export settings</source>
         <oldsource>Save export settings as</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="346"/>
+        <location filename="settingsdlg.ui" line="414"/>
         <source>Save</source>
         <oldsource>Save as</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="376"/>
+        <location filename="settingsdlg.ui" line="444"/>
         <source>Extended characters in the file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="389"/>
+        <location filename="settingsdlg.ui" line="457"/>
         <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="407"/>
+        <location filename="settingsdlg.ui" line="475"/>
         <source>HTTP/OPDS server</source>
         <oldsource>OPDS server</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="419"/>
+        <location filename="settingsdlg.ui" line="487"/>
         <source>Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="426"/>
-        <location filename="settingsdlg.ui" line="623"/>
+        <location filename="settingsdlg.ui" line="494"/>
+        <location filename="settingsdlg.ui" line="691"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="446"/>
+        <location filename="settingsdlg.ui" line="514"/>
         <source>Common OPDS server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="463"/>
+        <location filename="settingsdlg.ui" line="531"/>
         <source>Common HTTP server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="488"/>
+        <location filename="settingsdlg.ui" line="556"/>
         <source>default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="496"/>
+        <location filename="settingsdlg.ui" line="564"/>
         <source>Browse dir:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="517"/>
+        <location filename="settingsdlg.ui" line="585"/>
         <source>Password protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="524"/>
+        <location filename="settingsdlg.ui" line="592"/>
         <source>User:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="548"/>
+        <location filename="settingsdlg.ui" line="616"/>
         <source>Show annotation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="555"/>
+        <location filename="settingsdlg.ui" line="623"/>
         <source>Show covers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="562"/>
+        <location filename="settingsdlg.ui" line="630"/>
         <source>Books per page:</source>
         <oldsource>Books per page</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="575"/>
+        <location filename="settingsdlg.ui" line="643"/>
         <source>Proxy server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="587"/>
+        <location filename="settingsdlg.ui" line="655"/>
         <source>Proxy type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="595"/>
+        <location filename="settingsdlg.ui" line="663"/>
         <source>No proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="613"/>
+        <location filename="settingsdlg.ui" line="681"/>
         <source>Host name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="643"/>
+        <location filename="settingsdlg.ui" line="711"/>
         <source>User name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="531"/>
-        <location filename="settingsdlg.ui" line="657"/>
+        <location filename="settingsdlg.ui" line="599"/>
+        <location filename="settingsdlg.ui" line="725"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="195"/>
+        <location filename="settingsdlg.ui" line="263"/>
         <source>Save settings in application folder</source>
         <oldsource>Move settings to file</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="216"/>
+        <location filename="settingsdlg.ui" line="284"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="362"/>
+        <location filename="settingsdlg.ui" line="430"/>
         <source>Close dialog after export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="369"/>
+        <location filename="settingsdlg.ui" line="437"/>
         <source>Uncheck successfully export</source>
         <oldsource>Uncheck seccesfully export</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="784"/>
+        <location filename="settingsdlg.ui" line="852"/>
         <source>Postprocessing tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="805"/>
+        <location filename="settingsdlg.ui" line="873"/>
         <source>%fn - file name without extension
 %f - file name
 %d - path to file</source>
@@ -1423,30 +1548,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="838"/>
+        <location filename="settingsdlg.ui" line="906"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="848"/>
+        <location filename="settingsdlg.ui" line="916"/>
         <source>Params</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="853"/>
+        <location filename="settingsdlg.ui" line="921"/>
         <source>Output file name</source>
         <oldsource>Out file name</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="904"/>
-        <location filename="settingsdlg.cpp" line="485"/>
+        <location filename="settingsdlg.ui" line="972"/>
+        <location filename="settingsdlg.cpp" line="491"/>
         <source>Load default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="767"/>
-        <location filename="settingsdlg.ui" line="882"/>
+        <location filename="settingsdlg.ui" line="835"/>
+        <location filename="settingsdlg.ui" line="950"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1456,7 +1581,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="480"/>
+        <location filename="settingsdlg.ui" line="548"/>
         <source>Export settings:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1476,72 +1601,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="257"/>
+        <location filename="settingsdlg.ui" line="325"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="774"/>
-        <location filename="settingsdlg.ui" line="889"/>
+        <location filename="settingsdlg.ui" line="842"/>
+        <location filename="settingsdlg.ui" line="957"/>
         <source>Del</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="335"/>
+        <location filename="main.cpp" line="334"/>
         <source>Dropcaps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="675"/>
+        <location filename="settingsdlg.ui" line="743"/>
         <source>Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="736"/>
+        <location filename="settingsdlg.ui" line="804"/>
         <source>Ext</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.ui" line="741"/>
-        <location filename="settingsdlg.ui" line="843"/>
+        <location filename="settingsdlg.ui" line="809"/>
+        <location filename="settingsdlg.ui" line="911"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="333"/>
+        <location filename="main.cpp" line="332"/>
         <source>Top level captions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="334"/>
+        <location filename="main.cpp" line="333"/>
         <source>Captions</source>
         <oldsource>Caption</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="336"/>
+        <location filename="main.cpp" line="335"/>
         <source>Footnotes</source>
         <oldsource>Footnote</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="337"/>
+        <location filename="main.cpp" line="336"/>
         <source>Annotation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="338"/>
+        <location filename="main.cpp" line="337"/>
         <source>Poems</source>
         <oldsource>Poem</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="339"/>
+        <location filename="main.cpp" line="338"/>
         <source>Epigraph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="340"/>
+        <location filename="main.cpp" line="339"/>
         <source>Book</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1551,69 +1676,69 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="159"/>
-        <location filename="settingsdlg.cpp" line="434"/>
+        <location filename="settingsdlg.cpp" line="163"/>
+        <location filename="settingsdlg.cpp" line="440"/>
         <source>Send to ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="241"/>
+        <location filename="settingsdlg.cpp" line="245"/>
         <source>Select book`s directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="250"/>
+        <location filename="settingsdlg.cpp" line="254"/>
         <source>Select database directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="455"/>
+        <location filename="settingsdlg.cpp" line="461"/>
         <source>Delete export settings</source>
         <oldsource>Delete export settings.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="455"/>
+        <location filename="settingsdlg.cpp" line="461"/>
         <source>Are you sure you want to delete the current export settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="485"/>
+        <location filename="settingsdlg.cpp" line="491"/>
         <source>Are you sure you want to load the default settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="542"/>
+        <location filename="settingsdlg.cpp" line="548"/>
         <source>Save profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="598"/>
+        <location filename="settingsdlg.cpp" line="604"/>
         <source>Open profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="601"/>
+        <location filename="settingsdlg.cpp" line="607"/>
         <source>Load profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="602"/>
+        <location filename="settingsdlg.cpp" line="608"/>
         <source>How to load profile?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="603"/>
+        <location filename="settingsdlg.cpp" line="609"/>
         <source>Replace current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="603"/>
+        <location filename="settingsdlg.cpp" line="609"/>
         <source>Load to new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdlg.cpp" line="603"/>
+        <location filename="settingsdlg.cpp" line="609"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1652,163 +1777,159 @@
 <context>
     <name>opds_server</name>
     <message>
-        <location filename="opds_server.cpp" line="189"/>
-        <location filename="opds_server.cpp" line="193"/>
+        <location filename="opds_server.cpp" line="1337"/>
         <source>Books search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="207"/>
-        <location filename="opds_server.cpp" line="211"/>
+        <location filename="opds_server.cpp" line="1347"/>
+        <location filename="opds_server.cpp" line="1930"/>
         <source>Books of sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="225"/>
-        <location filename="opds_server.cpp" line="229"/>
+        <location filename="opds_server.cpp" line="1552"/>
+        <location filename="opds_server.cpp" line="1848"/>
         <source>Books by ABC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="243"/>
-        <location filename="opds_server.cpp" line="247"/>
-        <location filename="opds_server.cpp" line="1540"/>
-        <location filename="opds_server.cpp" line="1574"/>
+        <location filename="opds_server.cpp" line="1841"/>
+        <location filename="opds_server.cpp" line="1958"/>
+        <location filename="opds_server.cpp" line="1992"/>
         <source>Books without sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="326"/>
-        <location filename="opds_server.cpp" line="341"/>
+        <location filename="opds_server.cpp" line="838"/>
+        <location filename="opds_server.cpp" line="958"/>
         <source>Next page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="405"/>
-        <location filename="opds_server.cpp" line="1678"/>
+        <location filename="opds_server.cpp" line="774"/>
+        <location filename="opds_server.cpp" line="2096"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="544"/>
-        <location filename="opds_server.cpp" line="558"/>
-        <location filename="opds_server.cpp" line="578"/>
-        <location filename="opds_server.cpp" line="592"/>
+        <location filename="opds_server.cpp" line="823"/>
+        <location filename="opds_server.cpp" line="950"/>
         <source>Previous page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="816"/>
-        <location filename="opds_server.cpp" line="1263"/>
+        <location filename="opds_server.cpp" line="1168"/>
+        <location filename="opds_server.cpp" line="1655"/>
         <source>Books by authors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="817"/>
-        <location filename="opds_server.cpp" line="871"/>
+        <location filename="opds_server.cpp" line="1169"/>
+        <location filename="opds_server.cpp" line="1223"/>
         <source>Finding books by authors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="827"/>
-        <location filename="opds_server.cpp" line="1009"/>
-        <location filename="opds_server.cpp" line="1531"/>
-        <location filename="opds_server.cpp" line="1568"/>
+        <location filename="opds_server.cpp" line="1179"/>
+        <location filename="opds_server.cpp" line="1365"/>
+        <location filename="opds_server.cpp" line="1949"/>
+        <location filename="opds_server.cpp" line="1986"/>
         <source>Books by sequences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="828"/>
-        <location filename="opds_server.cpp" line="875"/>
+        <location filename="opds_server.cpp" line="1180"/>
+        <location filename="opds_server.cpp" line="1227"/>
         <source>Finding books by sequences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="838"/>
-        <location filename="opds_server.cpp" line="1195"/>
+        <location filename="opds_server.cpp" line="1190"/>
+        <location filename="opds_server.cpp" line="1587"/>
         <source>Books by genre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="839"/>
-        <location filename="opds_server.cpp" line="879"/>
+        <location filename="opds_server.cpp" line="1191"/>
+        <location filename="opds_server.cpp" line="1231"/>
         <source>Finding books by genre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="851"/>
-        <location filename="opds_server.cpp" line="886"/>
-        <location filename="opds_server.cpp" line="1604"/>
-        <location filename="opds_server.cpp" line="1691"/>
+        <location filename="opds_server.cpp" line="1203"/>
+        <location filename="opds_server.cpp" line="1238"/>
+        <location filename="opds_server.cpp" line="2022"/>
+        <location filename="opds_server.cpp" line="2109"/>
         <source>Browse directory</source>
         <oldsource>Browse direcrory</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="852"/>
+        <location filename="opds_server.cpp" line="1204"/>
         <source>Finding books by directory</source>
         <oldsource>Finding books by direcrory</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="904"/>
+        <location filename="opds_server.cpp" line="1256"/>
         <source>Finding books by name/author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="922"/>
+        <location filename="opds_server.cpp" line="1274"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1060"/>
-        <location filename="opds_server.cpp" line="1091"/>
+        <location filename="opds_server.cpp" line="1418"/>
+        <location filename="opds_server.cpp" line="1457"/>
         <source>series beginning with</source>
         <oldsource>sequence beginning with</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1321"/>
-        <location filename="opds_server.cpp" line="1349"/>
+        <location filename="opds_server.cpp" line="1709"/>
+        <location filename="opds_server.cpp" line="1747"/>
         <source>authors beginning with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1148"/>
-        <location filename="opds_server.cpp" line="1163"/>
-        <location filename="opds_server.cpp" line="1216"/>
-        <location filename="opds_server.cpp" line="1239"/>
-        <location filename="opds_server.cpp" line="1409"/>
-        <location filename="opds_server.cpp" line="1423"/>
+        <location filename="opds_server.cpp" line="1520"/>
+        <location filename="opds_server.cpp" line="1534"/>
+        <location filename="opds_server.cpp" line="1608"/>
+        <location filename="opds_server.cpp" line="1631"/>
+        <location filename="opds_server.cpp" line="1811"/>
+        <location filename="opds_server.cpp" line="1825"/>
         <source>books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1221"/>
+        <location filename="opds_server.cpp" line="1613"/>
         <source>Books of genre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1455"/>
-        <location filename="opds_server.cpp" line="1462"/>
+        <location filename="opds_server.cpp" line="1860"/>
+        <location filename="opds_server.cpp" line="1867"/>
         <source>Book sequences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1478"/>
-        <location filename="opds_server.cpp" line="1492"/>
+        <location filename="opds_server.cpp" line="1895"/>
+        <location filename="opds_server.cpp" line="1909"/>
         <source>books in sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1523"/>
-        <location filename="opds_server.cpp" line="1563"/>
+        <location filename="opds_server.cpp" line="1941"/>
+        <location filename="opds_server.cpp" line="1981"/>
         <source>Books by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1549"/>
-        <location filename="opds_server.cpp" line="1581"/>
+        <location filename="opds_server.cpp" line="1967"/>
+        <location filename="opds_server.cpp" line="1999"/>
         <source>All books</source>
         <translation type="unfinished"></translation>
     </message>
