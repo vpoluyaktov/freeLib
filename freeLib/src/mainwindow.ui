@@ -503,7 +503,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDateEdit" name="date_from">
+                      <widget class="QDateEdit" name="dateEditFindDateFrom">
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
@@ -530,7 +530,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDateEdit" name="date_to">
+                      <widget class="QDateEdit" name="dateEditFindDateTo">
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
@@ -569,7 +569,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="maxBooks">
+                    <widget class="QSpinBox" name="spinBoxFindMaxBooks">
                      <property name="minimum">
                       <number>0</number>
                      </property>
@@ -619,7 +619,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="find_books">
+                    <widget class="QLabel" name="labelFindBooks">
                      <property name="font">
                       <font>
                        <pointsize>26</pointsize>
