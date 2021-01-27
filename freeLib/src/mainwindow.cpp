@@ -1097,7 +1097,7 @@ void MainWindow::StartSearch()
     QString sSeria = ui->lineEditFindSeria->text().trimmed();
     QDate dateFrom = ui->dateEditFindDateFrom->date();
     QDate dateTo = ui->dateEditFindDateTo->date();
-    int nMaxCount = ui->maxBooks->value();
+    int nMaxCount = ui->spinBoxFindMaxBooks->value();
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
 

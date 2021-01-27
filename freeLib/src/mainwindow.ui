@@ -569,7 +569,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="maxBooks">
+                    <widget class="QSpinBox" name="spinBoxFindMaxBooks">
                      <property name="minimum">
                       <number>0</number>
                      </property>
