@@ -441,7 +441,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEditBookTitle"/>
+                    <widget class="QLineEdit" name="lineEditFindBookTitle"/>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_3">
@@ -451,7 +451,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEditAuthor"/>
+                    <widget class="QLineEdit" name="lineEditFindAuthor"/>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_4">
@@ -475,7 +475,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="s_seria"/>
+                    <widget class="QLineEdit" name="lineEditFindSeria"/>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_6">
