@@ -1130,7 +1130,7 @@ void MainWindow::StartSearch()
         if(nCount==nMaxCount)
             break;
     }
-    ui->find_books->setText(QString::number(nCount));
+    ui->labelFindBooks->setText(QString::number(nCount));
     FillListBooks(listBooks,0);
 
     QApplication::restoreOverrideCursor();
@@ -1523,7 +1523,7 @@ void MainWindow::btnPageSearch()
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(false);
     ui->Books->clear();
-    ui->find_books->setText("0");
+    ui->labelFindBooks->setText("0");
     ExportBookListBtn(false);
 }
 
