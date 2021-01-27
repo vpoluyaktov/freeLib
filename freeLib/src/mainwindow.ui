@@ -441,7 +441,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="s_name"/>
+                    <widget class="QLineEdit" name="lineEditBookTitle"/>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_3">
