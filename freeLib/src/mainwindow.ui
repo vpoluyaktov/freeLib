@@ -475,7 +475,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="s_seria"/>
+                    <widget class="QLineEdit" name="lineEditFindSeria"/>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_6">
