@@ -295,7 +295,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btnSeries,SIGNAL(clicked()),this,SLOT(btnSeries()));
     connect(ui->btnSearch,SIGNAL(clicked()),this,SLOT(btnPageSearch()));
     connect(ui->btnFind,SIGNAL(clicked()),this,SLOT(StartSearch()));
-    connect(ui->s_author,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
+    connect(ui->lineEditAuthor,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->s_seria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
@@ -1093,7 +1093,7 @@ void MainWindow::StartSearch()
     ui->Books->clear();
     ExportBookListBtn(false);
     QString sName = ui->lineEditBookTitle->text().trimmed();
-    QString sAuthor = ui->s_author->text().trimmed();
+    QString sAuthor = ui->lineEditAuthor->text().trimmed();
     QString sSeria = ui->s_seria->text().trimmed();
     QDate dateFrom = ui->date_from->date();
     QDate dateTo = ui->date_to->date();
