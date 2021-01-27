@@ -1095,7 +1095,7 @@ void MainWindow::StartSearch()
     QString sName = ui->lineEditFindBookTitle->text().trimmed();
     QString sAuthor = ui->lineEditFindAuthor->text().trimmed();
     QString sSeria = ui->lineEditFindSeria->text().trimmed();
-    QDate dateFrom = ui->date_from->date();
+    QDate dateFrom = ui->dateEditFindDateFrom->date();
     QDate dateTo = ui->date_to->date();
     int nMaxCount = ui->maxBooks->value();
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
