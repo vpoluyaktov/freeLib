@@ -342,7 +342,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if(ui->lineEditSearchString->text().trimmed().isEmpty())
         FirstButton->click();
 
-    ui->date_to->setDate(QDate::currentDate());
+    ui->dateEditFindDateTo->setDate(QDate::currentDate());
 
     pHelpDlg=nullptr;
     connect(ui->actionHelp,SIGNAL(triggered()),this,SLOT(HelpDlg()));
@@ -1096,7 +1096,7 @@ void MainWindow::StartSearch()
     QString sAuthor = ui->lineEditFindAuthor->text().trimmed();
     QString sSeria = ui->lineEditFindSeria->text().trimmed();
     QDate dateFrom = ui->dateEditFindDateFrom->date();
-    QDate dateTo = ui->date_to->date();
+    QDate dateTo = ui->dateEditFindDateTo->date();
     int nMaxCount = ui->maxBooks->value();
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
