@@ -1259,12 +1259,19 @@ void MainWindow::SelectSeria()
     ExportBookListBtn(false);
     if(ui->SeriaList->selectedItems().count()==0)
         return;
+
     QListWidgetItem* cur_item=ui->SeriaList->selectedItems()[0];
-    uint idSerial = cur_item->data(Qt::UserRole).toUInt();
+    idCurrentSerial_ = cur_item->data(Qt::UserRole).toUInt();
+
+    QSettings settings;
+    if (settings.value("store_position", true).toBool()) {
+        settings.setValue("current_serial_id", idCurrentSerial_);
+    }
+
     QList<uint> listBooks;
     auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
     while(iBook != mLibs[idCurrentLib].mBooks.constEnd()){
-        if(iBook->idSerial == idSerial && (idCurrentLanguage_==-1 || idCurrentLanguage_ == iBook->idLanguage)){
+        if(iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_==-1 || idCurrentLanguage_ == iBook->idLanguage)){
             listBooks << iBook.key();
         }
         ++iBook;
@@ -1280,12 +1287,6 @@ void MainWindow::SelectSeria()
         else
             font.setBold(true);
         item->setFont(font);
-    }
-
-    QSettings settings;
-    idCurrentSerial_= idSerial;
-    if(settings.value("store_position",true).toBool()){
-        settings.setValue("current_serial_id",idSerial);
     }
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
