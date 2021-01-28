@@ -1230,8 +1230,8 @@ void MainWindow::SelectAuthor()
 
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
 
-    QList<uint> booksId = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
-    FillListBooks(booksId, idCurrentAuthor_);
+    QList<uint> listBooks = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
+    FillListBooks(listBooks, idCurrentAuthor_);
 
     // Выделение жирным выбранного Автора
     QFont font = ui->AuthorList->font();
