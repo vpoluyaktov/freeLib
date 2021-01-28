@@ -1298,6 +1298,9 @@ void MainWindow::SelectSeria()
         item->setFont(font);
     }
 
+    // скроллинг до выделенной Серии
+    ui->SeriaList->scrollToItem(cur_item);
+
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     FillListBooks(listBooks, 0);
 }
