@@ -1227,11 +1227,11 @@ void MainWindow::SelectAuthor()
         return;
 
     QListWidgetItem* cur_item = ui->AuthorList->selectedItems()[0];
-
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
-
-    QList<uint> listBooks = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
-    FillListBooks(listBooks, idCurrentAuthor_);
+    QSettings settings;
+    if (settings.value("store_position", true).toBool()) {
+        settings.setValue("current_author_id", idCurrentAuthor_);
+    }
 
     // Выделение жирным выбранного Автора
     QFont font = ui->AuthorList->font();
@@ -1245,10 +1245,9 @@ void MainWindow::SelectAuthor()
         item->setFont(font);
     }
 
-    QSettings settings;
-    if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_author_id", idCurrentAuthor_);
-    }
+    // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
+    QList<uint> listBooks = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
+    FillListBooks(listBooks, idCurrentAuthor_);
 }
 
 /*
