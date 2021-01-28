@@ -2152,6 +2152,8 @@ void MainWindow::FillListBooks()
 void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     QFont bold_font(ui->Books->font());
     bold_font.setBold(true);
     TreeBookItem* ScrollItem=nullptr;
@@ -2293,6 +2295,8 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
     ui->Books->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "FillListBooks " << t_end-t_start << "msec";
+
+    QApplication::restoreOverrideCursor();
 }
 
 bool MainWindow::IsBookInList(const SBook &book) const
