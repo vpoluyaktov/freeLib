@@ -2247,6 +2247,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
         ScrollItem->setSelected(true);
         ui->Books->scrollToItem(ScrollItem);
     }
+    ui->Books->setFocus();
     SelectBook();
 
     ui->Books->blockSignals(wasBlocked);
