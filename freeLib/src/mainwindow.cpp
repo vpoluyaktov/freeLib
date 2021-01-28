@@ -236,19 +236,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if(settings.value("store_position",true).toBool())
     {
-        idCurrentAuthor_= settings.value("current_author_id",0).toUInt();
-        idCurrentSerial_ = settings.value("current_serial_id",0).toUInt();
-        idCurrentBook_ = settings.value("current_book_id",0).toUInt();
-        idCurrentGenre_ = settings.value("current_genre_id",0).toUInt();
-        nCurrentTab = settings.value("current_tab",0).toInt();
+        idCurrentAuthor_= settings.value("current_author_id", 0).toUInt();
+        idCurrentSerial_ = settings.value("current_serial_id", 0).toUInt();
+        idCurrentGenre_ = settings.value("current_genre_id", 0).toUInt();
+        idCurrentBookForAuthor_ = settings.value("IdCurrentBookForAuthor", 0).toUInt();
+        idCurrentBookForGenre_ = settings.value("IdCurrentBookForGenre", 0).toUInt();
+        idCurrentBookForSeria_ = settings.value("IdCurrentBookForSeria", 0).toUInt();
+        nCurrentTab = settings.value("current_tab", 0).toInt();
         ui->lineEditSearchString->setText(settings.value("filter_set").toString());
     }
     else
     {
         idCurrentAuthor_ = 0;
         idCurrentSerial_ = 0;
-        idCurrentBook_ = 0;
         idCurrentGenre_ = 0;
+        idCurrentBookForAuthor_ = 0;
+        idCurrentBookForGenre_ = 0;
+        idCurrentBookForSeria_ = 0;
         nCurrentTab = 0;
     }
 
@@ -765,7 +769,9 @@ void MainWindow::SaveLibPosition()
     QSettings settings;
     settings.setValue("filter_set",ui->lineEditSearchString->text());
     settings.setValue("current_tab",ui->tabWidget->currentIndex());
-    settings.setValue("current_book_id",idCurrentBook_);
+    settings.setValue("IdCurrentBookForAuthor", idCurrentBookForAuthor_);
+    settings.setValue("IdCurrentBookForGenre", idCurrentBookForGenre_);
+    settings.setValue("IdCurrentBookForSeria", idCurrentBookForSeria_);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -1338,6 +1344,7 @@ void MainWindow::SelectBook()
         ui->Review->setHtml("");
         return;
     }
+
     QSettings *settings=GetSettings();
     ExportBookListBtn(true);
     QTreeWidgetItem* item=ui->Books->selectedItems()[0];
@@ -1347,8 +1354,21 @@ void MainWindow::SelectBook()
         ui->Review->setHtml("");
         return;
     }
+
     uint idBook = item->data(0,Qt::UserRole).toUInt();
-    idCurrentBook_ = idBook;
+    switch (ui->tabWidget->currentIndex())
+    {
+    case 0: // Авторы
+        idCurrentBookForAuthor_ = idBook;
+        break;
+    case 1: // Серии
+        idCurrentBookForSeria_ = idBook;
+        break;
+    case 2: // Жанры
+        idCurrentBookForGenre_ = idBook;
+        break;
+    }
+
     SBook &book = mLibs[idCurrentLib].mBooks[idBook];
     ui->btnOpenBook->setEnabled(true);
     if(ui->splitter->sizes()[1]>0)
@@ -2236,7 +2256,21 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 item_book->setForeground(7,brush);
             }
 
-            if(idBook==idCurrentBook_)
+            uInt idCurrentBook = 0;
+            switch (ui->tabWidget->currentIndex())
+            {
+            case 0: // Авторы
+                idCurrentBook = idCurrentBookForAuthor_;
+                break;
+            case 1: // Серии
+                idCurrentBook = idCurrentBookForSeria_;
+                break;
+            case 2: // Жанры
+                idCurrentBook = idCurrentBookForGenre_;
+                break;
+            }
+
+            if(idBook == idCurrentBook)
             {
                 ScrollItem=item_book;
             }
