@@ -1251,6 +1251,9 @@ void MainWindow::SelectAuthor()
         item->setFont(font);
     }
 
+    // скроллинг до выделенного Автора
+    ui->AuthorList->scrollToItem(cur_item);
+
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     QList<uint> listBooks = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
     FillListBooks(listBooks, idCurrentAuthor_);
