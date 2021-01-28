@@ -143,7 +143,7 @@ void AddLibrary::StartImport()
     QString BookDir = ui->BookDir->text().trimmed();
     if (BookDir == "" || !QDir(BookDir).exists())
     {
-        QMessageBox::critical(NULL, QObject::tr("Error"), tr("Specify the correct path to the books folder."));
+        QMessageBox::critical(this, QObject::tr("Error"), tr("Specify the correct path to the books folder."));
         ui->BookDir->setFocus();
         ui->BookDir->selectAll();
         return;
@@ -404,7 +404,7 @@ void AddLibrary::ButtonSaveLogClicked()
             for (const auto& row : list)
                 out << row << endl;
             file.close();
-            QMessageBox::information(NULL, QObject::tr("Save Log to File"), tr("Log saved to file."));
+            QMessageBox::information(this, QObject::tr("Save Log to File"), tr("Log saved to file."));
         }
     }
 }

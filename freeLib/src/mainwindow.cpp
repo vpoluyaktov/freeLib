@@ -824,6 +824,9 @@ void MainWindow::Settings()
     connect(&dlg,SIGNAL(ChangingTrayIcon(int,int)),this,SLOT(ChangingTrayIcon(int,int)));
     dlg.exec();
     settings.setValue("LibID",idCurrentLib);
+
+    bool ShowDeleted = settings.value("ShowDeleted").toBool();
+    bool use_tag = settings.value("use_tag").toBool();
     if(bShowDeleted_!=settings.value("ShowDeleted").toBool() || bUseTag_!=settings.value("use_tag").toBool())
     {
         bUseTag_ = settings.value("use_tag").toBool();
