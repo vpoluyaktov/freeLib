@@ -1270,7 +1270,6 @@ void MainWindow::SelectSeria()
         }
         ++iBook;
     }
-    FillListBooks(listBooks,0);
 
     // Выделение жирным выбранной Серии
     QFont font = ui->SeriaList->font();
@@ -1289,6 +1288,9 @@ void MainWindow::SelectSeria()
     if(settings.value("store_position",true).toBool()){
         settings.setValue("current_serial_id",idSerial);
     }
+
+    // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
+    FillListBooks(listBooks, 0);
 }
 
 /*
@@ -1316,11 +1318,13 @@ void MainWindow::SelectGenre()
         ++iBook;
     }
     idCurrentGenre_ = idGenre;
-    FillListBooks(listBooks, 0);
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         settings.setValue("current_genre_id", idCurrentGenre_);
     }
+
+    // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
+    FillListBooks(listBooks, 0);
 }
 
 /*
