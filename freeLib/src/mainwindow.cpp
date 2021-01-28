@@ -1101,39 +1101,90 @@ void MainWindow::StartSearch()
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
 
+    // Поиск книг по заданным критериям
+    QList<uint> listBooks;
+    if (idGenre == 0) // * - книги всех Жанров
+        listBooks = StartBooksSearch(sName, sAuthor, sSeria, idGenre, idLanguage, dateFrom, dateTo, nMaxCount);
+    else {
+        // проверяем, Группа ли это Жанров или Жанр
+        // читаем из базы id_parent для выбранного элемента контролов Жанров
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("SELECT id_parent FROM janre WHERE id=:id;");
+        query.bindValue(":id", idGenre);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        query.next();
+        uint idParrentGenre = query.value(0).toUInt();
+
+        if (idParrentGenre > 0) // Жанр
+            listBooks = StartBooksSearch(sName, sAuthor, sSeria, idGenre, idLanguage, dateFrom, dateTo, nMaxCount);
+        else {
+            // Группа Жанров: собираем в список id всех Жанров этой Группы
+            QList<uint> GenreList;
+            QList<QTreeWidgetItem*> ItemList = ui->GenreList->findItems(ui->comboBoxFindGenre->currentText().trimmed(), Qt::MatchFixedString);
+            int childCount = ItemList[0]->childCount();
+            for (int i = 0; i < childCount; i++) {
+                QTreeWidgetItem* childItem = ItemList[0]->child(i);
+                GenreList << childItem->data(0, Qt::UserRole).toUInt();
+            }
+            QList<uint> listBooksForCurrentGenre;
+            foreach(uint uGenreId, GenreList) {
+                listBooksForCurrentGenre.clear();
+                listBooksForCurrentGenre << StartBooksSearch(sName, sAuthor, sSeria, uGenreId, idLanguage, dateFrom, dateTo, nMaxCount);
+                // защита от добавления одной и той же книги, но другого Жанра этой же Группы
+                foreach(uint id, listBooksForCurrentGenre) {
+                    if (!listBooks.contains(id))
+                        listBooks << id;
+                }
+            }
+        }
+    }
+
+    ui->labelFindBooks->setText(QString::number(listBooks.count()));
+    FillListBooks(listBooks, 0);
+
+    QApplication::restoreOverrideCursor();
+}
+
+/*
+    Поиск книг по заданным критериям
+*/
+QList<uint> MainWindow::StartBooksSearch(
+    const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre, int idLanguage,
+    const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+)
+{
     QList<uint> listBooks;
     int nCount = 0;
     auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while(iBook != mLibs[idCurrentLib].mBooks.constEnd()){
-        if((bShowDeleted_ || !iBook->bDeleted)&&
-                iBook->date>= dateFrom && iBook->date <= dateTo &&
-                (sAuthor.isEmpty() || mLibs[idCurrentLib].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor,Qt::CaseInsensitive)) &&
-                (sName.isEmpty() || iBook->sName.contains(sName,Qt::CaseInsensitive)) &&
-                (sSeria.isEmpty() || (iBook->idSerial>0 && mLibs[idCurrentLib].mSerials[iBook->idSerial].sName.contains(sSeria,Qt::CaseInsensitive))) &&
-                (idLanguage == -1 ||(iBook->idLanguage == idLanguage)))
+    while (iBook != mLibs[idCurrentLib].mBooks.constEnd()) {
+        if ((bShowDeleted_ || !iBook->bDeleted) &&
+            iBook->date >= dateFrom && iBook->date <= dateTo &&
+            (sAuthor.isEmpty() || mLibs[idCurrentLib].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor, Qt::CaseInsensitive)) &&
+            (sName.isEmpty() || iBook->sName.contains(sName, Qt::CaseInsensitive)) &&
+            (sSeria.isEmpty() || (iBook->idSerial > 0 && mLibs[idCurrentLib].mSerials[iBook->idSerial].sName.contains(sSeria, Qt::CaseInsensitive))) &&
+            (idLanguage == -1 || (iBook->idLanguage == idLanguage)))
         {
-            if(idGenre==0){
+            if (idGenre == 0) {
                 nCount++;
                 listBooks << iBook.key();
-            }else
-            {
-                foreach (uint id,iBook->listIdGenres) {
-                   if(id==idGenre){
-                       nCount++;
-                       listBooks << iBook.key();
-                       break;
-                   }
+            } else {
+                foreach(uint id, iBook->listIdGenres) {
+                    if (id == idGenre) {
+                        nCount++;
+                        if (!listBooks.contains(iBook.key()))
+                            listBooks << iBook.key();
+                        break;
+                    }
                 }
             }
         }
         ++iBook;
-        if(nCount==nMaxCount)
+        if (nCount == nMaxCount)
             break;
     }
-    ui->labelFindBooks->setText(QString::number(nCount));
-    FillListBooks(listBooks,0);
-
-    QApplication::restoreOverrideCursor();
+    return listBooks;
 }
 
 /*
