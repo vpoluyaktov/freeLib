@@ -1303,13 +1303,13 @@ void MainWindow::SelectGenre()
     if (ui->GenreList->selectedItems().count() == 0)
         return;
     QTreeWidgetItem* cur_item = ui->GenreList->selectedItems()[0];
-    uint idGenre = cur_item->data(0, Qt::UserRole).toUInt();
+    idCurrentGenre_ = cur_item->data(0, Qt::UserRole).toUInt();
     QList<uint> listBooks;
     auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
     while (iBook != mLibs[idCurrentLib].mBooks.constEnd()) {
         if ((idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)) {
             foreach(uint iGenre, iBook->listIdGenres) {
-                if (iGenre == idGenre) {
+                if (iGenre == idCurrentGenre_) {
                     listBooks << iBook.key();
                     break;
                 }
@@ -1317,7 +1317,7 @@ void MainWindow::SelectGenre()
         }
         ++iBook;
     }
-    idCurrentGenre_ = idGenre;
+
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         settings.setValue("current_genre_id", idCurrentGenre_);
