@@ -152,7 +152,7 @@
     <message>
         <location filename="addlibrary.cpp" line="146"/>
         <source>Specify the correct path to the books folder.</source>
-        <translation>Укажите корректный путь к папке книгами.</translation>
+        <translation>Укажите корректный путь к папке с книгами.</translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="176"/>
