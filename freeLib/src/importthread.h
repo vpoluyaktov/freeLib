@@ -22,7 +22,7 @@ public:
     explicit ImportThread(QObject *parent = 0);
     void start(QString fileName, QString name, QString path, long ID, int update_type, bool save_only=false, bool firstAuthor=false, bool bWoDeleted=false);
     //void SaveLibrary();
-    bool loop;
+    bool _loop;
 signals:
     void Message(QString str);
     void End();
@@ -37,14 +37,14 @@ protected:
     void readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
     void readFB2_test(const QByteArray& ba,QString file_name,QString arh_name);
 private:
-    QString _fileName;
-    QString _name;
-    QString _path;
-    bool _save_only;
-    int _update_type;
-    bool _firstAuthorOnly;
-    bool bWoDeleted_;
-    long existingID;
+    QString _InpxFileName;
+    QString _LibName;
+    QString _LibPath;
+    bool _SaveOnly;
+    int _UpdateType;
+    bool _FirstAuthorOnly;
+    bool _bWoDeleted;
+    long _ExistingLibID;
     QSqlQuery *query;
     qlonglong AddSeria(QString str,qlonglong libID,int tag);
     qlonglong AddAuthor(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);

@@ -163,8 +163,8 @@ void ExportDlg::EndExport()
 }
 void ExportDlg::BreakExport()
 {
-   // thread.loop=false;
-  //  worker->loop=false;
+   // thread._loop=false;
+  //  worker->_loop=false;
     //qDebug()<<"try close";
     if(thread)
     {
