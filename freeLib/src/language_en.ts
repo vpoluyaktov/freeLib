@@ -103,14 +103,14 @@
     </message>
     <message>
         <location filename="addlibrary.ui" line="280"/>
-        <location filename="addlibrary.cpp" line="323"/>
-        <location filename="addlibrary.cpp" line="351"/>
+        <location filename="addlibrary.cpp" line="326"/>
+        <location filename="addlibrary.cpp" line="354"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="95"/>
-        <location filename="addlibrary.cpp" line="272"/>
+        <location filename="addlibrary.cpp" line="275"/>
         <source>Add library</source>
         <translation type="unfinished"></translation>
     </message>
@@ -135,42 +135,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="176"/>
+        <location filename="addlibrary.cpp" line="179"/>
         <source>Break</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="283"/>
+        <location filename="addlibrary.cpp" line="286"/>
         <source>Update library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="300"/>
+        <location filename="addlibrary.cpp" line="303"/>
         <source>Delete library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="320"/>
+        <location filename="addlibrary.cpp" line="323"/>
         <source>Ending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="381"/>
+        <location filename="addlibrary.cpp" line="384"/>
         <source>Select destination directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="393"/>
+        <location filename="addlibrary.cpp" line="396"/>
         <source>Save Log to file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="393"/>
+        <location filename="addlibrary.cpp" line="396"/>
         <source>*.txt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="407"/>
+        <location filename="addlibrary.cpp" line="410"/>
         <source>Log saved to file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -853,7 +853,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="976"/>
-        <location filename="mainwindow.cpp" line="1655"/>
+        <location filename="mainwindow.cpp" line="1739"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -865,7 +865,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1013"/>
-        <location filename="mainwindow.cpp" line="1685"/>
+        <location filename="mainwindow.cpp" line="1769"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
@@ -983,26 +983,26 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="989"/>
-        <location filename="mainwindow.cpp" line="1667"/>
+        <location filename="mainwindow.cpp" line="1751"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="997"/>
-        <location filename="mainwindow.cpp" line="1673"/>
+        <location filename="mainwindow.cpp" line="1757"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1005"/>
-        <location filename="mainwindow.cpp" line="1679"/>
+        <location filename="mainwindow.cpp" line="1763"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1018"/>
-        <location filename="mainwindow.cpp" line="1691"/>
+        <location filename="mainwindow.cpp" line="1775"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1055,13 +1055,13 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="981"/>
-        <location filename="mainwindow.cpp" line="1661"/>
+        <location filename="mainwindow.cpp" line="1745"/>
         <source>No.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1026"/>
-        <location filename="mainwindow.cpp" line="1697"/>
+        <location filename="mainwindow.cpp" line="1781"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1091,12 +1091,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="437"/>
+        <location filename="mainwindow.cpp" line="441"/>
         <source>no tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="465"/>
+        <location filename="mainwindow.cpp" line="469"/>
         <source>setup ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1116,7 +1116,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1320"/>
+        <location filename="mainwindow.cpp" line="1404"/>
         <source>Can&apos;t find file: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1151,27 +1151,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1613"/>
+        <location filename="mainwindow.cpp" line="1697"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1629"/>
+        <location filename="mainwindow.cpp" line="1713"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2347"/>
+        <location filename="mainwindow.cpp" line="2450"/>
         <source>Send to ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2588"/>
+        <location filename="mainwindow.cpp" line="2691"/>
         <source>Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2589"/>
+        <location filename="mainwindow.cpp" line="2692"/>
         <source>Book`s files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1201,18 +1201,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="395"/>
+        <location filename="addlibrary.cpp" line="398"/>
         <source>Library:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="396"/>
+        <location filename="addlibrary.cpp" line="399"/>
         <source>Books dir:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="407"/>
+        <location filename="addlibrary.cpp" line="410"/>
         <source>Save Log to File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="library.cpp" line="63"/>
+        <source>[ The Book without a Title ]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
