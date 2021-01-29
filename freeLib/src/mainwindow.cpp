@@ -825,12 +825,12 @@ void MainWindow::Settings()
     dlg.exec();
     settings.setValue("LibID",idCurrentLib);
 
-    bool ShowDeleted = settings.value("ShowDeleted").toBool();
-    bool use_tag = settings.value("use_tag").toBool();
-    if(bShowDeleted_!=settings.value("ShowDeleted").toBool() || bUseTag_!=settings.value("use_tag").toBool())
+    bool bShowDeleted = settings.value("ShowDeleted").toBool();
+    bool bUseTag = settings.value("use_tag").toBool();
+    if(bShowDeleted_ != bShowDeleted || bUseTag_ != bUseTag)
     {
-        bUseTag_ = settings.value("use_tag").toBool();
-        bShowDeleted_ = settings.value("ShowDeleted").toBool();
+        bUseTag_ = bUseTag;
+        bShowDeleted_ = bShowDeleted;
         UpdateTagsMenu();
         SaveLibPosition();
         FillAuthors();
