@@ -56,8 +56,6 @@ void loadLibrary(uint idLibrary)
         qDebug() << query.lastError().text();
     while (query.next()) {
         QString sName = query.value(1).toString();
-        //if(sName.isEmpty())
-        //    continue;
         uint id = query.value(0).toUInt();
         SBook &book = lib.mBooks[id];
         book.sName = sName.isEmpty() ? QObject::tr("[ The Book without a Title ]") : sName;
