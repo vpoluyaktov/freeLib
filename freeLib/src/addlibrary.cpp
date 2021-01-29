@@ -162,6 +162,9 @@ void AddLibrary::StartImport(SLib &Lib)
 {
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_LogList.clear();
+    // UT_NEW: Добавить новые книги
+    // UT_FULL: Пересоздать библиотеку
+    // UT_DEL_AND_NEW : Удалить несуществующие и добавить новые книги
     int update_type=(ui->add_new->isChecked()?UT_NEW:ui->del_old->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
     ui->btnExport->setDisabled(true);
