@@ -91,7 +91,11 @@ void loadLibrary(uint idLibrary)
         book.nTag = qvariant_cast<uchar>(query.value(14));
 
         // проверка, есть ли эта книга на жестком диске. Если нет, то в базу Deleted = true
-        QString BookPath = BooksDirPath + QDir::separator() + book.sFile + "." + book.sFormat;
+        QString BookPath;
+        if (book.sArchive.isEmpty())
+            BookPath = QString("%1%2%3.%4").arg(BooksDirPath, QDir::separator(), book.sFile, book.sFormat);
+        else
+            BookPath = QString("%1%2%3").arg(BooksDirPath, QDir::separator(), book.sArchive);
         QFile file;
         if (file.exists(BookPath))
             book.bDeleted = query.value(8).toBool();
