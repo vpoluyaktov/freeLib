@@ -646,7 +646,7 @@ void ImportThread::importFB2(QString path, int &count)
             }
             else if(iter->suffix().toLower()=="zip")
             {
-                if(_update_type==UT_NEW)
+                if(_update_type==UT_NEW) // Добавить новые книги
                 {
                     //emit Message(tr("Read archive:") + " " + iter->fileName());
                     QString arh_name=file_name.right(file_name.length()-_path.length());
@@ -755,10 +755,10 @@ void ImportThread::process()
 
     switch(_update_type)
     {
-    case UT_FULL:
+    case UT_FULL: // Пересоздать библиотеку
         ClearLib(dbase,existingID,false);
         break;
-    case UT_DEL_AND_NEW:
+    case UT_DEL_AND_NEW: // Удалить несуществующие и добавить новые книги
         ClearLib(dbase,existingID,true);
         break;
     }
@@ -899,7 +899,7 @@ void ImportThread::process()
         if(str.right(3).toUpper()!="INP")
             continue;
         emit Message(str);
-        if(_update_type==UT_NEW)
+        if(_update_type==UT_NEW) // Добавить новые книги
         {
             query->exec(QString("SELECT * FROM book where archive='%1' and id_lib=%2 LIMIT 1").arg(str,QString::number(existingID)));
             if(query->next())
