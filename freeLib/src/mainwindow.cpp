@@ -272,6 +272,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btnOpenBook,SIGNAL(clicked()),this,SLOT(BookDblClick()));
     connect(ui->btnOption,SIGNAL(clicked()),this,SLOT(Settings()));
     connect(ui->actionPreference,SIGNAL(triggered()),this,SLOT(Settings()));
+    connect(ui->actionMarkDeletedBooks, SIGNAL(triggered()), this, SLOT(MarkDeletedBooks()));
     connect(ui->actionCheck_uncheck,SIGNAL(triggered()),this,SLOT(CheckBooks()));
     connect(ui->btnCheck,SIGNAL(clicked()),this,SLOT(CheckBooks()));
     connect(ui->btnEdit,SIGNAL(clicked()),this,SLOT(EditBooks()));
@@ -833,9 +834,8 @@ void MainWindow::Settings()
         bShowDeleted_ = bShowDeleted;
         UpdateTagsMenu();
         SaveLibPosition();
-        FillAuthors();
-        FillGenres();
-        FillListBooks();
+        // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
+        MarkDeletedBooks();
     }
     SelectBook();
     opds.server_run();
@@ -893,6 +893,7 @@ void MainWindow::FillCheckedItemsBookList(QList<book_info> &list,QTreeWidgetItem
         }
     }
 }
+
 
 void MainWindow::UncheckBooks(QList<qlonglong> list)
 {
@@ -1003,6 +1004,58 @@ void MainWindow::BookDblClick()
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(file.fileName()));
     settings.sync();
+}
+
+/*
+    Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
+*/
+void MainWindow::MarkDeletedBooks()
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
+
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+    
+    QString LibPath = mLibs[idCurrentLib].path;
+    LibPath = RelativeToAbsolutePath(LibPath);
+
+    QHash<uint, SBook>::const_iterator iBook = mLibs[idCurrentLib].mBooks.constBegin();
+    while (iBook != mLibs[idCurrentLib].mBooks.constEnd())
+    {
+        uint BookId = iBook.key();
+        SBook& book = mLibs[idCurrentLib].mBooks[BookId];
+        // проверка, есть ли эта книга на жестком диске. Если нет, то в базу Deleted = true
+        QString BookPath;
+        if (book.sArchive.isEmpty())
+            BookPath = QString("%1%2%3.%4").arg(LibPath, QDir::separator(), book.sFile, book.sFormat);
+        else
+            BookPath = QString("%1%2%3").arg(LibPath, QDir::separator(), book.sArchive);
+        QFile file;
+        if (file.exists(BookPath))
+            book.bDeleted = false;
+        else
+            book.bDeleted = true;
+
+        query.prepare("UPDATE book set deleted=:deleted where id=:id");
+        query.bindValue(":deleted", book.bDeleted);
+        query.bindValue(":id", BookId);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        ++iBook;
+    }
+
+    // перезагрузка книг для изменения цвета итемов удаленных книг
+    FillAuthors();
+    FillSerials();
+    FillGenres();
+    FillListBooks();
+
+    qint64 t_end = QDateTime::currentMSecsSinceEpoch();
+    qDebug() << "MarkDeletedBooks " << t_end - t_start << "msec";
+    QApplication::restoreOverrideCursor();
+    QMessageBox::information(this, tr("Mark deleted books in base"), tr("The search for deleted books in the storage and marking them in the database is completed."));
 }
 
 /*
