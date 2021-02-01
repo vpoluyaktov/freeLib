@@ -178,6 +178,8 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->checkwoDeleted->setDisabled(true);
     ui->btnCancel->setText(tr("Break"));
     ui->update_group->hide();
+    ui->firstAuthorOnly->hide();
+    ui->checkwoDeleted->hide();
 
     thread = new QThread;
     imp_tr=new ImportThread();
@@ -329,9 +331,11 @@ void AddLibrary::EndUpdate()
     ui->Del->setDisabled(false);
     ui->Add->setDisabled(false);
     ui->ExistingLibs->setDisabled(false);
-    ui->update_group->show();
     ui->firstAuthorOnly->setDisabled(false);
     ui->checkwoDeleted->setDisabled(false);
+    ui->update_group->show();
+    ui->firstAuthorOnly->show();
+    ui->checkwoDeleted->show();
     
     // загрузка полного лога в Log контрол
     ui->Log->clear();
