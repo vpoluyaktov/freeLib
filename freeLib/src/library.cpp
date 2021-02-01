@@ -11,19 +11,10 @@ void loadLibrary(uint idLibrary)
         return;
 
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
-    QSqlQuery queryBook(QSqlDatabase::database("libdb"));
-    queryBook.setForwardOnly(true);
+
 
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
-    // чтение пути к папке с книгами для выбранной библиотеки
-    query.prepare("SELECT path FROM lib WHERE id=:id_lib;");
-    query.bindValue(":id_lib", idLibrary);
-    if (!query.exec())
-        qDebug() << query.lastError().text();
-    query.next();
-    QString BooksDirPath = query.value(0).toString();
-
 
     SLib& lib = mLibs[idLibrary];
     lib.mSerials.clear();
@@ -83,30 +74,13 @@ void loadLibrary(uint idLibrary)
         book.idLanguage = static_cast<uchar>(idLaguage);
         book.sFile = query.value(6).toString();
         book.nSize = query.value(7).toUInt();
+        book.bDeleted = query.value(8).toBool();
         book.date = query.value(9).toDate();
         book.sFormat = query.value(10).toString();
         book.idInLib = query.value(11).toUInt();
         book.sArchive = query.value(12).toString();
         book.idFirstAuthor = query.value(13).toUInt();
         book.nTag = qvariant_cast<uchar>(query.value(14));
-
-        // проверка, есть ли эта книга на жестком диске. Если нет, то в базу Deleted = true
-        QString BookPath;
-        if (book.sArchive.isEmpty())
-            BookPath = QString("%1%2%3.%4").arg(BooksDirPath, QDir::separator(), book.sFile, book.sFormat);
-        else
-            BookPath = QString("%1%2%3").arg(BooksDirPath, QDir::separator(), book.sArchive);
-        QFile file;
-        if (file.exists(BookPath))
-            book.bDeleted = query.value(8).toBool();
-        else
-        {
-            book.bDeleted = true;
-            queryBook.prepare("UPDATE book set deleted=:deleted where id=:id");
-            queryBook.bindValue(":deleted", true);
-            queryBook.bindValue(":id", id);
-            queryBook.exec();
-        }
     }
 
     lib.mAuthorBooksLink.clear();

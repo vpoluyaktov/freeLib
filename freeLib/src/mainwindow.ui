@@ -1203,7 +1203,6 @@
     <addaction name="actionLibraries"/>
     <addaction name="actionNew_library_wizard"/>
     <addaction name="actionAddLibrary"/>
-    <addaction name="actionCheck_uncheck"/>
     <addaction name="separator"/>
     <addaction name="actionSwitch_to_convert_mode"/>
     <addaction name="actionSwitch_to_library_mode"/>
@@ -1213,7 +1212,21 @@
     <addaction name="actionMinimize_window"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuBooks">
+    <property name="title">
+     <string>Books</string>
+    </property>
+    <addaction name="actionCheck_uncheck"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionMarkDeletedBooks"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menuBooks"/>
+   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionAddLibrary">
@@ -1306,6 +1319,11 @@
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionMarkDeletedBooks">
+   <property name="text">
+    <string>Mark deleted books</string>
    </property>
   </action>
  </widget>

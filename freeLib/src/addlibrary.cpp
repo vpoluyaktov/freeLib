@@ -143,7 +143,7 @@ void AddLibrary::StartImport()
     QString BookDir = ui->BookDir->text().trimmed();
     if (BookDir == "" || !QDir(BookDir).exists())
     {
-        QMessageBox::critical(this, QObject::tr("Error"), tr("Specify the correct path to the books folder."));
+        QMessageBox::critical(this, tr("Error"), tr("Specify the correct path to the books folder."));
         ui->BookDir->setFocus();
         ui->BookDir->selectAll();
         return;
@@ -397,10 +397,10 @@ void AddLibrary::ButtonSaveLogClicked()
 {
     if (ui->Log->count() > 0)
     {
-        QString filePath = QFileDialog::getSaveFileName(this, tr("Save Log to file"), "", tr("*.txt"));
+        QString filePath = QFileDialog::getSaveFileName(this, tr("Save Log to file"), "", "*.txt");
         QStringList list;
-        list << QObject::tr("Library:") + " " + ui->ExistingLibs->lineEdit()->text().trimmed();
-        list << QObject::tr("Books dir:") + " " + ui->BookDir->text().trimmed();
+        list << tr("Library:") + " " + ui->ExistingLibs->lineEdit()->text().trimmed();
+        list << tr("Books dir:") + " " + ui->BookDir->text().trimmed();
         for (int i = 0; i < ui->Log->count(); i++)
             list << ui->Log->item(i)->text();
         QFile file(filePath);
@@ -411,7 +411,7 @@ void AddLibrary::ButtonSaveLogClicked()
             for (const auto& row : list)
                 out << row << endl;
             file.close();
-            QMessageBox::information(this, QObject::tr("Save Log to File"), tr("Log saved to file."));
+            QMessageBox::information(this, tr("Save Log to File"), tr("Log saved to file."));
         }
     }
 }
