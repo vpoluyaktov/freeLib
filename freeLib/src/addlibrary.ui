@@ -45,7 +45,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLabel" name="HTTP">
+      <widget class="QLabel" name="labelHTTP">
        <property name="text">
         <string notr="true">&lt;a href=\&quot;localhost\&quot;&gt;localhost&lt;/a&gt;</string>
        </property>
@@ -71,14 +71,14 @@
      <item row="0" column="1">
       <layout class="QHBoxLayout" name="Name_layout">
        <item>
-        <widget class="QComboBox" name="ExistingLibs">
+        <widget class="QComboBox" name="comboBoxExistingLibs">
          <property name="editable">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="Add">
+        <widget class="QToolButton" name="btnLibraryAdd">
          <property name="maximumSize">
           <size>
            <width>22</width>
@@ -98,7 +98,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="Del">
+        <widget class="QToolButton" name="btnLibraryDelete">
          <property name="maximumSize">
           <size>
            <width>22</width>
@@ -120,10 +120,10 @@
       </layout>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="inpx"/>
+      <widget class="QLineEdit" name="lineEditInpxFile"/>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="BookDir"/>
+      <widget class="QLineEdit" name="lineEditBooksDir"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_6">
@@ -140,7 +140,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="OPDS">
+      <widget class="QLabel" name="labelOPDS">
        <property name="text">
         <string notr="true">&lt;a href=\&quot;localhost\&quot;&gt;localhost&lt;/a&gt;</string>
        </property>
@@ -155,27 +155,27 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="update_group">
+    <widget class="QGroupBox" name="groupBoxUpdateGroup">
      <property name="title">
       <string>Update type</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QRadioButton" name="add_new">
+       <widget class="QRadioButton" name="rbtnAddNewBook">
         <property name="text">
          <string>Add new</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="del_old">
+       <widget class="QRadioButton" name="rbtnDeleleOldBook">
         <property name="text">
          <string>Delete old and add new</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="update_all">
+       <widget class="QRadioButton" name="rbtnRecreateLibrary">
         <property name="text">
          <string>Recreate library</string>
         </property>
@@ -185,7 +185,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="firstAuthorOnly">
+    <widget class="QCheckBox" name="checkBoxFirstAuthorOnly">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -198,7 +198,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkwoDeleted">
+    <widget class="QCheckBox" name="checkBoxWoDeleted">
      <property name="text">
       <string>don`t add deleted books</string>
      </property>
@@ -237,7 +237,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnExport">
+      <widget class="QPushButton" name="btnExportLibrary">
        <property name="minimumSize">
         <size>
          <width>90</width>
@@ -250,7 +250,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnUpdate">
+      <widget class="QPushButton" name="btnUpdateLibrary">
        <property name="minimumSize">
         <size>
          <width>90</width>
@@ -292,8 +292,8 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>inpx</tabstop>
-  <tabstop>BookDir</tabstop>
+  <tabstop>lineEditInpxFile</tabstop>
+  <tabstop>lineEditBooksDir</tabstop>
   <tabstop>Log</tabstop>
  </tabstops>
  <resources>
