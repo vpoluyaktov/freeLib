@@ -47,7 +47,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::BookDirChanged);
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
-    
+    connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
     ui->rbtnAddNewBook->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
@@ -439,4 +439,26 @@ void AddLibrary::AddBooksDirToList()
         return;
     }
     ui->listWidgetBooksDirs->addItem(BookDir);
+    ui->btnBooksDirDelete->setEnabled(true);
+}
+
+/*
+    удаление выбранного каталога с книгами из списка каталогов библиотеки
+*/
+void AddLibrary::DeleteDirFromBookDirsList()
+{
+    QListWidgetItem *currentItem = ui->listWidgetBooksDirs->currentItem();
+    if (currentItem != nullptr)
+    {
+        if (QMessageBox::question(
+            this, tr("Delete dir from Dirs List"),
+            tr("Books Dir:") + " \"" + currentItem->text() + "\"\n\n" +
+            tr("Are you sure you want to remove the selected folder from the list of catalogs of books of the library?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
+            == QMessageBox::No)
+            return;
+        ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
+        if (ui->listWidgetBooksDirs->count() == 0)
+            ui->btnBooksDirDelete->setDisabled(true);
+    }
 }

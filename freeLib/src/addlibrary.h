@@ -51,6 +51,8 @@ private slots:
     void ButtonSaveLogClicked();
     // добавление нового каталога с книгами в список каталогов
     void AddBooksDirToList();
+    // удаление выбранного каталога с книгами из списка каталогов библиотеки
+    void DeleteDirFromBookDirsList();
 
 signals:
     void break_import();

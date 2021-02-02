@@ -152,6 +152,9 @@
       <layout class="QVBoxLayout" name="verticalLayBooksDirsTools">
        <item>
         <widget class="QToolButton" name="btnBooksDirDelete">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="maximumSize">
           <size>
            <width>22</width>
