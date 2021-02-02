@@ -590,10 +590,10 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
         AddGenre(id_book,genre.genre,_ExistingLibID,bi.language);
 }
 
-void ImportThread::importFB2_main(QString path)
+void ImportThread::importBooksToLibrary(QString path)
 {
     int count=0;
-    importFB2(path, count);
+    importBooks(path, count);
     if(count>0)
     {
         query->exec("COMMIT;");
@@ -601,7 +601,7 @@ void ImportThread::importFB2_main(QString path)
     }
 }
 
-void ImportThread::importFB2(QString path, int &count)
+void ImportThread::importBooks(QString path, int &count)
 {
     QDir dir(path);
     QFileInfoList info_list = dir.entryInfoList(QDir::NoSymLinks|QDir::NoDotAndDotDot|QDir::Readable|QDir::Files|QDir::Dirs);
@@ -613,7 +613,7 @@ void ImportThread::importFB2(QString path, int &count)
         file_name = iter->absoluteFilePath();
         if(iter->isDir())
         {
-            importFB2(file_name,count);
+            importBooks(file_name,count);
         }
         else
         {
@@ -765,7 +765,7 @@ void ImportThread::process()
 
     if(_InpxFileName.isEmpty())
     {
-        importFB2_main(_LibPath);
+        importBooksToLibrary(_LibPath);
         query->exec("drop table if exists tmp;");
         query->exec(QString("create table tmp as select id from book where id_lib=%1 and deleted=1;").arg(QString::number(_ExistingLibID)));
         query->exec(QString("delete from book where id_lib=%1 and id in (select id from tmp);").arg(QString::number(_ExistingLibID)));
