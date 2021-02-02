@@ -419,7 +419,7 @@ void AddLibrary::ButtonSaveLogClicked()
 }
 
 /*
-    добавление нового каталога с книгами в список каталогов
+    добавление нового каталога с книгами в список каталогов библиотеки
 */
 void AddLibrary::AddBooksDirToList()
 {
@@ -437,6 +437,21 @@ void AddLibrary::AddBooksDirToList()
         ui->lineEditBooksDir->setFocus();
         ui->lineEditBooksDir->selectAll();
         return;
+    }
+
+    // проверка, является ли добавляемый каталог одним из подкаталогов путей в списке
+    for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
+    {
+        QString DirPath = ui->listWidgetBooksDirs->item(i)->text();
+        if (BookDir.contains(DirPath, Qt::CaseSensitive))
+        {
+            QMessageBox::critical(
+                this, tr("Error"), tr("This directory is a sub-directory of one of the directories in the list.")
+            );
+            ui->lineEditBooksDir->setFocus();
+            ui->lineEditBooksDir->selectAll();
+            return;
+        }
     }
     ui->listWidgetBooksDirs->addItem(BookDir);
     ui->btnBooksDirDelete->setEnabled(true);

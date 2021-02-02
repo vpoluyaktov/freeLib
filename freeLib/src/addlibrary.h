@@ -49,7 +49,7 @@ private slots:
     void BookDirChanged(const QString&);
     void ExportLib();
     void ButtonSaveLogClicked();
-    // добавление нового каталога с книгами в список каталогов
+    // добавление нового каталога с книгами в список каталогов библиотеки
     void AddBooksDirToList();
     // удаление выбранного каталога с книгами из списка каталогов библиотеки
     void DeleteDirFromBookDirsList();
