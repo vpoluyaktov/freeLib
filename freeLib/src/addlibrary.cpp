@@ -46,6 +46,8 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
     connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::BookDirChanged);
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
+    connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
+    
     ui->rbtnAddNewBook->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
@@ -414,4 +416,24 @@ void AddLibrary::ButtonSaveLogClicked()
             QMessageBox::information(this, tr("Save Log to File"), tr("Log saved to file."));
         }
     }
+}
+
+void AddLibrary::AddBooksDirToList()
+{
+    QString BookDir = ui->lineEditBooksDir->text().trimmed();
+    if (BookDir.isEmpty() || !QDir(BookDir).exists())
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Specify the correct path to the books folder."));
+        ui->lineEditBooksDir->setFocus();
+        ui->lineEditBooksDir->selectAll();
+        return;
+    }
+    else if (ui->listWidgetBooksDirs->findItems(BookDir, Qt::MatchFixedString).count() > 0)
+    {
+        QMessageBox::critical(this, tr("Error"), tr("This directory is already in the directory listing."));
+        ui->lineEditBooksDir->setFocus();
+        ui->lineEditBooksDir->selectAll();
+        return;
+    }
+    ui->listWidgetBooksDirs->addItem(BookDir);
 }

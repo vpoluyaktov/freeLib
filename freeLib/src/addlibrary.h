@@ -49,6 +49,7 @@ private slots:
     void BookDirChanged(const QString&);
     void ExportLib();
     void ButtonSaveLogClicked();
+    void AddBooksDirToList();
 
 signals:
     void break_import();
