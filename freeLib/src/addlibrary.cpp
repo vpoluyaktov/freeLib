@@ -418,6 +418,9 @@ void AddLibrary::ButtonSaveLogClicked()
     }
 }
 
+/*
+    добавление нового каталога с книгами в список каталогов
+*/
 void AddLibrary::AddBooksDirToList()
 {
     QString BookDir = ui->lineEditBooksDir->text().trimmed();
