@@ -194,6 +194,13 @@
        </property>
       </widget>
      </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Books Dirs List:</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
