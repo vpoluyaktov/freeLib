@@ -182,6 +182,7 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->groupBoxUpdateGroup->hide();
     ui->checkBoxFirstAuthorOnly->hide();
     ui->checkBoxWoDeleted->hide();
+    ui->widgetBaseControlls->hide();
 
     thread = new QThread;
     imp_tr=new ImportThread();
@@ -338,6 +339,7 @@ void AddLibrary::EndUpdate()
     ui->groupBoxUpdateGroup->show();
     ui->checkBoxFirstAuthorOnly->show();
     ui->checkBoxWoDeleted->show();
+    ui->widgetBaseControlls->show();
     
     // загрузка полного лога в Log контрол
     ui->Log->clear();
