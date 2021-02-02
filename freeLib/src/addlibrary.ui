@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>705</width>
-    <height>569</height>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -189,7 +189,7 @@
       </layout>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="labelBooksDir">
        <property name="text">
         <string>Books dir:</string>
        </property>
@@ -216,7 +216,7 @@
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="labelBooksDirsList">
        <property name="text">
         <string>Books Dirs List:</string>
        </property>
