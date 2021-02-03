@@ -327,9 +327,14 @@ void AddLibrary::DeleteLibrary()
     query.exec("DELETE FROM lib where ID="+QString::number(idCurrentLib_));
     mLibs.remove(idCurrentLib_);
     UpdateLibList();
-    if(ui->comboBoxExistingLibs->count()>0){
+    if (ui->comboBoxExistingLibs->count() > 0)
+    {
         ui->comboBoxExistingLibs->setCurrentIndex(0);
         SelectLibrary();
+    }
+    else {
+        ui->lineEditBooksDir->clear();
+        ui->listWidgetBooksDirs->clear();
     }
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     bLibChanged = true;
