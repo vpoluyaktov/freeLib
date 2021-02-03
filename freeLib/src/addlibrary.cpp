@@ -208,6 +208,7 @@ void AddLibrary::AddNewLibrary(SLib &lib)
 // формирования списка каталогов с книгами для текущей библиотеки
 void AddLibrary::MakeDirsList()
 {
+    ui->lineEditBooksDir->clear();
     QString DirsPath = mLibs[idCurrentLib_].path;
     QStringList DirList = DirsPath.split("|");
     ui->listWidgetBooksDirs->addItems(DirList);
@@ -247,19 +248,19 @@ void AddLibrary::SelectLibrary(int idLib)
 void AddLibrary::SelectLibrary()
 {
     int nIndex = ui->comboBoxExistingLibs->currentIndex();
-    QString dir,inpx;
+    QString dirs,inpx;
     bool firstAuthor=false;
     bool bWoDeleted = false;
     if(nIndex>=0)
         idCurrentLib_ = ui->comboBoxExistingLibs->itemData(nIndex).toInt();
     if(idCurrentLib_>=0){
-        dir = mLibs[idCurrentLib_].path;
+        dirs = mLibs[idCurrentLib_].path;
         inpx = mLibs[idCurrentLib_].sInpx;
         firstAuthor = mLibs[idCurrentLib_].bFirstAuthor;
         bWoDeleted = mLibs[idCurrentLib_].bWoDeleted;
     }
-
-    ui->lineEditBooksDir->setText(dir);
+    // формирования списка каталогов с книгами для текущей библиотеки
+    MakeDirsList();
     ui->lineEditInpxFile->setText(inpx);
     ui->checkBoxFirstAuthorOnly->setChecked(firstAuthor);
     ui->checkBoxWoDeleted->setChecked(bWoDeleted);
