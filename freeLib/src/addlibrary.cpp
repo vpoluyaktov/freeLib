@@ -208,7 +208,7 @@ void AddLibrary::AddNewLibrary(SLib &lib)
 // формирования списка каталогов с книгами для текущей библиотеки
 void AddLibrary::MakeDirsList()
 {
-    ui->lineEditBooksDir->clear();
+    ui->listWidgetBooksDirs->clear();
     QString DirsPath = mLibs[idCurrentLib_].path;
     QStringList DirList = DirsPath.split("|");
     ui->listWidgetBooksDirs->addItems(DirList);
