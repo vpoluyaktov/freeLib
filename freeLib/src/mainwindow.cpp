@@ -757,13 +757,16 @@ void MainWindow::TagSelect(int index)
 */
 void MainWindow::SaveLibPosition()
 {
-    // сохранение в базу id книг для Автора, Серии и Жанра текущей библиотеки с id = idCurrentLib
+    // сохранение в базу данных 'позиции' текущей библиотеки с id = idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "UPDATE lib SET (currentTab, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter) = (:idCurrentTab, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :currentSearchingFilter) WHERE id = :id_lib;"
+        "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :currentSearchingFilter) WHERE id = :id_lib;"
     );
     query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
+    query.bindValue(":idCurrentAuthor", idCurrentAuthor_);
+    query.bindValue(":idCurrentSeria", idCurrentSerial_);
+    query.bindValue(":idCurrentGenre", idCurrentGenre_);
     query.bindValue(":idCurrentBookForAuthor", idCurrentBookForAuthor_);
     query.bindValue(":idCurrentBookForSeria", idCurrentBookForSeria_);
     query.bindValue(":idCurrentBookForGenre", idCurrentBookForGenre_);
