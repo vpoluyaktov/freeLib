@@ -48,7 +48,6 @@ private slots:
     void terminateImport();
     void reject();
     void ExistingLibsChanged();
-    void BookDirChanged(const QString&);
     void ExportLib();
     void ButtonSaveLogClicked();
     // добавление нового каталога с книгами в список каталогов библиотеки

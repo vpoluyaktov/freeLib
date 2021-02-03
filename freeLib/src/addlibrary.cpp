@@ -44,7 +44,6 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnLibraryDelete,SIGNAL(clicked()),this,SLOT(DeleteLibrary()));
     connect(ui->btnLibraryAdd,SIGNAL(clicked()),this,SLOT(Add_Library()));
     connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
-    connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::BookDirChanged);
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
@@ -52,7 +51,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
 
     SelectLibrary(idCurrentLib_);
 //    SelectLibrary();
-    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->lineEditBooksDir->text().trimmed().isEmpty());
+    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() == 0);
 }
 
 AddLibrary::~AddLibrary()
@@ -275,7 +274,7 @@ void AddLibrary::SelectLibrary()
     ui->lineEditInpxFile->setDisabled(idCurrentLib_<0);
     ui->lineEditBooksDir->setDisabled(idCurrentLib_<0);
     ui->btnExportLibrary->setDisabled(idCurrentLib_ < 0);
-    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->lineEditBooksDir->text().trimmed().isEmpty());
+    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() == 0);
     QSettings* settings=GetSettings();
     ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
     ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
@@ -386,14 +385,6 @@ void AddLibrary::reject()
 void AddLibrary::ExistingLibsChanged()
 {
     ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(),ui->comboBoxExistingLibs->lineEdit()->text());
-}
-
-void AddLibrary::BookDirChanged(const QString& text)
-{
-    if (ui->lineEditBooksDir->text().trimmed().isEmpty())
-        ui->btnUpdateLibrary->setDisabled(true);
-    else
-        ui->btnUpdateLibrary->setDisabled(false);
 }
 
 void AddLibrary::ExportLib()
