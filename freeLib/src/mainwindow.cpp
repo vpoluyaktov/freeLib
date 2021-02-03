@@ -1256,11 +1256,10 @@ QList<uint> MainWindow::StartBooksSearch(
 void MainWindow::SelectLibrary()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    SaveLibPosition();
     ui->Books->clear();
 
     QAction* action=qobject_cast<QAction*>(sender());
-
-    SaveLibPosition();
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
     idCurrentLib=action->data().toInt();
