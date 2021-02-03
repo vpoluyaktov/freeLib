@@ -219,6 +219,8 @@ void AddLibrary::MakeDirsList()
     }
     if (ui->listWidgetBooksDirs->count() > 0)
         ui->btnBooksDirDelete->setEnabled(true);
+    else
+        ui->btnBooksDirDelete->setDisabled(true);
 }
 
 void AddLibrary::SelectLibrary(int idLib)
