@@ -2884,7 +2884,7 @@ int MainWindow::LoadLibraryPosition()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "SELECT currentTab, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
+        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
     );
     //              0           1                       2                       3                   4                   5                   6                       7               
     query.bindValue(":id", idCurrentLib);
