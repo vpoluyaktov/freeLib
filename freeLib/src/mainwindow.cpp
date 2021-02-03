@@ -757,18 +757,17 @@ void MainWindow::TagSelect(int index)
 */
 void MainWindow::SaveLibPosition()
 {
-    QSettings settings;
-    settings.setValue("filter_set",ui->lineEditSearchString->text());
-    settings.setValue("current_tab",ui->tabWidget->currentIndex());
     // сохранение в базу id книг для Автора, Серии и Жанра текущей библиотеки с id = idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "UPDATE lib SET (currentBookForAuthor, currentBookForSeria, currentBookForGenre) = (:idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre) WHERE id = :id_lib;"
+        "UPDATE lib SET (currentTab, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter) = (:idCurrentTab, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :currentSearchingFilter) WHERE id = :id_lib;"
     );
+    query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
     query.bindValue(":idCurrentBookForAuthor", idCurrentBookForAuthor_);
     query.bindValue(":idCurrentBookForSeria", idCurrentBookForSeria_);
     query.bindValue(":idCurrentBookForGenre", idCurrentBookForGenre_);
+    query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
     query.bindValue(":id_lib", idCurrentLib);
     query.exec();
 }
