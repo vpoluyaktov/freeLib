@@ -208,11 +208,15 @@ void AddLibrary::AddNewLibrary(SLib &lib)
 // формирования списка каталогов с книгами для текущей библиотеки
 void AddLibrary::MakeDirsList()
 {
+    ui->lineEditBooksDir->clear();
     ui->listWidgetBooksDirs->clear();
-    QString DirsPath = mLibs[idCurrentLib_].path;
-    QStringList DirList = DirsPath.split("|");
-    ui->listWidgetBooksDirs->addItems(DirList);
-    ui->lineEditBooksDir->setText(DirList[0]);
+    QString DirsPath = mLibs[idCurrentLib_].path.trimmed();
+    if (!DirsPath.isEmpty())
+    {
+        QStringList DirList = DirsPath.split("|");
+        ui->listWidgetBooksDirs->addItems(DirList);
+        ui->lineEditBooksDir->setText(DirList[0]);
+    }
     if (ui->listWidgetBooksDirs->count() > 0)
         ui->btnBooksDirDelete->setEnabled(true);
 }
