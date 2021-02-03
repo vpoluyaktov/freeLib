@@ -33,6 +33,8 @@ private:
 
     void UpdateLibList();
     void SaveLibrary(int idLib, SLib& Lib);
+    // формирования списка каталогов с книгами для текущей библиотеки
+    void MakeDirsList();
 
 private slots:
     void LogMessage(QString msg);

@@ -205,6 +205,16 @@ void AddLibrary::AddNewLibrary(SLib &lib)
     exec();
 }
 
+// формирования списка каталогов с книгами для текущей библиотеки
+void AddLibrary::MakeDirsList()
+{
+    QString DirsPath = mLibs[idCurrentLib_].path;
+    QStringList DirList = DirsPath.split("|");
+    ui->listWidgetBooksDirs->addItems(DirList);
+    ui->lineEditBooksDir->setText(DirList[0]);
+    if (ui->listWidgetBooksDirs->count() > 0)
+        ui->btnBooksDirDelete->setEnabled(true);
+}
 
 void AddLibrary::SelectLibrary(int idLib)
 {
@@ -220,10 +230,7 @@ void AddLibrary::SelectLibrary(int idLib)
                 ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
                 ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
                 // формирования списка каталогов с книгами для текущей библиотеки
-                QString DirsPath = mLibs[idCurrentLib_].path;
-                QStringList DirList = DirsPath.split("|");
-                ui->listWidgetBooksDirs->addItems(DirList);
-                ui->lineEditBooksDir->setText(DirList[0]);
+                MakeDirsList();
                 break;
             }
         }
