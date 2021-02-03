@@ -566,11 +566,15 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
 void ImportThread::importBooksToLibrary(QString path)
 {
     int count=0;
-    importBooks(path, count);
-    if(count>0)
+    QStringList DirList = path.split("|");
+    for (QString dirPath : DirList)
     {
-        query->exec("COMMIT;");
-        count=0;
+        importBooks(dirPath, count);
+        if (count > 0)
+        {
+            query->exec("COMMIT;");
+            count = 0;
+        }
     }
 }
 
