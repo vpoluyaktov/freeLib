@@ -1335,7 +1335,13 @@ void MainWindow::SelectSeria()
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_serial_id", idCurrentSerial_);
+        //settings.setValue("current_serial_id", idCurrentSerial_);
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentSeria = :currentSeria WHERE id = :id_lib");
+        query.bindValue(":currentSeria", idCurrentSerial_);
+        query.bindValue(":id_lib", idCurrentLib);
+        query.exec();
     }
 
     QList<uint> listBooks;
