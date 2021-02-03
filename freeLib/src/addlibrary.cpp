@@ -47,11 +47,15 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
+    connect(ui->listWidgetBooksDirs->model(), &QAbstractItemModel::rowsInserted, this, &AddLibrary::InsertItemToBookDirsList);
+    connect(ui->listWidgetBooksDirs->model(), &QAbstractItemModel::rowsRemoved, this, &AddLibrary::RemoveItemFromBookDirsList);
+
     ui->rbtnAddNewBook->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
 //    SelectLibrary();
-    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() == 0);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
 }
 
 AddLibrary::~AddLibrary()
@@ -78,7 +82,8 @@ void AddLibrary::Add_Library()
     SaveLibrary(idCurrentLib_,lib);
     ui->comboBoxExistingLibs->blockSignals(false);
     ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count()-1);
-    ui->btnUpdateLibrary->setDisabled(true);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
 }
 
@@ -274,7 +279,8 @@ void AddLibrary::SelectLibrary()
     ui->lineEditInpxFile->setDisabled(idCurrentLib_<0);
     ui->lineEditBooksDir->setDisabled(idCurrentLib_<0);
     ui->btnExportLibrary->setDisabled(idCurrentLib_ < 0);
-    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() == 0);
+    // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
     QSettings* settings=GetSettings();
     ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
     ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
@@ -484,4 +490,32 @@ void AddLibrary::DeleteDirFromBookDirsList()
         if (ui->listWidgetBooksDirs->count() == 0)
             ui->btnBooksDirDelete->setDisabled(true);
     }
+}
+
+/*
+    обработчик вставки итема в список папок книг библиотеки
+*/
+void AddLibrary::InsertItemToBookDirsList()
+{
+    // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
+}
+/*
+    обработчик удаления итема из списка папок книг библиотеки
+*/
+void AddLibrary::RemoveItemFromBookDirsList()
+{
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
+}
+
+/*
+    установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+*/
+void AddLibrary::SetEnabledOrDisabledControllsOfBooksDirs()
+{
+    if (idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() > 0)
+        ui->btnUpdateLibrary->setEnabled(true);
+    else
+        ui->btnUpdateLibrary->setDisabled(true);
 }

@@ -35,6 +35,8 @@ private:
     void SaveLibrary(int idLib, SLib& Lib);
     // формирования списка каталогов с книгами для текущей библиотеки
     void MakeDirsList();
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    void SetEnabledOrDisabledControllsOfBooksDirs();
 
 private slots:
     void LogMessage(QString msg);
@@ -54,6 +56,10 @@ private slots:
     void AddBooksDirToList();
     // удаление выбранного каталога с книгами из списка каталогов библиотеки
     void DeleteDirFromBookDirsList();
+    // обработчик вставки итема в список папок книг библиотеки
+    void InsertItemToBookDirsList();
+    // обработчик удаления итема из списка папок книг библиотеки
+    void RemoveItemFromBookDirsList();
 
 signals:
     void break_import();
