@@ -156,37 +156,37 @@ QString sizeToString(uint size)
     return QString("%L1 %2").arg(size_d,0,'f',mem_i>0?1:0).arg(mem[mem_i]);
 }
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     noSeries_ = tr("{ Books without series }");
 
-    trIcon=nullptr;
-    pDropForm=nullptr;
-    errorQuit_=false;
+    trIcon = nullptr;
+    pDropForm = nullptr;
+    errorQuit_ = false;
     QSettings settings;
 
-    if(db_is_open)
+    if (db_is_open)
     {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         //query.exec("CREATE TABLE IF NOT EXISTS params (id INTEGER PRIMARY KEY, name TEXT, value TEXT)");
         query.exec(QString("SELECT value FROM params WHERE name='%1'").arg("version"));
-        int version=0;
-        if(query.next())
+        int version = 0;
+        if (query.next())
         {
-            version=query.value(0).toInt();
+            version = query.value(0).toInt();
         }
-        if(version<6){
+        if (version < 6) {
             splash->hide();
-            if(QMessageBox::question(nullptr,tr("Database"),tr("This version needs new database version. All your old books data will be lost. Continue?"),QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::Yes)
+            if (QMessageBox::question(nullptr, tr("Database"), tr("This version needs new database version. All your old books data will be lost. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
             {
-                if(!openDB(false,true))
-                    errorQuit_=true;
+                if (!openDB(false, true))
+                    errorQuit_ = true;
             }
             else
             {
-                errorQuit_=true;
+                errorQuit_ = true;
             }
         }
     }
@@ -195,13 +195,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->btnEdit->setVisible(false);
     ui->lineEditSearchString->setFocus();
     ui->tabWidget->setCurrentIndex(0);
-    ui->Books->setColumnWidth(0,400);
-    ui->Books->setColumnWidth(1,50);
-    ui->Books->setColumnWidth(2,100);
-    ui->Books->setColumnWidth(3,90);
-    ui->Books->setColumnWidth(4,120);
-    ui->Books->setColumnWidth(5,250);
-    ui->Books->setColumnWidth(6,50);
+    ui->Books->setColumnWidth(0, 400);
+    ui->Books->setColumnWidth(1, 50);
+    ui->Books->setColumnWidth(2, 100);
+    ui->Books->setColumnWidth(3, 90);
+    ui->Books->setColumnWidth(4, 120);
+    ui->Books->setColumnWidth(5, 250);
+    ui->Books->setColumnWidth(6, 50);
 
     // деактивировация действий, которые генерируют ссылку в браузере
     ui->Review->setOpenLinks(false);
@@ -212,45 +212,28 @@ MainWindow::MainWindow(QWidget *parent) :
         this, &MainWindow::onAnchorClicked
     );
 
-    setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
+    setWindowTitle(AppName + (idCurrentLib < 0 || mLibs[idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[idCurrentLib].name));
 
-    tbClear=new QToolButton(this);
+    tbClear = new QToolButton(this);
     tbClear->setFocusPolicy(Qt::NoFocus);
     tbClear->setIcon(QIcon(":/icons/img/icons/clear.png"));
     tbClear->setStyleSheet("border: none;");
     tbClear->setCursor(Qt::ArrowCursor);
     tbClear->setVisible(false);
-    QHBoxLayout* layout=new QHBoxLayout(ui->lineEditSearchString);
-    layout->addWidget(tbClear,0,Qt::AlignRight);
+    QHBoxLayout* layout = new QHBoxLayout(ui->lineEditSearchString);
+    layout->addWidget(tbClear, 0, Qt::AlignRight);
     layout->setSpacing(0);
     layout->setMargin(0);
 
     idCurrentLanguage_ = -1;
-    bUseTag_=settings.value("use_tag",true).toBool();
-    bShowDeleted_ =settings.value("ShowDeleted").toBool();
+    bUseTag_ = settings.value("use_tag", true).toBool();
+    bShowDeleted_ = settings.value("ShowDeleted").toBool();
     int nCurrentTab;
 
-    if(settings.value("store_position",true).toBool())
+    if (settings.value("store_position", true).toBool())
     {
-        idCurrentAuthor_= settings.value("current_author_id", 0).toUInt();
-        idCurrentSerial_ = settings.value("current_serial_id", 0).toUInt();
-        idCurrentGenre_ = settings.value("current_genre_id", 0).toUInt();
-        nCurrentTab = settings.value("current_tab", 0).toInt();
-        ui->lineEditSearchString->setText(settings.value("filter_set").toString());
-
-        // считывание из базы id книг для Автора, Серии и Жанра текущей библиотеки с id = idCurrentLib
-        QSqlQuery query(QSqlDatabase::database("libdb"));
-        query.setForwardOnly(true);
-        query.prepare(
-            "SELECT currentBookForAuthor, currentBookForSeria, currentBookForGenre FROM lib WHERE id=:id;"
-        );
-        query.bindValue(":id", idCurrentLib);
-        if (!query.exec())
-            qDebug() << query.lastError().text();
-        query.next();
-        idCurrentBookForAuthor_ = query.value(0).toUInt();
-        idCurrentBookForSeria_ = query.value(1).toUInt();
-        idCurrentBookForGenre_ = query.value(2).toUInt();
+        // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+        nCurrentTab = LoadLibraryPosition();
     }
     else
     {
@@ -2875,3 +2858,29 @@ void MainWindow::changeEvent(QEvent *event)
     }
 }
 
+/*
+    чтение из базы данные 'позиции' библиотеки
+*/
+int MainWindow::LoadLibraryPosition()
+{
+    // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+    query.prepare(
+        "SELECT currentTab, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
+    );
+    //              0           1                       2                       3                   4                   5                   6                       7               
+    query.bindValue(":id", idCurrentLib);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    query.next();
+    int nCurrentTab = query.value(0).toInt();
+    idCurrentAuthor_ = query.value(1).toUInt();
+    idCurrentSerial_ = query.value(2).toUInt();
+    idCurrentGenre_ = query.value(3).toUInt();
+    idCurrentBookForAuthor_ = query.value(4).toUInt();
+    idCurrentBookForSeria_ = query.value(5).toUInt();
+    idCurrentBookForGenre_ = query.value(6).toUInt();
+    ui->lineEditSearchString->setText(query.value(7).toString());
+    return nCurrentTab;
+}
