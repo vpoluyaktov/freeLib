@@ -1399,7 +1399,13 @@ void MainWindow::SelectGenre()
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_genre_id", idCurrentGenre_);
+        //settings.setValue("current_genre_id", idCurrentGenre_);
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentGenre = :currentGenre WHERE id = :id_lib");
+        query.bindValue(":currentGenre", idCurrentGenre_);
+        query.bindValue(":id_lib", idCurrentLib);
+        query.exec();
     }
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
