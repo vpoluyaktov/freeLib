@@ -39,19 +39,15 @@ bool db_is_open;
 
 QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool caption, QDateTime *file_data)
 {
-    QString file,archive;
     QFileInfo fi;
     SBook &book = mLibs[idCurrentLib].mBooks[id_book];
-    QString LibPath=mLibs[idCurrentLib].path;
-    LibPath=RelativeToAbsolutePath(LibPath);
-    if(book.sArchive.isEmpty()){
-        file = QString("%1/%2.%3").arg(LibPath).arg(book.sFile).arg(book.sFormat);
-    }else{
-        file = QString("%1.%2").arg(book.sFile).arg(book.sFormat);
-        archive = QString("%1/%2").arg(LibPath).arg(book.sArchive.replace(".inp",".zip"));
+    QString file = book.sFile;
+    QString archive;
+    if(!book.sArchive.isEmpty()) {
+        archive = book.sArchive;
+        archive = archive.replace("\\", "/");
     }
 
-    archive=archive.replace("\\","/");
     if(archive.isEmpty())
     {
         QFile book_file(file);
@@ -1017,8 +1013,8 @@ void MainWindow::MarkDeletedBooks()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     
-    QString LibPath = mLibs[idCurrentLib].path;
-    LibPath = RelativeToAbsolutePath(LibPath);
+    /*QString LibPath = mLibs[idCurrentLib].path;
+    LibPath = RelativeToAbsolutePath(LibPath);*/
 
     QHash<uint, SBook>::const_iterator iBook = mLibs[idCurrentLib].mBooks.constBegin();
     while (iBook != mLibs[idCurrentLib].mBooks.constEnd())
@@ -1028,9 +1024,9 @@ void MainWindow::MarkDeletedBooks()
         // проверка, есть ли эта книга на жестком диске. Если нет, то в базу Deleted = true
         QString BookPath;
         if (book.sArchive.isEmpty())
-            BookPath = QString("%1%2%3.%4").arg(LibPath, QDir::separator(), book.sFile, book.sFormat);
+            BookPath = book.sFile; // QString("%1%2%3.%4").arg(LibPath, QDir::separator(), book.sFile, book.sFormat);
         else
-            BookPath = QString("%1%2%3").arg(LibPath, QDir::separator(), book.sArchive);
+            BookPath = book.sArchive; // QString("%1%2%3").arg(LibPath, QDir::separator(), book.sArchive);
         QFile file;
         if (file.exists(BookPath))
             book.bDeleted = false;
@@ -1443,33 +1439,18 @@ void MainWindow::SelectBook()
         if(fi.fileName().isEmpty())
         {
             GetBookInfo(bi,QByteArray(),"",true,idBook);
-            QString file;
-            QString LibPath=mLibs[idCurrentLib].path;
-            if(book.sArchive.trimmed().isEmpty() )
-            {
-                file=QString("%1/%2.%3").arg(LibPath).arg(book.sFile).arg(book.sFormat);
-            }
-            else
-            {
-                file=LibPath+"/"+book.sArchive.trimmed().replace(".inp",".zip");
-            }
-            file=file.replace("\\","/");
+            QString file = book.sArchive.trimmed().isEmpty() ? book.sFile : book.sArchive;
+            file = file.replace("\\","/");
             bi.annotation="<font color=\"red\">"+tr("Can't find file: %1").arg(file)+"</font>";
         }
         else
         {
             if(fi.fileName().right(3).toLower()=="fb2" || infobuff.size()>0)
-            {
                 GetBookInfo(bi,infobuff.size()==0?outbuff.data():infobuff.data(),"fb2",false,item->data(0,Qt::UserRole).toLongLong());
-            }
             else if(fi.fileName().right(4).toLower()=="epub")
-            {
                 GetBookInfo(bi,outbuff.data(),"epub",false,item->data(0,Qt::UserRole).toLongLong());
-            }
             else
-            {
                 GetBookInfo(bi,outbuff.data(),fi.suffix(),false,item->data(0,Qt::UserRole).toLongLong());
-            }
         }
 
         QString seria;

@@ -33,6 +33,8 @@ private:
 
     void UpdateLibList();
     void SaveLibrary(int idLib, SLib& Lib);
+    // формирования списка каталогов с книгами для текущей библиотеки
+    void MakeDirsList();
 
 private slots:
     void LogMessage(QString msg);
@@ -46,9 +48,12 @@ private slots:
     void terminateImport();
     void reject();
     void ExistingLibsChanged();
-    void BookDirChanged(const QString&);
     void ExportLib();
     void ButtonSaveLogClicked();
+    // добавление нового каталога с книгами в список каталогов библиотеки
+    void AddBooksDirToList();
+    // удаление выбранного каталога с книгами из списка каталогов библиотеки
+    void DeleteDirFromBookDirsList();
 
 signals:
     void break_import();

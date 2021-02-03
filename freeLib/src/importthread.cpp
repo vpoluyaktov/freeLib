@@ -496,21 +496,7 @@ void ImportThread::readFB2_test(const QByteArray& ba,QString file_name,QString a
 
 void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
-    QString archPath = arh_name;
-    if(arh_name.isEmpty())
-    {
-        file_name=file_name.right(file_name.length()-_LibPath.length());
-        if(file_name.left(1)=="/" || file_name.left(1)=="\\")
-                file_name=file_name.right(file_name.length()-1);
-    }
-    else
-    {
-        arh_name=arh_name.right(arh_name.length()-_LibPath.length());
-        if(arh_name.left(1)=="/" || arh_name.left(1)=="\\")
-                arh_name=arh_name.right(arh_name.length()-1);
-    }
     QFileInfo fi(file_name);
-    file_name=file_name.left(file_name.length()-fi.suffix().length()-1);
     query->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(_ExistingLibID),file_name,arh_name));
     if(query->next()) //если книга найдена, то просто снимаем пометку удаления
     {
@@ -518,7 +504,7 @@ void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_
         return;
     }
 
-    if (!archPath.isEmpty()) // zip
+    if (!arh_name.isEmpty()) // zip
     {
         int index = file_name.indexOf("/");
         if (index == -1)
@@ -527,8 +513,8 @@ void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_
             file_name = file_name.mid(index+1, file_name.length());
     }
     QString message = QString(tr("Book add (%1):  %2")).arg(fi.suffix(), file_name);
-    if (!archPath.isEmpty()) // zip
-        message += "  " + QString(tr("from zip:  %1")).arg(archPath);
+    if (!arh_name.isEmpty()) // zip
+        message += "  " + QString(tr("from zip:  %1")).arg(arh_name);
     emit Message(message);
 
     book_info bi;
@@ -549,19 +535,6 @@ void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_
 }
 void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
 {
-    if(arh_name.isEmpty())
-    {
-        file_name=file_name.right(file_name.length()-_LibPath.length());
-        if(file_name.left(1)=="/" || file_name.left(1)=="\\")
-                file_name=file_name.right(file_name.length()-1);
-    }
-    else
-    {
-        arh_name=arh_name.right(arh_name.length()-_LibPath.length());
-        if(arh_name.left(1)=="/" || arh_name.left(1)=="\\")
-                arh_name=arh_name.right(arh_name.length()-1);
-    }
-    file_name=file_name.left(file_name.length()-5);
     query->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(_ExistingLibID),file_name,arh_name));
     if(query->next()) //если книга найдена, то просто снимаем пометку удаления
     {
@@ -590,18 +563,22 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
         AddGenre(id_book,genre.genre,_ExistingLibID,bi.language);
 }
 
-void ImportThread::importFB2_main(QString path)
+void ImportThread::importBooksToLibrary(QString path)
 {
     int count=0;
-    importFB2(path, count);
-    if(count>0)
+    QStringList DirList = path.split("|");
+    for (QString dirPath : DirList)
     {
-        query->exec("COMMIT;");
-        count=0;
+        importBooks(dirPath, count);
+        if (count > 0)
+        {
+            query->exec("COMMIT;");
+            count = 0;
+        }
     }
 }
 
-void ImportThread::importFB2(QString path, int &count)
+void ImportThread::importBooks(QString path, int &count)
 {
     QDir dir(path);
     QFileInfoList info_list = dir.entryInfoList(QDir::NoSymLinks|QDir::NoDotAndDotDot|QDir::Readable|QDir::Files|QDir::Dirs);
@@ -613,7 +590,7 @@ void ImportThread::importFB2(QString path, int &count)
         file_name = iter->absoluteFilePath();
         if(iter->isDir())
         {
-            importFB2(file_name,count);
+            importBooks(file_name,count);
         }
         else
         {
@@ -649,10 +626,7 @@ void ImportThread::importFB2(QString path, int &count)
                 if(_UpdateType==UT_NEW) // Добавить новые книги
                 {
                     //emit Message(tr("Read archive:") + " " + iter->fileName());
-                    QString arh_name=file_name.right(file_name.length()-_LibPath.length());
-                    if(arh_name.left(1)=="/" || arh_name.left(1)=="\\")
-                            arh_name=arh_name.right(arh_name.length()-1);
-                    query->exec(QString("SELECT * FROM book where id_lib=%1 and archive='%2' LIMIT 1").arg(QString::number(_ExistingLibID), arh_name));
+                    query->exec(QString("SELECT * FROM book where id_lib=%1 and archive='%2' LIMIT 1").arg(QString::number(_ExistingLibID), file_name/*arh_name*/));
                     if(query->next())
                         continue;
                 }
@@ -765,7 +739,7 @@ void ImportThread::process()
 
     if(_InpxFileName.isEmpty())
     {
-        importFB2_main(_LibPath);
+        importBooksToLibrary(_LibPath);
         query->exec("drop table if exists tmp;");
         query->exec(QString("create table tmp as select id from book where id_lib=%1 and deleted=1;").arg(QString::number(_ExistingLibID)));
         query->exec(QString("delete from book where id_lib=%1 and id in (select id from tmp);").arg(QString::number(_ExistingLibID)));

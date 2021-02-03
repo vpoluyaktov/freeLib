@@ -19,7 +19,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     tbInpx->setFocusPolicy(Qt::NoFocus);
     tbInpx->setCursor(Qt::ArrowCursor);
     tbInpx->setText("...");
-    QHBoxLayout* layout=new QHBoxLayout(ui->inpx);
+    QHBoxLayout* layout=new QHBoxLayout(ui->lineEditInpxFile);
     layout->addWidget(tbInpx,0,Qt::AlignRight);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -28,7 +28,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     tbBooksDir->setFocusPolicy(Qt::NoFocus);
     tbBooksDir->setCursor(Qt::ArrowCursor);
     tbBooksDir->setText("...");
-    layout=new QHBoxLayout(ui->BookDir);
+    layout=new QHBoxLayout(ui->lineEditBooksDir);
     layout->addWidget(tbBooksDir,0,Qt::AlignRight);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -38,19 +38,20 @@ AddLibrary::AddLibrary(QWidget *parent) :
 
     connect(tbInpx,SIGNAL(clicked()),this,SLOT(InputINPX()));
     connect(tbBooksDir,SIGNAL(clicked()),this,SLOT(SelectBooksDir()));
-    connect(ui->btnUpdate,SIGNAL(clicked()),this,SLOT(StartImport()));
-    connect(ui->btnExport,SIGNAL(clicked()),this,SLOT(ExportLib()));
-    connect(ui->ExistingLibs,SIGNAL(currentIndexChanged(int)),this,SLOT(SelectLibrary()));
-    connect(ui->Del,SIGNAL(clicked()),this,SLOT(DeleteLibrary()));
-    connect(ui->Add,SIGNAL(clicked()),this,SLOT(Add_Library()));
-    connect(ui->ExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
-    connect(ui->BookDir, &QLineEdit::textChanged, this, &AddLibrary::BookDirChanged);
+    connect(ui->btnUpdateLibrary,SIGNAL(clicked()),this,SLOT(StartImport()));
+    connect(ui->btnExportLibrary,SIGNAL(clicked()),this,SLOT(ExportLib()));
+    connect(ui->comboBoxExistingLibs,SIGNAL(currentIndexChanged(int)),this,SLOT(SelectLibrary()));
+    connect(ui->btnLibraryDelete,SIGNAL(clicked()),this,SLOT(DeleteLibrary()));
+    connect(ui->btnLibraryAdd,SIGNAL(clicked()),this,SLOT(Add_Library()));
+    connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
-    ui->add_new->setChecked(true);
+    connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
+    connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
+    ui->rbtnAddNewBook->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
 //    SelectLibrary();
-    ui->btnUpdate->setDisabled(idCurrentLib_ < 0 || ui->BookDir->text().trimmed().isEmpty());
+    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() == 0);
 }
 
 AddLibrary::~AddLibrary()
@@ -68,16 +69,16 @@ void AddLibrary::Add_Library()
     ui->Log->clear();
     idCurrentLib_ =-1;
     QString sNewName = tr("new") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
-    ui->ExistingLibs->blockSignals(true);
-    ui->ExistingLibs->addItem(sNewName,-1);
+    ui->comboBoxExistingLibs->blockSignals(true);
+    ui->comboBoxExistingLibs->addItem(sNewName,-1);
     SLib lib;//{sNewName,"","",false,false};
     lib.name = sNewName;
     lib.bFirstAuthor = false;
     lib.bWoDeleted = false;
     SaveLibrary(idCurrentLib_,lib);
-    ui->ExistingLibs->blockSignals(false);
-    ui->ExistingLibs->setCurrentIndex(ui->ExistingLibs->count()-1);
-    ui->btnUpdate->setDisabled(true);
+    ui->comboBoxExistingLibs->blockSignals(false);
+    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count()-1);
+    ui->btnUpdateLibrary->setDisabled(true);
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
 }
 
@@ -91,12 +92,12 @@ void AddLibrary::LogMessage(QString msg)
 }
 void AddLibrary::InputINPX()
 {
-    QDir::setCurrent(QFileInfo(ui->inpx->text()).absolutePath());
+    QDir::setCurrent(QFileInfo(ui->lineEditInpxFile->text()).absolutePath());
     QString fileName = QFileDialog::getOpenFileName(this, tr("Add library"),"",tr("Library")+" (*.inpx)");
     if(!fileName.isEmpty())
     {
-        ui->inpx->setText(fileName);
-        ui->BookDir->setText(QFileInfo(fileName).absolutePath());
+        ui->lineEditInpxFile->setText(fileName);
+        ui->lineEditBooksDir->setText(QFileInfo(fileName).absolutePath());
         QuaZip uz(fileName);
         if(!uz.open(QuaZip::mdUnzip))
         {
@@ -111,16 +112,16 @@ void AddLibrary::InputINPX()
             outbuff.setData(zip_file.readAll());
             zip_file.close();
             QString sLib = QString::fromUtf8(outbuff.data().left(outbuff.data().indexOf('\n')));
-            ui->ExistingLibs->setItemText(ui->ExistingLibs->currentIndex(),sLib);
+            ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(),sLib);
         }
     }
 }
 void AddLibrary::SelectBooksDir()
 {
-    QDir::setCurrent(ui->BookDir->text());
+    QDir::setCurrent(ui->lineEditBooksDir->text());
     QString dir=QFileDialog::getExistingDirectory(this,tr("Select books directory"));
     if(!dir.isEmpty())
-        ui->BookDir->setText(dir);
+        ui->lineEditBooksDir->setText(dir);
 }
 
 void AddLibrary::UpdateLibList()
@@ -128,33 +129,31 @@ void AddLibrary::UpdateLibList()
 {
     if(!db_is_open)
         return;
-    bool block = ui->ExistingLibs->blockSignals(true);
-    ui->ExistingLibs->clear();
+    bool block = ui->comboBoxExistingLibs->blockSignals(true);
+    ui->comboBoxExistingLibs->clear();
     auto i = mLibs.constBegin();
     while(i!=mLibs.constEnd()){
-        ui->ExistingLibs->addItem(i->name,i.key());
+        ui->comboBoxExistingLibs->addItem(i->name,i.key());
         ++i;
     }
-    ui->ExistingLibs->blockSignals(block);
+    ui->comboBoxExistingLibs->blockSignals(block);
 }
 
 void AddLibrary::StartImport()
 {
-    QString BookDir = ui->BookDir->text().trimmed();
-    if (BookDir == "" || !QDir(BookDir).exists())
-    {
-        QMessageBox::critical(this, tr("Error"), tr("Specify the correct path to the books folder."));
-        ui->BookDir->setFocus();
-        ui->BookDir->selectAll();
-        return;
-    }
-    SLib lib;//{ui->ExistingLibs->currentText().trimmed(),ui->BookDir->text().trimmed(),ui->inpx->text().trimmed(),
-               // ui->firstAuthorOnly->isChecked(),ui->checkwoDeleted->isChecked()};
-    lib.name = ui->ExistingLibs->currentText().trimmed();
-    lib.sInpx = ui->inpx->text().trimmed();
-    lib.path = ui->BookDir->text().trimmed();
-    lib.bFirstAuthor = ui->firstAuthorOnly->isChecked();
-    lib.bWoDeleted = ui->checkwoDeleted->isChecked();
+    SLib lib;
+    lib.name = ui->comboBoxExistingLibs->currentText().trimmed();
+    lib.sInpx = ui->lineEditInpxFile->text().trimmed();
+    lib.bFirstAuthor = ui->checkBoxFirstAuthorOnly->isChecked();
+    lib.bWoDeleted = ui->checkBoxWoDeleted->isChecked();
+    // формирование комбинированной строки с путями к каталогам с книгами
+    QString DirsPath;
+    for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
+        DirsPath += ui->listWidgetBooksDirs->item(i)->text() + "|";
+    if (DirsPath.right(1) == "|")
+        DirsPath = DirsPath.remove(DirsPath.length() - 1, 1);
+    lib.path = DirsPath;
+
     StartImport(lib);
 }
 
@@ -165,21 +164,19 @@ void AddLibrary::StartImport(SLib &Lib)
     // UT_NEW: Добавить новые книги
     // UT_FULL: Пересоздать библиотеку
     // UT_DEL_AND_NEW : Удалить несуществующие и добавить новые книги
-    int update_type=(ui->add_new->isChecked()?UT_NEW:ui->del_old->isChecked()?UT_DEL_AND_NEW:UT_FULL);
+    int update_type=(ui->rbtnAddNewBook->isChecked()?UT_NEW:ui->rbtnDeleleOldBook->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
-    ui->btnExport->setDisabled(true);
-    ui->btnUpdate->setDisabled(true);
-    ui->BookDir->setDisabled(true);
-    ui->inpx->setDisabled(true);
-    ui->ExistingLibs->setDisabled(true);
-    ui->Del->setDisabled(true);
-    ui->Add->setDisabled(true);
-    ui->firstAuthorOnly->setDisabled(true);
-    ui->checkwoDeleted->setDisabled(true);
+    ui->btnExportLibrary->setDisabled(true);
+    ui->btnUpdateLibrary->setDisabled(true);
+    ui->lineEditBooksDir->setDisabled(true);
+    ui->lineEditInpxFile->setDisabled(true);
+    ui->comboBoxExistingLibs->setDisabled(true);
+    ui->btnLibraryDelete->setDisabled(true);
+    ui->btnLibraryAdd->setDisabled(true);
+    ui->checkBoxFirstAuthorOnly->setDisabled(true);
+    ui->checkBoxWoDeleted->setDisabled(true);
     ui->btnCancel->setText(tr("Break"));
-    ui->update_group->hide();
-    ui->firstAuthorOnly->hide();
-    ui->checkwoDeleted->hide();
+    ui->widgetBaseControlls->hide();
 
     thread = new QThread;
     imp_tr=new ImportThread();
@@ -207,62 +204,80 @@ void AddLibrary::AddNewLibrary(SLib &lib)
     exec();
 }
 
+// формирования списка каталогов с книгами для текущей библиотеки
+void AddLibrary::MakeDirsList()
+{
+    ui->lineEditBooksDir->clear();
+    ui->listWidgetBooksDirs->clear();
+    QString DirsPath = mLibs[idCurrentLib_].path.trimmed();
+    if (!DirsPath.isEmpty())
+    {
+        QStringList DirList = DirsPath.split("|");
+        ui->listWidgetBooksDirs->addItems(DirList);
+        ui->lineEditBooksDir->setText(DirList[0]);
+    }
+    if (ui->listWidgetBooksDirs->count() > 0)
+        ui->btnBooksDirDelete->setEnabled(true);
+    else
+        ui->btnBooksDirDelete->setDisabled(true);
+}
 
 void AddLibrary::SelectLibrary(int idLib)
 {
-    bool block = ui->ExistingLibs->blockSignals(true);
+    bool block = ui->comboBoxExistingLibs->blockSignals(true);
     if(idLib>=0 && mLibs.count()>0){
-        for(int i=0;i<ui->ExistingLibs->count();i++){
-            if(ui->ExistingLibs->itemData(i).toInt()==idCurrentLib_){
-                ui->ExistingLibs->setCurrentIndex(i);
-                ui->BookDir->setText(mLibs[idCurrentLib_].path);
-                ui->inpx->setText(mLibs[idCurrentLib_].sInpx);
-                ui->firstAuthorOnly->setChecked(mLibs[idCurrentLib_].bFirstAuthor);
-                ui->checkwoDeleted->setChecked(mLibs[idCurrentLib_].bWoDeleted);
+        for(int i=0;i<ui->comboBoxExistingLibs->count();i++){
+            if(ui->comboBoxExistingLibs->itemData(i).toInt()==idCurrentLib_){
+                ui->comboBoxExistingLibs->setCurrentIndex(i);
+                ui->lineEditInpxFile->setText(mLibs[idCurrentLib_].sInpx);
+                ui->checkBoxFirstAuthorOnly->setChecked(mLibs[idCurrentLib_].bFirstAuthor);
+                ui->checkBoxWoDeleted->setChecked(mLibs[idCurrentLib_].bWoDeleted);
                 QSettings* settings=GetSettings();
-                ui->OPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
-                ui->HTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+                ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+                ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+                // формирования списка каталогов с книгами для текущей библиотеки
+                MakeDirsList();
                 break;
             }
         }
     }
-    ui->Del->setDisabled(idLib<0);
-    ui->ExistingLibs->setDisabled(idLib<0);
-    ui->inpx->setDisabled(idLib<0);
-    ui->BookDir->setDisabled(idLib<0);
-    ui->btnExport->setDisabled(idLib<0);
-    ui->btnUpdate->setDisabled(idLib<0);
-    ui->ExistingLibs->blockSignals(block);
+    ui->btnLibraryDelete->setDisabled(idLib<0);
+    ui->comboBoxExistingLibs->setDisabled(idLib<0);
+    ui->lineEditInpxFile->setDisabled(idLib<0);
+    ui->lineEditBooksDir->setDisabled(idLib<0);
+    ui->btnExportLibrary->setDisabled(idLib<0);
+    ui->btnUpdateLibrary->setDisabled(idLib<0);
+    ui->comboBoxExistingLibs->blockSignals(block);
 }
 
 void AddLibrary::SelectLibrary()
 {
-    int nIndex = ui->ExistingLibs->currentIndex();
-    QString dir,inpx;
+    int nIndex = ui->comboBoxExistingLibs->currentIndex();
+    QString dirs,inpx;
     bool firstAuthor=false;
     bool bWoDeleted = false;
     if(nIndex>=0)
-        idCurrentLib_ = ui->ExistingLibs->itemData(nIndex).toInt();
+        idCurrentLib_ = ui->comboBoxExistingLibs->itemData(nIndex).toInt();
     if(idCurrentLib_>=0){
-        dir = mLibs[idCurrentLib_].path;
+        dirs = mLibs[idCurrentLib_].path;
         inpx = mLibs[idCurrentLib_].sInpx;
         firstAuthor = mLibs[idCurrentLib_].bFirstAuthor;
         bWoDeleted = mLibs[idCurrentLib_].bWoDeleted;
     }
-
-    ui->BookDir->setText(dir);
-    ui->inpx->setText(inpx);
-    ui->firstAuthorOnly->setChecked(firstAuthor);
-    ui->checkwoDeleted->setChecked(bWoDeleted);
-    ui->Del->setDisabled(idCurrentLib_<0);
-    ui->ExistingLibs->setDisabled(idCurrentLib_<0);
-    ui->inpx->setDisabled(idCurrentLib_<0);
-    ui->BookDir->setDisabled(idCurrentLib_<0);
-    ui->btnExport->setDisabled(idCurrentLib_ < 0);
-    ui->btnUpdate->setDisabled(idCurrentLib_ < 0 || ui->BookDir->text().trimmed().isEmpty());
+    // формирования списка каталогов с книгами для текущей библиотеки
+    MakeDirsList();
+    ui->lineEditInpxFile->setText(inpx);
+    ui->checkBoxFirstAuthorOnly->setChecked(firstAuthor);
+    ui->checkBoxWoDeleted->setChecked(bWoDeleted);
+    ui->btnLibraryDelete->setDisabled(idCurrentLib_<0);
+    ui->comboBoxExistingLibs->setDisabled(idCurrentLib_<0);
+    ui->lineEditInpxFile->setDisabled(idCurrentLib_<0);
+    ui->lineEditBooksDir->setDisabled(idCurrentLib_<0);
+    ui->btnExportLibrary->setDisabled(idCurrentLib_ < 0);
+    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() == 0);
     QSettings* settings=GetSettings();
-    ui->OPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
-    ui->HTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+    ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+    ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
 
     settings->setValue("LibID",idCurrentLib_);
     //idCurrentLib = idCurrentLib_;
@@ -302,7 +317,7 @@ void AddLibrary::DeleteLibrary()
     if(idCurrentLib_<0)
         return;
 
-    if(QMessageBox::question(this,tr("Delete library"),tr("Delete library")+" \""+ui->ExistingLibs->currentText()+"\"",QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::No)
+    if(QMessageBox::question(this,tr("Delete library"),tr("Delete library")+" \""+ui->comboBoxExistingLibs->currentText()+"\"",QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::No)
         return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -312,8 +327,8 @@ void AddLibrary::DeleteLibrary()
     query.exec("DELETE FROM lib where ID="+QString::number(idCurrentLib_));
     mLibs.remove(idCurrentLib_);
     UpdateLibList();
-    if(ui->ExistingLibs->count()>0){
-        ui->ExistingLibs->setCurrentIndex(0);
+    if(ui->comboBoxExistingLibs->count()>0){
+        ui->comboBoxExistingLibs->setCurrentIndex(0);
         SelectLibrary();
     }
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
@@ -323,19 +338,17 @@ void AddLibrary::DeleteLibrary()
 void AddLibrary::EndUpdate()
 {
     LogMessage(tr("Ending"));
-    ui->btnExport->setDisabled(false);
-    ui->btnUpdate->setDisabled(false);
+    ui->btnExportLibrary->setDisabled(false);
+    ui->btnUpdateLibrary->setDisabled(false);
     ui->btnCancel->setText(tr("Close"));
-    ui->BookDir->setDisabled(false);
-    ui->inpx->setDisabled(false);
-    ui->Del->setDisabled(false);
-    ui->Add->setDisabled(false);
-    ui->ExistingLibs->setDisabled(false);
-    ui->firstAuthorOnly->setDisabled(false);
-    ui->checkwoDeleted->setDisabled(false);
-    ui->update_group->show();
-    ui->firstAuthorOnly->show();
-    ui->checkwoDeleted->show();
+    ui->lineEditBooksDir->setDisabled(false);
+    ui->lineEditInpxFile->setDisabled(false);
+    ui->btnLibraryDelete->setDisabled(false);
+    ui->btnLibraryAdd->setDisabled(false);
+    ui->comboBoxExistingLibs->setDisabled(false);
+    ui->checkBoxFirstAuthorOnly->setDisabled(false);
+    ui->checkBoxWoDeleted->setDisabled(false);
+    ui->widgetBaseControlls->show();
     
     // загрузка полного лога в Log контрол
     ui->Log->clear();
@@ -371,15 +384,7 @@ void AddLibrary::reject()
 
 void AddLibrary::ExistingLibsChanged()
 {
-    ui->ExistingLibs->setItemText(ui->ExistingLibs->currentIndex(),ui->ExistingLibs->lineEdit()->text());
-}
-
-void AddLibrary::BookDirChanged(const QString& text)
-{
-    if (ui->BookDir->text().trimmed().isEmpty())
-        ui->btnUpdate->setDisabled(true);
-    else
-        ui->btnUpdate->setDisabled(false);
+    ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(),ui->comboBoxExistingLibs->lineEdit()->text());
 }
 
 void AddLibrary::ExportLib()
@@ -399,8 +404,8 @@ void AddLibrary::ButtonSaveLogClicked()
     {
         QString filePath = QFileDialog::getSaveFileName(this, tr("Save Log to file"), "", "*.txt");
         QStringList list;
-        list << tr("Library:") + " " + ui->ExistingLibs->lineEdit()->text().trimmed();
-        list << tr("Books dir:") + " " + ui->BookDir->text().trimmed();
+        list << tr("Library:") + " " + ui->comboBoxExistingLibs->lineEdit()->text().trimmed();
+        list << tr("Books dir:") + " " + ui->lineEditBooksDir->text().trimmed();
         for (int i = 0; i < ui->Log->count(); i++)
             list << ui->Log->item(i)->text();
         QFile file(filePath);
@@ -413,5 +418,65 @@ void AddLibrary::ButtonSaveLogClicked()
             file.close();
             QMessageBox::information(this, tr("Save Log to File"), tr("Log saved to file."));
         }
+    }
+}
+
+/*
+    добавление нового каталога с книгами в список каталогов библиотеки
+*/
+void AddLibrary::AddBooksDirToList()
+{
+    QString BookDir = ui->lineEditBooksDir->text().trimmed();
+    if (BookDir.isEmpty() || !QDir(BookDir).exists())
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Specify the correct path to the books folder."));
+        ui->lineEditBooksDir->setFocus();
+        ui->lineEditBooksDir->selectAll();
+        return;
+    }
+    else if (ui->listWidgetBooksDirs->findItems(BookDir, Qt::MatchFixedString).count() > 0)
+    {
+        QMessageBox::critical(this, tr("Error"), tr("This directory is already in the directory listing."));
+        ui->lineEditBooksDir->setFocus();
+        ui->lineEditBooksDir->selectAll();
+        return;
+    }
+
+    // проверка, является ли добавляемый каталог одним из подкаталогов путей в списке
+    for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
+    {
+        QString DirPath = ui->listWidgetBooksDirs->item(i)->text();
+        if (BookDir.contains(DirPath, Qt::CaseSensitive))
+        {
+            QMessageBox::critical(
+                this, tr("Error"), tr("This directory is a sub-directory of one of the directories in the list.")
+            );
+            ui->lineEditBooksDir->setFocus();
+            ui->lineEditBooksDir->selectAll();
+            return;
+        }
+    }
+    ui->listWidgetBooksDirs->addItem(BookDir);
+    ui->btnBooksDirDelete->setEnabled(true);
+}
+
+/*
+    удаление выбранного каталога с книгами из списка каталогов библиотеки
+*/
+void AddLibrary::DeleteDirFromBookDirsList()
+{
+    QListWidgetItem *currentItem = ui->listWidgetBooksDirs->currentItem();
+    if (currentItem != nullptr)
+    {
+        if (QMessageBox::question(
+            this, tr("Delete dir from Dirs List"),
+            tr("Books Dir:") + " \"" + currentItem->text() + "\"\n\n" +
+            tr("Are you sure you want to remove the selected folder from the list of catalogs of books of the library?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
+            == QMessageBox::No)
+            return;
+        ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
+        if (ui->listWidgetBooksDirs->count() == 0)
+            ui->btnBooksDirDelete->setDisabled(true);
     }
 }

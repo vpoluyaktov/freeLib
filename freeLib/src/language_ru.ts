@@ -21,83 +21,108 @@
         <translation>Добавить/обновить библиотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="60"/>
+        <location filename="addlibrary.ui" line="132"/>
         <source>Library name:</source>
         <oldsource>Library name</oldsource>
         <translation>Название библиотеки:</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="138"/>
+        <location filename="addlibrary.ui" line="125"/>
         <source>INPX file (optionally):</source>
         <oldsource>INPX file:</oldsource>
         <translation>INPX файл (необязательно):</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="43"/>
-        <location filename="addlibrary.cpp" line="403"/>
+        <location filename="addlibrary.ui" line="228"/>
+        <location filename="addlibrary.cpp" line="408"/>
         <source>Books dir:</source>
         <oldsource>Books dir</oldsource>
         <translation>Директория с книгами:</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="67"/>
+        <location filename="addlibrary.ui" line="74"/>
         <source>OPDS server</source>
         <translation>OPDS сервер</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="131"/>
+        <location filename="addlibrary.ui" line="161"/>
         <source>HTTP server</source>
         <translation>HTTP сервер</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="89"/>
+        <location filename="addlibrary.ui" line="96"/>
         <source>Add new library</source>
         <translation>Добавить библиотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="109"/>
+        <location filename="addlibrary.ui" line="174"/>
+        <source>Add new books dir to list</source>
+        <translation>Добавить новый путь к папке с книгами</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="177"/>
+        <source>+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="199"/>
+        <source>Delete selected books dir from list</source>
+        <translation>Удалить выделенный путь к папке с книгами</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="202"/>
+        <source>-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="241"/>
         <source>Delete current library</source>
         <translation>Удалить текущую библиотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="160"/>
+        <location filename="addlibrary.ui" line="255"/>
+        <source>Books Dirs List:</source>
+        <translation>Список путей к папкам:</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="264"/>
         <source>Update type</source>
         <translation>Способ обновления</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="166"/>
+        <location filename="addlibrary.ui" line="285"/>
         <source>Add new</source>
         <translation>Добавить новые книги</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="173"/>
+        <location filename="addlibrary.ui" line="292"/>
         <source>Delete old and add new</source>
         <translation>Удалить несуществующие и добавить новые книги</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="180"/>
+        <location filename="addlibrary.ui" line="299"/>
         <source>Recreate library</source>
         <translation>Пересоздать библиотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="196"/>
+        <location filename="addlibrary.ui" line="315"/>
         <source>import first author only</source>
         <oldsource>Authors import</oldsource>
         <translation>импортировать только первого автора</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="203"/>
+        <location filename="addlibrary.ui" line="322"/>
         <source>don`t add deleted books</source>
         <oldsource>don`t add deleted</oldsource>
         <translation>не добавлять удаленные книги</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="222"/>
+        <location filename="addlibrary.ui" line="344"/>
         <source>Save Log...</source>
         <translation>Сохранить лог в файл...</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="248"/>
+        <location filename="addlibrary.ui" line="370"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
@@ -118,92 +143,119 @@
         <translation type="vanished">отчество</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="261"/>
+        <location filename="addlibrary.ui" line="383"/>
         <source>Update</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="280"/>
-        <location filename="addlibrary.cpp" line="328"/>
-        <location filename="addlibrary.cpp" line="358"/>
+        <location filename="addlibrary.ui" line="402"/>
+        <location filename="addlibrary.cpp" line="343"/>
+        <location filename="addlibrary.cpp" line="371"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="95"/>
-        <location filename="addlibrary.cpp" line="277"/>
+        <location filename="addlibrary.cpp" line="96"/>
+        <location filename="addlibrary.cpp" line="292"/>
         <source>Add library</source>
         <translation>Добавить библиотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="95"/>
+        <location filename="addlibrary.cpp" line="96"/>
         <source>Library</source>
         <translation>Библиотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="121"/>
+        <location filename="addlibrary.cpp" line="122"/>
         <source>Select books directory</source>
         <translation>Директория с книгами</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="70"/>
+        <location filename="addlibrary.cpp" line="71"/>
         <source>new</source>
         <translation>новая</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="146"/>
+        <location filename="addlibrary.cpp" line="432"/>
         <source>Specify the correct path to the books folder.</source>
         <translation>Укажите корректный путь к папке с книгами.</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="146"/>
+        <location filename="addlibrary.cpp" line="432"/>
+        <location filename="addlibrary.cpp" line="439"/>
+        <location filename="addlibrary.cpp" line="452"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="179"/>
+        <location filename="addlibrary.cpp" line="178"/>
         <source>Break</source>
         <translation>Прервать</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="288"/>
+        <location filename="addlibrary.cpp" line="303"/>
         <source>Update library</source>
         <translation>Обновление библиотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="305"/>
+        <location filename="addlibrary.cpp" line="320"/>
         <source>Delete library</source>
         <translation>Удаление библиотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="325"/>
+        <location filename="addlibrary.cpp" line="340"/>
         <source>Ending</source>
         <translation>Конец</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="388"/>
+        <location filename="addlibrary.cpp" line="393"/>
         <source>Select destination directory</source>
         <translation>Выберите директорию</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="400"/>
+        <location filename="addlibrary.cpp" line="405"/>
         <source>Save Log to file</source>
         <translation>Сохранение лога в файл</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="402"/>
+        <location filename="addlibrary.cpp" line="407"/>
         <source>Library:</source>
         <translation>Библиотека:</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="414"/>
+        <location filename="addlibrary.cpp" line="419"/>
         <source>Log saved to file.</source>
         <translation>Лог сохранен в файл.</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="414"/>
+        <location filename="addlibrary.cpp" line="419"/>
         <source>Save Log to File</source>
         <translation>Сохранение лога в файл</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="439"/>
+        <source>This directory is already in the directory listing.</source>
+        <translation>Эта папка уже имеется в списке директорий.</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="452"/>
+        <source>This directory is a sub-directory of one of the directories in the list.</source>
+        <translation>Эта папка является подпапкой одной из директорий списка.</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="472"/>
+        <source>Delete dir from Dirs List</source>
+        <translation>Удаление папки из списка</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="473"/>
+        <source>Books Dir:</source>
+        <translation>Директория с книгами:</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="474"/>
+        <source>Are you sure you want to remove the selected folder from the list of catalogs of books of the library?</source>
+        <translation>Вы действительно хотите удалить выбранную папку из списка директорий книг?</translation>
     </message>
 </context>
 <context>
@@ -763,7 +815,7 @@
 <context>
     <name>ImportThread</name>
     <message>
-        <location filename="importthread.cpp" line="739"/>
+        <location filename="importthread.cpp" line="713"/>
         <source>Empty library name</source>
         <translation>Не задано название библиотеки</translation>
     </message>
@@ -776,27 +828,27 @@
         <translation type="vanished">Добавлена книга: </translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="529"/>
+        <location filename="importthread.cpp" line="515"/>
         <source>Book add (%1):  %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="531"/>
+        <location filename="importthread.cpp" line="517"/>
         <source>from zip:  %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="571"/>
+        <location filename="importthread.cpp" line="544"/>
         <source>Book add (epub):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1095"/>
+        <location filename="importthread.cpp" line="1069"/>
         <source>Books adds:</source>
         <translation>Добавлено книг:</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1107"/>
+        <location filename="importthread.cpp" line="1081"/>
         <source>Books adds: </source>
         <translation>Добавлено книг: </translation>
     </message>
@@ -888,7 +940,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1042"/>
-        <location filename="mainwindow.cpp" line="1822"/>
+        <location filename="mainwindow.cpp" line="1803"/>
         <source>Genre</source>
         <oldsource>Janre</oldsource>
         <translation>Жанр</translation>
@@ -899,7 +951,7 @@
         <translation>Серии</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>B</source>
         <translation>Б</translation>
     </message>
@@ -944,13 +996,13 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1010"/>
-        <location filename="mainwindow.cpp" line="1798"/>
+        <location filename="mainwindow.cpp" line="1779"/>
         <source>No.</source>
         <translation>№</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1055"/>
-        <location filename="mainwindow.cpp" line="1834"/>
+        <location filename="mainwindow.cpp" line="1815"/>
         <source>Format</source>
         <translation>Формат</translation>
     </message>
@@ -1064,7 +1116,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1047"/>
-        <location filename="mainwindow.cpp" line="1828"/>
+        <location filename="mainwindow.cpp" line="1809"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
@@ -1075,7 +1127,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1005"/>
-        <location filename="mainwindow.cpp" line="1792"/>
+        <location filename="mainwindow.cpp" line="1773"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
@@ -1111,19 +1163,19 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1018"/>
-        <location filename="mainwindow.cpp" line="1804"/>
+        <location filename="mainwindow.cpp" line="1785"/>
         <source>Size</source>
         <translation>Размер</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1026"/>
-        <location filename="mainwindow.cpp" line="1810"/>
+        <location filename="mainwindow.cpp" line="1791"/>
         <source>Mark</source>
         <translation>Оценка</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1034"/>
-        <location filename="mainwindow.cpp" line="1816"/>
+        <location filename="mainwindow.cpp" line="1797"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation>Добавлена</translation>
@@ -1174,17 +1226,17 @@
         <translation>Режим конвертера</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="442"/>
+        <location filename="mainwindow.cpp" line="438"/>
         <source>no tag</source>
         <translation>без тега</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="470"/>
+        <location filename="mainwindow.cpp" line="466"/>
         <source>setup ...</source>
         <translation>настроить ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="186"/>
+        <location filename="mainwindow.cpp" line="182"/>
         <source>Database</source>
         <translation>База данных</translation>
     </message>
@@ -1195,54 +1247,54 @@
 Продолжить?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="186"/>
+        <location filename="mainwindow.cpp" line="182"/>
         <source>This version needs new database version. All your old books data will be lost. Continue?</source>
         <translation>Текущая версия программы нуждается в новой версии базы данных.
 Вся информация о библиотеках будет удалена.
 Продолжить?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1058"/>
+        <location filename="mainwindow.cpp" line="1054"/>
         <source>The search for deleted books in the storage and marking them in the database is completed.</source>
         <translation>Поиск удаленных в хранилище книг и пометка их в базе данных завершена.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1058"/>
+        <location filename="mainwindow.cpp" line="1054"/>
         <source>Mark deleted books in base</source>
         <translation>Указание в базе удаленных книг</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1457"/>
+        <location filename="mainwindow.cpp" line="1444"/>
         <source>Can&apos;t find file: %1</source>
         <translation>Файл не найден: %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>kB</source>
         <translation>кБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>MB</source>
         <translation>МБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>GB</source>
         <translation>ГБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>TB</source>
         <translation>ТБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="140"/>
         <source>PB</source>
         <translation>ПБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="163"/>
         <source>{ Books without series }</source>
         <translation>{ Книги без серии }</translation>
     </message>
@@ -1255,28 +1307,28 @@
         <translation type="vanished">Выберите директорию</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1750"/>
+        <location filename="mainwindow.cpp" line="1731"/>
         <source>Save as</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1766"/>
+        <location filename="mainwindow.cpp" line="1747"/>
         <source>Rating</source>
         <translation>Рейтинг</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2503"/>
+        <location filename="mainwindow.cpp" line="2484"/>
         <source>Send to ...</source>
         <translation>Отправить на ...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1246"/>
-        <location filename="mainwindow.cpp" line="2744"/>
+        <location filename="mainwindow.cpp" line="2725"/>
         <source>Books</source>
         <translation>Книги</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2745"/>
+        <location filename="mainwindow.cpp" line="2726"/>
         <source>Book`s files</source>
         <translation>Файлы книг</translation>
     </message>
