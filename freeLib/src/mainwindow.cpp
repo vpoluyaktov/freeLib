@@ -1291,7 +1291,13 @@ void MainWindow::SelectAuthor()
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_author_id", idCurrentAuthor_);
+        //settings.setValue("current_author_id", idCurrentAuthor_);
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentAuthor = :currentAuthor WHERE id=:id_lib");
+        query.bindValue(":currentAuthor", idCurrentAuthor_);
+        query.bindValue(":id_lib", idCurrentLib);
+        query.exec();
     }
 
     // Выделение жирным выбранного Автора
