@@ -142,16 +142,7 @@ void AddLibrary::UpdateLibList()
 
 void AddLibrary::StartImport()
 {
-    QString BookDir = ui->lineEditBooksDir->text().trimmed();
-    if (BookDir == "" || !QDir(BookDir).exists())
-    {
-        QMessageBox::critical(this, tr("Error"), tr("Specify the correct path to the books folder."));
-        ui->lineEditBooksDir->setFocus();
-        ui->lineEditBooksDir->selectAll();
-        return;
-    }
-    SLib lib;//{ui->comboBoxExistingLibs->currentText().trimmed(),ui->lineEditBooksDir->text().trimmed(),ui->lineEditInpxFile->text().trimmed(),
-               // ui->checkBoxFirstAuthorOnly->isChecked(),ui->checkBoxWoDeleted->isChecked()};
+    SLib lib;
     lib.name = ui->comboBoxExistingLibs->currentText().trimmed();
     lib.sInpx = ui->lineEditInpxFile->text().trimmed();
     lib.path = ui->lineEditBooksDir->text().trimmed();
