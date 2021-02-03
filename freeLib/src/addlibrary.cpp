@@ -213,13 +213,17 @@ void AddLibrary::SelectLibrary(int idLib)
         for(int i=0;i<ui->comboBoxExistingLibs->count();i++){
             if(ui->comboBoxExistingLibs->itemData(i).toInt()==idCurrentLib_){
                 ui->comboBoxExistingLibs->setCurrentIndex(i);
-                ui->lineEditBooksDir->setText(mLibs[idCurrentLib_].path);
                 ui->lineEditInpxFile->setText(mLibs[idCurrentLib_].sInpx);
                 ui->checkBoxFirstAuthorOnly->setChecked(mLibs[idCurrentLib_].bFirstAuthor);
                 ui->checkBoxWoDeleted->setChecked(mLibs[idCurrentLib_].bWoDeleted);
                 QSettings* settings=GetSettings();
                 ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
                 ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+                // формирования списка каталогов с книгами для текущей библиотеки
+                QString DirsPath = mLibs[idCurrentLib_].path;
+                QStringList DirList = DirsPath.split("|");
+                ui->listWidgetBooksDirs->addItems(DirList);
+                ui->lineEditBooksDir->setText(DirList[0]);
                 break;
             }
         }
