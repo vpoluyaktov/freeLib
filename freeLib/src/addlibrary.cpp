@@ -145,9 +145,16 @@ void AddLibrary::StartImport()
     SLib lib;
     lib.name = ui->comboBoxExistingLibs->currentText().trimmed();
     lib.sInpx = ui->lineEditInpxFile->text().trimmed();
-    lib.path = ui->lineEditBooksDir->text().trimmed();
     lib.bFirstAuthor = ui->checkBoxFirstAuthorOnly->isChecked();
     lib.bWoDeleted = ui->checkBoxWoDeleted->isChecked();
+    // формирование комбинированной строки с путями к каталогам с книгами
+    QString DirsPath;
+    for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
+        DirsPath += ui->listWidgetBooksDirs->item(i)->text() + "|";
+    if (DirsPath.right(1) == "|")
+        DirsPath = DirsPath.remove(DirsPath.length() - 1, 1);
+    lib.path = DirsPath;
+
     StartImport(lib);
 }
 
