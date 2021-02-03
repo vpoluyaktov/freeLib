@@ -150,6 +150,9 @@
             <height>85</height>
            </size>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item row="2" column="0">
