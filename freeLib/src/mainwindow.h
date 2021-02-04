@@ -99,6 +99,9 @@ private:
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
 
+    // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+    int LoadLibraryPosition();
+
 protected:
     APP_MODE mode;
 

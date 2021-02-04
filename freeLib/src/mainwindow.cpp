@@ -156,37 +156,37 @@ QString sizeToString(uint size)
     return QString("%L1 %2").arg(size_d,0,'f',mem_i>0?1:0).arg(mem[mem_i]);
 }
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     noSeries_ = tr("{ Books without series }");
 
-    trIcon=nullptr;
-    pDropForm=nullptr;
-    errorQuit_=false;
+    trIcon = nullptr;
+    pDropForm = nullptr;
+    errorQuit_ = false;
     QSettings settings;
 
-    if(db_is_open)
+    if (db_is_open)
     {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         //query.exec("CREATE TABLE IF NOT EXISTS params (id INTEGER PRIMARY KEY, name TEXT, value TEXT)");
         query.exec(QString("SELECT value FROM params WHERE name='%1'").arg("version"));
-        int version=0;
-        if(query.next())
+        int version = 0;
+        if (query.next())
         {
-            version=query.value(0).toInt();
+            version = query.value(0).toInt();
         }
-        if(version<6){
+        if (version < 6) {
             splash->hide();
-            if(QMessageBox::question(nullptr,tr("Database"),tr("This version needs new database version. All your old books data will be lost. Continue?"),QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::Yes)
+            if (QMessageBox::question(nullptr, tr("Database"), tr("This version needs new database version. All your old books data will be lost. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
             {
-                if(!openDB(false,true))
-                    errorQuit_=true;
+                if (!openDB(false, true))
+                    errorQuit_ = true;
             }
             else
             {
-                errorQuit_=true;
+                errorQuit_ = true;
             }
         }
     }
@@ -195,13 +195,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->btnEdit->setVisible(false);
     ui->lineEditSearchString->setFocus();
     ui->tabWidget->setCurrentIndex(0);
-    ui->Books->setColumnWidth(0,400);
-    ui->Books->setColumnWidth(1,50);
-    ui->Books->setColumnWidth(2,100);
-    ui->Books->setColumnWidth(3,90);
-    ui->Books->setColumnWidth(4,120);
-    ui->Books->setColumnWidth(5,250);
-    ui->Books->setColumnWidth(6,50);
+    ui->Books->setColumnWidth(0, 400);
+    ui->Books->setColumnWidth(1, 50);
+    ui->Books->setColumnWidth(2, 100);
+    ui->Books->setColumnWidth(3, 90);
+    ui->Books->setColumnWidth(4, 120);
+    ui->Books->setColumnWidth(5, 250);
+    ui->Books->setColumnWidth(6, 50);
 
     // деактивировация действий, которые генерируют ссылку в браузере
     ui->Review->setOpenLinks(false);
@@ -212,34 +212,28 @@ MainWindow::MainWindow(QWidget *parent) :
         this, &MainWindow::onAnchorClicked
     );
 
-    setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
+    setWindowTitle(AppName + (idCurrentLib < 0 || mLibs[idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[idCurrentLib].name));
 
-    tbClear=new QToolButton(this);
+    tbClear = new QToolButton(this);
     tbClear->setFocusPolicy(Qt::NoFocus);
     tbClear->setIcon(QIcon(":/icons/img/icons/clear.png"));
     tbClear->setStyleSheet("border: none;");
     tbClear->setCursor(Qt::ArrowCursor);
     tbClear->setVisible(false);
-    QHBoxLayout* layout=new QHBoxLayout(ui->lineEditSearchString);
-    layout->addWidget(tbClear,0,Qt::AlignRight);
+    QHBoxLayout* layout = new QHBoxLayout(ui->lineEditSearchString);
+    layout->addWidget(tbClear, 0, Qt::AlignRight);
     layout->setSpacing(0);
     layout->setMargin(0);
 
     idCurrentLanguage_ = -1;
-    bUseTag_=settings.value("use_tag",true).toBool();
-    bShowDeleted_ =settings.value("ShowDeleted").toBool();
+    bUseTag_ = settings.value("use_tag", true).toBool();
+    bShowDeleted_ = settings.value("ShowDeleted").toBool();
     int nCurrentTab;
 
-    if(settings.value("store_position",true).toBool())
+    if (settings.value("store_position", true).toBool())
     {
-        idCurrentAuthor_= settings.value("current_author_id", 0).toUInt();
-        idCurrentSerial_ = settings.value("current_serial_id", 0).toUInt();
-        idCurrentGenre_ = settings.value("current_genre_id", 0).toUInt();
-        idCurrentBookForAuthor_ = settings.value("IdCurrentBookForAuthor", 0).toUInt();
-        idCurrentBookForGenre_ = settings.value("IdCurrentBookForGenre", 0).toUInt();
-        idCurrentBookForSeria_ = settings.value("IdCurrentBookForSeria", 0).toUInt();
-        nCurrentTab = settings.value("current_tab", 0).toInt();
-        ui->lineEditSearchString->setText(settings.value("filter_set").toString());
+        // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+        nCurrentTab = LoadLibraryPosition();
     }
     else
     {
@@ -327,7 +321,8 @@ MainWindow::MainWindow(QWidget *parent) :
     switch(nCurrentTab)
     {
     case 0:
-        FillListBooks();
+        //FillListBooks();
+        ui->btnAuthor->click();
         break;
     case 1:
         ui->btnSeries->click();
@@ -508,6 +503,12 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         lib.bWoDeleted = false;
         lib.bFirstAuthor = false;
         al.AddNewLibrary(lib);
+        QSettings settings;
+        if (settings.value("store_position", true).toBool())
+        {
+            // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+            LoadLibraryPosition();
+        }
         loadLibrary(idCurrentLib);
         UpdateBookLanguageControls();
         FillAuthors();
@@ -763,12 +764,22 @@ void MainWindow::TagSelect(int index)
 */
 void MainWindow::SaveLibPosition()
 {
-    QSettings settings;
-    settings.setValue("filter_set",ui->lineEditSearchString->text());
-    settings.setValue("current_tab",ui->tabWidget->currentIndex());
-    settings.setValue("IdCurrentBookForAuthor", idCurrentBookForAuthor_);
-    settings.setValue("IdCurrentBookForGenre", idCurrentBookForGenre_);
-    settings.setValue("IdCurrentBookForSeria", idCurrentBookForSeria_);
+    // сохранение в базу данных 'позиции' текущей библиотеки с id = idCurrentLib
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+    query.prepare(
+        "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :currentSearchingFilter) WHERE id = :id_lib;"
+    );
+    query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
+    query.bindValue(":idCurrentAuthor", idCurrentAuthor_);
+    query.bindValue(":idCurrentSeria", idCurrentSerial_);
+    query.bindValue(":idCurrentGenre", idCurrentGenre_);
+    query.bindValue(":idCurrentBookForAuthor", idCurrentBookForAuthor_);
+    query.bindValue(":idCurrentBookForSeria", idCurrentBookForSeria_);
+    query.bindValue(":idCurrentBookForGenre", idCurrentBookForGenre_);
+    query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
+    query.bindValue(":id_lib", idCurrentLib);
+    query.exec();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -829,10 +840,11 @@ void MainWindow::Settings()
         bUseTag_ = bUseTag;
         bShowDeleted_ = bShowDeleted;
         UpdateTagsMenu();
-        SaveLibPosition();
+//        SaveLibPosition();
         // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
         MarkDeletedBooks();
     }
+    SaveLibPosition();
     SelectBook();
     opds.server_run();
     UpdateExportMenu();
@@ -1251,14 +1263,19 @@ QList<uint> MainWindow::StartBooksSearch(
 void MainWindow::SelectLibrary()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    SaveLibPosition();
     ui->Books->clear();
 
     QAction* action=qobject_cast<QAction*>(sender());
-
-    SaveLibPosition();
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
     idCurrentLib=action->data().toInt();
+    int nCurrentTab;
+    if (settings.value("store_position", true).toBool())
+    {
+        // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+        nCurrentTab = LoadLibraryPosition();
+    }
 
     loadLibrary(idCurrentLib);
     UpdateBookLanguageControls();
@@ -1269,8 +1286,29 @@ void MainWindow::SelectLibrary()
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
     FillLibrariesMenu();
 
-    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
-    FillListBooks();
+    if (settings.value("store_position", true).toBool())
+    {
+        switch (nCurrentTab)
+        {
+        case 0:
+            ui->btnAuthor->click();
+            break;
+        case 1:
+            ui->btnSeries->click();
+            break;
+        case 2:
+            ui->btnGenre->click();
+            break;
+        case 3:
+            ui->btnSearch->click();
+            break;
+        }
+    }
+    else
+    {
+        SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
+        FillListBooks();
+    }
 
     QApplication::restoreOverrideCursor();
 }
@@ -1288,7 +1326,12 @@ void MainWindow::SelectAuthor()
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_author_id", idCurrentAuthor_);
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentAuthor = :currentAuthor WHERE id=:id_lib");
+        query.bindValue(":currentAuthor", idCurrentAuthor_);
+        query.bindValue(":id_lib", idCurrentLib);
+        query.exec();
     }
 
     // Выделение жирным выбранного Автора
@@ -1326,7 +1369,12 @@ void MainWindow::SelectSeria()
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_serial_id", idCurrentSerial_);
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentSeria = :currentSeria WHERE id = :id_lib");
+        query.bindValue(":currentSeria", idCurrentSerial_);
+        query.bindValue(":id_lib", idCurrentLib);
+        query.exec();
     }
 
     QList<uint> listBooks;
@@ -1384,7 +1432,12 @@ void MainWindow::SelectGenre()
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        settings.setValue("current_genre_id", idCurrentGenre_);
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentGenre = :currentGenre WHERE id = :id_lib");
+        query.bindValue(":currentGenre", idCurrentGenre_);
+        query.bindValue(":id_lib", idCurrentLib);
+        query.exec();
     }
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
@@ -1555,6 +1608,13 @@ void MainWindow::ManageLibrary()
     al.exec();
     if(al.IsLibraryChanged()){
         ui->Books->clear();
+        QSettings settings;
+        int nCurrentTab;
+        if (settings.value("store_position", true).toBool())
+        {
+            // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+            nCurrentTab = LoadLibraryPosition();
+        }
         loadLibrary(idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
@@ -1563,10 +1623,29 @@ void MainWindow::ManageLibrary()
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
 
-        // Выделение 1-го элемента списка Авторов или Серии
-        SelectFirstItemList();
-
-        FillListBooks();
+        if (settings.value("store_position", true).toBool())
+        {
+            switch (nCurrentTab)
+            {
+            case 0:
+                ui->btnAuthor->click();
+                break;
+            case 1:
+                ui->btnSeries->click();
+                break;
+            case 2:
+                ui->btnGenre->click();
+                break;
+            case 3:
+                ui->btnSearch->click();
+                break;
+            }
+        }
+        else
+        {
+            SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
+            FillListBooks();
+        }
     }
 }
 
@@ -2014,7 +2093,7 @@ void MainWindow::FillAuthors()
 }
 
 /*
-    // заполнение контрола списка Серий из базы для выбранной библиотеки
+    заполнение контрола списка Серий из базы для выбранной библиотеки
 */
 void MainWindow::FillSerials()
 {
@@ -2854,3 +2933,29 @@ void MainWindow::changeEvent(QEvent *event)
     }
 }
 
+/*
+    чтение из базы данные 'позиции' библиотеки
+*/
+int MainWindow::LoadLibraryPosition()
+{
+    // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+    query.prepare(
+        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
+    );
+    //              0           1                       2                       3                   4                   5                   6                       7               
+    query.bindValue(":id", idCurrentLib);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    query.next();
+    int nCurrentTab = query.value(0).toInt();
+    idCurrentAuthor_ = query.value(1).toUInt();
+    idCurrentSerial_ = query.value(2).toUInt();
+    idCurrentGenre_ = query.value(3).toUInt();
+    idCurrentBookForAuthor_ = query.value(4).toUInt();
+    idCurrentBookForSeria_ = query.value(5).toUInt();
+    idCurrentBookForGenre_ = query.value(6).toUInt();
+    ui->lineEditSearchString->setText(query.value(7).toString());
+    return nCurrentTab;
+}

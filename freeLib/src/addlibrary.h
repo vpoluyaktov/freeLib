@@ -2,6 +2,8 @@
 #define ADDLIBRARY_H
 
 #include <QDialog>
+#include <QItemSelectionModel>
+
 #include "importthread.h"
 #include "common.h"
 #include "library.h"
@@ -35,6 +37,10 @@ private:
     void SaveLibrary(int idLib, SLib& Lib);
     // формирования списка каталогов с книгами для текущей библиотеки
     void MakeDirsList();
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    void SetEnabledOrDisabledControllsOfBooksDirs();
+    // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
+    void SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
 
 private slots:
     void LogMessage(QString msg);
@@ -54,6 +60,12 @@ private slots:
     void AddBooksDirToList();
     // удаление выбранного каталога с книгами из списка каталогов библиотеки
     void DeleteDirFromBookDirsList();
+    // обработчик вставки итема в список папок книг библиотеки
+    void InsertItemToBookDirsList();
+    // обработчик удаления итема из списка папок книг библиотеки
+    void RemoveItemFromBookDirsList();
+    // обработчик сигнала выделения/снятия выделения итема списка книг библиотеки
+    void SelectionChangedBookDirsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
 
 signals:
     void break_import();
