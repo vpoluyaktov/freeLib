@@ -1326,7 +1326,6 @@ void MainWindow::SelectAuthor()
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        //settings.setValue("current_author_id", idCurrentAuthor_);
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentAuthor = :currentAuthor WHERE id=:id_lib");
@@ -1370,7 +1369,6 @@ void MainWindow::SelectSeria()
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        //settings.setValue("current_serial_id", idCurrentSerial_);
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentSeria = :currentSeria WHERE id = :id_lib");
@@ -1434,7 +1432,6 @@ void MainWindow::SelectGenre()
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
-        //settings.setValue("current_genre_id", idCurrentGenre_);
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentGenre = :currentGenre WHERE id = :id_lib");
