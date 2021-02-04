@@ -1270,11 +1270,11 @@ void MainWindow::SelectLibrary()
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
     idCurrentLib=action->data().toInt();
-
+    int nCurrentTab;
     if (settings.value("store_position", true).toBool())
     {
         // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
-        LoadLibraryPosition();
+        nCurrentTab = LoadLibraryPosition();
     }
 
     loadLibrary(idCurrentLib);
@@ -1286,8 +1286,29 @@ void MainWindow::SelectLibrary()
     setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
     FillLibrariesMenu();
 
-    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
-    FillListBooks();
+    if (settings.value("store_position", true).toBool())
+    {
+        switch (nCurrentTab)
+        {
+        case 0:
+            ui->btnAuthor->click();
+            break;
+        case 1:
+            ui->btnSeries->click();
+            break;
+        case 2:
+            ui->btnGenre->click();
+            break;
+        case 3:
+            ui->btnSearch->click();
+            break;
+        }
+    }
+    else
+    {
+        SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
+        FillListBooks();
+    }
 
     QApplication::restoreOverrideCursor();
 }
@@ -1591,10 +1612,11 @@ void MainWindow::ManageLibrary()
     if(al.IsLibraryChanged()){
         ui->Books->clear();
         QSettings settings;
+        int nCurrentTab;
         if (settings.value("store_position", true).toBool())
         {
             // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
-            LoadLibraryPosition();
+            nCurrentTab = LoadLibraryPosition();
         }
         loadLibrary(idCurrentLib);
         UpdateTagsMenu();
@@ -1604,10 +1626,29 @@ void MainWindow::ManageLibrary()
         setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
         FillLibrariesMenu();
 
-        // Выделение 1-го элемента списка Авторов или Серии
-        SelectFirstItemList();
-
-        FillListBooks();
+        if (settings.value("store_position", true).toBool())
+        {
+            switch (nCurrentTab)
+            {
+            case 0:
+                ui->btnAuthor->click();
+                break;
+            case 1:
+                ui->btnSeries->click();
+                break;
+            case 2:
+                ui->btnGenre->click();
+                break;
+            case 3:
+                ui->btnSearch->click();
+                break;
+            }
+        }
+        else
+        {
+            SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
+            FillListBooks();
+        }
     }
 }
 
