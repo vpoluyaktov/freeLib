@@ -127,6 +127,6 @@ bool SetCurrentZipFileName(QuaZip *zip,QString name);
 QString RelativeToAbsolutePath(QString path);
 QString sizeToString(uint size);
 
-extern int idCurrentLib;
+extern int g_idCurrentLib;
 
 #endif // COMMON_H

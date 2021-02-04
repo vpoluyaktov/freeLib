@@ -273,21 +273,21 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
     if(id_book>0)
     {
         bi.authors.clear();
-        bi.title = mLibs[idCurrentLib].mBooks[id_book].sName;
-        bi.num_in_seria = mLibs[idCurrentLib].mBooks[id_book].numInSerial;
-        bi.language = mLibs[idCurrentLib].vLaguages[mLibs[idCurrentLib].mBooks[id_book].idLanguage];
-        bi.seria = mLibs[idCurrentLib].mSerials[mLibs[idCurrentLib].mBooks[id_book].idSerial].sName;
-        bi.id_seria = mLibs[idCurrentLib].mBooks[id_book].idSerial;
+        bi.title = mLibs[g_idCurrentLib].mBooks[id_book].sName;
+        bi.num_in_seria = mLibs[g_idCurrentLib].mBooks[id_book].numInSerial;
+        bi.language = mLibs[g_idCurrentLib].vLaguages[mLibs[g_idCurrentLib].mBooks[id_book].idLanguage];
+        bi.seria = mLibs[g_idCurrentLib].mSerials[mLibs[g_idCurrentLib].mBooks[id_book].idSerial].sName;
+        bi.id_seria = mLibs[g_idCurrentLib].mBooks[id_book].idSerial;
 
-        foreach (uint idAuthor,  mLibs[idCurrentLib].mBooks[id_book].listIdAuthors) {
+        foreach (uint idAuthor,  mLibs[g_idCurrentLib].mBooks[id_book].listIdAuthors) {
             author_info ti("",0);
             ti.id = idAuthor;
-            ti.author = mLibs[idCurrentLib].mAuthors[idAuthor].getName();
+            ti.author = mLibs[g_idCurrentLib].mAuthors[idAuthor].getName();
             bi.authors<<ti;
         }
 
         bi.genres.clear();
-        foreach (uint idGenre, mLibs[idCurrentLib].mBooks[id_book].listIdGenres) {
+        foreach (uint idGenre, mLibs[g_idCurrentLib].mBooks[id_book].listIdGenres) {
             bi.genres << genre_info(mGenre[idGenre].sName,idGenre);
         }
 

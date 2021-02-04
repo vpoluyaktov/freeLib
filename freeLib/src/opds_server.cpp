@@ -986,7 +986,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
         strings=url.split("/");
     }
     //qDebug()<<strings;
-    int id_lib=idCurrentLib;
+    int id_lib=g_idCurrentLib;
     QString lib_url="/http";
     qDebug()<<"url:"<<url;
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -1005,7 +1005,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
             else
             {
                 lib_url="/opds";
-                id_lib = idCurrentLib;
+                id_lib = g_idCurrentLib;
             }
             strings.removeFirst();
             url.remove(0,1);
@@ -1026,7 +1026,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
             else
             {
                 lib_url="/http";
-                id_lib = idCurrentLib;
+                id_lib = g_idCurrentLib;
             }
             strings.removeFirst();
             url.remove(0,1);

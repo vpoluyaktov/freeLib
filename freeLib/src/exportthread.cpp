@@ -350,8 +350,8 @@ void ExportThread::export_books()
         foreach(book_info i,book_list)
         {
             QString archive,file;
-            QString LibPath=mLibs[idCurrentLib].path;
-            SBook &book = mLibs[idCurrentLib].mBooks[i.id];
+            QString LibPath=mLibs[g_idCurrentLib].path;
+            SBook &book = mLibs[g_idCurrentLib].mBooks[i.id];
             if(!book.sArchive.isEmpty())
             {
                 archive=book.sArchive.replace(".inp",".zip");
@@ -431,7 +431,7 @@ void ExportThread::export_books()
             buffers<<new QBuffer(this);
             QBuffer infobuff;
             fi=GetBookFile(*buffers.last(),infobuff,i.id);
-            SBook &book = mLibs[idCurrentLib].mBooks[i.id];
+            SBook &book = mLibs[g_idCurrentLib].mBooks[i.id];
             if(fi.fileName().isEmpty())
             {
                 emit Progress(count*100/book_list.count(),count);
@@ -448,8 +448,8 @@ void ExportThread::export_books()
                 file_name=settings->value("ExportFileName",default_exp_file_name).toString().trimmed();
                 if(file_name.isEmpty())
                     file_name=default_exp_file_name;
-                QString author=BuildFileName(mLibs[idCurrentLib].mAuthors[book.idFirstAuthor].getName());
-                QString seria_name=BuildFileName(mLibs[idCurrentLib].mSerials[book.idSerial].sName);
+                QString author=BuildFileName(mLibs[g_idCurrentLib].mAuthors[book.idFirstAuthor].getName());
+                QString seria_name=BuildFileName(mLibs[g_idCurrentLib].mSerials[book.idSerial].sName);
                 QString book_name=BuildFileName(book.sName);
                 QString ser_num = QString::number(book.numInSerial);
                 if(buffers.count()>1)
@@ -540,8 +540,8 @@ void ExportThread::export_lib()
     version.close();
     QFile collection(collection_file);
     collection.open(QFile::WriteOnly);
-    collection.write((mLibs[idCurrentLib].name+"\r\n").toUtf8());
-    collection.write((mLibs[idCurrentLib].name+"\r\n").toUtf8());
+    collection.write((mLibs[g_idCurrentLib].name+"\r\n").toUtf8());
+    collection.write((mLibs[g_idCurrentLib].name+"\r\n").toUtf8());
     collection.write(QString("0\r\n").toUtf8());
     collection.write(QString("freeLib\r\n").toUtf8());
     collection.close();
@@ -616,7 +616,7 @@ void ExportThread::export_lib()
         }
     }
     inpx.close();
-    QuaZip zip(export_dir+QString("/%1.inpx").arg(BuildFileName(mLibs[idCurrentLib].name)));
+    QuaZip zip(export_dir+QString("/%1.inpx").arg(BuildFileName(mLibs[g_idCurrentLib].name)));
     qDebug()<<zip.getZipName();
     qDebug()<<zip.open(QuaZip::mdCreate);
     QuaZipFile zip_file(&zip);

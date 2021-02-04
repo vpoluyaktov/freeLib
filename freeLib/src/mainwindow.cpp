@@ -40,7 +40,7 @@ bool db_is_open;
 QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool caption, QDateTime *file_data)
 {
     QFileInfo fi;
-    SBook &book = mLibs[idCurrentLib].mBooks[id_book];
+    SBook &book = mLibs[g_idCurrentLib].mBooks[id_book];
     QString file = book.sFile;
     QString archive;
     if(!book.sArchive.isEmpty()) {
@@ -212,7 +212,7 @@ MainWindow::MainWindow(QWidget* parent) :
         this, &MainWindow::onAnchorClicked
     );
 
-    setWindowTitle(AppName + (idCurrentLib < 0 || mLibs[idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[idCurrentLib].name));
+    setWindowTitle(AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name));
 
     tbClear = new QToolButton(this);
     tbClear->setFocusPolicy(Qt::NoFocus);
@@ -232,7 +232,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     if (settings.value("store_position", true).toBool())
     {
-        // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+        // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
         nCurrentTab = LoadLibraryPosition();
     }
     else
@@ -248,7 +248,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     UpdateTagsMenu();
     loadGenres();
-    loadLibrary(idCurrentLib);
+    loadLibrary(g_idCurrentLib);
     UpdateBookLanguageControls();
 
     FillAuthors();
@@ -506,16 +506,16 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         QSettings settings;
         if (settings.value("store_position", true).toBool())
         {
-            // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+            // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
             LoadLibraryPosition();
         }
-        loadLibrary(idCurrentLib);
+        loadLibrary(g_idCurrentLib);
         UpdateBookLanguageControls();
         FillAuthors();
         FillSerials();
         FillGenres();
         searchChanged(ui->lineEditSearchString->text());
-        setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
+        setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
     }
 }
@@ -686,7 +686,7 @@ void MainWindow::SetTag()
             query.bindValue(":favorite",tag_id);
             query.bindValue(":id",id);
             query.exec();
-            mLibs[idCurrentLib].mBooks[id].nTag = tag_id;
+            mLibs[g_idCurrentLib].mBooks[id].nTag = tag_id;
             break;
 
         case ITEM_TYPE_SERIA:
@@ -695,7 +695,7 @@ void MainWindow::SetTag()
             query.bindValue(":favorite",tag_id);
             query.bindValue(":id",id);
             query.exec();
-            mLibs[idCurrentLib].mSerials[id].nTag = tag_id;
+            mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
             break;
 
         case ITEM_TYPE_AUTHOR:
@@ -704,7 +704,7 @@ void MainWindow::SetTag()
             query.bindValue(":favorite",tag_id);
             query.bindValue(":id",id);
             query.exec();
-            mLibs[idCurrentLib].mAuthors[id].nTag = tag_id;
+            mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
             break;
 
         default:
@@ -719,7 +719,7 @@ void MainWindow::SetTag()
         query.bindValue(":favorite",tag_id);
         query.bindValue(":id",id);
         query.exec();
-        mLibs[idCurrentLib].mAuthors[id].nTag = tag_id;
+        mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
     }
     else if(currentListForTag==qobject_cast<QObject*>(ui->SeriaList))
     {
@@ -729,7 +729,7 @@ void MainWindow::SetTag()
         query.bindValue(":favorite",tag_id);
         query.bindValue(":id",id);
         query.exec();
-        mLibs[idCurrentLib].mSerials[id].nTag = tag_id;
+        mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
     }
 }
 
@@ -764,7 +764,7 @@ void MainWindow::TagSelect(int index)
 */
 void MainWindow::SaveLibPosition()
 {
-    // сохранение в базу данных 'позиции' текущей библиотеки с id = idCurrentLib
+    // сохранение в базу данных 'позиции' текущей библиотеки с id = g_idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
@@ -778,7 +778,7 @@ void MainWindow::SaveLibPosition()
     query.bindValue(":idCurrentBookForSeria", idCurrentBookForSeria_);
     query.bindValue(":idCurrentBookForGenre", idCurrentBookForGenre_);
     query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
-    query.bindValue(":id_lib", idCurrentLib);
+    query.bindValue(":id_lib", g_idCurrentLib);
     query.exec();
 }
 
@@ -831,7 +831,7 @@ void MainWindow::Settings()
     connect(&dlg,SIGNAL(ChangingLanguage()),this,SLOT(ChangingLanguage()));
     connect(&dlg,SIGNAL(ChangingTrayIcon(int,int)),this,SLOT(ChangingTrayIcon(int,int)));
     dlg.exec();
-    settings.setValue("LibID",idCurrentLib);
+    settings.setValue("LibID",g_idCurrentLib);
 
     bool bShowDeleted = settings.value("ShowDeleted").toBool();
     bool bUseTag = settings.value("use_tag").toBool();
@@ -1025,14 +1025,14 @@ void MainWindow::MarkDeletedBooks()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     
-    /*QString LibPath = mLibs[idCurrentLib].path;
+    /*QString LibPath = mLibs[g_idCurrentLib].path;
     LibPath = RelativeToAbsolutePath(LibPath);*/
 
-    QHash<uint, SBook>::const_iterator iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while (iBook != mLibs[idCurrentLib].mBooks.constEnd())
+    QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd())
     {
         uint BookId = iBook.key();
-        SBook& book = mLibs[idCurrentLib].mBooks[BookId];
+        SBook& book = mLibs[g_idCurrentLib].mBooks[BookId];
         // проверка, есть ли эта книга на жестком диске. Если нет, то в базу Deleted = true
         QString BookPath;
         if (book.sArchive.isEmpty())
@@ -1227,13 +1227,13 @@ QList<uint> MainWindow::StartBooksSearch(
 {
     QList<uint> listBooks;
     int nCount = 0;
-    auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while (iBook != mLibs[idCurrentLib].mBooks.constEnd()) {
+    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
         if ((bShowDeleted_ || !iBook->bDeleted) &&
             iBook->date >= dateFrom && iBook->date <= dateTo &&
-            (sAuthor.isEmpty() || mLibs[idCurrentLib].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor, Qt::CaseInsensitive)) &&
+            (sAuthor.isEmpty() || mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor, Qt::CaseInsensitive)) &&
             (sName.isEmpty() || iBook->sName.contains(sName, Qt::CaseInsensitive)) &&
-            (sSeria.isEmpty() || (iBook->idSerial > 0 && mLibs[idCurrentLib].mSerials[iBook->idSerial].sName.contains(sSeria, Qt::CaseInsensitive))) &&
+            (sSeria.isEmpty() || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.contains(sSeria, Qt::CaseInsensitive))) &&
             (idLanguage == -1 || (iBook->idLanguage == idLanguage)))
         {
             if (idGenre == 0) {
@@ -1269,21 +1269,21 @@ void MainWindow::SelectLibrary()
     QAction* action=qobject_cast<QAction*>(sender());
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
-    idCurrentLib=action->data().toInt();
+    g_idCurrentLib=action->data().toInt();
     int nCurrentTab;
     if (settings.value("store_position", true).toBool())
     {
-        // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+        // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
         nCurrentTab = LoadLibraryPosition();
     }
 
-    loadLibrary(idCurrentLib);
+    loadLibrary(g_idCurrentLib);
     UpdateBookLanguageControls();
     FillAuthors();
     FillSerials();
     FillGenres();
     searchChanged(ui->lineEditSearchString->text());
-    setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
+    setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
     FillLibrariesMenu();
 
     if (settings.value("store_position", true).toBool())
@@ -1330,7 +1330,7 @@ void MainWindow::SelectAuthor()
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentAuthor = :currentAuthor WHERE id=:id_lib");
         query.bindValue(":currentAuthor", idCurrentAuthor_);
-        query.bindValue(":id_lib", idCurrentLib);
+        query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
 
@@ -1350,7 +1350,7 @@ void MainWindow::SelectAuthor()
     ui->AuthorList->scrollToItem(cur_item);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
-    QList<uint> listBooks = mLibs[idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
+    QList<uint> listBooks = mLibs[g_idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
     FillListBooks(listBooks, idCurrentAuthor_);
 }
 
@@ -1373,13 +1373,13 @@ void MainWindow::SelectSeria()
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentSeria = :currentSeria WHERE id = :id_lib");
         query.bindValue(":currentSeria", idCurrentSerial_);
-        query.bindValue(":id_lib", idCurrentLib);
+        query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
 
     QList<uint> listBooks;
-    auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while(iBook != mLibs[idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while(iBook != mLibs[g_idCurrentLib].mBooks.constEnd()){
         if(iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_==-1 || idCurrentLanguage_ == iBook->idLanguage)){
             listBooks << iBook.key();
         }
@@ -1417,8 +1417,8 @@ void MainWindow::SelectGenre()
     QTreeWidgetItem* cur_item = ui->GenreList->selectedItems()[0];
     idCurrentGenre_ = cur_item->data(0, Qt::UserRole).toUInt();
     QList<uint> listBooks;
-    auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while (iBook != mLibs[idCurrentLib].mBooks.constEnd()) {
+    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
         if ((idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)) {
             foreach(uint iGenre, iBook->listIdGenres) {
                 if (iGenre == idCurrentGenre_) {
@@ -1436,7 +1436,7 @@ void MainWindow::SelectGenre()
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentGenre = :currentGenre WHERE id = :id_lib");
         query.bindValue(":currentGenre", idCurrentGenre_);
-        query.bindValue(":id_lib", idCurrentLib);
+        query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
 
@@ -1480,7 +1480,7 @@ void MainWindow::SelectBook()
         break;
     }
 
-    SBook &book = mLibs[idCurrentLib].mBooks[idBook];
+    SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
     ui->btnOpenBook->setEnabled(true);
     if(ui->splitter->sizes()[1]>0)
     {
@@ -1520,7 +1520,7 @@ void MainWindow::SelectBook()
         QString sAuthors;
         foreach (auto idAuthor, book.listIdAuthors)
         {
-            QString sAuthor = mLibs[idCurrentLib].mAuthors[idAuthor].getName();
+            QString sAuthor = mLibs[g_idCurrentLib].mAuthors[idAuthor].getName();
             sAuthors+=(sAuthors.isEmpty()?"":"; ")+QString("<a href='author_%3%1'>%2</a>").arg(QString::number(idAuthor),sAuthor.replace(","," "),sAuthor.left(1));
         }
         QString sGenres;
@@ -1567,7 +1567,7 @@ void MainWindow::SelectBook()
 void MainWindow::UpdateBookLanguageControls()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    SLib &currentLib = mLibs[idCurrentLib];
+    SLib &currentLib = mLibs[g_idCurrentLib];
 
     ui->comboBoxLanguageFilter->blockSignals(true);
     ui->comboBoxFindLanguage->blockSignals(true);
@@ -1612,15 +1612,15 @@ void MainWindow::ManageLibrary()
         int nCurrentTab;
         if (settings.value("store_position", true).toBool())
         {
-            // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+            // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
             nCurrentTab = LoadLibraryPosition();
         }
-        loadLibrary(idCurrentLib);
+        loadLibrary(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         FillGenres();
         searchChanged(ui->lineEditSearchString->text());
-        setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
+        setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
 
         if (settings.value("store_position", true).toBool())
@@ -2032,7 +2032,7 @@ void MainWindow::FillLibrariesMenu()
         action->setCheckable(true);
         lib_menu->insertAction(nullptr,action);
         connect(action,SIGNAL(triggered()),this,SLOT(SelectLibrary()));
-        action->setChecked(i.key()==idCurrentLib);
+        action->setChecked(i.key()==g_idCurrentLib);
         ++i;
     }
     if(lib_menu->actions().count()>0)
@@ -2052,7 +2052,7 @@ void MainWindow::FillAuthors()
     const bool wasBlocked = ui->AuthorList->blockSignals(true);
     QListWidgetItem *item;
     ui->AuthorList->clear();
-    SLib &currentLib = mLibs[idCurrentLib];
+    SLib &currentLib = mLibs[g_idCurrentLib];
     QListWidgetItem *selectedItem = nullptr;
     QString sSearch = ui->lineEditSearchString->text();
     auto i = currentLib.mAuthors.constBegin();
@@ -2103,10 +2103,10 @@ void MainWindow::FillSerials()
     QString sSearch = ui->lineEditSearchString->text();
 
     QMap<uint,uint> mCounts;
-    auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while(iBook!=mLibs[idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
         if(IsBookInList(*iBook) &&
-                (sSearch == "*" || (sSearch=="#" && !mLibs[idCurrentLib].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
+                (sSearch == "*" || (sSearch=="#" && !mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
         {
             if(mCounts.contains(iBook->idSerial))
                 mCounts[iBook->idSerial]++;
@@ -2120,14 +2120,14 @@ void MainWindow::FillSerials()
     QListWidgetItem *item;
     auto iSerial = mCounts.constBegin();
     while(iSerial!=mCounts.constEnd()){
-        QString SeriaName = mLibs[idCurrentLib].mSerials[iSerial.key()].sName;
+        QString SeriaName = mLibs[g_idCurrentLib].mSerials[iSerial.key()].sName;
         QString NewSeriaName = SeriaName != "" ? SeriaName : noSeries_;
         //QBrush Brush; Brush = SeriaName != "" ? Qt::black : Qt::darkMagenta;
         item = new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
         //item->setForeground(Brush);
         item->setData(Qt::UserRole,iSerial.key());
         if(bUseTag_)
-            item->setIcon(GetTagFromTagsPicList(mLibs[idCurrentLib].mSerials[iSerial.key()].nTag));
+            item->setIcon(GetTagFromTagsPicList(mLibs[g_idCurrentLib].mSerials[iSerial.key()].nTag));
         ui->SeriaList->addItem(item);
         if(iSerial.key()==idCurrentSerial_)
         {
@@ -2160,8 +2160,8 @@ void MainWindow::FillGenres()
 
 
     QMap<uint,uint> mCounts;
-    auto iBook = mLibs[idCurrentLib].mBooks.constBegin();
-    while(iBook!=mLibs[idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
         if(IsBookInList(*iBook))
         {
             foreach (uint iGenre, iBook->listIdGenres) {
@@ -2285,7 +2285,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
     ui->Books->clear();
 
     foreach(uint idBook, listBook) {
-        SBook &book = mLibs[idCurrentLib].mBooks[idBook];
+        SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
         if(IsBookInList(book))
         {
             uint idSerial=book.idSerial;
@@ -2297,13 +2297,13 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             }
             if(!mAuthors.contains(idAuthor)){
                 item_author = new TreeBookItem(ui->Books,ITEM_TYPE_AUTHOR);
-                item_author->setText(0,mLibs[idCurrentLib].mAuthors[idAuthor].getName());
+                item_author->setText(0,mLibs[g_idCurrentLib].mAuthors[idAuthor].getName());
                 item_author->setExpanded(true);
                 item_author->setFont(0,bold_font);
                 item_author->setCheckState(0,Qt::Unchecked);
                 item_author->setData(0,Qt::UserRole,idAuthor);
                 if(bUseTag_)
-                    item_author->setIcon(0,GetTagFromTagsPicList(mLibs[idCurrentLib].mAuthors[idAuthor].nTag));
+                    item_author->setIcon(0,GetTagFromTagsPicList(mLibs[g_idCurrentLib].mAuthors[idAuthor].nTag));
                 mAuthors[idAuthor] = item_author;
             }else
                 item_author = mAuthors[idAuthor];
@@ -2318,7 +2318,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 }
                 if(iSerial==mSerias.constEnd()){
                     item_seria = new TreeBookItem(mAuthors[idAuthor],ITEM_TYPE_SERIA);
-                    QString SeriaName = mLibs[idCurrentLib].mSerials[idSerial].sName;
+                    QString SeriaName = mLibs[g_idCurrentLib].mSerials[idSerial].sName;
                     QString NewSeriaName = SeriaName != "" ? SeriaName : noSeries_;
                     item_seria->setText(0, NewSeriaName);
                     item_author->addChild(item_seria);
@@ -2327,7 +2327,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                     item_seria->setCheckState(0,Qt::Unchecked);
                     item_seria->setData(0,Qt::UserRole,idSerial);
                     if(bUseTag_)
-                        item_seria->setIcon(0,GetTagFromTagsPicList(mLibs[idCurrentLib].mSerials[idSerial].nTag));
+                        item_seria->setIcon(0,GetTagFromTagsPicList(mLibs[g_idCurrentLib].mSerials[idSerial].nTag));
 
                     mSerias.insert(idSerial,item_seria);
 
@@ -2361,7 +2361,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             item_book->setText(5,mGenre[book.listIdGenres.first()].sName);
             item_book->setTextAlignment(5, Qt::AlignLeft);
 
-            item_book->setText(6,mLibs[idCurrentLib].vLaguages[book.idLanguage]);
+            item_book->setText(6,mLibs[g_idCurrentLib].vLaguages[book.idLanguage]);
             item_book->setTextAlignment(6, Qt::AlignCenter);
 
             item_book->setText(7, book.sFormat);
@@ -2423,8 +2423,8 @@ bool MainWindow::IsBookInList(const SBook &book) const
     return (idCurrentLanguage_==-1 || idCurrentLanguage_ == book.idLanguage)
             &&(bShowDeleted_ || !book.bDeleted) &&
             (!bUseTag_ || current_tag==0 || current_tag==book.nTag
-             ||(idSerial>0 && mLibs[idCurrentLib].mSerials[idSerial].nTag == current_tag)
-             ||(mLibs[idCurrentLib].mAuthors[book.idFirstAuthor].nTag == current_tag));
+             ||(idSerial>0 && mLibs[g_idCurrentLib].mSerials[idSerial].nTag == current_tag)
+             ||(mLibs[g_idCurrentLib].mAuthors[book.idFirstAuthor].nTag == current_tag));
 }
 
 void MainWindow::dropEvent(QDropEvent *ev)
@@ -2632,8 +2632,8 @@ void MainWindow::RatingAction()
         query.bindValue(":star", star_id);
         query.bindValue(":id", id);
         query.exec();
-        mLibs[idCurrentLib].mBooks[id].nStars = star_id;
-        image.load(":/icons/img/icons/stars/" + QString::number(mLibs[idCurrentLib].mBooks[id].nStars).trimmed() + QString("star%1.png").arg(app->devicePixelRatio() >= 2 ? "@2x" : ""));
+        mLibs[g_idCurrentLib].mBooks[id].nStars = star_id;
+        image.load(":/icons/img/icons/stars/" + QString::number(mLibs[g_idCurrentLib].mBooks[id].nStars).trimmed() + QString("star%1.png").arg(app->devicePixelRatio() >= 2 ? "@2x" : ""));
         image.setDevicePixelRatio(app->devicePixelRatio());
         bookItem->setData(3, Qt::DecorationRole, image);
         break;
@@ -2707,7 +2707,7 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
     ui->actionAddLibrary->setVisible(true);
     ui->actionNew_library_wizard->setVisible(true);
 
-    setWindowTitle(AppName+(idCurrentLib<0||mLibs[idCurrentLib].name.isEmpty()?"":" - "+mLibs[idCurrentLib].name));
+    setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
 
     setMinimumSize(800,400);
     if(settings.contains("MainWnd/geometry"))
@@ -2938,14 +2938,14 @@ void MainWindow::changeEvent(QEvent *event)
 */
 int MainWindow::LoadLibraryPosition()
 {
-    // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+    // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
         "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
     );
     //              0           1                       2                       3                   4                   5                   6                       7               
-    query.bindValue(":id", idCurrentLib);
+    query.bindValue(":id", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();
     query.next();
