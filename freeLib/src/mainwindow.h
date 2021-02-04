@@ -98,10 +98,10 @@ private:
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
-
     // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
     int LoadLibraryPosition();
-
+    // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+    void SaveCurrentBookLanguageFilter(const QString& lang);
 protected:
     APP_MODE mode;
 
