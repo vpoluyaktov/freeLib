@@ -503,6 +503,12 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         lib.bWoDeleted = false;
         lib.bFirstAuthor = false;
         al.AddNewLibrary(lib);
+        QSettings settings;
+        if (settings.value("store_position", true).toBool())
+        {
+            // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+            LoadLibraryPosition();
+        }
         loadLibrary(idCurrentLib);
         UpdateBookLanguageControls();
         FillAuthors();
@@ -1265,6 +1271,12 @@ void MainWindow::SelectLibrary()
     settings.setValue("LibID",action->data().toLongLong());
     idCurrentLib=action->data().toInt();
 
+    if (settings.value("store_position", true).toBool())
+    {
+        // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+        LoadLibraryPosition();
+    }
+
     loadLibrary(idCurrentLib);
     UpdateBookLanguageControls();
     FillAuthors();
@@ -1577,8 +1589,13 @@ void MainWindow::ManageLibrary()
     AddLibrary al(this);
     al.exec();
     if(al.IsLibraryChanged()){
-        SaveLibPosition();
         ui->Books->clear();
+        QSettings settings;
+        if (settings.value("store_position", true).toBool())
+        {
+            // чтение из базы 'позиции' для текущей библиотеки с id = idCurrentLib
+            LoadLibraryPosition();
+        }
         loadLibrary(idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
