@@ -33,7 +33,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     layout->setSpacing(0);
     layout->setMargin(0);
 
-    idCurrentLib_ = idCurrentLib;
+    idCurrentLib_ = g_idCurrentLib;
     UpdateLibList();
 
     connect(tbInpx,SIGNAL(clicked()),this,SLOT(InputINPX()));
@@ -284,7 +284,7 @@ void AddLibrary::SelectLibrary()
     ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
 
     settings->setValue("LibID",idCurrentLib_);
-    //idCurrentLib = idCurrentLib_;
+    //g_idCurrentLib = idCurrentLib_;
 }
 
 void AddLibrary::SaveLibrary(int idLib, SLib &Lib)
@@ -379,9 +379,9 @@ void AddLibrary::reject()
 {
     if (ui->btnCancel->text()==tr("Close"))
     {
-        if(idCurrentLib_!=idCurrentLib){
+        if(idCurrentLib_!=g_idCurrentLib){
             bLibChanged = true;
-            idCurrentLib=idCurrentLib_;
+            g_idCurrentLib=idCurrentLib_;
         }
         QDialog::reject();
     }

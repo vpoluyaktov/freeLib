@@ -19,7 +19,7 @@
 #include "common.h"
 #include "build_number.h"
 
-int idCurrentLib;
+int g_idCurrentLib;
 QTranslator* translator;
 QTranslator* translator_qt;
 QList<tag> tag_list;
@@ -436,10 +436,10 @@ void UpdateLibs()
 //    if(!openDB(false,false))
 //        errorQuit=true;
     if(!db_is_open)
-        idCurrentLib=-1;
+        g_idCurrentLib=-1;
     else{
         QSettings settings/*=GetSettings()*/;
-        idCurrentLib=settings.value("LibID",-1).toInt();
+        g_idCurrentLib=settings.value("LibID",-1).toInt();
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.exec("SELECT id,name,path,inpx,firstauthor, woDeleted FROM lib ORDER BY name");
         mLibs.clear();
@@ -453,12 +453,12 @@ void UpdateLibs()
             mLibs[idLib].bWoDeleted = query.value(5).toBool();
         }
         if(mLibs.empty())
-            idCurrentLib = -1;
+            g_idCurrentLib = -1;
         else{
-            if(idCurrentLib ==-1)
-                idCurrentLib = mLibs.constBegin().key();
-            if(!mLibs.contains(idCurrentLib))
-                idCurrentLib = -1;
+            if(g_idCurrentLib ==-1)
+                g_idCurrentLib = mLibs.constBegin().key();
+            if(!mLibs.contains(g_idCurrentLib))
+                g_idCurrentLib = -1;
         }
     }
 }
@@ -557,7 +557,7 @@ int main(int argc, char *argv[])
         splash->show();
     a.processEvents();
     setProxy();
-    //idCurrentLib=settings->value("LibID",-1).toInt();
+    //g_idCurrentLib=settings->value("LibID",-1).toInt();
     UpdateLibs();
     MainWindow w;
 #ifdef Q_OS_OSX
@@ -574,7 +574,7 @@ int main(int argc, char *argv[])
     }
     splash->finish(&w);
     //current_lib.UpdateLib();
-    if(idCurrentLib<0 && settings.value("ApplicationMode",0).toInt()==0)
+    if(g_idCurrentLib<0 && settings.value("ApplicationMode",0).toInt()==0)
         w.newLibWizard(false);
     int result=a.exec();
     if(global_settings)
