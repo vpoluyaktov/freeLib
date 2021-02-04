@@ -423,9 +423,16 @@ void MainWindow::UpdateTagsMenu()
     group->setExclusive(true);
     const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
 
-    int size =static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
+    int size = static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.exec("SELECT color,name,id from favorite");
+    // чтение id тега фильтрации текущей библиотеки
+    query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
+    query.bindValue(":id_lib", g_idCurrentLib);
+    query.exec();
+    query.next();
+    int currentTag = query.value(0).toInt();
+    // чтение данных тега
+    query.exec("SELECT color, name, id FROM favorite");
     ui->comboBoxTagFilter->clear();
     int con=1;
     ui->comboBoxTagFilter->addItem("*",0);
@@ -445,7 +452,7 @@ void MainWindow::UpdateTagsMenu()
     while(query.next())
     {
         ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(),query.value(2).toInt());
-        if(settings.value("current_tag").toInt()==ui->comboBoxTagFilter->count()-1 && bUseTag_)
+        if(currentTag == ui->comboBoxTagFilter->count()-1 && bUseTag_)
             ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count()-1);
         pix=::CreateTag(QColor(query.value(0).toString().trimmed()),size);
         Stag new_tag={pix,query.value(2).toInt()};
@@ -738,19 +745,30 @@ void MainWindow::SetTag()
 */
 void MainWindow::TagSelect(int index)
 {
-    QSettings settings;
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
     if(ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt()==-1)
     {
+        // чтение id тега фильтрации текущей библиотеки
+        query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.exec();
+        query.next();
         const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
-        ui->comboBoxTagFilter->setCurrentIndex(settings.value("current_tag",0).toInt());
+        ui->comboBoxTagFilter->setCurrentIndex(query.value(0).toInt());
         ui->comboBoxTagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
         if(td.exec())
             UpdateTagsMenu();
     }
-    else if(index>=0)
+    else if(index >= 0)
     {
-        settings.setValue("current_tag",index);
+        // сохранение тега фильтрации текущей библиотеки
+        query.prepare("UPDATE lib SET currentTag = :currentTag WHERE id = :id_lib;");
+        query.bindValue(":currentTag", index);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.exec();
+
         FillAuthors();
         FillSerials();
         FillGenres();
@@ -1278,6 +1296,7 @@ void MainWindow::SelectLibrary()
     }
 
     loadLibrary(g_idCurrentLib);
+    UpdateTagsMenu();
     UpdateBookLanguageControls();
     FillAuthors();
     FillSerials();
