@@ -2760,7 +2760,6 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     FillSerials();
     FillAuthors();
     FillGenres();
-    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
     FillListBooks();
 }
 
