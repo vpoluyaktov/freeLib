@@ -225,7 +225,7 @@ MainWindow::MainWindow(QWidget* parent) :
     layout->setSpacing(0);
     layout->setMargin(0);
 
-    idCurrentLanguage_ = -1;
+    idCurrentLanguage_ = -1; // если не был задан язык фильтрации, то это - *, все языки
     bUseTag_ = settings.value("use_tag", true).toBool();
     bShowDeleted_ = settings.value("ShowDeleted").toBool();
     int nCurrentTab;
@@ -1283,7 +1283,7 @@ void MainWindow::SelectLibrary()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     SaveLibPosition();
     ui->Books->clear();
-    idCurrentLanguage_ = -1;
+    idCurrentLanguage_ = -1; // если не был задан язык фильтрации, то это - *, все языки
     QAction* action=qobject_cast<QAction*>(sender());
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
@@ -1617,11 +1617,6 @@ void MainWindow::UpdateBookLanguageControls()
                 break;
             }
         }
-    }
-    // если не был задан язык фильтрации, то это - *, все языки
-    if (bIsAllLang) {
-        ui->comboBoxLanguageFilter->setCurrentIndex(0);
-        idCurrentLanguage_ = -1;
     }
     ui->comboBoxLanguageFilter->model()->sort(0);
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
