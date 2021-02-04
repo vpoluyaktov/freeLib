@@ -772,7 +772,6 @@ void MainWindow::TagSelect(int index)
         FillAuthors();
         FillSerials();
         FillGenres();
-        SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
         FillListBooks();
     }
 }
