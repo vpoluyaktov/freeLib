@@ -299,7 +299,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 
     ChangingLanguage(false);
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
 
 
     mode=static_cast<APP_MODE>(settings.value("ApplicationMode",0).toInt());
@@ -1138,7 +1138,7 @@ void MainWindow::BookItemChanged(QTreeWidgetItem *item, int)
         CheckParent(parent);
     QList<book_info> book_list;
     FillCheckedBookList(book_list,nullptr,false,true);
-    ExportBookListBtn(book_list.count()!=0);
+    ExportBookListBtnEnabled(book_list.count()!=0);
 
     ui->Books->blockSignals(wasBlocked);
 }
@@ -1146,7 +1146,7 @@ void MainWindow::BookItemChanged(QTreeWidgetItem *item, int)
 /*
     доступность/недоступность кнопок Экспорта и Открытия книги на панели инструментов
 */
-void MainWindow::ExportBookListBtn(bool Enable)
+void MainWindow::ExportBookListBtnEnabled(bool Enable)
 {
     ui->btnExport->setEnabled(Enable);
     ui->btnOpenBook->setEnabled(false);
@@ -1161,7 +1161,7 @@ void MainWindow::StartSearch()
 
     app->processEvents();
     ui->Books->clear();
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     QString sName = ui->lineEditFindBookTitle->text().trimmed();
     QString sAuthor = ui->lineEditFindAuthor->text().trimmed();
     QString sSeria = ui->lineEditFindSeria->text().trimmed();
@@ -1318,7 +1318,7 @@ void MainWindow::SelectLibrary()
 */
 void MainWindow::SelectAuthor()
 {
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     if (ui->AuthorList->selectedItems().count() == 0)
         return;
 
@@ -1360,7 +1360,7 @@ void MainWindow::SelectAuthor()
 void MainWindow::SelectSeria()
 {
     ui->Books->clear();
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     if(ui->SeriaList->selectedItems().count()==0)
         return;
 
@@ -1411,7 +1411,7 @@ void MainWindow::SelectSeria()
 void MainWindow::SelectGenre()
 {
     ui->Books->clear();
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     if (ui->GenreList->selectedItems().count() == 0)
         return;
     QTreeWidgetItem* cur_item = ui->GenreList->selectedItems()[0];
@@ -1451,13 +1451,13 @@ void MainWindow::SelectBook()
 {
     if(ui->Books->selectedItems().count()==0)
     {
-        ExportBookListBtn(false);
+        ExportBookListBtnEnabled(false);
         ui->Review->setHtml("");
         return;
     }
 
     QSettings *settings=GetSettings();
-    ExportBookListBtn(true);
+    ExportBookListBtnEnabled(true);
     QTreeWidgetItem* item=ui->Books->selectedItems()[0];
     if(item->type() != ITEM_TYPE_BOOK)
     {
@@ -1721,7 +1721,7 @@ void MainWindow::btnPageSearch()
     ui->comboBoxLanguageFilter->setEnabled(false);
     ui->Books->clear();
     ui->labelFindBooks->setText("0");
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
 }
 
 /*

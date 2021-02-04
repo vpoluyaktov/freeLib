@@ -119,7 +119,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* e);
 
     // доступность/недоступность кнопок Экспорта и Открытия книги на панели инструментов
-    void ExportBookListBtn(bool Enable);
+    void ExportBookListBtnEnabled(bool Enable);
 
     void CheckParent(QTreeWidgetItem* parent);
     void CheckChild(QTreeWidgetItem* parent);
