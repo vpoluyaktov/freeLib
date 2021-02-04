@@ -321,7 +321,8 @@ MainWindow::MainWindow(QWidget* parent) :
     switch(nCurrentTab)
     {
     case 0:
-        FillListBooks();
+        //FillListBooks();
+        ui->btnAuthor->click();
         break;
     case 1:
         ui->btnSeries->click();
