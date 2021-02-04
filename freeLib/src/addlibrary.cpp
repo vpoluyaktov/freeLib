@@ -12,7 +12,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     QDialog(parent,Qt::Dialog|Qt::WindowSystemMenuHint),
     ui(new Ui::AddLibrary)
 {
-    bLibChanged = false;
+    bLibChanged_ = false;
     ui->setupUi(this);
 
     QToolButton* tbInpx=new QToolButton(this);
@@ -67,7 +67,7 @@ AddLibrary::~AddLibrary()
 
 bool AddLibrary::IsLibraryChanged() const
 {
-    return bLibChanged;
+    return bLibChanged_;
 }
 
 void AddLibrary::Add_Library()
@@ -95,7 +95,7 @@ void AddLibrary::LogMessage(QString msg)
         delete ui->Log->takeItem(0);
     ui->Log->addItem(msg);
     ui->Log->setCurrentRow(ui->Log->count()-1);
-    m_LogList << msg;
+    LogList_ << msg;
 }
 void AddLibrary::InputINPX()
 {
@@ -167,7 +167,7 @@ void AddLibrary::StartImport()
 void AddLibrary::StartImport(SLib &Lib)
 {
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-    m_LogList.clear();
+    LogList_.clear();
     // UT_NEW: ƒобавить новые книги
     // UT_FULL: ѕересоздать библиотеку
     // UT_DEL_AND_NEW : ”далить несуществующие и добавить новые книги
@@ -185,19 +185,19 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->btnCancel->setText(tr("Break"));
     ui->widgetBaseControlls->hide();
 
-    thread = new QThread;
-    imp_tr=new ImportThread();
-    imp_tr->start(Lib.sInpx,Lib.name,Lib.path,idCurrentLib_,update_type,false,
+    thread_ = new QThread;
+    imp_tr_=new ImportThread();
+    imp_tr_->start(Lib.sInpx,Lib.name,Lib.path,idCurrentLib_,update_type,false,
                   Lib.bFirstAuthor&&Lib.sInpx.isEmpty(),Lib.bWoDeleted);
-    imp_tr->moveToThread(thread);
-    connect(imp_tr, SIGNAL(Message(QString)), this, SLOT(LogMessage(QString)));
-    connect(thread, SIGNAL(started()), imp_tr, SLOT(process()));
-    connect(imp_tr, SIGNAL(End()), thread, SLOT(quit()));
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    connect(imp_tr, SIGNAL(End()), this, SLOT(EndUpdate()));
-    connect(this, SIGNAL(break_import()), imp_tr, SLOT(break_import()));
+    imp_tr_->moveToThread(thread_);
+    connect(imp_tr_, SIGNAL(Message(QString)), this, SLOT(LogMessage(QString)));
+    connect(thread_, SIGNAL(started()), imp_tr_, SLOT(process()));
+    connect(imp_tr_, SIGNAL(End()), thread_, SLOT(quit()));
+    connect(thread_, SIGNAL(finished()), thread_, SLOT(deleteLater()));
+    connect(imp_tr_, SIGNAL(End()), this, SLOT(EndUpdate()));
+    connect(this, SIGNAL(break_import()), imp_tr_, SLOT(break_import()));
 
-    thread->start();
+    thread_->start();
 }
 
 void AddLibrary::AddNewLibrary(SLib &lib)
@@ -314,7 +314,7 @@ void AddLibrary::SaveLibrary(int idLib, SLib &Lib)
     idCurrentLib_ = idSaveLib;
     UpdateLibList();
     SelectLibrary(idSaveLib);
-    bLibChanged = true;
+    bLibChanged_ = true;
  }
 void AddLibrary::DeleteLibrary()
 {
@@ -341,7 +341,7 @@ void AddLibrary::DeleteLibrary()
         ui->listWidgetBooksDirs->clear();
     }
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
-    bLibChanged = true;
+    bLibChanged_ = true;
     QApplication::restoreOverrideCursor();
 }
 void AddLibrary::EndUpdate()
@@ -361,12 +361,12 @@ void AddLibrary::EndUpdate()
     
     // загрузка полного лога в Log контрол
     ui->Log->clear();
-    ui->Log->addItems(m_LogList);
+    ui->Log->addItems(LogList_);
     ui->Log->setCurrentRow(ui->Log->count() - 1);
-    m_LogList.clear();
+    LogList_.clear();
 
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
-    bLibChanged = true;
+    bLibChanged_ = true;
     QApplication::restoreOverrideCursor();
 
 }
@@ -380,7 +380,7 @@ void AddLibrary::reject()
     if (ui->btnCancel->text()==tr("Close"))
     {
         if(idCurrentLib_!=g_idCurrentLib){
-            bLibChanged = true;
+            bLibChanged_ = true;
             g_idCurrentLib=idCurrentLib_;
         }
         QDialog::reject();

@@ -27,11 +27,11 @@ public:
     
 private:
     Ui::AddLibrary *ui;
-    ImportThread *imp_tr;
-    QThread *thread;
+    ImportThread *imp_tr_;
+    QThread *thread_;
     int idCurrentLib_;
-    bool bLibChanged;
-    QStringList m_LogList;
+    bool bLibChanged_;
+    QStringList LogList_;
 
     void UpdateLibList();
     void SaveLibrary(int idLib, SLib& Lib);
