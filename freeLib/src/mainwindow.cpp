@@ -1176,8 +1176,9 @@ void MainWindow::StartSearch()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    app->processEvents();
     ui->Books->clear();
+    ui->labelFindBooks->setText("0");
+    app->processEvents();
     ExportBookListBtnEnabled(false);
     QString sName = ui->lineEditFindBookTitle->text().trimmed();
     QString sAuthor = ui->lineEditFindAuthor->text().trimmed();
