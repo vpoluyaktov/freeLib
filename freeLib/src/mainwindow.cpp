@@ -177,7 +177,7 @@ MainWindow::MainWindow(QWidget* parent) :
         {
             version = query.value(0).toInt();
         }
-        if (version < 6) {
+        if (version < 7) {
             splash->hide();
             if (QMessageBox::question(nullptr, tr("Database"), tr("This version needs new database version. All your old books data will be lost. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
             {
