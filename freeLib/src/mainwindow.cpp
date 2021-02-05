@@ -2451,6 +2451,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
     QApplication::restoreOverrideCursor();
 }
 
+/*
+    выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
+*/
 bool MainWindow::IsBookInList(const SBook &book) const
 {
     int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
