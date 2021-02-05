@@ -612,27 +612,44 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_13">
-                     <property name="text">
-                      <string>Maximum number of books:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="spinBoxFindMaxBooks">
-                     <property name="minimum">
-                      <number>0</number>
-                     </property>
-                     <property name="maximum">
-                      <number>10000000</number>
-                     </property>
-                     <property name="singleStep">
-                      <number>1000</number>
-                     </property>
-                     <property name="value">
-                      <number>1000</number>
-                     </property>
-                    </widget>
+                    <layout class="QHBoxLayout" name="horizontalLayoutFindMaxBooks">
+                     <item>
+                      <widget class="QLabel" name="label_13">
+                       <property name="text">
+                        <string>Maximum number of books:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSpinBox" name="spinBoxFindMaxBooks">
+                       <property name="minimum">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000000</number>
+                       </property>
+                       <property name="singleStep">
+                        <number>1000</number>
+                       </property>
+                       <property name="value">
+                        <number>1000</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_10">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
                    </item>
                    <item>
                     <widget class="QLabel" name="labelInformation">
