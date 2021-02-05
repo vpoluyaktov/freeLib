@@ -94,7 +94,7 @@ private:
     // поиск книг по заданным критериям
     QList<uint> StartBooksSearch(
         const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-        int idLanguage, int idCurrentTag, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+        int idLanguage, int idCurrentTag, uint idCurrentRating, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
@@ -102,6 +102,8 @@ private:
     int LoadLibraryPosition();
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
     void SaveCurrentBookLanguageFilter(const QString& lang);
+    // заполнение комбобокса рейтинга на вкладке Поиск
+    void FiilRatingList() const;
 protected:
     APP_MODE mode;
 
@@ -163,6 +165,8 @@ private slots:
     void ExportAction();
     // установка рейтинга (оценки) книги
     void RatingAction();
+    // установка признака прочитана/не прочитана книга
+    void ReadedAction();
     // правка метаданных книги
     void EditBooks();
     // обработчик экшена "Отметить/снять отметки с книг" 

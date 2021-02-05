@@ -37,6 +37,7 @@ struct SBook
     uchar idLanguage;
     uchar nTag;
     bool bDeleted;
+    bool bReaded;
 };
 
 struct SSerial

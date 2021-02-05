@@ -177,7 +177,7 @@ MainWindow::MainWindow(QWidget* parent) :
         {
             version = query.value(0).toInt();
         }
-        if (version < 6) {
+        if (version < 7) {
             splash->hide();
             if (QMessageBox::question(nullptr, tr("Database"), tr("This version needs new database version. All your old books data will be lost. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
             {
@@ -202,6 +202,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->Books->setColumnWidth(4, 120);
     ui->Books->setColumnWidth(5, 250);
     ui->Books->setColumnWidth(6, 50);
+    ui->Books->setColumnWidth(7, 50);
 
     // деактивировация действий, которые генерируют ссылку в браузере
     ui->Review->setOpenLinks(false);
@@ -250,6 +251,8 @@ MainWindow::MainWindow(QWidget* parent) :
     loadGenres();
     loadLibrary(g_idCurrentLib);
     UpdateBookLanguageControls();
+    // заполнение комбобокса рейтинга на вкладке Поиск
+    FiilRatingList();
 
     FillAuthors();
     FillSerials();
@@ -1196,12 +1199,13 @@ void MainWindow::StartSearch()
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
     int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
+    uint idCurrentRating = ui->comboBoxFindRating->currentText().toUInt();
 
     // Поиск книг по заданным критериям
     QList<uint> listBooks;
     if (idGenre == 0) // * - книги всех Жанров
         listBooks = StartBooksSearch(
-            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
         );
     else {
         // проверяем, Группа ли это Жанров или Жанр
@@ -1217,7 +1221,7 @@ void MainWindow::StartSearch()
 
         if (idParrentGenre > 0) // Жанр
             listBooks = StartBooksSearch(
-                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
             );
         else {
             // Группа Жанров: собираем в список id всех Жанров этой Группы
@@ -1232,7 +1236,7 @@ void MainWindow::StartSearch()
             foreach(uint uGenreId, GenreList) {
                 listBooksForCurrentGenre.clear();
                 listBooksForCurrentGenre << StartBooksSearch(
-                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
                 );
                 // защита от добавления одной и той же книги, но другого Жанра этой же Группы
                 foreach(uint id, listBooksForCurrentGenre) {
@@ -1254,7 +1258,7 @@ void MainWindow::StartSearch()
 */
 QList<uint> MainWindow::StartBooksSearch(
     const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-    int idLanguage, int idCurrentTag, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+    int idLanguage, int idCurrentTag, uint idCurrentRating, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
     QList<uint> listBooks;
@@ -1269,7 +1273,8 @@ QList<uint> MainWindow::StartBooksSearch(
             (idLanguage == -1 || (iBook->idLanguage == idLanguage)) &&
             (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
                 || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
-                || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)))
+                || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
+            idCurrentRating == iBook->nStars)
         {
             if (idGenre == 0) {
                 nCount++;
@@ -1882,6 +1887,16 @@ void MainWindow::ContextMenu(QPoint point)
                 connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
                 rating->addAction(actionStar);
             }
+            // меню книги Прочитано/Не прочитано
+            QMenu* readed = menu.addMenu(tr("Readed"));
+            QAction* actionReaded = new QAction(tr("Readed"), this);
+            actionReaded->setData(QString::number(1).toInt());
+            connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+            readed->addAction(actionReaded);
+            actionReaded = new QAction(tr("Not readed"), this);
+            actionReaded->setData(QString::number(0).toInt());
+            connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+            readed->addAction(actionReaded);
         }
     }
     if(menu.actions().count()>0)
@@ -1946,6 +1961,12 @@ void MainWindow::HeaderContextMenu(QPoint /*point*/)
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(7));
     connect(action, &QAction::triggered, this, [action, this] {ShowHeaderCoulmn(7, "ShowFormat", !action->isChecked()); });
+    menu.addAction(action);
+
+    action = new QAction(tr("Readed"), this);
+    action->setCheckable(true);
+    action->setChecked(!ui->Books->isColumnHidden(8));
+    connect(action, &QAction::triggered, this, [action, this] {ShowHeaderCoulmn(8, "ShowReaded", !action->isChecked()); });
     menu.addAction(action);
 
     menu.exec(QCursor::pos());
@@ -2418,6 +2439,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             item_book->setText(7, book.sFormat);
             item_book->setTextAlignment(7, Qt::AlignCenter);
 
+            item_book->setText(8, book.bReaded ? tr("Yes") : "");
+            item_book->setTextAlignment(8, Qt::AlignCenter);
+
             if(book.bDeleted)
             {
                 QBrush brush(QColor::fromRgb(196,96,96));
@@ -2429,6 +2453,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 item_book->setForeground(5,brush);
                 item_book->setForeground(6,brush);
                 item_book->setForeground(7,brush);
+                item_book->setForeground(8,brush);
             }
 
             uInt idCurrentBook = 0;
@@ -2696,6 +2721,31 @@ void MainWindow::RatingAction()
         break;
     }
 }
+
+/*
+    установка признака прочитана / не прочитана книга
+*/
+void MainWindow::ReadedAction()
+{
+    QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
+    uint id = bookItem->data(0, Qt::UserRole).toUInt();
+    uchar idReaded = static_cast<uchar>(qobject_cast<QAction*>(QObject::sender())->data().toInt());
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    switch (bookItem->type()) {
+    case ITEM_TYPE_BOOK:
+        bookItem->setText(8, idReaded == 1 ? tr("Yes") : "");
+        query.prepare("UPDATE book SET readed = :readed WHERE id=:id");
+        query.bindValue(":readed", idReaded);
+        query.bindValue(":id", id);
+        query.exec();
+        mLibs[g_idCurrentLib].mBooks[id].bReaded = idReaded;
+        break;
+
+    default:
+        break;
+    }
+}
+
 /*
     обработчик переключения в режим конвертера из меню
 */
@@ -3023,4 +3073,13 @@ void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
     query.bindValue(":currentBookLanguage", lang);
     query.bindValue(":id_lib", g_idCurrentLib);
     query.exec();
+}
+
+/*
+    заполнение комбобокса рейтинга на вкладке Поиска
+*/
+void MainWindow::FiilRatingList() const
+{
+    for (int i = 0; i < 6; i++)
+        ui->comboBoxFindRating->addItem(QString("%1").arg(i), i);
 }
