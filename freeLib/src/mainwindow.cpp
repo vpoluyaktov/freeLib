@@ -1750,6 +1750,7 @@ void MainWindow::btnPageSearch()
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(false);
+    ui->comboBoxTagFilter->setEnabled(false);
     ui->Books->clear();
     ui->labelFindBooks->setText("0");
     ExportBookListBtnEnabled(false);
