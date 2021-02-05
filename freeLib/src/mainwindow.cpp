@@ -1178,6 +1178,8 @@ void MainWindow::StartSearch()
 
     ui->Books->clear();
     ui->labelFindBooks->setText("0");
+    ui->comboBoxLanguageFilter->setCurrentIndex(0);
+    ui->comboBoxTagFilter->setCurrentIndex(0);
     app->processEvents();
     ExportBookListBtnEnabled(false);
     QString sName = ui->lineEditFindBookTitle->text().trimmed();
