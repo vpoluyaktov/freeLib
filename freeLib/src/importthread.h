@@ -48,8 +48,11 @@ private:
     QSqlQuery *query;
     qlonglong AddSeria(QString str,qlonglong libID,int tag);
     qlonglong AddAuthor(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);
-    qlonglong AddBook(qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
-                 int size, int IDinLib, bool deleted, QString format, QDate date, QString language, QString keys, qlonglong id_lib, QString archive, int tag);
+    qlonglong AddBook(
+        qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
+        int size, int IDinLib, bool deleted, QString format, QDate date, QString language,
+        QString keys, qlonglong id_lib, QString archive, int tag, bool readed
+    );
 
     qlonglong AddGenre(qlonglong id_book,QString janre,qlonglong id_lib,QString language);
 

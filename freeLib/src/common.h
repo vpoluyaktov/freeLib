@@ -84,6 +84,7 @@ struct book_info
     int num_in_seria;
     QString img;
     int star;
+    bool readed;
     book_info()
     {
         star=0;

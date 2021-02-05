@@ -282,6 +282,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
         bi.language = mLibs[g_idCurrentLib].vLaguages[mLibs[g_idCurrentLib].mBooks[id_book].idLanguage];
         bi.seria = mLibs[g_idCurrentLib].mSerials[mLibs[g_idCurrentLib].mBooks[id_book].idSerial].sName;
         bi.id_seria = mLibs[g_idCurrentLib].mBooks[id_book].idSerial;
+        bi.readed = mLibs[g_idCurrentLib].mBooks[id_book].bReaded;
 
         foreach (uint idAuthor,  mLibs[g_idCurrentLib].mBooks[id_book].listIdAuthors) {
             author_info ti("",0);
@@ -398,11 +399,14 @@ qlonglong ImportThread::AddAuthor(QString str, qlonglong libID, qlonglong id_boo
     query->exec("INSERT INTO book_author(id_book,id_author,id_lib,language) values("+QString::number(id_book)+","+QString::number(id)+","+QString::number(libID)+",'"+language+"')");
     return id;
 }
-qlonglong ImportThread::AddBook(qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
-             int size, int IDinLib, bool deleted, QString format, QDate date, QString language, QString keys, qlonglong id_lib, QString archive, int tag)
+qlonglong ImportThread::AddBook(
+    qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
+    int size, int IDinLib, bool deleted, QString format, QDate date, QString language,
+    QString keys, qlonglong id_lib, QString archive, int tag, bool readed
+)
 {
-    query->prepare("INSERT INTO book(name,star,id_seria,num_in_seria,language,file,size,'deleted',date,keys,id_inlib,id_lib,format,archive,favorite) "
-                   "values(:name,:star,:id_seria,:num_in_seria,:language,:file,:size,:deleted,:date,:keys,:id_inlib,:id_lib,:format,:archive,:favorite)");
+    query->prepare("INSERT INTO book(name,star,id_seria,num_in_seria,language,file,size,'deleted',date,keys,id_inlib,id_lib,format,archive,favorite,readed) "
+                   "values(:name,:star,:id_seria,:num_in_seria,:language,:file,:size,:deleted,:date,:keys,:id_inlib,:id_lib,:format,:archive,:favorite,:readed)");
 
     query->bindValue(":name",name);
     query->bindValue(":star",star);
@@ -419,6 +423,7 @@ qlonglong ImportThread::AddBook(qlonglong star, QString name, qlonglong id_seria
     query->bindValue(":format",format);
     query->bindValue(":archive",archive);
     query->bindValue(":favorite",tag);
+    query->bindValue(":readed", readed);
     if(!query->exec())
         qDebug() << query->lastError().text();
     qlonglong id = query->lastInsertId().toLongLong();
@@ -488,8 +493,11 @@ void ImportThread::readFB2_test(const QByteArray& ba,QString file_name,QString a
     QString num_seria="0";//title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed();
 
 
-    qlonglong id_seria=AddSeria(seria,_ExistingLibID,0);
-    qlonglong id_book=AddBook(0,title,id_seria,num_seria.toInt(),file_name,ba.size(),0,false,"fb2",QDate::currentDate(),language,"",_ExistingLibID,arh_name,0);
+    qlonglong id_seria = AddSeria(seria,_ExistingLibID,0);
+    qlonglong id_book = AddBook(
+        0,title,id_seria,num_seria.toInt(),file_name,ba.size(),0,false,"fb2",QDate::currentDate(),
+        language,"",_ExistingLibID,arh_name,0,0
+    );
     return;
     bool first_author=true;
     AddAuthor("Иванов, Иван,Иванович ",
@@ -523,8 +531,11 @@ void ImportThread::readFB2(const QByteArray& ba, QString file_name, QString arh_
 
     book_info bi;
     GetBookInfo(bi,ba,"fb2",true);
-    qlonglong id_seria=AddSeria(bi.seria,_ExistingLibID,0);
-    qlonglong id_book=AddBook(bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),0,false,fi.suffix(),QDate::currentDate(),bi.language,"",_ExistingLibID,arh_name,0);
+    qlonglong id_seria = AddSeria(bi.seria,_ExistingLibID,0);
+    qlonglong id_book = AddBook(
+        bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),
+        0,false,fi.suffix(),QDate::currentDate(),bi.language,"",_ExistingLibID,arh_name,0, bi.readed
+    );
 
     bool first_author=true;
     foreach(author_info author,bi.authors)
@@ -554,8 +565,11 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
         return;
     }
 
-    qlonglong id_seria=AddSeria(bi.seria,_ExistingLibID,0);
-    qlonglong id_book=AddBook(bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),0,false,"epub",QDate::currentDate(),bi.language,"",_ExistingLibID,arh_name,0);
+    qlonglong id_seria = AddSeria(bi.seria,_ExistingLibID,0);
+    qlonglong id_book = AddBook(
+        bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),
+        0,false,"epub",QDate::currentDate(),bi.language,"",_ExistingLibID,arh_name,0, bi.readed
+    );
 
     bool first_author=true;
     foreach(author_info author,bi.authors)
@@ -991,7 +1005,10 @@ void ImportThread::process()
             qlonglong t1=QDateTime::currentMSecsSinceEpoch();
             qlonglong id_book;
             if(!_bWoDeleted || !deleted){
-                id_book=AddBook(star,name,id_seria,num_in_seria,file,size,id_in_lib,deleted,format,date,language,keys,_ExistingLibID,folder,tag);
+                id_book = AddBook(
+                    star,name,id_seria,num_in_seria,file,size,id_in_lib,deleted,format,date,
+                    language,keys,_ExistingLibID,folder,tag,0/* //todo нужно реальное значения прочитанности книги*/
+                );
                 qlonglong t2=QDateTime::currentMSecsSinceEpoch();
 
                 QStringList Authors=substrings[field_index[_AUTHORS]].split(':');
