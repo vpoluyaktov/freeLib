@@ -434,8 +434,10 @@ void MainWindow::UpdateTagsMenu()
     // чтение данных тега
     query.exec("SELECT color, name, id FROM favorite");
     ui->comboBoxTagFilter->clear();
+    ui->comboBoxFindTag->clear();
     int con=1;
     ui->comboBoxTagFilter->addItem("*",0);
+    ui->comboBoxFindTag->addItem("*", 0);
     TagMenu.clear();
     QAction *ac=new QAction(tr("no tag"),&TagMenu);
     ac->setData(0);
@@ -447,17 +449,20 @@ void MainWindow::UpdateTagsMenu()
     Stag new_tag={pix,0};
     tagsPicList<<new_tag;
     ui->comboBoxTagFilter->setVisible(bUseTag_);
+    ui->comboBoxFindTag->setVisible(bUseTag_);
     ui->tag_label->setVisible(bUseTag_);
 
     while(query.next())
     {
         ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(),query.value(2).toInt());
+        ui->comboBoxFindTag->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
         if(currentTag == ui->comboBoxTagFilter->count()-1 && bUseTag_)
             ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count()-1);
         pix=::CreateTag(QColor(query.value(0).toString().trimmed()),size);
         Stag new_tag={pix,query.value(2).toInt()};
         tagsPicList<<new_tag;
         ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
+        ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         con++;
         QAction *ac=new QAction(pix,query.value(1).toString().trimmed(),&TagMenu);
         ac->setData(query.value(2).toString());
