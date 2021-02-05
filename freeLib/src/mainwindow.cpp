@@ -225,7 +225,7 @@ MainWindow::MainWindow(QWidget* parent) :
     layout->setSpacing(0);
     layout->setMargin(0);
 
-    idCurrentLanguage_ = -1;
+    idCurrentLanguage_ = -1; // если не был задан язык фильтрации, то это - *, все языки
     bUseTag_ = settings.value("use_tag", true).toBool();
     bShowDeleted_ = settings.value("ShowDeleted").toBool();
     int nCurrentTab;
@@ -299,7 +299,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 
     ChangingLanguage(false);
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
 
 
     mode=static_cast<APP_MODE>(settings.value("ApplicationMode",0).toInt());
@@ -423,9 +423,16 @@ void MainWindow::UpdateTagsMenu()
     group->setExclusive(true);
     const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
 
-    int size =static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
+    int size = static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.exec("SELECT color,name,id from favorite");
+    // чтение id тега фильтрации текущей библиотеки
+    query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
+    query.bindValue(":id_lib", g_idCurrentLib);
+    query.exec();
+    query.next();
+    int currentTag = query.value(0).toInt();
+    // чтение данных тега
+    query.exec("SELECT color, name, id FROM favorite");
     ui->comboBoxTagFilter->clear();
     int con=1;
     ui->comboBoxTagFilter->addItem("*",0);
@@ -445,7 +452,7 @@ void MainWindow::UpdateTagsMenu()
     while(query.next())
     {
         ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(),query.value(2).toInt());
-        if(settings.value("current_tag").toInt()==ui->comboBoxTagFilter->count()-1 && bUseTag_)
+        if(currentTag == ui->comboBoxTagFilter->count()-1 && bUseTag_)
             ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count()-1);
         pix=::CreateTag(QColor(query.value(0).toString().trimmed()),size);
         Stag new_tag={pix,query.value(2).toInt()};
@@ -738,23 +745,33 @@ void MainWindow::SetTag()
 */
 void MainWindow::TagSelect(int index)
 {
-    QSettings settings;
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
     if(ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt()==-1)
     {
+        // чтение id тега фильтрации текущей библиотеки
+        query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.exec();
+        query.next();
         const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
-        ui->comboBoxTagFilter->setCurrentIndex(settings.value("current_tag",0).toInt());
+        ui->comboBoxTagFilter->setCurrentIndex(query.value(0).toInt());
         ui->comboBoxTagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
         if(td.exec())
             UpdateTagsMenu();
     }
-    else if(index>=0)
+    else if(index >= 0)
     {
-        settings.setValue("current_tag",index);
+        // сохранение тега фильтрации текущей библиотеки
+        query.prepare("UPDATE lib SET currentTag = :currentTag WHERE id = :id_lib;");
+        query.bindValue(":currentTag", index);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.exec();
+
         FillAuthors();
         FillSerials();
         FillGenres();
-        SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
         FillListBooks();
     }
 }
@@ -1138,7 +1155,7 @@ void MainWindow::BookItemChanged(QTreeWidgetItem *item, int)
         CheckParent(parent);
     QList<book_info> book_list;
     FillCheckedBookList(book_list,nullptr,false,true);
-    ExportBookListBtn(book_list.count()!=0);
+    ExportBookListBtnEnabled(book_list.count()!=0);
 
     ui->Books->blockSignals(wasBlocked);
 }
@@ -1146,7 +1163,7 @@ void MainWindow::BookItemChanged(QTreeWidgetItem *item, int)
 /*
     доступность/недоступность кнопок Экспорта и Открытия книги на панели инструментов
 */
-void MainWindow::ExportBookListBtn(bool Enable)
+void MainWindow::ExportBookListBtnEnabled(bool Enable)
 {
     ui->btnExport->setEnabled(Enable);
     ui->btnOpenBook->setEnabled(false);
@@ -1161,7 +1178,7 @@ void MainWindow::StartSearch()
 
     app->processEvents();
     ui->Books->clear();
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     QString sName = ui->lineEditFindBookTitle->text().trimmed();
     QString sAuthor = ui->lineEditFindAuthor->text().trimmed();
     QString sSeria = ui->lineEditFindSeria->text().trimmed();
@@ -1265,7 +1282,7 @@ void MainWindow::SelectLibrary()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     SaveLibPosition();
     ui->Books->clear();
-
+    idCurrentLanguage_ = -1; // если не был задан язык фильтрации, то это - *, все языки
     QAction* action=qobject_cast<QAction*>(sender());
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
@@ -1278,6 +1295,7 @@ void MainWindow::SelectLibrary()
     }
 
     loadLibrary(g_idCurrentLib);
+    UpdateTagsMenu();
     UpdateBookLanguageControls();
     FillAuthors();
     FillSerials();
@@ -1318,7 +1336,7 @@ void MainWindow::SelectLibrary()
 */
 void MainWindow::SelectAuthor()
 {
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     if (ui->AuthorList->selectedItems().count() == 0)
         return;
 
@@ -1360,7 +1378,7 @@ void MainWindow::SelectAuthor()
 void MainWindow::SelectSeria()
 {
     ui->Books->clear();
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     if(ui->SeriaList->selectedItems().count()==0)
         return;
 
@@ -1380,7 +1398,7 @@ void MainWindow::SelectSeria()
     QList<uint> listBooks;
     auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while(iBook != mLibs[g_idCurrentLib].mBooks.constEnd()){
-        if(iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_==-1 || idCurrentLanguage_ == iBook->idLanguage)){
+        if(iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)){
             listBooks << iBook.key();
         }
         ++iBook;
@@ -1411,7 +1429,7 @@ void MainWindow::SelectSeria()
 void MainWindow::SelectGenre()
 {
     ui->Books->clear();
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
     if (ui->GenreList->selectedItems().count() == 0)
         return;
     QTreeWidgetItem* cur_item = ui->GenreList->selectedItems()[0];
@@ -1451,13 +1469,13 @@ void MainWindow::SelectBook()
 {
     if(ui->Books->selectedItems().count()==0)
     {
-        ExportBookListBtn(false);
+        ExportBookListBtnEnabled(false);
         ui->Review->setHtml("");
         return;
     }
 
     QSettings *settings=GetSettings();
-    ExportBookListBtn(true);
+    ExportBookListBtnEnabled(true);
     QTreeWidgetItem* item=ui->Books->selectedItems()[0];
     if(item->type() != ITEM_TYPE_BOOK)
     {
@@ -1572,27 +1590,36 @@ void MainWindow::UpdateBookLanguageControls()
     ui->comboBoxLanguageFilter->blockSignals(true);
     ui->comboBoxFindLanguage->blockSignals(true);
     ui->comboBoxLanguageFilter->clear();
-    ui->comboBoxLanguageFilter->addItem("*",-1);
+    ui->comboBoxLanguageFilter->addItem("*", -1);
     ui->comboBoxLanguageFilter->setCurrentIndex(0);
     ui->comboBoxFindLanguage->clear();
-    ui->comboBoxFindLanguage->addItem("*",-1);
+    ui->comboBoxFindLanguage->addItem("*", -1);
     ui->comboBoxFindLanguage->setCurrentIndex(0);
 
-    QSettings settings;
-    QString sCurrentLanguage=settings.value("BookLanguage","*").toString();
-    for(int iLang=0;iLang<currentLib.vLaguages.size();iLang++){
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    // чтение языка фильтрации книг текущей библиотеки
+    query.prepare("SELECT currentBookLanguage FROM lib WHERE id = :id_lib;");
+    query.bindValue(":id_lib", g_idCurrentLib);
+    query.exec();
+    query.next();
+    bool bIsAllLang = true;
+    QString sCurrentLanguage = query.value(0).toString();
+    for(int iLang = 0; iLang < currentLib.vLaguages.size(); iLang++){
         QString sLanguage = currentLib.vLaguages[iLang].toUpper();
-        if(!sLanguage.isEmpty()){
-            ui->comboBoxLanguageFilter->addItem(sLanguage,iLang);
-            ui->comboBoxFindLanguage->addItem(sLanguage,iLang);
-            if(sLanguage == sCurrentLanguage){
-                ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count()-1);
+        if (!sLanguage.isEmpty()) {
+            ui->comboBoxLanguageFilter->addItem(sLanguage, iLang);
+            ui->comboBoxFindLanguage->addItem(sLanguage, iLang);
+            if(sLanguage == sCurrentLanguage) {
+                ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count() - 1);
                 idCurrentLanguage_ = iLang;
+                bIsAllLang = false;
+                break;
             }
         }
     }
     ui->comboBoxLanguageFilter->model()->sort(0);
-    settings.setValue("BookLanguage",ui->comboBoxLanguageFilter->currentText());
+    // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+    SaveCurrentBookLanguageFilter(ui->comboBoxLanguageFilter->currentText());
     ui->comboBoxLanguageFilter->blockSignals(false);
     ui->comboBoxFindLanguage->blockSignals(false);
     QApplication::restoreOverrideCursor();
@@ -1721,7 +1748,7 @@ void MainWindow::btnPageSearch()
     ui->comboBoxLanguageFilter->setEnabled(false);
     ui->Books->clear();
     ui->labelFindBooks->setText("0");
-    ExportBookListBtn(false);
+    ExportBookListBtnEnabled(false);
 }
 
 /*
@@ -1732,7 +1759,6 @@ void MainWindow::LangBtnSearch()
     QToolButton *button = qobject_cast<QToolButton*>(sender());
     ui->lineEditSearchString->setText(button->text());
     searchChanged(ui->lineEditSearchString->text());
-    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
     FillListBooks();
 }
 
@@ -2420,7 +2446,7 @@ bool MainWindow::IsBookInList(const SBook &book) const
     int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
     uint idSerial=book.idSerial;
 
-    return (idCurrentLanguage_==-1 || idCurrentLanguage_ == book.idLanguage)
+    return (idCurrentLanguage_ == -1 || idCurrentLanguage_ == book.idLanguage)
             &&(bShowDeleted_ || !book.bDeleted) &&
             (!bUseTag_ || current_tag==0 || current_tag==book.nTag
              ||(idSerial>0 && mLibs[g_idCurrentLib].mSerials[idSerial].nTag == current_tag)
@@ -2727,14 +2753,13 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
 */
 void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &arg1)
 {
-    QSettings settings;
-    settings.setValue("BookLanguage",arg1);
+    // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+    SaveCurrentBookLanguageFilter(arg1);
     idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
     FillSerials();
     FillAuthors();
     FillGenres();
-    SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
     FillListBooks();
 }
 
@@ -2958,4 +2983,16 @@ int MainWindow::LoadLibraryPosition()
     idCurrentBookForGenre_ = query.value(6).toUInt();
     ui->lineEditSearchString->setText(query.value(7).toString());
     return nCurrentTab;
+}
+
+/*
+    сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+*/
+void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
+{
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("UPDATE lib SET currentBookLanguage = :currentBookLanguage WHERE id = :id_lib;");
+    query.bindValue(":currentBookLanguage", lang);
+    query.bindValue(":id_lib", g_idCurrentLib);
+    query.exec();
 }
