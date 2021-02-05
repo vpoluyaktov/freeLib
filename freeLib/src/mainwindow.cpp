@@ -1195,11 +1195,14 @@ void MainWindow::StartSearch()
     int nMaxCount = ui->spinBoxFindMaxBooks->value();
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
+    int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
 
     // Поиск книг по заданным критериям
     QList<uint> listBooks;
     if (idGenre == 0) // * - книги всех Жанров
-        listBooks = StartBooksSearch(sName, sAuthor, sSeria, idGenre, idLanguage, dateFrom, dateTo, nMaxCount);
+        listBooks = StartBooksSearch(
+            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+        );
     else {
         // проверяем, Группа ли это Жанров или Жанр
         // читаем из базы id_parent для выбранного элемента контролов Жанров
@@ -1213,7 +1216,9 @@ void MainWindow::StartSearch()
         uint idParrentGenre = query.value(0).toUInt();
 
         if (idParrentGenre > 0) // Жанр
-            listBooks = StartBooksSearch(sName, sAuthor, sSeria, idGenre, idLanguage, dateFrom, dateTo, nMaxCount);
+            listBooks = StartBooksSearch(
+                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+            );
         else {
             // Группа Жанров: собираем в список id всех Жанров этой Группы
             QList<uint> GenreList;
@@ -1226,7 +1231,9 @@ void MainWindow::StartSearch()
             QList<uint> listBooksForCurrentGenre;
             foreach(uint uGenreId, GenreList) {
                 listBooksForCurrentGenre.clear();
-                listBooksForCurrentGenre << StartBooksSearch(sName, sAuthor, sSeria, uGenreId, idLanguage, dateFrom, dateTo, nMaxCount);
+                listBooksForCurrentGenre << StartBooksSearch(
+                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+                );
                 // защита от добавления одной и той же книги, но другого Жанра этой же Группы
                 foreach(uint id, listBooksForCurrentGenre) {
                     if (!listBooks.contains(id))
@@ -1246,8 +1253,8 @@ void MainWindow::StartSearch()
     Поиск книг по заданным критериям
 */
 QList<uint> MainWindow::StartBooksSearch(
-    const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre, int idLanguage,
-    const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+    const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+    int idLanguage, int idCurrentTag, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
     QList<uint> listBooks;
@@ -1259,7 +1266,10 @@ QList<uint> MainWindow::StartBooksSearch(
             (sAuthor.isEmpty() || mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor, Qt::CaseInsensitive)) &&
             (sName.isEmpty() || iBook->sName.contains(sName, Qt::CaseInsensitive)) &&
             (sSeria.isEmpty() || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.contains(sSeria, Qt::CaseInsensitive))) &&
-            (idLanguage == -1 || (iBook->idLanguage == idLanguage)))
+            (idLanguage == -1 || (iBook->idLanguage == idLanguage)) &&
+            (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
+                || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
+                || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)))
         {
             if (idGenre == 0) {
                 nCount++;
