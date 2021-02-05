@@ -93,8 +93,8 @@ private:
 
     // поиск книг по заданным критериям
     QList<uint> StartBooksSearch(
-        const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre, int idLanguage,
-        const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+        const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+        int idLanguage, int idCurrentTag, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
