@@ -1709,6 +1709,7 @@ void MainWindow::btnAuthor()
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectAuthor();
     QApplication::restoreOverrideCursor();
 }
@@ -1723,6 +1724,7 @@ void MainWindow::btnSeries()
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectSeria();
     QApplication::restoreOverrideCursor();
 }
@@ -1737,6 +1739,7 @@ void MainWindow::btnGenres()
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectGenre();
     QApplication::restoreOverrideCursor();
 }
@@ -2754,7 +2757,7 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
 }
 
 /*
-    загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
+    загрузка списков Авторов, Серий, Жанров, книг, соответствующих выбранному языку в выпадающем списке языков на панели инструментов
 */
 void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &arg1)
 {
