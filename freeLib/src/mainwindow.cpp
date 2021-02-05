@@ -1530,10 +1530,13 @@ void MainWindow::SelectBook()
         if(parent->type() == ITEM_TYPE_SERIA) //если это серия
         {
             QString sequenceName = parent->text(0);
-            if(sequenceName != noSeries_)
-                seria=QString("<a href=seria_%3%1>%2</a>").arg(
-                    QString::number(/*-*/parent->data(0,Qt::UserRole).toLongLong()), sequenceName, parent->text(0).left(1).toUpper()
+            if (sequenceName != noSeries_) {
+                // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
+                sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
+                seria = QString("<a href=seria_%3%1>%2</a>").arg(
+                    QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
                 );
+            }
         }
 
         QString sAuthors;
@@ -2346,7 +2349,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 if(iSerial==mSerias.constEnd()){
                     item_seria = new TreeBookItem(mAuthors[idAuthor],ITEM_TYPE_SERIA);
                     QString SeriaName = mLibs[g_idCurrentLib].mSerials[idSerial].sName;
-                    QString NewSeriaName = SeriaName != "" ? SeriaName : noSeries_;
+                    QString NewSeriaName = tr("Sequence") + ": " + (SeriaName != "" ? SeriaName : noSeries_);
                     item_seria->setText(0, NewSeriaName);
                     item_author->addChild(item_seria);
                     item_seria->setExpanded(true);
