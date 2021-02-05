@@ -250,6 +250,8 @@ MainWindow::MainWindow(QWidget* parent) :
     loadGenres();
     loadLibrary(g_idCurrentLib);
     UpdateBookLanguageControls();
+    // заполнение комбобокса рейтинга на вкладке Поиск
+    FiilRatingList();
 
     FillAuthors();
     FillSerials();
@@ -1196,12 +1198,13 @@ void MainWindow::StartSearch()
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
     int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
+    uint idCurrentRating = ui->comboBoxFindRating->currentText().toUInt();
 
     // Поиск книг по заданным критериям
     QList<uint> listBooks;
     if (idGenre == 0) // * - книги всех Жанров
         listBooks = StartBooksSearch(
-            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
         );
     else {
         // проверяем, Группа ли это Жанров или Жанр
@@ -1217,7 +1220,7 @@ void MainWindow::StartSearch()
 
         if (idParrentGenre > 0) // Жанр
             listBooks = StartBooksSearch(
-                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
             );
         else {
             // Группа Жанров: собираем в список id всех Жанров этой Группы
@@ -1232,7 +1235,7 @@ void MainWindow::StartSearch()
             foreach(uint uGenreId, GenreList) {
                 listBooksForCurrentGenre.clear();
                 listBooksForCurrentGenre << StartBooksSearch(
-                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag, dateFrom, dateTo, nMaxCount
+                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
                 );
                 // защита от добавления одной и той же книги, но другого Жанра этой же Группы
                 foreach(uint id, listBooksForCurrentGenre) {
@@ -1254,7 +1257,7 @@ void MainWindow::StartSearch()
 */
 QList<uint> MainWindow::StartBooksSearch(
     const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-    int idLanguage, int idCurrentTag, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+    int idLanguage, int idCurrentTag, uint idCurrentRating, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
     QList<uint> listBooks;
@@ -1269,7 +1272,8 @@ QList<uint> MainWindow::StartBooksSearch(
             (idLanguage == -1 || (iBook->idLanguage == idLanguage)) &&
             (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
                 || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
-                || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)))
+                || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
+            idCurrentRating == iBook->nStars)
         {
             if (idGenre == 0) {
                 nCount++;
@@ -3023,4 +3027,13 @@ void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
     query.bindValue(":currentBookLanguage", lang);
     query.bindValue(":id_lib", g_idCurrentLib);
     query.exec();
+}
+
+/*
+    заполнение комбобокса рейтинга на вкладке Поиска
+*/
+void MainWindow::FiilRatingList() const
+{
+    for (int i = 0; i < 6; i++)
+        ui->comboBoxFindRating->addItem(QString("%1").arg(i), i);
 }
