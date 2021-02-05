@@ -1178,6 +1178,8 @@ void MainWindow::StartSearch()
 
     ui->Books->clear();
     ui->labelFindBooks->setText("0");
+    ui->comboBoxLanguageFilter->setCurrentIndex(0);
+    ui->comboBoxTagFilter->setCurrentIndex(0);
     app->processEvents();
     ExportBookListBtnEnabled(false);
     QString sName = ui->lineEditFindBookTitle->text().trimmed();
@@ -1709,6 +1711,7 @@ void MainWindow::btnAuthor()
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectAuthor();
     QApplication::restoreOverrideCursor();
 }
@@ -1723,6 +1726,7 @@ void MainWindow::btnSeries()
     ui->SearchFrame->setEnabled(true);
     ui->frame_3->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectSeria();
     QApplication::restoreOverrideCursor();
 }
@@ -1737,6 +1741,7 @@ void MainWindow::btnGenres()
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectGenre();
     QApplication::restoreOverrideCursor();
 }
@@ -1750,6 +1755,7 @@ void MainWindow::btnPageSearch()
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(false);
+    ui->comboBoxTagFilter->setEnabled(false);
     ui->Books->clear();
     ui->labelFindBooks->setText("0");
     ExportBookListBtnEnabled(false);
@@ -2445,6 +2451,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
     QApplication::restoreOverrideCursor();
 }
 
+/*
+    выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
+*/
 bool MainWindow::IsBookInList(const SBook &book) const
 {
     int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
@@ -2753,7 +2762,7 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
 }
 
 /*
-    загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
+    загрузка списков Авторов, Серий, Жанров, книг, соответствующих выбранному языку в выпадающем списке языков на панели инструментов
 */
 void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &arg1)
 {
