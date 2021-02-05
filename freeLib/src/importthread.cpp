@@ -179,6 +179,10 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                                 QString sImgFile = QString("%1/freeLib/cover.jpg").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).first());
                                                 QPixmap image;
                                                 image.loadFromData(img.data());
+                                                // масштабирование обложки книги, если необходимо
+                                                QSize picSize = GetCoverSize();
+                                                if (picSize.width() != -1 && picSize.height() != -1)
+                                                    image = image.scaled(picSize, Qt::KeepAspectRatio);
                                                 image.save(sImgFile);
 
                                                 //bi.img=("<td valign=top style=\"width:%1px\"><center><img src=\"data:"+manifest.childNodes().at(man).attributes().namedItem("media-type").toAttr().value()+
