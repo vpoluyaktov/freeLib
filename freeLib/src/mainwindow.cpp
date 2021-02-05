@@ -2439,8 +2439,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             item_book->setText(7, book.sFormat);
             item_book->setTextAlignment(7, Qt::AlignCenter);
 
-            item_book->setText(8, book.bReaded ? tr("Yes") : "");
             item_book->setTextAlignment(8, Qt::AlignCenter);
+            // пометка ячейки статуса 'Прочитано'
+            MarkReadedBook(item_book, book.bReaded);
 
             if(book.bDeleted)
             {
@@ -2729,11 +2730,12 @@ void MainWindow::ReadedAction()
 {
     QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
     uint id = bookItem->data(0, Qt::UserRole).toUInt();
-    uchar idReaded = static_cast<uchar>(qobject_cast<QAction*>(QObject::sender())->data().toInt());
+    int idReaded = static_cast<int>(qobject_cast<QAction*>(QObject::sender())->data().toInt());
     QSqlQuery query(QSqlDatabase::database("libdb"));
     switch (bookItem->type()) {
     case ITEM_TYPE_BOOK:
-        bookItem->setText(8, idReaded == 1 ? tr("Yes") : "");
+        // пометка ячейки статуса 'Прочитано'
+        MarkReadedBook(bookItem, idReaded);
         query.prepare("UPDATE book SET readed = :readed WHERE id=:id");
         query.bindValue(":readed", idReaded);
         query.bindValue(":id", id);
@@ -3078,8 +3080,18 @@ void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
 /*
     заполнение комбобокса рейтинга на вкладке Поиска
 */
-void MainWindow::FiilRatingList() const
+void MainWindow::FiilRatingList()
 {
     for (int i = 0; i < 6; i++)
         ui->comboBoxFindRating->addItem(QString("%1").arg(i), i);
+}
+
+/*
+    пометка ячейки статуса 'Прочитано'
+*/
+void MainWindow::MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded)
+{
+    bookItem->setText(8, idReaded == 1 ? tr("Yes") : "");
+    //bookItem->setBackgroundColor(8, idReaded == 1 ? QColor(0, 255, 0) : QColor(255, 255, 255));
+    bookItem->setIcon(8, idReaded == 1 ? QIcon(":/icons/img/icons/Streamline.png") : QIcon());
 }
