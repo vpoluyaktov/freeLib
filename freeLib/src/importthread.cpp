@@ -579,6 +579,8 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
     {
         AddAuthor(author.author, _ExistingLibID,id_book,first_author,bi.language,0);
         first_author=false;
+        if (_FirstAuthorOnly)
+            break;
     }
     foreach(genre_info genre,bi.genres)
         AddGenre(id_book,genre.genre,_ExistingLibID,bi.language);
