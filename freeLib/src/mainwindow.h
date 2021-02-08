@@ -39,17 +39,17 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    QSystemTrayIcon *trIcon;
-    QToolButton *tbClear;
-    DropForm *pDropForm;
-    HelpDialog *pHelpDlg;
-    QString lastSearchSymbol;
-    QMenu TagMenu;
-    QObject* currentListForTag;
-    QList<Stag> tagsPicList;
-    opds_server opds;
-    QToolButton *FirstButton;
-    QToolButton *langBtnHash;
+    opds_server opds_;
+    QSystemTrayIcon *trayIcon_;
+    DropForm *pDropForm_;
+    HelpDialog *pHelpDlg_;
+    QToolButton* tbClear_;
+    QString lastSearchSymbol_;
+    QMenu TagMenu_;
+    QObject* currentListForTag_;
+    QList<Stag> tagsPicList_;
+    QToolButton *FirstButton_;
+    QToolButton *langBtnHash_;
 
     int idCurrentLanguage_;
     uint idCurrentAuthor_;

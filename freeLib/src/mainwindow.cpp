@@ -162,8 +162,8 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     noSeries_ = tr("{ Books without series }");
 
-    trIcon = nullptr;
-    pDropForm = nullptr;
+    trayIcon_ = nullptr;
+    pDropForm_ = nullptr;
     errorQuit_ = false;
     QSettings settings;
 
@@ -215,14 +215,14 @@ MainWindow::MainWindow(QWidget* parent) :
 
     setWindowTitle(AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name));
 
-    tbClear = new QToolButton(this);
-    tbClear->setFocusPolicy(Qt::NoFocus);
-    tbClear->setIcon(QIcon(":/icons/img/icons/clear.png"));
-    tbClear->setStyleSheet("border: none;");
-    tbClear->setCursor(Qt::ArrowCursor);
-    tbClear->setVisible(false);
+    tbClear_ = new QToolButton(this);
+    tbClear_->setFocusPolicy(Qt::NoFocus);
+    tbClear_->setIcon(QIcon(":/icons/img/icons/clear.png"));
+    tbClear_->setStyleSheet("border: none;");
+    tbClear_->setCursor(Qt::ArrowCursor);
+    tbClear_->setVisible(false);
     QHBoxLayout* layout = new QHBoxLayout(ui->lineEditSearchString);
-    layout->addWidget(tbClear, 0, Qt::AlignRight);
+    layout->addWidget(tbClear_, 0, Qt::AlignRight);
     layout->setSpacing(0);
     layout->setMargin(0);
 
@@ -259,7 +259,7 @@ MainWindow::MainWindow(QWidget* parent) :
     FillGenres();
 
     connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
-    connect(tbClear,SIGNAL(clicked()),this,SLOT(searchClear()));
+    connect(tbClear_,SIGNAL(clicked()),this,SLOT(searchClear()));
     connect(ui->actionAddLibrary,SIGNAL(triggered()),this,SLOT(ManageLibrary()));
     connect(ui->btnLibrary,SIGNAL(clicked()),this,SLOT(ManageLibrary()));
     connect(ui->btnOpenBook,SIGNAL(clicked()),this,SLOT(BookDblClick()));
@@ -339,11 +339,11 @@ MainWindow::MainWindow(QWidget* parent) :
     }
 
     if(ui->lineEditSearchString->text().trimmed().isEmpty())
-        FirstButton->click();
+        FirstButton_->click();
 
     ui->dateEditFindDateTo->setDate(QDate::currentDate());
 
-    pHelpDlg=nullptr;
+    pHelpDlg_=nullptr;
     connect(ui->actionHelp,SIGNAL(triggered()),this,SLOT(HelpDlg()));
     ui->Books->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
@@ -355,7 +355,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
 
-    opds.server_run();
+    opds_.server_run();
     FillLibrariesMenu();
     UpdateExportMenu();
 
@@ -403,7 +403,7 @@ void MainWindow::showEvent(QShowEvent *ev)
 
 QPixmap MainWindow::GetTagFromTagsPicList(int id) const
 {
-    foreach(Stag tag,tagsPicList)
+    foreach(Stag tag,tagsPicList_)
     {
         if(tag.id==id)
             return tag.pm;
@@ -441,16 +441,16 @@ void MainWindow::UpdateTagsMenu()
     int con=1;
     ui->comboBoxTagFilter->addItem("*",0);
     ui->comboBoxFindTag->addItem("*", 0);
-    TagMenu.clear();
-    QAction *ac=new QAction(tr("no tag"),&TagMenu);
+    TagMenu_.clear();
+    QAction *ac=new QAction(tr("no tag"),&TagMenu_);
     ac->setData(0);
     connect(ac,SIGNAL(triggered()),this,SLOT(SetTag()));
-    TagMenu.addAction(ac);
-    tagsPicList.clear();
+    TagMenu_.addAction(ac);
+    tagsPicList_.clear();
     QPixmap pix=::CreateTag(QColor(0,0,0,0),size);
     pix.setDevicePixelRatio(app->devicePixelRatio());
     Stag new_tag={pix,0};
-    tagsPicList<<new_tag;
+    tagsPicList_<<new_tag;
     ui->comboBoxTagFilter->setVisible(bUseTag_);
     ui->comboBoxFindTag->setVisible(bUseTag_);
     ui->tag_label->setVisible(bUseTag_);
@@ -463,14 +463,14 @@ void MainWindow::UpdateTagsMenu()
             ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count()-1);
         pix=::CreateTag(QColor(query.value(0).toString().trimmed()),size);
         Stag new_tag={pix,query.value(2).toInt()};
-        tagsPicList<<new_tag;
+        tagsPicList_<<new_tag;
         ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         con++;
-        QAction *ac=new QAction(pix,query.value(1).toString().trimmed(),&TagMenu);
+        QAction *ac=new QAction(pix,query.value(1).toString().trimmed(),&TagMenu_);
         ac->setData(query.value(2).toString());
         connect(ac,SIGNAL(triggered()),this,SLOT(SetTag()));
-        TagMenu.addAction(ac);
+        TagMenu_.addAction(ac);
     }
 
     ui->comboBoxTagFilter->addItem(tr("setup ..."),-1);
@@ -617,7 +617,7 @@ void MainWindow::ChangingLanguage(bool change_language)
         delete ui->abc->layout();
     }
 
-    FirstButton=nullptr;
+    FirstButton_=nullptr;
     if(abc_local!="ABC")
     {
         QHBoxLayout *layout_abc=new QHBoxLayout();
@@ -632,8 +632,8 @@ void MainWindow::ChangingLanguage(bool change_language)
             btn->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
             layout_abc->addWidget(btn);
             connect(btn,SIGNAL(clicked()),this,SLOT(LangBtnSearch()));
-            if(!FirstButton)
-                FirstButton=btn;
+            if(!FirstButton_)
+                FirstButton_=btn;
         }
         layout_abc->addStretch();
         layout_abc->setSpacing(1);
@@ -654,10 +654,10 @@ void MainWindow::ChangingLanguage(bool change_language)
                 btn->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
                 layout_abc->addWidget(btn);
                 connect(btn,SIGNAL(clicked()),this,SLOT(LangBtnSearch()));
-                if(!FirstButton && abc.at(i)=='A')
-                    FirstButton=btn;
+                if(!FirstButton_ && abc.at(i)=='A')
+                    FirstButton_=btn;
                 if(abc.at(i)=='#')
-                    langBtnHash=btn;
+                    langBtnHash_=btn;
             }
             layout_abc->addStretch();
             layout_abc->setSpacing(1);
@@ -678,7 +678,7 @@ void MainWindow::ChangingLanguage(bool change_language)
 #endif
     ui->retranslateUi(this);
     if(change_language)
-        FirstButton->click();
+        FirstButton_->click();
 }
 
 /*
@@ -690,7 +690,7 @@ void MainWindow::SetTag()
     uint id;
     QSqlQuery query(QSqlDatabase::database("libdb"));
 
-    if(currentListForTag==qobject_cast<QObject*>(ui->Books))
+    if(currentListForTag_==qobject_cast<QObject*>(ui->Books))
     {
         QTreeWidgetItem* item=ui->Books->selectedItems()[0];
         id=item->data(0,Qt::UserRole).toUInt();
@@ -726,7 +726,7 @@ void MainWindow::SetTag()
             break;
         }
     }
-    else if(currentListForTag==qobject_cast<QObject*>(ui->AuthorList))
+    else if(currentListForTag_==qobject_cast<QObject*>(ui->AuthorList))
     {
         id=ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,1,tag_id);
@@ -736,7 +736,7 @@ void MainWindow::SetTag()
         query.exec();
         mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
     }
-    else if(currentListForTag==qobject_cast<QObject*>(ui->SeriaList))
+    else if(currentListForTag_==qobject_cast<QObject*>(ui->SeriaList))
     {
         id=ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,2 ,tag_id);
@@ -809,8 +809,8 @@ void MainWindow::SaveLibPosition()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if(pHelpDlg!=nullptr)
-        delete pHelpDlg;
+    if(pHelpDlg_!=nullptr)
+        delete pHelpDlg_;
     SaveLibPosition();
     QSettings settings;
     settings.setValue("ApplicationMode", mode);
@@ -838,7 +838,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::ChangingPort(int i)
 {
-    opds.server_run(i);
+    opds_.server_run(i);
 }
 
 /*
@@ -871,7 +871,7 @@ void MainWindow::Settings()
     }
     SaveLibPosition();
     SelectBook();
-    opds.server_run();
+    opds_.server_run();
     UpdateExportMenu();
     resizeEvent(nullptr);
 }
@@ -1806,12 +1806,12 @@ void MainWindow::searchChanged(QString str)
 {
     if(str.length()==0)
     {
-        ui->lineEditSearchString->setText(lastSearchSymbol);
+        ui->lineEditSearchString->setText(lastSearchSymbol_);
         ui->lineEditSearchString->selectAll();
     }
     else
     {
-        lastSearchSymbol=ui->lineEditSearchString->text().left(1);
+        lastSearchSymbol_=ui->lineEditSearchString->text().left(1);
         if((ui->lineEditSearchString->text().left(1)=="*" || ui->lineEditSearchString->text().left(1)=="#" ) && ui->lineEditSearchString->text().length()>1)
         {
             ui->lineEditSearchString->setText(ui->lineEditSearchString->text().right(ui->lineEditSearchString->text().length()-1));
@@ -1827,11 +1827,11 @@ void MainWindow::searchChanged(QString str)
             }
         }
         if(!find)
-            langBtnHash->setChecked(true);
+            langBtnHash_->setChecked(true);
         FillSerials();
         FillAuthors();
     }
-    tbClear->setVisible(ui->lineEditSearchString->text().length()>1);
+    tbClear_->setVisible(ui->lineEditSearchString->text().length()>1);
 }
 
 void MainWindow::searchClear()
@@ -1843,9 +1843,9 @@ void MainWindow::searchClear()
 
 void MainWindow::HelpDlg()
 {
-    if(pHelpDlg==nullptr)
-        pHelpDlg=new HelpDialog();
-    pHelpDlg->show();
+    if(pHelpDlg_==nullptr)
+        pHelpDlg_=new HelpDialog();
+    pHelpDlg_->show();
 }
 
 /*
@@ -1860,7 +1860,7 @@ void MainWindow::ContextMenu(QPoint point)
     if(QObject::sender()==qobject_cast<QObject*>(ui->SeriaList) && !ui->SeriaList->itemAt(point))
         return;
     QMenu menu;
-    currentListForTag=QObject::sender();
+    currentListForTag_=QObject::sender();
     if(QObject::sender()==qobject_cast<QObject*>(ui->Books))
     {
         QMenu *save=menu.addMenu(tr("Save as"));
@@ -1902,7 +1902,7 @@ void MainWindow::ContextMenu(QPoint point)
     if(menu.actions().count()>0)
         menu.addSeparator();
     if(bUseTag_)
-        menu.addActions(TagMenu.actions());
+        menu.addActions(TagMenu_.actions());
     if(menu.actions().count()>0)
         menu.exec(QCursor::pos());
 }
@@ -2209,7 +2209,7 @@ void MainWindow::FillSerials()
 
         ++iSerial;
     }
-//    if(currentListForTag==(QObject*)ui->SeriaList)
+//    if(currentListForTag_==(QObject*)ui->SeriaList)
 //        current_list_id=-1;
 
     ui->SeriaList->blockSignals(wasBlocked);
@@ -2510,7 +2510,7 @@ bool MainWindow::IsBookInList(const SBook &book) const
 void MainWindow::dropEvent(QDropEvent *ev)
 {
     if(mode==MODE_LIBRARY)
-        pDropForm->hide();
+        pDropForm_->hide();
     QList<QUrl> urls = ev->mimeData()->urls();
     QStringList book_list;
     foreach(QUrl url, urls)
@@ -2520,55 +2520,55 @@ void MainWindow::dropEvent(QDropEvent *ev)
     if(book_list.count())
     {
         ExportDlg dlg(this);
-        int id=pDropForm->get_command(ev->pos());
+        int id=pDropForm_->get_command(ev->pos());
         if(id<0)
         {
-            pDropForm->get_command(QPoint(-1,-1));
+            pDropForm_->get_command(QPoint(-1,-1));
             return;
         }
         dlg.exec(book_list,SetCurrentExportSettings(id));
     }
-    pDropForm->get_command(QPoint(-1,-1));
+    pDropForm_->get_command(QPoint(-1,-1));
 }
 
 void MainWindow::DeleteDropForm()
 {
-    if(pDropForm!=nullptr)
+    if(pDropForm_!=nullptr)
     {
-        if(pDropForm->isHidden())
+        if(pDropForm_->isHidden())
         {
-            delete pDropForm;
-            pDropForm=nullptr;
+            delete pDropForm_;
+            pDropForm_=nullptr;
         }
     }
 }
 
 void MainWindow::ShowDropForm()
 {
-    if(pDropForm==nullptr)
-        pDropForm=new DropForm(this);
+    if(pDropForm_==nullptr)
+        pDropForm_=new DropForm(this);
     if(mode==MODE_CONVERTER)
     {
-        pDropForm->setFixedWidth(ui->drop_buttons->rect().width());
-        pDropForm->setFixedHeight(ui->drop_buttons->rect().height());
-        pDropForm->move(ui->drop_buttons->mapToGlobal(ui->drop_buttons->pos())-this->mapToGlobal(QPoint(0,0)));
+        pDropForm_->setFixedWidth(ui->drop_buttons->rect().width());
+        pDropForm_->setFixedHeight(ui->drop_buttons->rect().height());
+        pDropForm_->move(ui->drop_buttons->mapToGlobal(ui->drop_buttons->pos())-this->mapToGlobal(QPoint(0,0)));
     }
     else
     {
-        pDropForm->setFixedWidth(rect().width()/10*9);
-        pDropForm->setFixedHeight(rect().height()/10*9);
-        pDropForm->move(QPoint(rect().width()/20,rect().height()/20));
+        pDropForm_->setFixedWidth(rect().width()/10*9);
+        pDropForm_->setFixedHeight(rect().height()/10*9);
+        pDropForm_->move(QPoint(rect().width()/20,rect().height()/20));
     }
     QStringList cmd;
     foreach (QAction* action, ui->btnExport->menu()->actions())
     {
         cmd<<action->text();
     }
-    pDropForm->AddCommand(cmd);
-    pDropForm->setWindowFlags(Qt::WindowStaysOnTopHint);
-    pDropForm->show();
-    pDropForm->activateWindow();
-    pDropForm->raise();
+    pDropForm_->AddCommand(cmd);
+    pDropForm_->setWindowFlags(Qt::WindowStaysOnTopHint);
+    pDropForm_->show();
+    pDropForm_->activateWindow();
+    pDropForm_->raise();
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* ev)
@@ -2587,20 +2587,20 @@ void MainWindow::dragEnterEvent(QDragEnterEvent* ev)
         ev->setAccepted(false);
         if (mode == MODE_LIBRARY)
         {
-            if (pDropForm != nullptr)
-                pDropForm->hide();
+            if (pDropForm_ != nullptr)
+                pDropForm_->hide();
         }
     }
 }
 void MainWindow::dragMoveEvent(QDragMoveEvent *ev)
 {
-    pDropForm->switch_command(ev->pos());
+    pDropForm_->switch_command(ev->pos());
 }
 
 void MainWindow::dragLeaveEvent(QDragLeaveEvent *)
 {
     if(mode==MODE_LIBRARY)
-        pDropForm->hide();
+        pDropForm_->hide();
 }
 
 /*
@@ -2780,9 +2780,9 @@ void MainWindow::on_actionSwitch_to_convert_mode_triggered()
         restoreGeometry(settings.value("MainWndConvertMode/geometry").toByteArray());
 
     settings.setValue("ApplicationMode", mode);
-    if(pDropForm!=nullptr)
+    if(pDropForm_!=nullptr)
     {
-        pDropForm->hide();
+        pDropForm_->hide();
         DeleteDropForm();
     }
     ShowDropForm();
@@ -2799,10 +2799,10 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
         settings.setValue("MainWndConvertMode/geometry", saveGeometry());
     }
     mode=MODE_LIBRARY;
-    if(pDropForm!=nullptr)
+    if(pDropForm_!=nullptr)
     {
-        delete pDropForm;
-        pDropForm=nullptr;
+        delete pDropForm_;
+        pDropForm_=nullptr;
     }
     ui->stackedWidget->setCurrentWidget(ui->pageLabrary);
     ui->actionSwitch_to_library_mode->setVisible(false);
@@ -2862,13 +2862,13 @@ void MainWindow::on_btnPreference_clicked()
 void MainWindow::resizeEvent(QResizeEvent */*e*/)
 {
 
-    if(pDropForm!=nullptr)
+    if(pDropForm_!=nullptr)
     {
-        if(pDropForm->isVisible())
+        if(pDropForm_->isVisible())
         {
             const QSignalBlocker blocker(this);
-            pDropForm->deleteLater();
-            pDropForm=nullptr;
+            pDropForm_->deleteLater();
+            pDropForm_=nullptr;
             ShowDropForm();
         }
     }
@@ -2877,19 +2877,19 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 {
     if(mode==MODE_CONVERTER)
     {
-        if(pDropForm==nullptr)
+        if(pDropForm_==nullptr)
         {
             ShowDropForm();
         }
-        pDropForm->switch_command(ev->pos());
+        pDropForm_->switch_command(ev->pos());
     }
 }
 
 void MainWindow::leaveEvent(QEvent */*ev*/)
 {
-    if(pDropForm!=nullptr)
+    if(pDropForm_!=nullptr)
     {
-        pDropForm->switch_command(QPoint(-1,-1));
+        pDropForm_->switch_command(QPoint(-1,-1));
     }
 }
 
@@ -2897,11 +2897,11 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 {
     if(mode==MODE_CONVERTER)
     {
-        if(pDropForm==nullptr)
+        if(pDropForm_==nullptr)
         {
             ShowDropForm();
         }
-        int id=pDropForm->get_command(ev->pos());
+        int id=pDropForm_->get_command(ev->pos());
         if(id<0)
             return;
         QFileDialog dialog(this);
@@ -2938,23 +2938,23 @@ void MainWindow::ChangingTrayIcon(int index,int color)
     }
     if(index==0)
     {
-        if(trIcon)
+        if(trayIcon_)
         {
-            trIcon->hide();
-            trIcon->deleteLater();
+            trayIcon_->hide();
+            trayIcon_->deleteLater();
         }
-        trIcon=nullptr;
+        trayIcon_=nullptr;
     }
     else
     {
-        if(!trIcon)
+        if(!trayIcon_)
         {
-            trIcon = new QSystemTrayIcon(this);  //инициализируем объект
-            connect(trIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(TrayMenuAction(QSystemTrayIcon::ActivationReason)));
+            trayIcon_ = new QSystemTrayIcon(this);  //инициализируем объект
+            connect(trayIcon_,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(TrayMenuAction(QSystemTrayIcon::ActivationReason)));
         }
         QIcon icon(QString(":/img/tray%1.png").arg(QString::number(color)));
-        trIcon->setIcon(icon);//.arg(app->devicePixelRatio()>=2?"@2x":"")));  //устанавливаем иконку
-        trIcon->show();
+        trayIcon_->setIcon(icon);//.arg(app->devicePixelRatio()>=2?"@2x":"")));  //устанавливаем иконку
+        trayIcon_->show();
     }
 }
 
