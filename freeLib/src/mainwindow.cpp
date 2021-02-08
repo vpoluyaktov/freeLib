@@ -1497,7 +1497,6 @@ void MainWindow::SelectBook()
         return;
     }
 
-    QSettings *settings=GetSettings();
     ExportBookListBtnEnabled(true);
     QTreeWidgetItem* item=ui->Books->selectedItems()[0];
     if(item->type() != ITEM_TYPE_BOOK)
