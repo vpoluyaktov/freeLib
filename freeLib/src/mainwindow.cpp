@@ -3049,7 +3049,7 @@ int MainWindow::LoadLibraryPosition()
     query.prepare(
         "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
     );
-    //              0           1                       2                       3                   4                   5                   6                       7               
+    //              0           1                       2                       3                   4                      5                     6
     query.bindValue(":id", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();

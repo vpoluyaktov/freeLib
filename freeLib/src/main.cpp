@@ -441,7 +441,10 @@ void UpdateLibs()
         QSettings settings/*=GetSettings()*/;
         g_idCurrentLib=settings.value("LibID",-1).toInt();
         QSqlQuery query(QSqlDatabase::database("libdb"));
-        query.exec("SELECT id,name,path,inpx,firstauthor, woDeleted FROM lib ORDER BY name");
+        query.exec(
+            "SELECT id, name, path, inpx, firstauthor, woDeleted,  currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter, currentTag, currentBookLanguage FROM lib ORDER BY name"
+        );
+        //          0    1     2      3         4          5            6           7             8               9             10                      11                  12                       13              14               15
         mLibs.clear();
         while(query.next())
         {
@@ -451,6 +454,16 @@ void UpdateLibs()
             mLibs[idLib].sInpx = query.value(3).toString().trimmed();
             mLibs[idLib].bFirstAuthor = query.value(4).toBool();
             mLibs[idLib].bWoDeleted = query.value(5).toBool();
+            mLibs[idLib].nCurrentTab = query.value(6).toInt();
+            mLibs[idLib].uIdCurrentAuthor = query.value(7).toUInt();
+            mLibs[idLib].uIdCurrentSeria = query.value(8).toUInt();
+            mLibs[idLib].uIdCurrentGenre = query.value(9).toUInt();
+            mLibs[idLib].uIdCurrentBookForAuthor = query.value(10).toUInt();
+            mLibs[idLib].uIdCurrentBookForSeria = query.value(11).toUInt();
+            mLibs[idLib].uIdCurrentBookForGenre = query.value(12).toUInt();
+            mLibs[idLib].sCurrentSearchingFilter = query.value(13).toString().trimmed();
+            mLibs[idLib].uCurrentTag = query.value(14).toUInt();
+            mLibs[idLib].sCurrentBookLanguage = query.value(15).toString().trimmed();
         }
         if(mLibs.empty())
             g_idCurrentLib = -1;

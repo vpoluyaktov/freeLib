@@ -87,9 +87,11 @@ struct book_info
     bool readed;
     book_info()
     {
-        star=0;
-        num_in_seria=0;
-  //      num_in_seria=-1;
+        id = 0;
+        id_seria = 0;
+        num_in_seria = 0;
+        star = 0;
+        readed = false;
     }
 //    book_info(qlonglong id,qlonglong id_seria):id(id),id_seria(id_seria)
 //    {
