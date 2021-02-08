@@ -145,7 +145,9 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                 }
                                 else if(meta.childNodes().at(m).nodeName().right(7)=="subject")
                                 {
-                                    bi.genres<<genre_info(meta.childNodes().at(m).toElement().text().trimmed(),0);
+                                    QString  genre = meta.childNodes().at(m).toElement().text().trimmed();
+                                    if(!genre.isEmpty())
+                                        bi.genres<<genre_info(meta.childNodes().at(m).toElement().text().trimmed(),0);
                                 }
                                 else if(meta.childNodes().at(m).nodeName().right(11)=="description")
                                 {
@@ -436,11 +438,16 @@ qlonglong ImportThread::AddGenre(qlonglong id_book,QString janre,qlonglong id_li
     janre.replace(" ","_");
     query->exec("SELECT id,main_janre FROM janre where keys LIKE '%"+janre.toLower()+";%'");
     if(query->next())
-    {
-        id_janre=query->value(0).toLongLong();
+        id_janre = query->value(0).toLongLong();
+    else {
+        qDebug() << "Неизвестный жанр: " + janre;
+        // код Жанра Прочие/Неотсортированное
+        query->prepare("SELECT id FROM janre WHERE name ='Неотсортированное';");
+        if (!query->exec())
+            qDebug() << query->lastError().text();
+        query->next();
+        id_janre = query->value(0).toUInt();
     }
-    else
-        qDebug()<<"Неизвестный жанр: "+janre;
     query->exec("INSERT INTO book_janre(id_book,id_janre,id_lib,language) values("+QString::number(id_book)+","+QString::number(id_janre)+","+QString::number(id_lib)+",'"+language+"')");
     query->exec("select last_insert_rowid()");
     query->next();
@@ -560,10 +567,10 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
 
     book_info bi;
     GetBookInfo(bi,ba,"epub",true);
-    if(bi.title.isEmpty() || bi.authors.count()==0)
+    /*if(bi.title.isEmpty() || bi.authors.count()==0)
     {
         return;
-    }
+    }*/
 
     qlonglong id_seria = AddSeria(bi.seria,_ExistingLibID,0);
     qlonglong id_book = AddBook(
