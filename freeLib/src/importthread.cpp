@@ -567,10 +567,6 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
 
     book_info bi;
     GetBookInfo(bi,ba,"epub",true);
-    /*if(bi.title.isEmpty() || bi.authors.count()==0)
-    {
-        return;
-    }*/
 
     qlonglong id_seria = AddSeria(bi.seria,_ExistingLibID,0);
     qlonglong id_book = AddBook(
