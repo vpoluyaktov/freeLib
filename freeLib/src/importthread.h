@@ -36,7 +36,7 @@ protected:
     void importBooks(QString path,int &count);
     void importBooksToLibrary(QString path);
 
-    void readFB2(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
+    void readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
     void readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
     void readFB2_test(const QByteArray& ba,QString file_name,QString arh_name);
 
@@ -51,15 +51,14 @@ private:
     long ExistingLibID_;
     QSqlQuery *Query_;
 
-    qlonglong AddSeria(QString str,qlonglong libID,int tag);
-    qlonglong AddAuthor(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);
-    qlonglong AddBook(
+    qlonglong AddSeriaToSQLite(QString str,qlonglong libID,int tag);
+    qlonglong AddAuthorToSQLite(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);
+    qlonglong AddGenreToSQLite(qlonglong id_book, QString janre, qlonglong id_lib, QString language);
+    qlonglong AddBookToSQLite(
         qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
         int size, int IDinLib, bool deleted, QString format, QDate date, QString language,
         QString keys, qlonglong id_lib, QString archive, int tag, bool readed
     );
-    qlonglong AddGenre(qlonglong id_book,QString janre,qlonglong id_lib,QString language);
-
 };
 
 #endif // IMPORTTHREAD_H
