@@ -537,6 +537,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         FillAuthors();
         FillSerials();
         FillGenres();
+        FillGroups();
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
@@ -788,6 +789,7 @@ void MainWindow::TagSelect(int index)
         FillAuthors();
         FillSerials();
         FillGenres();
+        FillGroups();
         FillListBooks();
     }
 }
@@ -1091,6 +1093,7 @@ void MainWindow::MarkDeletedBooks()
     FillAuthors();
     FillSerials();
     FillGenres();
+    FillGroups();
     FillListBooks();
 
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
@@ -1336,9 +1339,12 @@ void MainWindow::SelectLibrary()
     loadLibrary(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls();
+
     FillAuthors();
     FillSerials();
     FillGenres();
+    FillGroups();
+
     searchChanged(ui->lineEditSearchString->text());
     setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
     FillLibrariesMenu();
