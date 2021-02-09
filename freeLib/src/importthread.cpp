@@ -687,7 +687,6 @@ void ImportThread::importBooks(QString path, int &count)
                                 : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки*/
                             if(SetCurrentZipFileName(&uz,fbd))
                             {
-                                SetCurrentZipFileName(&uz,zip_fi.name);
                                 zip_file.open(QIODevice::ReadOnly);
                                 buffer.setData(zip_file.readAll());
                                 readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
