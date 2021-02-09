@@ -1200,12 +1200,14 @@ void MainWindow::StartSearch()
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
     int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
     uint idCurrentRating = ui->comboBoxFindRating->currentText().toUInt();
+    QString sKeyword = ui->lineEditFindKeywords->text().trimmed();
 
     // Поиск книг по заданным критериям
     QList<uint> listBooks;
     if (idGenre == 0) // * - книги всех Жанров
         listBooks = StartBooksSearch(
-            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
+            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
+            sKeyword, idCurrentRating, dateFrom, dateTo, nMaxCount
         );
     else {
         // проверяем, Группа ли это Жанров или Жанр
@@ -1221,7 +1223,8 @@ void MainWindow::StartSearch()
 
         if (idParrentGenre > 0) // Жанр
             listBooks = StartBooksSearch(
-                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
+                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
+                sKeyword, idCurrentRating, dateFrom, dateTo, nMaxCount
             );
         else {
             // Группа Жанров: собираем в список id всех Жанров этой Группы
@@ -1236,7 +1239,8 @@ void MainWindow::StartSearch()
             foreach(uint uGenreId, GenreList) {
                 listBooksForCurrentGenre.clear();
                 listBooksForCurrentGenre << StartBooksSearch(
-                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag, idCurrentRating, dateFrom, dateTo, nMaxCount
+                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag,
+                    sKeyword, idCurrentRating, dateFrom, dateTo, nMaxCount
                 );
                 // защита от добавления одной и той же книги, но другого Жанра этой же Группы
                 foreach(uint id, listBooksForCurrentGenre) {
@@ -1258,7 +1262,8 @@ void MainWindow::StartSearch()
 */
 QList<uint> MainWindow::StartBooksSearch(
     const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-    int idLanguage, int idCurrentTag, uint idCurrentRating, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+    int idLanguage, int idCurrentTag, const QString& sKeyword,
+    uint idCurrentRating, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
     QList<uint> listBooks;
@@ -1274,7 +1279,8 @@ QList<uint> MainWindow::StartBooksSearch(
             (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
                 || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
                 || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
-            idCurrentRating == iBook->nStars)
+            idCurrentRating == iBook->nStars &&
+            (sKeyword.isEmpty() || iBook->sKeywords.contains(sKeyword, Qt::CaseInsensitive)))
         {
             if (idGenre == 0) {
                 nCount++;
@@ -1572,6 +1578,9 @@ void MainWindow::SelectBook()
             QString sGenre = mGenre[idGenre].sName;
             sGenres+=(sGenres.isEmpty()?"":"; ")+QString("<a href='genre_%3%1'>%2</a>").arg(QString::number(idGenre),sGenre,sGenre.left(1));
         }
+
+        QString sKeyWords = mLibs[g_idCurrentLib].mBooks[idBook].sKeywords.trimmed();
+
         QFile file_html(":/preview.html");
         file_html.open(QIODevice::ReadOnly);
         QString content(file_html.readAll());
@@ -1595,6 +1604,7 @@ void MainWindow::SelectBook()
                 replace("#author#",sAuthors).
                 replace("#genre#",sGenres).
                 replace("#series#",seria).
+                replace("#keywords#", sKeyWords).
                 replace("#file_path#",arh.filePath()).
                 replace("#file_size#",sizeToString(size)/*QString::number(size)+(mem_i>0?"."+QString::number((rest*10+5)/1024):"")+" "+mem[mem_i]*/).
                 replace("#file_data#",book_date.toString("dd.MM.yyyy hh:mm:ss")).

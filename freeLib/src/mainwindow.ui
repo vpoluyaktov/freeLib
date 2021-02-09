@@ -565,6 +565,20 @@
                     </layout>
                    </item>
                    <item>
+                    <layout class="QHBoxLayout" name="horizontalLayoutFindKeywords">
+                     <item>
+                      <widget class="QLabel" name="labelFindKeywords">
+                       <property name="text">
+                        <string>Keywords:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="lineEditFindKeywords"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
                     <widget class="QLabel" name="label_6">
                      <property name="text">
                       <string>Import date:</string>
