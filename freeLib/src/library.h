@@ -113,6 +113,7 @@ struct SLib
     QMultiHash<uint,uint> mAuthorBooksLink;
     QHash<uint,SBook> mBooks;
     QHash<uint,SSerial> mSerials;
+    QHash<uint, Group> mGroups;
     QVector<QString> vLaguages;
     SLib()
     {
