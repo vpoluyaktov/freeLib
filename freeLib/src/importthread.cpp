@@ -249,7 +249,8 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                 bi.annotation.replace("<annotation>","",Qt::CaseInsensitive);
                 bi.annotation.replace("</annotation>","",Qt::CaseInsensitive);
             }
-            bi.title=title_info.elementsByTagName("book-title").at(0).toElement().text();
+            bi.title=title_info.elementsByTagName("book-title").at(0).toElement().text().trimmed();
+            bi.keywords = title_info.elementsByTagName("keywords").at(0).toElement().text().trimmed();
             bi.language=title_info.elementsByTagName("lang").at(0).toElement().text();
             bi.seria=title_info.elementsByTagName("sequence").at(0).attributes().namedItem("name").toAttr().value().trimmed();
             bi.num_in_seria=title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed().toInt();
@@ -276,7 +277,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             bi.isbn=publish_info.elementsByTagName("isbn").at(0).toElement().text();
         }
     }
-    if(id_book>0)
+    if(id_book > 0)
     {
         bi.authors.clear();
         bi.title = mLibs[g_idCurrentLib].mBooks[id_book].sName;
@@ -285,6 +286,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
         bi.seria = mLibs[g_idCurrentLib].mSerials[mLibs[g_idCurrentLib].mBooks[id_book].idSerial].sName;
         bi.id_seria = mLibs[g_idCurrentLib].mBooks[id_book].idSerial;
         bi.readed = mLibs[g_idCurrentLib].mBooks[id_book].bReaded;
+        bi.keywords = mLibs[g_idCurrentLib].mBooks[id_book].sKeywords;
 
         foreach (uint idAuthor,  mLibs[g_idCurrentLib].mBooks[id_book].listIdAuthors) {
             author_info ti("",0);
@@ -485,7 +487,7 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
     qlonglong id_seria = AddSeriaToSQLite(bi.seria,ExistingLibID_,0);
     qlonglong id_book = AddBookToSQLite(
         bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),
-        0,false,fi.suffix(),QDate::currentDate(),bi.language,"",ExistingLibID_,arh_name,0, bi.readed
+        0,false,fi.suffix(),QDate::currentDate(),bi.language,bi.keywords,ExistingLibID_,arh_name,0, bi.readed
     );
 
     bool first_author=true;

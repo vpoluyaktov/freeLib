@@ -36,6 +36,7 @@ struct SBook
     uchar nStars;
     uchar idLanguage;
     uchar nTag;
+    QString sKeywords;
     bool bDeleted;
     bool bReaded;
     SBook()
