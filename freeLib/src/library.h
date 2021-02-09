@@ -82,7 +82,9 @@ private:
     QString Name_;
     uint Id_;
 public:
-    Group() {};
+    Group() { Name_ = "";  Id_ = 0; };
+    Group(const QString& Name, uint id) : Name_(Name), Id_(id) { };
+
     void setName(QString Name) { Name_ = Name; };
     void setId(uint Id) { Id_ = Id; };
     QString getName() const { return Name_; };
