@@ -1578,6 +1578,9 @@ void MainWindow::SelectBook()
             QString sGenre = mGenre[idGenre].sName;
             sGenres+=(sGenres.isEmpty()?"":"; ")+QString("<a href='genre_%3%1'>%2</a>").arg(QString::number(idGenre),sGenre,sGenre.left(1));
         }
+
+        QString sKeyWords = mLibs[g_idCurrentLib].mBooks[idBook].sKeywords.trimmed();
+
         QFile file_html(":/preview.html");
         file_html.open(QIODevice::ReadOnly);
         QString content(file_html.readAll());
@@ -1601,6 +1604,7 @@ void MainWindow::SelectBook()
                 replace("#author#",sAuthors).
                 replace("#genre#",sGenres).
                 replace("#series#",seria).
+                replace("#keywords#", sKeyWords).
                 replace("#file_path#",arh.filePath()).
                 replace("#file_size#",sizeToString(size)/*QString::number(size)+(mem_i>0?"."+QString::number((rest*10+5)/1024):"")+" "+mem[mem_i]*/).
                 replace("#file_data#",book_date.toString("dd.MM.yyyy hh:mm:ss")).
