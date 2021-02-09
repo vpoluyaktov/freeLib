@@ -76,6 +76,19 @@ struct SGenre
     }
 };
 
+class Group
+{
+private:
+    QString Name_;
+    int Id_;
+public:
+    Group() {};
+    void setName(QString Name) { Name_ = Name; };
+    void setId(int Id) { Id_ = Id; };
+    QString getName() const { return Name_; };
+    QString getId() const { return Id_; };
+};
+
 struct SLib
 {
     QString name;
