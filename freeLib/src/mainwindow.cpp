@@ -258,6 +258,7 @@ MainWindow::MainWindow(QWidget* parent) :
     FillAuthors();
     FillSerials();
     FillGenres();
+    FillGroups();
 
     connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
     connect(tbClear_,SIGNAL(clicked()),this,SLOT(searchClear()));
@@ -2324,6 +2325,20 @@ void MainWindow::FillGenres()
     ui->GenreList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "FillGenres " << t_end-t_start << "msec";
+}
+
+/*
+    заполнение контрола списка Групп из базы для выбранной библиотеки
+*/
+void MainWindow::FillGroups()
+{
+    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
+    const bool wasBlocked = ui->GroupList->blockSignals(true);
+    ui->GroupList->clear();
+
+    ui->GroupList->blockSignals(wasBlocked);
+    qint64 t_end = QDateTime::currentMSecsSinceEpoch();
+    qDebug() << "FillGroups " << t_end - t_start << "msec";
 }
 
 /*

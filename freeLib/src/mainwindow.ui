@@ -862,7 +862,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QListWidget" name="listWidgetGroups"/>
+                 <widget class="QListWidget" name="GroupList"/>
                 </item>
                </layout>
               </widget>
