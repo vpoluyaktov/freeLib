@@ -376,14 +376,15 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->actionMinimize_window,SIGNAL(triggered(bool)),SLOT(MinimizeWindow()));
 
     settings.beginGroup("Columns");
-    ui->Books->setColumnHidden(0,!settings.value("ShowName",true).toBool());
-    ui->Books->setColumnHidden(1,!settings.value("ShowNumber",true).toBool());
-    ui->Books->setColumnHidden(2,!settings.value("ShowSize",true).toBool());
-    ui->Books->setColumnHidden(3,!settings.value("ShowMark",true).toBool());
-    ui->Books->setColumnHidden(4,!settings.value("ShowImportDate",true).toBool());
-    ui->Books->setColumnHidden(5,!settings.value("ShowGenre",true).toBool());
-    ui->Books->setColumnHidden(6,!settings.value("ShowLanguage",false).toBool());
-    ui->Books->setColumnHidden(7,!settings.value("ShowFormat", true).toBool());
+    ui->Books->setColumnHidden(0, !settings.value("ShowName",true).toBool());
+    ui->Books->setColumnHidden(1, !settings.value("ShowNumber",true).toBool());
+    ui->Books->setColumnHidden(2, !settings.value("ShowSize",true).toBool());
+    ui->Books->setColumnHidden(3, !settings.value("ShowMark",true).toBool());
+    ui->Books->setColumnHidden(4, !settings.value("ShowImportDate",true).toBool());
+    ui->Books->setColumnHidden(5, !settings.value("ShowGenre",true).toBool());
+    ui->Books->setColumnHidden(6, !settings.value("ShowLanguage",false).toBool());
+    ui->Books->setColumnHidden(7, !settings.value("ShowFormat", true).toBool());
+    ui->Books->setColumnHidden(8, !settings.value("ShowReaded", true).toBool());
     QVariant varHeaders = settings.value("headers");
     if(varHeaders.type() == QVariant::ByteArray){
         ui->Books->header()->restoreState(varHeaders.toByteArray());
