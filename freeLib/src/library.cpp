@@ -52,8 +52,8 @@ void loadLibrary(uint idLibrary)
 
     lib.mBooks.clear();
     query.setForwardOnly(true);
-    query.prepare("SELECT id, name, star, id_seria, num_in_seria, language, file, size, deleted, date, format, id_inlib, archive, first_author_id, favorite, readed FROM book WHERE id_lib=:id_lib;");
-    //                     0  1     2     3         4             5         6     7     8        9     10      11        12       13               14           15
+    query.prepare("SELECT id, name, star, id_seria, num_in_seria, language, file, size, deleted, date, format, id_inlib, archive, first_author_id, favorite, readed, keys FROM book WHERE id_lib=:id_lib;");
+    //                     0  1     2     3         4             5         6     7     8        9     10      11        12       13               14           15    16
     query.bindValue(":id_lib",idLibrary);
     if(!query.exec())
         qDebug() << query.lastError().text();
@@ -82,6 +82,7 @@ void loadLibrary(uint idLibrary)
         book.idFirstAuthor = query.value(13).toUInt();
         book.nTag = qvariant_cast<uchar>(query.value(14));
         book.bReaded = query.value(15).toBool();
+        book.sKeywords = query.value(16).toString();
     }
 
     lib.mAuthorBooksLink.clear();
