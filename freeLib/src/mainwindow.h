@@ -83,7 +83,7 @@ private:
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     void FillListBooks(QList<uint> listBook, uint idCurrentAuthor);
     // выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
-    bool IsBookInList(const SBook &book) const;
+    bool IsMatchingFilterConditions(const SBook &book) const;
     // обновление иконки тэга в списках Авторов, Серий, Книг
     void UpdateListPix(qlonglong id, int list, int tag_id);
     void UncheckBooks(QList<qlonglong> list);
