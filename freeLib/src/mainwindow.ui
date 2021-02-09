@@ -478,6 +478,20 @@
                     <widget class="QLineEdit" name="lineEditFindSeria"/>
                    </item>
                    <item>
+                    <layout class="QHBoxLayout" name="horizontalLayoutFindKeywords">
+                     <item>
+                      <widget class="QLabel" name="labelFindKeywords">
+                       <property name="text">
+                        <string>Keywords:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="lineEditFindKeywords"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
                     <layout class="QHBoxLayout" name="horizontalLayoFindLangTag">
                      <item>
                       <widget class="QLabel" name="label_10">
@@ -550,7 +564,7 @@
                       <widget class="QComboBox" name="comboBoxFindRating"/>
                      </item>
                      <item>
-                      <spacer name="horizontalSpacer_11">
+                      <spacer name="horizontalSpacer_12">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -562,19 +576,25 @@
                        </property>
                       </spacer>
                      </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayoutFindKeywords">
                      <item>
-                      <widget class="QLabel" name="labelFindKeywords">
+                      <widget class="QCheckBox" name="checkBoxFindReaded">
                        <property name="text">
-                        <string>Keywords:</string>
+                        <string>Readed Books</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLineEdit" name="lineEditFindKeywords"/>
+                      <spacer name="horizontalSpacer_11">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
                      </item>
                     </layout>
                    </item>
@@ -653,7 +673,23 @@
                     </layout>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayoutFindMaxBooks">
+                    <widget class="QLabel" name="labelInformation">
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="text">
+                      <string>When you click the 'Find' button, the Language and Tag filters will be reset to the default state (*).</string>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_7">
+                     <property name="spacing">
+                      <number>6</number>
+                     </property>
                      <item>
                       <widget class="QLabel" name="label_13">
                        <property name="text">
@@ -677,39 +713,6 @@
                        </property>
                       </widget>
                      </item>
-                     <item>
-                      <spacer name="horizontalSpacer_10">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="labelInformation">
-                     <property name="frameShape">
-                      <enum>QFrame::Panel</enum>
-                     </property>
-                     <property name="text">
-                      <string>When you click the 'Find' button, the Language and Tag filters will be reset to the default state (*).</string>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_7">
-                     <property name="spacing">
-                      <number>6</number>
-                     </property>
                      <item>
                       <spacer name="horizontalSpacer_5">
                        <property name="orientation">

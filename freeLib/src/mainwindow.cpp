@@ -1201,13 +1201,14 @@ void MainWindow::StartSearch()
     int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
     uint idCurrentRating = ui->comboBoxFindRating->currentText().toUInt();
     QString sKeyword = ui->lineEditFindKeywords->text().trimmed();
+    bool IsReaded = ui->checkBoxFindReaded->isChecked();
 
     // Поиск книг по заданным критериям
     QList<uint> listBooks;
     if (idGenre == 0) // * - книги всех Жанров
         listBooks = StartBooksSearch(
             sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
-            sKeyword, idCurrentRating, dateFrom, dateTo, nMaxCount
+            sKeyword, idCurrentRating, IsReaded, dateFrom, dateTo, nMaxCount
         );
     else {
         // проверяем, Группа ли это Жанров или Жанр
@@ -1224,7 +1225,7 @@ void MainWindow::StartSearch()
         if (idParrentGenre > 0) // Жанр
             listBooks = StartBooksSearch(
                 sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
-                sKeyword, idCurrentRating, dateFrom, dateTo, nMaxCount
+                sKeyword, idCurrentRating, IsReaded, dateFrom, dateTo, nMaxCount
             );
         else {
             // Группа Жанров: собираем в список id всех Жанров этой Группы
@@ -1240,7 +1241,7 @@ void MainWindow::StartSearch()
                 listBooksForCurrentGenre.clear();
                 listBooksForCurrentGenre << StartBooksSearch(
                     sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag,
-                    sKeyword, idCurrentRating, dateFrom, dateTo, nMaxCount
+                    sKeyword, idCurrentRating, IsReaded, dateFrom, dateTo, nMaxCount
                 );
                 // защита от добавления одной и той же книги, но другого Жанра этой же Группы
                 foreach(uint id, listBooksForCurrentGenre) {
@@ -1262,8 +1263,8 @@ void MainWindow::StartSearch()
 */
 QList<uint> MainWindow::StartBooksSearch(
     const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-    int idLanguage, int idCurrentTag, const QString& sKeyword,
-    uint idCurrentRating, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+    int idLanguage, int idCurrentTag, const QString& sKeyword, uint idCurrentRating,
+    bool IsReaded, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
     QList<uint> listBooks;
@@ -1280,7 +1281,8 @@ QList<uint> MainWindow::StartBooksSearch(
                 || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
                 || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
             idCurrentRating == iBook->nStars &&
-            (sKeyword.isEmpty() || iBook->sKeywords.contains(sKeyword, Qt::CaseInsensitive)))
+            (sKeyword.isEmpty() || iBook->sKeywords.contains(sKeyword, Qt::CaseInsensitive)) &&
+            (IsReaded ? iBook->bReaded : true))
         {
             if (idGenre == 0) {
                 nCount++;
