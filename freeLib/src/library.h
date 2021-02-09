@@ -80,11 +80,11 @@ class Group
 {
 private:
     QString Name_;
-    int Id_;
+    uint Id_;
 public:
     Group() {};
     void setName(QString Name) { Name_ = Name; };
-    void setId(int Id) { Id_ = Id; };
+    void setId(uint Id) { Id_ = Id; };
     QString getName() const { return Name_; };
     QString getId() const { return Id_; };
 };
