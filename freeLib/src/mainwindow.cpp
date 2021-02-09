@@ -340,6 +340,9 @@ MainWindow::MainWindow(QWidget* parent) :
     case 3:
         ui->btnSearch->click();
         break;
+    case 4:
+        ui->btnGroups->click();
+        break;
     }
 
     if(ui->lineEditSearchString->text().trimmed().isEmpty())
