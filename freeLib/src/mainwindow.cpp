@@ -250,6 +250,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     UpdateTagsMenu();
     loadGenres();
+    loadGroups(g_idCurrentLib);
     loadLibrary(g_idCurrentLib);
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск
