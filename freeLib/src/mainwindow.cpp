@@ -297,6 +297,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->lineEditFindAuthor,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
+    connect(ui->btnGroups, SIGNAL(clicked()), this, SLOT(btnPageGroups()));
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
     connect(ui->actionNew_library_wizard,SIGNAL(triggered()),this,SLOT(newLibWizard()));
     connect(ui->Books,SIGNAL(BookItemChanged(QTreeWidgetItem*,int)),this,SLOT(BookItemChanged(QTreeWidgetItem*,int)));
@@ -3099,4 +3100,19 @@ void MainWindow::MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded)
     bookItem->setText(8, idReaded == 1 ? tr("Yes") : "");
     //bookItem->setBackgroundColor(8, idReaded == 1 ? QColor(0, 255, 0) : QColor(255, 255, 255));
     bookItem->setIcon(8, idReaded == 1 ? QIcon(":/icons/img/icons/Streamline.png") : QIcon());
+}
+
+/*
+    обработчик кнопки отображения Групп книг
+*/
+void MainWindow::btnPageGroups()
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ui->tabWidget->setCurrentIndex(4);
+    ui->SearchFrame->setEnabled(false);
+    ui->frame_3->setEnabled(false);
+    ui->comboBoxLanguageFilter->setEnabled(false);
+    ui->comboBoxTagFilter->setEnabled(false);
+
+    QApplication::restoreOverrideCursor();
 }

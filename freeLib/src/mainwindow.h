@@ -163,6 +163,8 @@ private slots:
     // обработчик изменения текста в контроле строки поиска
     void searchChanged(QString str);
     void searchClear();
+    // обработчик кнопки отображения Групп книг
+    void btnPageGroups();
 
     // экспорт выделенных книг
     void ExportAction();
