@@ -159,6 +159,31 @@ void loadGenres()
     qDebug()<< "loadGenre " << t_end-t_start << "msec";
 }
 
+void loadGroups(uint idLibrary)
+{
+    if (!db_is_open)
+        return;
+
+    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+
+    SLib& lib = mLibs[idLibrary];
+    lib.mGroups.clear();
+    query.prepare("SELECT id, name FROM groups WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    while (query.next()) {
+        uint idGroup = query.value(0).toUInt();
+        QString sName = query.value(1).toString();
+        lib.mGroups[idGroup].setId(idGroup);
+        lib.mGroups[idGroup].setName(sName);
+    }
+    qint64 t_end = QDateTime::currentMSecsSinceEpoch();
+    qDebug() << "loadGroups " << t_end - t_start << "msec";
+}
+
 QString SAuthor::getName() const
 {
     QString sAuthorName = QString("%1 %2 %3").arg(sLastName,sFirstName,sMiddleName).trimmed();

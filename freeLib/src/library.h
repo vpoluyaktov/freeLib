@@ -133,6 +133,7 @@ struct SLib
 
 void loadLibrary(uint idLibrary);
 void loadGenres();
+void loadGroups(uint idLibrary);
 
 extern bool db_is_open;
 
