@@ -2144,7 +2144,7 @@ void MainWindow::FillAuthors()
             int count =0;
             foreach( uint idBook, booksId) {
                 SBook &book = currentLib.mBooks[idBook];
-                if(IsBookInList(book))
+                if(IsMatchingFilterConditions(book))
                 {
                     count++;
                 }
@@ -2186,7 +2186,7 @@ void MainWindow::FillSerials()
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
-        if(IsBookInList(*iBook) &&
+        if(IsMatchingFilterConditions(*iBook) &&
                 (sSearch == "*" || (sSearch=="#" && !mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
         {
             if(mCounts.contains(iBook->idSerial))
@@ -2243,7 +2243,7 @@ void MainWindow::FillGenres()
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
-        if(IsBookInList(*iBook))
+        if(IsMatchingFilterConditions(*iBook))
         {
             foreach (uint iGenre, iBook->listIdGenres) {
                 if(mCounts.contains(iGenre))
@@ -2367,7 +2367,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
 
     foreach(uint idBook, listBook) {
         SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
-        if(IsBookInList(book))
+        if(IsMatchingFilterConditions(book))
         {
             uint idSerial=book.idSerial;
             uint idAuthor;
@@ -2504,7 +2504,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
 /*
     выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
 */
-bool MainWindow::IsBookInList(const SBook &book) const
+bool MainWindow::IsMatchingFilterConditions(const SBook &book) const
 {
     int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
     uint idSerial=book.idSerial;
