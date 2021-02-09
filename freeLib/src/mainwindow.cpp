@@ -203,6 +203,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->Books->setColumnWidth(5, 250);
     ui->Books->setColumnWidth(6, 50);
     ui->Books->setColumnWidth(7, 50);
+    ui->Books->setColumnWidth(8, 50);
 
     // деактивировация действий, которые генерируют ссылку в браузере
     ui->Review->setOpenLinks(false);
@@ -2457,15 +2458,8 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             if(book.bDeleted)
             {
                 QBrush brush(QColor::fromRgb(196,96,96));
-                item_book->setForeground(0,brush);
-                item_book->setForeground(1,brush);
-                item_book->setForeground(2,brush);
-                item_book->setForeground(3,brush);
-                item_book->setForeground(4,brush);
-                item_book->setForeground(5,brush);
-                item_book->setForeground(6,brush);
-                item_book->setForeground(7,brush);
-                item_book->setForeground(8,brush);
+                for (int i = 0; i != 9; ++i)
+                    item_book->setForeground(i, brush);
             }
 
             uInt idCurrentBook = 0;
