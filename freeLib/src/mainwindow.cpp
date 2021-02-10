@@ -2393,8 +2393,7 @@ void MainWindow::FillGroups()
     ui->GroupList->clear();
     SLib& currentLib = mLibs[g_idCurrentLib];
 
-    QListWidgetItem* itemFavorites;
-    QListWidgetItem* itemToRead;
+    QList<QListWidgetItem*> blockedItemList;
 
     QListWidgetItem* item;
     QListWidgetItem* selectedItem = nullptr;
