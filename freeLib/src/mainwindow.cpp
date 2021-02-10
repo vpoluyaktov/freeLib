@@ -1341,6 +1341,7 @@ void MainWindow::SelectLibrary()
     }
 
     loadLibrary(g_idCurrentLib);
+    loadGroups(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls();
 
@@ -1515,7 +1516,7 @@ void MainWindow::SelectGenre()
 }
 
 /*
-    выбор (выделение) Группы всписке Групп
+    выбор (выделение) Группы в списке Групп
 */
 void MainWindow::SelectGroup()
 {
