@@ -103,9 +103,11 @@ struct SLib
     uint uIdCurrentAuthor;
     uint uIdCurrentSeria;
     uint uIdCurrentGenre;
+    uint uIdCurrentGroup;
     uint uIdCurrentBookForAuthor;
     uint uIdCurrentBookForSeria;
     uint uIdCurrentBookForGenre;
+    uint uIdCurrentBookForGroup;
     QString sCurrentSearchingFilter;
     uint uCurrentTag;
     QString sCurrentBookLanguage;
@@ -124,9 +126,11 @@ struct SLib
         uIdCurrentAuthor = 0;
         uIdCurrentSeria = 0;
         uIdCurrentGenre = 0;
+        uIdCurrentGroup = 0;
         uIdCurrentBookForAuthor = 0;
         uIdCurrentBookForSeria = 0;
         uIdCurrentBookForGenre = 0;
+        uIdCurrentBookForGroup = 0;
         uCurrentTag = 0;
     }
 };
