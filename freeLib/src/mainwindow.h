@@ -196,6 +196,8 @@ private slots:
     void SelectSeria();
     // выбор (выделение) ∆анра в дереве ∆анров
     void SelectGenre();
+    // выбор (выделение) √руппы всписке √рупп
+    void SelectGroup();
     // выбор (выделение)  ниги в списке  ниг
     void SelectBook();
 

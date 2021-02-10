@@ -293,6 +293,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->Books,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),this,SLOT(BookDblClick()));
     connect(ui->GenreList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectGenre()));
     connect(ui->SeriaList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectSeria()));
+    connect(ui->GroupList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectGroup()));
     connect(ui->btnAuthor,SIGNAL(clicked()),this,SLOT(btnAuthor()));
     connect(ui->btnGenre,SIGNAL(clicked()),this,SLOT(btnGenres()));
     connect(ui->btnSeries,SIGNAL(clicked()),this,SLOT(btnSeries()));
@@ -1509,6 +1510,22 @@ void MainWindow::SelectGenre()
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     FillListBooks(listBooks, 0);
+}
+
+/*
+    выбор (выделение) Группы всписке Групп
+*/
+void MainWindow::SelectGroup()
+{
+    QSettings settings;
+    if (settings.value("store_position", true).toBool()) {
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.setForwardOnly(true);
+        query.prepare("UPDATE lib SET currentGroup = :currentGroup WHERE id = :id_lib");
+        query.bindValue(":currentGroup", idCurrentGroup_);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.exec();
+    }
 }
 
 /*
