@@ -1516,6 +1516,14 @@ void MainWindow::SelectGenre()
 */
 void MainWindow::SelectGroup()
 {
+    ui->Books->clear();
+    ExportBookListBtnEnabled(false);
+    if (ui->GroupList->selectedItems().count() == 0)
+        return;
+
+    QListWidgetItem* cur_item = ui->GroupList->selectedItems()[0];
+    idCurrentGroup_ = cur_item->data(Qt::UserRole).toUInt();
+
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -1525,6 +1533,9 @@ void MainWindow::SelectGroup()
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
+
+    // скроллинг до выделенной Группы
+    ui->GroupList->scrollToItem(cur_item);
 }
 
 /*
