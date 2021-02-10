@@ -1743,8 +1743,12 @@ void MainWindow::ManageLibrary()
         loadGroups(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
+        
+        FillAuthors();
+        FillSerials();
         FillGenres();
         FillGroups();
+
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
