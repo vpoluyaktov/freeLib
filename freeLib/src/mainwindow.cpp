@@ -1740,9 +1740,11 @@ void MainWindow::ManageLibrary()
             nCurrentTab = LoadLibraryPosition();
         }
         loadLibrary(g_idCurrentLib);
+        loadGroups(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         FillGenres();
+        FillGroups();
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
@@ -1762,6 +1764,9 @@ void MainWindow::ManageLibrary()
                 break;
             case 3:
                 ui->btnSearch->click();
+                break;
+            case 4:
+                ui->btnGroups->click();
                 break;
             }
         }
