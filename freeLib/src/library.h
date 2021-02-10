@@ -83,7 +83,9 @@ private:
     uint Id_;
     bool Blocked_;
 public:
-    Group() { Name_ = ""; Id_ = 0; Blocked_ = false;     };
+    Group() {
+        Name_ = ""; Id_ = 0; Blocked_ = false;
+    };
     Group(const QString& Name, uint id, bool blocked) : Name_(Name), Id_(id), Blocked_(blocked) { };
 
     void setName(QString Name) { Name_ = Name; };
