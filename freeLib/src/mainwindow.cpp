@@ -3103,9 +3103,9 @@ int MainWindow::LoadLibraryPosition()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter FROM lib WHERE id=:id;"
+        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter FROM lib WHERE id=:id;"
     );
-    //              0           1                       2                       3                   4                      5                     6
+    //              0           1                2            3              4                  5                   6                   7                   8                      9
     query.bindValue(":id", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();
@@ -3114,10 +3114,12 @@ int MainWindow::LoadLibraryPosition()
     idCurrentAuthor_ = query.value(1).toUInt();
     idCurrentSerial_ = query.value(2).toUInt();
     idCurrentGenre_ = query.value(3).toUInt();
-    idCurrentBookForAuthor_ = query.value(4).toUInt();
-    idCurrentBookForSeria_ = query.value(5).toUInt();
-    idCurrentBookForGenre_ = query.value(6).toUInt();
-    ui->lineEditSearchString->setText(query.value(7).toString());
+    idCurrentGroup_ = query.value(4).toUInt();
+    idCurrentBookForAuthor_ = query.value(5).toUInt();
+    idCurrentBookForSeria_ = query.value(6).toUInt();
+    idCurrentBookForGenre_ = query.value(7).toUInt();
+    idCurrentBookForGroup_ = query.value(8).toUInt();
+    ui->lineEditSearchString->setText(query.value(9).toString());
     return nCurrentTab;
 }
 
