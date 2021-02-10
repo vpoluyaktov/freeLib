@@ -2557,6 +2557,9 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             case 2: // Жанры
                 idCurrentBook = idCurrentBookForGenre_;
                 break;
+            case 4: // Группы
+                idCurrentBook = idCurrentBookForGroup_;
+                break;
             }
 
             if(idBook == idCurrentBook)
