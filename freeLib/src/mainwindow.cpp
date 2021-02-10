@@ -805,15 +805,17 @@ void MainWindow::SaveLibPosition()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentSearchingFilter) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :currentSearchingFilter) WHERE id = :id_lib;"
+        "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentGroup, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :idCurrentBookForGroup, :currentSearchingFilter) WHERE id = :id_lib;"
     );
     query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
     query.bindValue(":idCurrentAuthor", idCurrentAuthor_);
     query.bindValue(":idCurrentSeria", idCurrentSerial_);
     query.bindValue(":idCurrentGenre", idCurrentGenre_);
+    query.bindValue(":idCurrentGroup", idCurrentGroup_);
     query.bindValue(":idCurrentBookForAuthor", idCurrentBookForAuthor_);
     query.bindValue(":idCurrentBookForSeria", idCurrentBookForSeria_);
     query.bindValue(":idCurrentBookForGenre", idCurrentBookForGenre_);
+    query.bindValue(":idCurrentBookForGroup", idCurrentBookForGroup_);
     query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
     query.bindValue(":id_lib", g_idCurrentLib);
     query.exec();
