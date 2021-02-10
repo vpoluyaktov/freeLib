@@ -41,6 +41,8 @@ private:
     void SetEnabledOrDisabledControllsOfBooksDirs();
     // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
     void SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
+    // занесение в таблицу groups две неудаляемые Группы
+    void AddGroupToSQLite(qlonglong libID);
 
 private slots:
     void LogMessage(QString msg);

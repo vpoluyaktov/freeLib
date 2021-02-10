@@ -464,9 +464,9 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book,QString janre,qlonglo
 qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group)
 {
     // проверка, есть ли в таблице groups добавляемая группа group для текущей библиотеки libID
-    Query_->prepare("SELECT id FROM groups WHERE id_lib=:id_lib AND group=:group;");
+    Query_->prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND name = :group;");
+    Query_->bindValue(":name", group);
     Query_->bindValue(":id_lib", libID);
-    Query_->bindValue(":group", group);
     Query_->exec();
     qlonglong groupID = 0;
     if (Query_->next())
@@ -474,8 +474,8 @@ qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QStr
     if (groupID == 0)
     {
         // если группы group нет в таблице groups текущей библиотеки, то создаем запись
-        Query_->prepare("INSERT INTO groups(group, id_lib) values(:group, :id_lib);");
-        Query_->bindValue(":group", group);
+        Query_->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+        Query_->bindValue(":name", group);
         Query_->bindValue(":id_lib", libID);
         if (!Query_->exec())
             qDebug() << Query_->lastError().text();

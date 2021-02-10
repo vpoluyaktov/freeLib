@@ -173,6 +173,9 @@ void AddLibrary::StartImport(SLib &Lib)
     // UT_DEL_AND_NEW : Удалить несуществующие и добавить новые книги
     int update_type=(ui->rbtnAddNewBook->isChecked()?UT_NEW:ui->rbtnDeleleOldBook->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
+    // занесение в таблицу groups две неудаляемые Группы
+    AddGroupToSQLite(idCurrentLib_);
+
     ui->btnExportLibrary->setDisabled(true);
     ui->btnUpdateLibrary->setDisabled(true);
     ui->lineEditBooksDir->setDisabled(true);
@@ -533,4 +536,40 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
         ui->btnBooksDirDelete->setEnabled(true);
     else
         ui->btnBooksDirDelete->setDisabled(true);
+}
+
+/*
+    занесение в таблицу groups две неудаляемые Группы
+*/
+void AddLibrary::AddGroupToSQLite(qlonglong libID)
+{
+    //QSettings* settings = GetSettings();
+    QSettings settings;
+    QFileInfo fi(RelativeToAbsolutePath(settings.value("database_path").toString()));
+    QString sDbFile = fi.canonicalFilePath();
+    QSqlDatabase dbase = QSqlDatabase::addDatabase("QSQLITE", "importdb");
+    dbase.setDatabaseName(sDbFile);
+    if (!dbase.open())
+    {
+        qDebug() << ("Error connect! ") << sDbFile;
+        return;
+    }
+
+    QSqlQuery* Query = new QSqlQuery(dbase);
+    Query->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+    Query->bindValue(":name", tr("Favorites "));
+    Query->bindValue(":id_lib", libID);
+    if (!Query->exec())
+        qDebug() << Query->lastError().text();
+
+    Query->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+    Query->bindValue(":name", tr("To read "));
+    Query->bindValue(":id_lib", libID);
+    if (!Query->exec())
+        qDebug() << Query->lastError().text();
+
+    if (Query != nullptr) {
+        delete Query;
+        Query = nullptr;
+    }
 }
