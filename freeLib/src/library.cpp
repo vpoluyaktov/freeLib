@@ -170,15 +170,17 @@ void loadGroups(uint idLibrary)
 
     SLib& lib = mLibs[idLibrary];
     lib.mGroups.clear();
-    query.prepare("SELECT id, name FROM groups WHERE id_lib=:id_lib;");
+    query.prepare("SELECT id, name, blocked FROM groups WHERE id_lib=:id_lib;");
     query.bindValue(":id_lib", idLibrary);
     if (!query.exec())
         qDebug() << query.lastError().text();
     while (query.next()) {
         uint idGroup = query.value(0).toUInt();
         QString sName = query.value(1).toString();
+        bool isBlocked = query.value(3).toBool();
         lib.mGroups[idGroup].setId(idGroup);
         lib.mGroups[idGroup].setName(sName);
+        lib.mGroups[idGroup].setBlocked(isBlocked);
     }
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug() << "loadGroups " << t_end - t_start << "msec";
