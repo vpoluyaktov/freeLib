@@ -543,33 +543,16 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
 */
 void AddLibrary::AddGroupToSQLite(qlonglong libID)
 {
-    //QSettings* settings = GetSettings();
-    QSettings settings;
-    QFileInfo fi(RelativeToAbsolutePath(settings.value("database_path").toString()));
-    QString sDbFile = fi.canonicalFilePath();
-    QSqlDatabase dbase = QSqlDatabase::addDatabase("QSQLITE", "importdb");
-    dbase.setDatabaseName(sDbFile);
-    if (!dbase.open())
-    {
-        qDebug() << ("Error connect! ") << sDbFile;
-        return;
-    }
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+    query.bindValue(":name", tr("Favorites"));
+    query.bindValue(":id_lib", libID);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
 
-    QSqlQuery* Query = new QSqlQuery(dbase);
-    Query->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
-    Query->bindValue(":name", tr("Favorites "));
-    Query->bindValue(":id_lib", libID);
-    if (!Query->exec())
-        qDebug() << Query->lastError().text();
-
-    Query->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
-    Query->bindValue(":name", tr("To read "));
-    Query->bindValue(":id_lib", libID);
-    if (!Query->exec())
-        qDebug() << Query->lastError().text();
-
-    if (Query != nullptr) {
-        delete Query;
-        Query = nullptr;
-    }
+    query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+    query.bindValue(":name", tr("To read"));
+    query.bindValue(":id_lib", libID);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
 }

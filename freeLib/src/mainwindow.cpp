@@ -2358,11 +2358,11 @@ void MainWindow::FillGroups()
         item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, iGroup.key());
         ui->GroupList->addItem(item);
-        /*if (iGroup.key() == idCurrentGroup_)
+        if (iGroup.key() == idCurrentGroup_)
         {
             item->setSelected(true);
             ui->GroupList->scrollToItem(item);
-        }*/
+        }
 
         ++iGroup;
     }
