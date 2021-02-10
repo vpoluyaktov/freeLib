@@ -1538,8 +1538,13 @@ void MainWindow::SelectGroup()
         query.exec();
     }
 
+    // TODO Формирование списка книг для выделенной Группы
+
     // скроллинг до выделенной Группы
     ui->GroupList->scrollToItem(cur_item);
+
+    // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
+    //FillListBooks(listBooks, 0);
 }
 
 /*
