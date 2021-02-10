@@ -1369,6 +1369,9 @@ void MainWindow::SelectLibrary()
         case 3:
             ui->btnSearch->click();
             break;
+        case 4:
+            ui->btnGroups->click();
+            break;
         }
     }
     else
