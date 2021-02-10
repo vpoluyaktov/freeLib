@@ -176,6 +176,8 @@ private slots:
     void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
     // обработчик кнопки добавления Группы в список Групп
     void AddGroupToList();
+    // добавление выделенной книги в Группу
+    void AddBookToGroupAction();
 
     // экспорт выделенных книг
     void ExportAction();

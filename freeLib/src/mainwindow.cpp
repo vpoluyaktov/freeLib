@@ -1968,6 +1968,21 @@ void MainWindow::ContextMenu(QPoint point)
             actionReaded->setData(QString::number(0).toInt());
             connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
             readed->addAction(actionReaded);
+            // меню книги Группы
+            QMenu* groups = menu.addMenu(tr("Add to Group"));
+            QSqlQuery query(QSqlDatabase::database("libdb"));
+            query.prepare("SELECT id, name, blocked FROM groups WHERE id_lib = :id_lib;");
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+            while (query.next()) {
+                QString name = query.value(1).toString();
+                int id = query.value(0).toInt();
+                QAction* actionGroup = new QAction(name, this);
+                actionGroup->setData(id);
+                connect(actionGroup, &QAction::triggered, this, &MainWindow::AddBookToGroupAction);
+                groups->addAction(actionGroup);
+            }
         }
     }
     if(menu.actions().count()>0)
@@ -3278,4 +3293,12 @@ void MainWindow::AddGroupToList()
             ui->GroupList->insertItem(ui->GroupList->count()-1, item);
         }
     }
+}
+
+/*
+    добавление выделенной книги в Группу
+*/
+void MainWindow::AddBookToGroupAction()
+{
+
 }
