@@ -93,6 +93,8 @@ private:
     void UncheckBooks(QList<qlonglong> list);
     // сохранение настроек Ѕиблиотеки
     void SaveLibPosition();
+    // чтение из базы 'позиции' дл€ текущей библиотеки с id = g_idCurrentLib
+    int LoadLibraryPosition();
     void DeleteDropForm();
 
     // поиск книг по заданным критери€м
@@ -103,8 +105,6 @@ private:
     );
     // ¬ыделение 1-го элемента списка јвторов или —ерии
     void SelectFirstItemList();
-    // чтение из базы 'позиции' дл€ текущей библиотеки с id = g_idCurrentLib
-    int LoadLibraryPosition();
     // сохранение €зыка фильтрации книг текущей библиотеки с id = g_idCurrentLib
     void SaveCurrentBookLanguageFilter(const QString& lang);
     // заполнение комбобокса рейтинга на вкладке ѕоиск
