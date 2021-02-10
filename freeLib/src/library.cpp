@@ -177,7 +177,7 @@ void loadGroups(uint idLibrary)
     while (query.next()) {
         uint idGroup = query.value(0).toUInt();
         QString sName = query.value(1).toString();
-        bool isBlocked = query.value(3).toBool();
+        bool isBlocked = query.value(2).toBool();
         lib.mGroups[idGroup].setId(idGroup);
         lib.mGroups[idGroup].setName(sName);
         lib.mGroups[idGroup].setBlocked(isBlocked);
