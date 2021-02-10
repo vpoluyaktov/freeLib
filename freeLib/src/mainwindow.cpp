@@ -2392,6 +2392,10 @@ void MainWindow::FillGroups()
     const bool wasBlocked = ui->GroupList->blockSignals(true);
     ui->GroupList->clear();
     SLib& currentLib = mLibs[g_idCurrentLib];
+
+    QListWidgetItem* itemFavorites;
+    QListWidgetItem* itemToRead;
+
     QListWidgetItem* item;
     QListWidgetItem* selectedItem = nullptr;
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();

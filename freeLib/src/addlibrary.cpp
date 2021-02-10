@@ -544,15 +544,17 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
 void AddLibrary::AddGroupToSQLite(qlonglong libID)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
     query.bindValue(":name", tr("Favorites"));
     query.bindValue(":id_lib", libID);
+    query.bindValue(":blocked", true);
     if (!query.exec())
         qDebug() << query.lastError().text();
 
-    query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
     query.bindValue(":name", tr("To read"));
     query.bindValue(":id_lib", libID);
+    query.bindValue(":blocked", true);
     if (!query.exec())
         qDebug() << query.lastError().text();
 }
