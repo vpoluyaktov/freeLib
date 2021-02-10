@@ -292,6 +292,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->SeriaList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectSeria()));
     connect(ui->GenreList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectGenre()));
     connect(ui->GroupList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectGroup()));
+    connect(ui->GroupList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::SelectionChangedGroupsList);
     connect(ui->Books, SIGNAL(itemSelectionChanged()), this, SLOT(SelectBook()));
     connect(ui->Books, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(BookDblClick()));
     connect(ui->Books, SIGNAL(BookItemChanged(QTreeWidgetItem*, int)), this, SLOT(BookItemChanged(QTreeWidgetItem*, int)));
@@ -3212,4 +3213,28 @@ void MainWindow::btnPageGroups()
     ui->comboBoxTagFilter->setEnabled(false);
 
     QApplication::restoreOverrideCursor();
+}
+
+/*
+    обработчик сигнала выделения/снятия выделения итема списка книг Группы
+*/
+void MainWindow::SelectionChangedGroupsList(const QItemSelection& selected, const QItemSelection& /*deselected*/)
+{
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
+    SetEnabledOrDisabledControllsOfSelectedStateItemGroups(selected);
+}
+
+/*
+    установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка Групп
+*/
+void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected)
+{
+    if (ui->GroupList->selectedItems().count() > 0) {
+        QModelIndex index = selected.indexes()[0];
+        int i = index.row();
+        if (index.row() > 1)
+            ui->btnGrouRemove->setEnabled(true);
+        else
+            ui->btnGrouRemove->setDisabled(true);
+    }
 }

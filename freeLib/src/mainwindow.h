@@ -111,6 +111,9 @@ private:
     void FiilRatingList();
     // пометка ячейки статуса 'Прочитано'
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
+    void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
+
 protected:
     APP_MODE mode;
 
@@ -169,6 +172,8 @@ private slots:
     void searchClear();
     // обработчик кнопки отображения Групп книг
     void btnPageGroups();
+    // обработчик сигнала выделения/снятия выделения итема списка Групп
+    void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
 
     // экспорт выделенных книг
     void ExportAction();
