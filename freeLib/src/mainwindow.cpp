@@ -10,6 +10,7 @@
 #include <QMap>
 #include <QButtonGroup>
 #include <QPainter>
+#include <QInputDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -305,6 +306,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->lineEditFindAuthor,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
+    connect(ui->btnGroupCreate, &QPushButton::clicked, this, &MainWindow::AddGroupToList);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
     connect(ui->actionNew_library_wizard,SIGNAL(triggered()),this,SLOT(newLibWizard()));
 
@@ -3236,5 +3238,32 @@ void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QI
             ui->btnGrouRemove->setEnabled(true);
         else
             ui->btnGrouRemove->setDisabled(true);
+    }
+}
+
+/*
+    обработчик кнопки добавления Группы в список Групп
+*/
+void MainWindow::AddGroupToList()
+{
+    bool ok;
+    QString GroupName = QInputDialog::getText(
+        this, tr("Input Group"), tr("New Group:"), QLineEdit::Normal, tr("New Group"), &ok
+    );
+    GroupName = GroupName.trimmed();
+    if (ok && !GroupName.isEmpty()) {
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+        query.bindValue(":name", GroupName);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else {
+            qlonglong id = query.lastInsertId().toLongLong();
+            QListWidgetItem* item;
+            item = new QListWidgetItem(GroupName);
+            item->setData(Qt::UserRole, id);
+            ui->GroupList->addItem(item);
+        }
     }
 }

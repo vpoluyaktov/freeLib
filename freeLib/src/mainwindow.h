@@ -174,6 +174,8 @@ private slots:
     void btnPageGroups();
     // обработчик сигнала выделения/снятия выделения итема списка Групп
     void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
+    // обработчик кнопки добавления Группы в список Групп
+    void AddGroupToList();
 
     // экспорт выделенных книг
     void ExportAction();
