@@ -288,25 +288,24 @@ MainWindow::MainWindow(QWidget* parent) :
     #ifdef Q_OS_WIN32
         ui->actionExit->setShortcut(QKeySequence(Qt::ALT|Qt::Key_F4));
     #endif
-    connect(ui->AuthorList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectAuthor()));
-    connect(ui->Books,SIGNAL(itemSelectionChanged()),this,SLOT(SelectBook()));
-    connect(ui->Books,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),this,SLOT(BookDblClick()));
+    connect(ui->AuthorList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectAuthor()));
+    connect(ui->SeriaList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectSeria()));
     connect(ui->GenreList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectGenre()));
-    connect(ui->SeriaList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectSeria()));
     connect(ui->GroupList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectGroup()));
+    connect(ui->Books, SIGNAL(itemSelectionChanged()), this, SLOT(SelectBook()));
+    connect(ui->Books, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(BookDblClick()));
+    connect(ui->Books, SIGNAL(BookItemChanged(QTreeWidgetItem*, int)), this, SLOT(BookItemChanged(QTreeWidgetItem*, int)));
     connect(ui->btnAuthor,SIGNAL(clicked()),this,SLOT(btnAuthor()));
+    connect(ui->btnSeries, SIGNAL(clicked()), this, SLOT(btnSeries()));
     connect(ui->btnGenre,SIGNAL(clicked()),this,SLOT(btnGenres()));
-    connect(ui->btnSeries,SIGNAL(clicked()),this,SLOT(btnSeries()));
+    connect(ui->btnGroups, SIGNAL(clicked()), this, SLOT(btnPageGroups()));
     connect(ui->btnSearch,SIGNAL(clicked()),this,SLOT(btnPageSearch()));
     connect(ui->btnFind,SIGNAL(clicked()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindAuthor,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
-    connect(ui->btnGroups, SIGNAL(clicked()), this, SLOT(btnPageGroups()));
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
     connect(ui->actionNew_library_wizard,SIGNAL(triggered()),this,SLOT(newLibWizard()));
-    connect(ui->Books,SIGNAL(BookItemChanged(QTreeWidgetItem*,int)),this,SLOT(BookItemChanged(QTreeWidgetItem*,int)));
-
 
     ChangingLanguage(false);
     ExportBookListBtnEnabled(false);
