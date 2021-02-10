@@ -1571,6 +1571,9 @@ void MainWindow::SelectBook()
     case 2: // Жанры
         idCurrentBookForGenre_ = idBook;
         break;
+    case 4: // Группы
+        idCurrentBookForGroup_ = idBook;
+        break;
     }
 
     SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
