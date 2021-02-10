@@ -2399,14 +2399,26 @@ void MainWindow::FillGroups()
     QListWidgetItem* selectedItem = nullptr;
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();
     while (iGroup != currentLib.mGroups.constEnd()) {
-        QString GroupName = mLibs[g_idCurrentLib].mGroups[iGroup.key()].getName();
-        item = new QListWidgetItem(GroupName);
         uint idGroup = iGroup.key();
+        bool isBlocked = mLibs[g_idCurrentLib].mGroups[idGroup].getBlocked();
+        QString GroupName = mLibs[g_idCurrentLib].mGroups[idGroup].getName();
+        item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, idGroup);
-        ui->GroupList->addItem(item);
-        if (idGroup == idCurrentGroup_) {
-            item->setSelected(true);
-            ui->GroupList->scrollToItem(item);
+        if (isBlocked)
+            blockedItemList << item;
+        else {
+            ui->GroupList->addItem(item);
+            if (idGroup == idCurrentGroup_) {
+                item->setSelected(true);
+                ui->GroupList->scrollToItem(item);
+            }
+        }
+        for (int i = 0; i != blockedItemList.count(); ++i) {
+            ui->GroupList->insertItem(0, item);
+            if (idGroup == idCurrentGroup_) {
+                item->setSelected(true);
+                ui->GroupList->scrollToItem(item);
+            }
         }
         ++iGroup;
     }
