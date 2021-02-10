@@ -2345,6 +2345,28 @@ void MainWindow::FillGroups()
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GroupList->blockSignals(true);
     ui->GroupList->clear();
+    SLib& currentLib = mLibs[g_idCurrentLib];
+    QListWidgetItem* selectedItem = nullptr;
+    QListWidgetItem* item;
+    auto iGroup = currentLib.mGroups.constBegin();
+    while (iGroup != currentLib.mGroups.constEnd()) {
+        QString GroupName = mLibs[g_idCurrentLib].mGroups[iGroup.key()].getName();
+        item = new QListWidgetItem(GroupName);
+        item->setData(Qt::UserRole, iGroup.key());
+        ui->GroupList->addItem(item);
+        /*if (iGroup.key() == idCurrentGroup_)
+        {
+            item->setSelected(true);
+            ui->GroupList->scrollToItem(item);
+        }*/
+
+        ++iGroup;
+    }
+
+
+    if (selectedItem != nullptr)
+        ui->GroupList->scrollToItem(selectedItem);
+
 
     ui->GroupList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
