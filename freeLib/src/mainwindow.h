@@ -55,9 +55,11 @@ private:
     uint idCurrentAuthor_;
     uint idCurrentGenre_;
     uint idCurrentSerial_;
+    uint idCurrentGroup_;
     uint idCurrentBookForAuthor_;
     uint idCurrentBookForGenre_;
     uint idCurrentBookForSeria_;
+    uint idCurrentBookForGroup_;
     bool bUseTag_;
     bool bShowDeleted_;
     QString noSeries_;

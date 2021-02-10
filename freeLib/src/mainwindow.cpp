@@ -242,9 +242,11 @@ MainWindow::MainWindow(QWidget* parent) :
         idCurrentAuthor_ = 0;
         idCurrentSerial_ = 0;
         idCurrentGenre_ = 0;
+        idCurrentGroup_ = 0;
         idCurrentBookForAuthor_ = 0;
         idCurrentBookForGenre_ = 0;
         idCurrentBookForSeria_ = 0;
+        idCurrentBookForGroup_ = 0;
         nCurrentTab = 0;
     }
 
