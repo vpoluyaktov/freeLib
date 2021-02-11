@@ -2991,8 +2991,8 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     SaveCurrentBookLanguageFilter(arg1);
     idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
-    FillListWidgetSerials(g_idCurrentLib);
     FillListWidgetAuthors(g_idCurrentLib);
+    FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres();
     FillListWidgetGroups();
     FillListBooks();
