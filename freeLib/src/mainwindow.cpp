@@ -1726,7 +1726,6 @@ void MainWindow::UpdateBookLanguageControls()
                 ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count() - 1);
                 idCurrentLanguage_ = iLang;
                 bIsAllLang = false;
-                break;
             }
         }
     }
