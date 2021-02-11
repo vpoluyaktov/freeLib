@@ -3304,6 +3304,16 @@ void MainWindow::AddGroupToList()
     GroupName = GroupName.trimmed();
     if (ok && !GroupName.isEmpty()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("SELECT name FROM groups WHERE id_lib = :id_lib;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        while (query.next()) {
+            if (GroupName == query.value(0).toString().trimmed()) {
+                QMessageBox::warning(this, tr("Add new group"), tr("This group is already on the group list!"), QMessageBox::Ok);
+                return;
+            }
+        }
         query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
         query.bindValue(":name", GroupName);
         query.bindValue(":id_lib", g_idCurrentLib);
