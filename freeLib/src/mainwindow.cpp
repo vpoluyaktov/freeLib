@@ -2475,15 +2475,19 @@ void MainWindow::FillListBooks()
     switch(ui->tabWidget->currentIndex()){
         case 0:
             SelectAuthor();
-        break;
+            break;
 
         case 1:
             SelectSeria();
-        break;
+            break;
 
         case 2:
             SelectGenre();
-        break;
+            break;
+
+        case 4:
+            SelectGroup();
+            break;
 
     }
 }
