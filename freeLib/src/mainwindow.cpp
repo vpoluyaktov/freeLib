@@ -2432,10 +2432,8 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
     ui->GroupList->clear();
     SLib& currentLib = mLibs[idLibrary];
 
-    QList<QListWidgetItem*> blockedItemList;
-
     QListWidgetItem* item;
-    QListWidgetItem* selectedItem = nullptr;
+    QList<QListWidgetItem*> blockedItemList;
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();
     while (iGroup != currentLib.mGroups.constEnd()) {
         uint idGroup = iGroup.key();
@@ -2452,6 +2450,7 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
                 ui->GroupList->scrollToItem(item);
             }
         }
+
         for (int i = 0; i != blockedItemList.count(); ++i) {
             ui->GroupList->insertItem(0, item);
             if (idGroup == idCurrentGroup_) {
@@ -2461,9 +2460,6 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
         }
         ++iGroup;
     }
-
-    if (selectedItem != nullptr)
-        ui->GroupList->scrollToItem(selectedItem);
 
     ui->GroupList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
