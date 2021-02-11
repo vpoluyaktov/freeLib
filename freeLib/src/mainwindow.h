@@ -77,7 +77,7 @@ private:
     // заполнение контрола списка јвторов из базы дл€ выбранной библиотеки
     void FillListWidgetAuthors(uint idLibrary);
     // заполнение контрола списка —ерий из базы дл€ выбранной библиотеки
-    void FillListWidgetSerials();
+    void FillListWidgetSerials(uint idLibrary);
     // заполнение контрола дерева ∆анров из базы дл€ выбранной библиотеки
     void FillTreeWidgetGenres();
     // заполнение контрола списка √рупп из базы дл€ выбранной библиотеки

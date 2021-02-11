@@ -259,7 +259,7 @@ MainWindow::MainWindow(QWidget* parent) :
     FiilRatingList();
 
     FillListWidgetAuthors(g_idCurrentLib);
-    FillListWidgetSerials();
+    FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres();
     FillListWidgetGroups();
 
@@ -540,7 +540,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         UpdateBookLanguageControls();
 
         FillListWidgetAuthors(g_idCurrentLib);
-        FillListWidgetSerials();
+        FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres();
         FillListWidgetGroups();
 
@@ -793,7 +793,7 @@ void MainWindow::TagSelect(int index)
         query.exec();
 
         FillListWidgetAuthors(g_idCurrentLib);
-        FillListWidgetSerials();
+        FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres();
         FillListWidgetGroups();
         FillListBooks();
@@ -1099,7 +1099,7 @@ void MainWindow::MarkDeletedBooks()
 
     // перезагрузка книг для изменения цвета итемов удаленных книг
     FillListWidgetAuthors(g_idCurrentLib);
-    FillListWidgetSerials();
+    FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres();
     FillListWidgetGroups();
     FillListBooks();
@@ -1349,7 +1349,7 @@ void MainWindow::SelectLibrary()
     UpdateBookLanguageControls();
 
     FillListWidgetAuthors(g_idCurrentLib);
-    FillListWidgetSerials();
+    FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres();
     FillListWidgetGroups();
 
@@ -1760,7 +1760,7 @@ void MainWindow::ManageLibrary()
         UpdateBookLanguageControls();
         
         FillListWidgetAuthors(g_idCurrentLib);
-        FillListWidgetSerials();
+        FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres();
         FillListWidgetGroups();
 
@@ -1923,7 +1923,7 @@ void MainWindow::searchChanged(QString str)
         }
         if(!find)
             langBtnHash_->setChecked(true);
-        FillListWidgetSerials();
+        FillListWidgetSerials(g_idCurrentLib);
         FillListWidgetAuthors(g_idCurrentLib);
     }
     tbClear_->setVisible(ui->lineEditSearchString->text().length()>1);
@@ -2277,7 +2277,7 @@ void MainWindow::FillListWidgetAuthors(uint idLibrary)
 /*
     заполнение контрола списка Серий из базы для выбранной библиотеки
 */
-void MainWindow::FillListWidgetSerials()
+void MainWindow::FillListWidgetSerials(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->SeriaList->blockSignals(true);
@@ -2285,10 +2285,10 @@ void MainWindow::FillListWidgetSerials()
     QString sSearch = ui->lineEditSearchString->text();
 
     QMap<uint,uint> mCounts;
-    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[idLibrary].mBooks.constBegin();
+    while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
         if(IsMatchingFilterConditions(*iBook) &&
-                (sSearch == "*" || (sSearch=="#" && !mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
+                (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
         {
             if(mCounts.contains(iBook->idSerial))
                 mCounts[iBook->idSerial]++;
@@ -2302,14 +2302,14 @@ void MainWindow::FillListWidgetSerials()
     QListWidgetItem *item;
     auto iSerial = mCounts.constBegin();
     while(iSerial!=mCounts.constEnd()){
-        QString SeriaName = mLibs[g_idCurrentLib].mSerials[iSerial.key()].sName;
+        QString SeriaName = mLibs[idLibrary].mSerials[iSerial.key()].sName;
         QString NewSeriaName = SeriaName != "" ? SeriaName : noSeries_;
         //QBrush Brush; Brush = SeriaName != "" ? Qt::black : Qt::darkMagenta;
         item = new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
         //item->setForeground(Brush);
         item->setData(Qt::UserRole,iSerial.key());
         if(bUseTag_)
-            item->setIcon(GetTagFromTagsPicList(mLibs[g_idCurrentLib].mSerials[iSerial.key()].nTag));
+            item->setIcon(GetTagFromTagsPicList(mLibs[idLibrary].mSerials[iSerial.key()].nTag));
         ui->SeriaList->addItem(item);
         if(iSerial.key()==idCurrentSerial_)
         {
@@ -2991,7 +2991,7 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     SaveCurrentBookLanguageFilter(arg1);
     idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
-    FillListWidgetSerials();
+    FillListWidgetSerials(g_idCurrentLib);
     FillListWidgetAuthors(g_idCurrentLib);
     FillTreeWidgetGenres();
     FillListBooks();
