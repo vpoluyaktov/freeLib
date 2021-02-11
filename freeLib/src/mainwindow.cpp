@@ -306,6 +306,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->btnGroupCreate, &QPushButton::clicked, this, &MainWindow::AddGroupToList);
+    connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
     connect(ui->actionNew_library_wizard,SIGNAL(triggered()),this,SLOT(newLibWizard()));
 
@@ -3348,4 +3349,12 @@ void MainWindow::AddBookToGroupAction()
         else
             mLibs[g_idCurrentLib].mBooks[book_id].listIdGroups << group_id;
     }
+}
+/*
+    удаление всех книг из выделенной группы
+*/
+void MainWindow::DeleteAllBooksFromGroup()
+{
+    // чтение из структуры библиотеки всех книг выделенной группы
+    
 }
