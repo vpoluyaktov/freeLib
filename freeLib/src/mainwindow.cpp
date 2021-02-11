@@ -261,7 +261,7 @@ MainWindow::MainWindow(QWidget* parent) :
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres(g_idCurrentLib);
-    FillListWidgetGroups();
+    FillListWidgetGroups(g_idCurrentLib);
 
     connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
     connect(tbClear_,SIGNAL(clicked()),this,SLOT(searchClear()));
@@ -542,7 +542,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
-        FillListWidgetGroups();
+        FillListWidgetGroups(g_idCurrentLib);
 
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
@@ -795,7 +795,7 @@ void MainWindow::TagSelect(int index)
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
-        FillListWidgetGroups();
+        FillListWidgetGroups(g_idCurrentLib);
         FillListBooks();
     }
 }
@@ -1101,7 +1101,7 @@ void MainWindow::MarkDeletedBooks()
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres(g_idCurrentLib);
-    FillListWidgetGroups();
+    FillListWidgetGroups(g_idCurrentLib);
     FillListBooks();
 
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
@@ -1351,7 +1351,7 @@ void MainWindow::SelectLibrary()
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres(g_idCurrentLib);
-    FillListWidgetGroups();
+    FillListWidgetGroups(g_idCurrentLib);
 
     searchChanged(ui->lineEditSearchString->text());
     setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
@@ -1762,7 +1762,7 @@ void MainWindow::ManageLibrary()
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
-        FillListWidgetGroups();
+        FillListWidgetGroups(g_idCurrentLib);
 
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
@@ -2425,12 +2425,12 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 /*
     заполнение контрола списка Групп из базы для выбранной библиотеки
 */
-void MainWindow::FillListWidgetGroups()
+void MainWindow::FillListWidgetGroups(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GroupList->blockSignals(true);
     ui->GroupList->clear();
-    SLib& currentLib = mLibs[g_idCurrentLib];
+    SLib& currentLib = mLibs[idLibrary];
 
     QList<QListWidgetItem*> blockedItemList;
 
@@ -2439,8 +2439,8 @@ void MainWindow::FillListWidgetGroups()
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();
     while (iGroup != currentLib.mGroups.constEnd()) {
         uint idGroup = iGroup.key();
-        bool isBlocked = mLibs[g_idCurrentLib].mGroups[idGroup].getBlocked();
-        QString GroupName = mLibs[g_idCurrentLib].mGroups[idGroup].getName();
+        bool isBlocked = mLibs[idLibrary].mGroups[idGroup].getBlocked();
+        QString GroupName = mLibs[idLibrary].mGroups[idGroup].getName();
         item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, idGroup);
         if (isBlocked)
@@ -2994,7 +2994,7 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres(g_idCurrentLib);
-    FillListWidgetGroups();
+    FillListWidgetGroups(g_idCurrentLib);
     FillListBooks();
 }
 
