@@ -260,7 +260,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
-    FillTreeWidgetGenres();
+    FillTreeWidgetGenres(g_idCurrentLib);
     FillListWidgetGroups();
 
     connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
@@ -541,7 +541,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
 
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
-        FillTreeWidgetGenres();
+        FillTreeWidgetGenres(g_idCurrentLib);
         FillListWidgetGroups();
 
         searchChanged(ui->lineEditSearchString->text());
@@ -794,7 +794,7 @@ void MainWindow::TagSelect(int index)
 
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
-        FillTreeWidgetGenres();
+        FillTreeWidgetGenres(g_idCurrentLib);
         FillListWidgetGroups();
         FillListBooks();
     }
@@ -1100,7 +1100,7 @@ void MainWindow::MarkDeletedBooks()
     // перезагрузка книг для изменения цвета итемов удаленных книг
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
-    FillTreeWidgetGenres();
+    FillTreeWidgetGenres(g_idCurrentLib);
     FillListWidgetGroups();
     FillListBooks();
 
@@ -1350,7 +1350,7 @@ void MainWindow::SelectLibrary()
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
-    FillTreeWidgetGenres();
+    FillTreeWidgetGenres(g_idCurrentLib);
     FillListWidgetGroups();
 
     searchChanged(ui->lineEditSearchString->text());
@@ -1761,7 +1761,7 @@ void MainWindow::ManageLibrary()
         
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
-        FillTreeWidgetGenres();
+        FillTreeWidgetGenres(g_idCurrentLib);
         FillListWidgetGroups();
 
         searchChanged(ui->lineEditSearchString->text());
@@ -2330,7 +2330,7 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
 /*
     заполнение контрола дерева Жанров из базы для выбранной библиотеки
 */
-void MainWindow::FillTreeWidgetGenres()
+void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GenreList->blockSignals(true);
@@ -2342,8 +2342,8 @@ void MainWindow::FillTreeWidgetGenres()
 
 
     QMap<uint,uint> mCounts;
-    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[idLibrary].mBooks.constBegin();
+    while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
         if(IsMatchingFilterConditions(*iBook))
         {
             foreach (uint iGenre, iBook->listIdGenres) {
@@ -2993,7 +2993,7 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
-    FillTreeWidgetGenres();
+    FillTreeWidgetGenres(g_idCurrentLib);
     FillListWidgetGroups();
     FillListBooks();
 }
