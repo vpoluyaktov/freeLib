@@ -252,16 +252,16 @@ MainWindow::MainWindow(QWidget* parent) :
     }
 
     UpdateTagsMenu();
-    loadGenres();
+    loadGenresFromSQLiteToLibraryStructure();
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск
     FiilRatingList();
 
-    FillAuthors();
-    FillSerials();
-    FillGenres();
-    FillGroups();
+    FillListWidgetAuthors(g_idCurrentLib);
+    FillListWidgetSerials(g_idCurrentLib);
+    FillTreeWidgetGenres(g_idCurrentLib);
+    FillListWidgetGroups(g_idCurrentLib);
 
     connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
     connect(tbClear_,SIGNAL(clicked()),this,SLOT(searchClear()));
@@ -538,10 +538,12 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         }
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateBookLanguageControls();
-        FillAuthors();
-        FillSerials();
-        FillGenres();
-        FillGroups();
+
+        FillListWidgetAuthors(g_idCurrentLib);
+        FillListWidgetSerials(g_idCurrentLib);
+        FillTreeWidgetGenres(g_idCurrentLib);
+        FillListWidgetGroups(g_idCurrentLib);
+
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
@@ -790,10 +792,10 @@ void MainWindow::TagSelect(int index)
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
 
-        FillAuthors();
-        FillSerials();
-        FillGenres();
-        FillGroups();
+        FillListWidgetAuthors(g_idCurrentLib);
+        FillListWidgetSerials(g_idCurrentLib);
+        FillTreeWidgetGenres(g_idCurrentLib);
+        //FillListWidgetGroups(g_idCurrentLib);
         FillListBooks();
     }
 }
@@ -1096,10 +1098,10 @@ void MainWindow::MarkDeletedBooks()
     }
 
     // перезагрузка книг для изменения цвета итемов удаленных книг
-    FillAuthors();
-    FillSerials();
-    FillGenres();
-    FillGroups();
+    FillListWidgetAuthors(g_idCurrentLib);
+    FillListWidgetSerials(g_idCurrentLib);
+    FillTreeWidgetGenres(g_idCurrentLib);
+    FillListWidgetGroups(g_idCurrentLib);
     FillListBooks();
 
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
@@ -1346,10 +1348,10 @@ void MainWindow::SelectLibrary()
     UpdateTagsMenu();
     UpdateBookLanguageControls();
 
-    FillAuthors();
-    FillSerials();
-    FillGenres();
-    FillGroups();
+    FillListWidgetAuthors(g_idCurrentLib);
+    FillListWidgetSerials(g_idCurrentLib);
+    FillTreeWidgetGenres(g_idCurrentLib);
+    FillListWidgetGroups(g_idCurrentLib);
 
     searchChanged(ui->lineEditSearchString->text());
     setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
@@ -1724,7 +1726,6 @@ void MainWindow::UpdateBookLanguageControls()
                 ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count() - 1);
                 idCurrentLanguage_ = iLang;
                 bIsAllLang = false;
-                break;
             }
         }
     }
@@ -1757,10 +1758,10 @@ void MainWindow::ManageLibrary()
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         
-        FillAuthors();
-        FillSerials();
-        FillGenres();
-        FillGroups();
+        FillListWidgetAuthors(g_idCurrentLib);
+        FillListWidgetSerials(g_idCurrentLib);
+        FillTreeWidgetGenres(g_idCurrentLib);
+        FillListWidgetGroups(g_idCurrentLib);
 
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
@@ -1921,8 +1922,8 @@ void MainWindow::searchChanged(QString str)
         }
         if(!find)
             langBtnHash_->setChecked(true);
-        FillSerials();
-        FillAuthors();
+        FillListWidgetAuthors(g_idCurrentLib);
+        FillListWidgetSerials(g_idCurrentLib);
     }
     tbClear_->setVisible(ui->lineEditSearchString->text().length()>1);
 }
@@ -2225,14 +2226,14 @@ void MainWindow::FillLibrariesMenu()
 /*
     заполнение контрола списка Авторов из базы для выбранной библиотеки
 */
-void MainWindow::FillAuthors()
+void MainWindow::FillListWidgetAuthors(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     const bool wasBlocked = ui->AuthorList->blockSignals(true);
     QListWidgetItem *item;
     ui->AuthorList->clear();
-    SLib &currentLib = mLibs[g_idCurrentLib];
+    SLib &currentLib = mLibs[idLibrary];
     QListWidgetItem *selectedItem = nullptr;
     QString sSearch = ui->lineEditSearchString->text();
     auto i = currentLib.mAuthors.constBegin();
@@ -2268,14 +2269,14 @@ void MainWindow::FillAuthors()
 
     ui->AuthorList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillAuthors " << t_end-t_start << "msec";
+    qDebug()<< "FillListWidgetAuthors " << t_end-t_start << "msec";
     QApplication::restoreOverrideCursor();
 }
 
 /*
     заполнение контрола списка Серий из базы для выбранной библиотеки
 */
-void MainWindow::FillSerials()
+void MainWindow::FillListWidgetSerials(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->SeriaList->blockSignals(true);
@@ -2283,10 +2284,10 @@ void MainWindow::FillSerials()
     QString sSearch = ui->lineEditSearchString->text();
 
     QMap<uint,uint> mCounts;
-    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[idLibrary].mBooks.constBegin();
+    while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
         if(IsMatchingFilterConditions(*iBook) &&
-                (sSearch == "*" || (sSearch=="#" && !mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
+                (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
         {
             if(mCounts.contains(iBook->idSerial))
                 mCounts[iBook->idSerial]++;
@@ -2300,14 +2301,14 @@ void MainWindow::FillSerials()
     QListWidgetItem *item;
     auto iSerial = mCounts.constBegin();
     while(iSerial!=mCounts.constEnd()){
-        QString SeriaName = mLibs[g_idCurrentLib].mSerials[iSerial.key()].sName;
+        QString SeriaName = mLibs[idLibrary].mSerials[iSerial.key()].sName;
         QString NewSeriaName = SeriaName != "" ? SeriaName : noSeries_;
         //QBrush Brush; Brush = SeriaName != "" ? Qt::black : Qt::darkMagenta;
         item = new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
         //item->setForeground(Brush);
         item->setData(Qt::UserRole,iSerial.key());
         if(bUseTag_)
-            item->setIcon(GetTagFromTagsPicList(mLibs[g_idCurrentLib].mSerials[iSerial.key()].nTag));
+            item->setIcon(GetTagFromTagsPicList(mLibs[idLibrary].mSerials[iSerial.key()].nTag));
         ui->SeriaList->addItem(item);
         if(iSerial.key()==idCurrentSerial_)
         {
@@ -2322,13 +2323,13 @@ void MainWindow::FillSerials()
 
     ui->SeriaList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillSerials " << t_end-t_start << "msec";
+    qDebug()<< "FillListWidgetSerials " << t_end-t_start << "msec";
 }
 
 /*
     заполнение контрола дерева Жанров из базы для выбранной библиотеки
 */
-void MainWindow::FillGenres()
+void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GenreList->blockSignals(true);
@@ -2340,8 +2341,8 @@ void MainWindow::FillGenres()
 
 
     QMap<uint,uint> mCounts;
-    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while(iBook!=mLibs[g_idCurrentLib].mBooks.constEnd()){
+    auto iBook = mLibs[idLibrary].mBooks.constBegin();
+    while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
         if(IsMatchingFilterConditions(*iBook))
         {
             foreach (uint iGenre, iBook->listIdGenres) {
@@ -2417,28 +2418,26 @@ void MainWindow::FillGenres()
 
     ui->GenreList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillGenres " << t_end-t_start << "msec";
+    qDebug()<< "FillTreeWidgetGenres " << t_end-t_start << "msec";
 }
 
 /*
     заполнение контрола списка Групп из базы для выбранной библиотеки
 */
-void MainWindow::FillGroups()
+void MainWindow::FillListWidgetGroups(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GroupList->blockSignals(true);
     ui->GroupList->clear();
-    SLib& currentLib = mLibs[g_idCurrentLib];
-
-    QList<QListWidgetItem*> blockedItemList;
+    SLib& currentLib = mLibs[idLibrary];
 
     QListWidgetItem* item;
-    QListWidgetItem* selectedItem = nullptr;
+    QList<QListWidgetItem*> blockedItemList;
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();
     while (iGroup != currentLib.mGroups.constEnd()) {
         uint idGroup = iGroup.key();
-        bool isBlocked = mLibs[g_idCurrentLib].mGroups[idGroup].getBlocked();
-        QString GroupName = mLibs[g_idCurrentLib].mGroups[idGroup].getName();
+        bool isBlocked = mLibs[idLibrary].mGroups[idGroup].getBlocked();
+        QString GroupName = mLibs[idLibrary].mGroups[idGroup].getName();
         item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, idGroup);
         if (isBlocked)
@@ -2450,6 +2449,7 @@ void MainWindow::FillGroups()
                 ui->GroupList->scrollToItem(item);
             }
         }
+
         for (int i = 0; i != blockedItemList.count(); ++i) {
             ui->GroupList->insertItem(0, item);
             if (idGroup == idCurrentGroup_) {
@@ -2460,12 +2460,9 @@ void MainWindow::FillGroups()
         ++iGroup;
     }
 
-    if (selectedItem != nullptr)
-        ui->GroupList->scrollToItem(selectedItem);
-
     ui->GroupList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug() << "FillGroups " << t_end - t_start << "msec";
+    qDebug() << "FillListWidgetGroups " << t_end - t_start << "msec";
 }
 
 /*
@@ -2477,15 +2474,19 @@ void MainWindow::FillListBooks()
     switch(ui->tabWidget->currentIndex()){
         case 0:
             SelectAuthor();
-        break;
+            break;
 
         case 1:
             SelectSeria();
-        break;
+            break;
 
         case 2:
             SelectGenre();
-        break;
+            break;
+
+        case 4:
+            SelectGroup();
+            break;
 
     }
 }
@@ -2989,9 +2990,10 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     SaveCurrentBookLanguageFilter(arg1);
     idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
-    FillSerials();
-    FillAuthors();
-    FillGenres();
+    FillListWidgetAuthors(g_idCurrentLib);
+    FillListWidgetSerials(g_idCurrentLib);
+    FillTreeWidgetGenres(g_idCurrentLib);
+    //FillListWidgetGroups(g_idCurrentLib);
     FillListBooks();
 }
 
@@ -3260,9 +3262,9 @@ void MainWindow::btnPageGroups()
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->Books->clear();
-    ui->comboBoxLanguageFilter->setEnabled(false);
-    ui->comboBoxTagFilter->setEnabled(false);
-
+    ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
+    SelectGroup();
     QApplication::restoreOverrideCursor();
 }
 
