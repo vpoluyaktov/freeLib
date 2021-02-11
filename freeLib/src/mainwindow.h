@@ -75,13 +75,13 @@ private:
     void UpdateExportMenu();
     
     // заполнение контрола списка Авторов из базы для выбранной библиотеки
-    void FillAuthors();
+    void FillListWidgetAuthors();
     // заполнение контрола списка Серий из базы для выбранной библиотеки
-    void FillSerials();
+    void FillListWidgetSerials();
     // заполнение контрола дерева Жанров из базы для выбранной библиотеки
-    void FillGenres();
+    void FillTreeWidgetGenres();
     // заполнение контрола списка Групп из базы для выбранной библиотеки
-    void FillGroups();
+    void FillListWidgetGroups();
     // выбор (выделение) Автора, Серии, Жанра, в зависимости от активного виджета списков Авторов, Серий или Жанров
     void FillListBooks();
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
