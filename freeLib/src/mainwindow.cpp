@@ -3312,7 +3312,7 @@ void MainWindow::AddGroupToList()
             QListWidgetItem* item;
             item = new QListWidgetItem(GroupName);
             item->setData(Qt::UserRole, id);
-            ui->GroupList->insertItem(ui->GroupList->count()-1, item);
+            ui->GroupList->insertItem(ui->GroupList->count(), item);
         }
     }
 }
