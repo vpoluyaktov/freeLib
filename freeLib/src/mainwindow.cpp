@@ -3309,5 +3309,16 @@ void MainWindow::AddGroupToList()
 */
 void MainWindow::AddBookToGroupAction()
 {
-
+    QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
+    if (bookItem->type() == ITEM_TYPE_BOOK) {
+        uint group_id = qobject_cast<QAction*>(QObject::sender())->data().toInt();
+        uint book_id = bookItem->data(0, Qt::UserRole).toUInt();
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("INSERT INTO book_group(book_id, group_id, id_lib) values(:book_id, :group_id, :id_lib);");
+        query.bindValue(":book_id", book_id);
+        query.bindValue(":group_id", group_id);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+    }
 }
