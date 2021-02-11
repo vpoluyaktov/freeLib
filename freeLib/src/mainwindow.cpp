@@ -1923,8 +1923,8 @@ void MainWindow::searchChanged(QString str)
         }
         if(!find)
             langBtnHash_->setChecked(true);
-        FillListWidgetSerials(g_idCurrentLib);
         FillListWidgetAuthors(g_idCurrentLib);
+        FillListWidgetSerials(g_idCurrentLib);
     }
     tbClear_->setVisible(ui->lineEditSearchString->text().length()>1);
 }
