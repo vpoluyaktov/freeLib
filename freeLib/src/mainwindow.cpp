@@ -258,7 +258,7 @@ MainWindow::MainWindow(QWidget* parent) :
     // заполнение комбобокса рейтинга на вкладке Поиск
     FiilRatingList();
 
-    FillListWidgetAuthors();
+    FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials();
     FillTreeWidgetGenres();
     FillListWidgetGroups();
@@ -538,10 +538,12 @@ void MainWindow::newLibWizard(bool AddLibOnly)
         }
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateBookLanguageControls();
-        FillListWidgetAuthors();
+
+        FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials();
         FillTreeWidgetGenres();
         FillListWidgetGroups();
+
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu();
@@ -790,7 +792,7 @@ void MainWindow::TagSelect(int index)
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
 
-        FillListWidgetAuthors();
+        FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials();
         FillTreeWidgetGenres();
         FillListWidgetGroups();
@@ -1096,7 +1098,7 @@ void MainWindow::MarkDeletedBooks()
     }
 
     // перезагрузка книг для изменения цвета итемов удаленных книг
-    FillListWidgetAuthors();
+    FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials();
     FillTreeWidgetGenres();
     FillListWidgetGroups();
@@ -1346,7 +1348,7 @@ void MainWindow::SelectLibrary()
     UpdateTagsMenu();
     UpdateBookLanguageControls();
 
-    FillListWidgetAuthors();
+    FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials();
     FillTreeWidgetGenres();
     FillListWidgetGroups();
@@ -1757,7 +1759,7 @@ void MainWindow::ManageLibrary()
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         
-        FillListWidgetAuthors();
+        FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials();
         FillTreeWidgetGenres();
         FillListWidgetGroups();
@@ -1922,7 +1924,7 @@ void MainWindow::searchChanged(QString str)
         if(!find)
             langBtnHash_->setChecked(true);
         FillListWidgetSerials();
-        FillListWidgetAuthors();
+        FillListWidgetAuthors(g_idCurrentLib);
     }
     tbClear_->setVisible(ui->lineEditSearchString->text().length()>1);
 }
@@ -2225,14 +2227,14 @@ void MainWindow::FillLibrariesMenu()
 /*
     заполнение контрола списка Авторов из базы для выбранной библиотеки
 */
-void MainWindow::FillListWidgetAuthors()
+void MainWindow::FillListWidgetAuthors(uint idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     const bool wasBlocked = ui->AuthorList->blockSignals(true);
     QListWidgetItem *item;
     ui->AuthorList->clear();
-    SLib &currentLib = mLibs[g_idCurrentLib];
+    SLib &currentLib = mLibs[idLibrary];
     QListWidgetItem *selectedItem = nullptr;
     QString sSearch = ui->lineEditSearchString->text();
     auto i = currentLib.mAuthors.constBegin();
@@ -2990,7 +2992,7 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
     FillListWidgetSerials();
-    FillListWidgetAuthors();
+    FillListWidgetAuthors(g_idCurrentLib);
     FillTreeWidgetGenres();
     FillListBooks();
 }

@@ -75,7 +75,7 @@ private:
     void UpdateExportMenu();
     
     // заполнение контрола списка Авторов из базы для выбранной библиотеки
-    void FillListWidgetAuthors();
+    void FillListWidgetAuthors(uint idLibrary);
     // заполнение контрола списка Серий из базы для выбранной библиотеки
     void FillListWidgetSerials();
     // заполнение контрола дерева Жанров из базы для выбранной библиотеки
