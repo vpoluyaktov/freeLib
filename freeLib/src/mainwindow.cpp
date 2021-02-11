@@ -1452,7 +1452,7 @@ void MainWindow::SelectSeria()
     }
 
     QList<uint> listBooks;
-    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while(iBook != mLibs[g_idCurrentLib].mBooks.constEnd()){
         if(iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)){
             listBooks << iBook.key();
