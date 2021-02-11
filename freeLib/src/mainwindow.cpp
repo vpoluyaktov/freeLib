@@ -253,7 +253,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     UpdateTagsMenu();
     loadGenres();
-    loadLibrary(g_idCurrentLib);
+    loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск
     FiilRatingList();
@@ -536,7 +536,7 @@ void MainWindow::newLibWizard(bool AddLibOnly)
             // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
             LoadLibraryPosition();
         }
-        loadLibrary(g_idCurrentLib);
+        loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateBookLanguageControls();
         FillAuthors();
         FillSerials();
@@ -1342,7 +1342,7 @@ void MainWindow::SelectLibrary()
         nCurrentTab = LoadLibraryPosition();
     }
 
-    loadLibrary(g_idCurrentLib);
+    loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls();
 
@@ -1753,7 +1753,7 @@ void MainWindow::ManageLibrary()
             // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
             nCurrentTab = LoadLibraryPosition();
         }
-        loadLibrary(g_idCurrentLib);
+        loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         

@@ -5,7 +5,7 @@
 QMap<int,SLib> mLibs;
 QMap <uint,SGenre> mGenre;
 
-void loadLibrary(uint idLibrary)
+void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
 {
     if(!db_is_open)
         return;

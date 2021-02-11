@@ -141,7 +141,7 @@ struct SLib
     }
 };
 
-void loadLibrary(uint idLibrary);
+void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary);
 void loadGenres();
 void loadGroups(uint idLibrary);
 
