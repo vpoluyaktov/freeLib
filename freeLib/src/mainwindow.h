@@ -55,9 +55,11 @@ private:
     uint idCurrentAuthor_;
     uint idCurrentGenre_;
     uint idCurrentSerial_;
+    uint idCurrentGroup_;
     uint idCurrentBookForAuthor_;
     uint idCurrentBookForGenre_;
     uint idCurrentBookForSeria_;
+    uint idCurrentBookForGroup_;
     bool bUseTag_;
     bool bShowDeleted_;
     QString noSeries_;
@@ -78,6 +80,8 @@ private:
     void FillSerials();
     // заполнение контрола дерева Жанров из базы для выбранной библиотеки
     void FillGenres();
+    // заполнение контрола списка Групп из базы для выбранной библиотеки
+    void FillGroups();
     // выбор (выделение) Автора, Серии, Жанра, в зависимости от активного виджета списков Авторов, Серий или Жанров
     void FillListBooks();
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
@@ -89,6 +93,8 @@ private:
     void UncheckBooks(QList<qlonglong> list);
     // сохранение настроек Библиотеки
     void SaveLibPosition();
+    // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
+    int LoadLibraryPosition();
     void DeleteDropForm();
 
     // поиск книг по заданным критериям
@@ -99,14 +105,15 @@ private:
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
-    // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-    int LoadLibraryPosition();
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
     void SaveCurrentBookLanguageFilter(const QString& lang);
     // заполнение комбобокса рейтинга на вкладке Поиск
     void FiilRatingList();
     // пометка ячейки статуса 'Прочитано'
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
+    void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
+
 protected:
     APP_MODE mode;
 
@@ -163,6 +170,14 @@ private slots:
     // обработчик изменения текста в контроле строки поиска
     void searchChanged(QString str);
     void searchClear();
+    // обработчик кнопки отображения Групп книг
+    void btnPageGroups();
+    // обработчик сигнала выделения/снятия выделения итема списка Групп
+    void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
+    // обработчик кнопки добавления Группы в список Групп
+    void AddGroupToList();
+    // добавление выделенной книги в Группу
+    void AddBookToGroupAction();
 
     // экспорт выделенных книг
     void ExportAction();
@@ -190,6 +205,8 @@ private slots:
     void SelectSeria();
     // выбор (выделение) Жанра в дереве Жанров
     void SelectGenre();
+    // выбор (выделение) Группы в списке Групп
+    void SelectGroup();
     // выбор (выделение) Книги в списке Книг
     void SelectBook();
 

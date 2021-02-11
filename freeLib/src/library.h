@@ -27,6 +27,7 @@ struct SBook
     QString sFormat;
     QList<uint> listIdGenres;
     QList<uint> listIdAuthors;
+    QList<uint> listIdGroups;
     uint idInLib;
     QString sFile;
     uint idSerial;
@@ -76,6 +77,26 @@ struct SGenre
     }
 };
 
+class Group
+{
+private:
+    QString Name_;
+    uint Id_;
+    bool Blocked_;
+public:
+    Group() {
+        Name_ = ""; Id_ = 0; Blocked_ = false;
+    };
+    Group(const QString& Name, uint id, bool blocked) : Name_(Name), Id_(id), Blocked_(blocked) { };
+
+    void setName(QString Name) { Name_ = Name; };
+    void setId(uint Id) { Id_ = Id; };
+    void setBlocked(bool blocked) { Blocked_ = blocked; };
+    QString getName() const { return Name_; };
+    QString getId() const { return Id_; };
+    bool getBlocked() const { return Blocked_; };
+};
+
 struct SLib
 {
     QString name;
@@ -88,9 +109,11 @@ struct SLib
     uint uIdCurrentAuthor;
     uint uIdCurrentSeria;
     uint uIdCurrentGenre;
+    uint uIdCurrentGroup;
     uint uIdCurrentBookForAuthor;
     uint uIdCurrentBookForSeria;
     uint uIdCurrentBookForGenre;
+    uint uIdCurrentBookForGroup;
     QString sCurrentSearchingFilter;
     uint uCurrentTag;
     QString sCurrentBookLanguage;
@@ -98,6 +121,7 @@ struct SLib
     QMultiHash<uint,uint> mAuthorBooksLink;
     QHash<uint,SBook> mBooks;
     QHash<uint,SSerial> mSerials;
+    QHash<uint, Group> mGroups;
     QVector<QString> vLaguages;
     SLib()
     {
@@ -108,15 +132,18 @@ struct SLib
         uIdCurrentAuthor = 0;
         uIdCurrentSeria = 0;
         uIdCurrentGenre = 0;
+        uIdCurrentGroup = 0;
         uIdCurrentBookForAuthor = 0;
         uIdCurrentBookForSeria = 0;
         uIdCurrentBookForGenre = 0;
+        uIdCurrentBookForGroup = 0;
         uCurrentTag = 0;
     }
 };
 
-void loadLibrary(uint idLibrary);
+void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary);
 void loadGenres();
+void loadGroups(uint idLibrary);
 
 extern bool db_is_open;
 

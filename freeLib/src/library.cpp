@@ -5,7 +5,7 @@
 QMap<int,SLib> mLibs;
 QMap <uint,SGenre> mGenre;
 
-void loadLibrary(uint idLibrary)
+void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
 {
     if(!db_is_open)
         return;
@@ -133,6 +133,8 @@ void loadLibrary(uint idLibrary)
 
     t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "loadBooks " << t_end-t_start << "msec";
+
+    loadGroups(g_idCurrentLib);
 }
 
 void loadGenres()
@@ -157,6 +159,51 @@ void loadGenres()
     }
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "loadGenre " << t_end-t_start << "msec";
+}
+
+void loadGroups(uint idLibrary)
+{
+    if (!db_is_open)
+        return;
+
+    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+
+    SLib& lib = mLibs[idLibrary];
+    lib.mGroups.clear();
+    query.prepare("SELECT id, name, blocked FROM groups WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+
+    QList<uint> idGroupList;
+    while (query.next()) {
+        uint idGroup = query.value(0).toUInt();
+        QString sName = query.value(1).toString();
+        bool isBlocked = query.value(2).toBool();
+        lib.mGroups[idGroup].setId(idGroup);
+        lib.mGroups[idGroup].setName(sName);
+        lib.mGroups[idGroup].setBlocked(isBlocked);
+        idGroupList << idGroup;
+    }
+
+    foreach(uint idGroup, idGroupList) {
+        query.prepare("SELECT book.id FROM book, book_group WHERE book_group.book_id = book.id AND book_group.id_lib = book.id_lib AND book_group.group_id = :idGroup AND book.id_lib = :id_lib;");
+        query.bindValue(":id_lib", idLibrary);
+        query.bindValue(":idGroup", idGroup);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else {
+            while (query.next()) {
+                qlonglong idBook = query.value(0).toLongLong();
+                mLibs[idLibrary].mBooks[idBook].listIdGroups << idGroup;
+            }
+        }
+    }
+
+    qint64 t_end = QDateTime::currentMSecsSinceEpoch();
+    qDebug() << "loadGroups " << t_end - t_start << "msec";
 }
 
 QString SAuthor::getName() const

@@ -17,11 +17,13 @@ void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
     }
     else
     {
-        query.exec("delete from book where id_lib="+QString::number(id_lib));
-        query.exec("delete from author where id_lib="+QString::number(id_lib));
-        query.exec("delete from seria where id_lib="+QString::number(id_lib));
-        query.exec("delete from book_author where id_lib="+QString::number(id_lib));
-        query.exec("delete from book_janre where id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM book WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM author WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM seria WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM groups WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM book_author WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM book_janre WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM book_group WHERE id_lib="+QString::number(id_lib));
         query.exec("VACUUM");
     }
 }
@@ -459,10 +461,41 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book,QString janre,qlonglo
     return id;
 }
 
+qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group)
+{
+    // проверка, есть ли в таблице groups добавляемая группа group для текущей библиотеки libID
+    Query_->prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND name = :group;");
+    Query_->bindValue(":name", group);
+    Query_->bindValue(":id_lib", libID);
+    Query_->exec();
+    qlonglong groupID = 0;
+    if (Query_->next())
+        groupID = Query_->value(0).toLongLong();
+    if (groupID == 0)
+    {
+        // если группы group нет в таблице groups текущей библиотеки, то создаем запись
+        Query_->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+        Query_->bindValue(":name", group);
+        Query_->bindValue(":id_lib", libID);
+        if (!Query_->exec())
+            qDebug() << Query_->lastError().text();
+        groupID = Query_->lastInsertId().toLongLong();
+    }
+    // заполнение таблицы book_group данными на группу group
+    Query_->prepare("INSERT INTO book_group(id_book, id_group, id_lib) values(:id_book, :id_group, :id_lib);");
+    Query_->bindValue(":id_book", bookID);
+    Query_->bindValue(":id_group", groupID);
+    Query_->bindValue(":id_lib", libID);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
+    qlonglong id = Query_->lastInsertId().toLongLong();
+    return id;
+}
+
 void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
     QFileInfo fi(file_name);
-    Query_->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(ExistingLibID_),file_name,arh_name));
+    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_),file_name,arh_name));
     if(Query_->next()) //если книга найдена, то просто снимаем пометку удаления
     {
         Query_->exec("update book set deleted=0 where id="+Query_->value(0).toString());
@@ -767,12 +800,13 @@ void ImportThread::process()
     if(InpxFileName_.isEmpty())
     {
         importBooksToLibrary(LibPath_);
-        Query_->exec("drop table if exists tmp;");
-        Query_->exec(QString("create table tmp as select id from book where id_lib=%1 and deleted=1;").arg(QString::number(ExistingLibID_)));
-        Query_->exec(QString("delete from book where id_lib=%1 and id in (select id from tmp);").arg(QString::number(ExistingLibID_)));
-        Query_->exec(QString("delete from book_janre where id_lib=%1 and id_book in (select id from tmp);").arg(QString::number(ExistingLibID_)));
-        Query_->exec(QString("delete from book_author where id_lib=%1 and id_book in (select id from tmp);").arg(QString::number(ExistingLibID_)));
-        Query_->exec("drop table if exists tmp;");
+        Query_->exec("DROP TABLE IF EXISTS tmp;");
+        Query_->exec(QString("CREATE TABLE tmp AS SELECT id FROM book WHERE id_lib=%1 AND deleted=1;").arg(QString::number(ExistingLibID_)));
+        Query_->exec(QString("DELETE FROM book WHERE id_lib=%1 AND id IN (SELECT IN FROM tmp);").arg(QString::number(ExistingLibID_)));
+        Query_->exec(QString("DELETE FROM book_janre WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
+        Query_->exec(QString("DELETE FROM book_author WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
+        Query_->exec(QString("DELETE FROM book_group WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
+        Query_->exec("DROP TABLE IF EXISTS tmp;");
         Query_->exec("VACUUM");
         emit End();
         return;

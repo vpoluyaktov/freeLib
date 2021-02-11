@@ -173,6 +173,9 @@ void AddLibrary::StartImport(SLib &Lib)
     // UT_DEL_AND_NEW : Удалить несуществующие и добавить новые книги
     int update_type=(ui->rbtnAddNewBook->isChecked()?UT_NEW:ui->rbtnDeleleOldBook->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
+    // занесение в таблицу groups две неудаляемые Группы
+    AddGroupToSQLite(idCurrentLib_);
+
     ui->btnExportLibrary->setDisabled(true);
     ui->btnUpdateLibrary->setDisabled(true);
     ui->lineEditBooksDir->setDisabled(true);
@@ -533,4 +536,25 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
         ui->btnBooksDirDelete->setEnabled(true);
     else
         ui->btnBooksDirDelete->setDisabled(true);
+}
+
+/*
+    занесение в таблицу groups две неудаляемые Группы
+*/
+void AddLibrary::AddGroupToSQLite(qlonglong libID)
+{
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
+    query.bindValue(":name", tr("Favorites"));
+    query.bindValue(":id_lib", libID);
+    query.bindValue(":blocked", true);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+
+    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
+    query.bindValue(":name", tr("To read"));
+    query.bindValue(":id_lib", libID);
+    query.bindValue(":blocked", true);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
 }
