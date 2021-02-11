@@ -133,6 +133,8 @@ void loadLibrary(uint idLibrary)
 
     t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "loadBooks " << t_end-t_start << "msec";
+
+    loadGroups(g_idCurrentLib);
 }
 
 void loadGenres()
@@ -174,6 +176,8 @@ void loadGroups(uint idLibrary)
     query.bindValue(":id_lib", idLibrary);
     if (!query.exec())
         qDebug() << query.lastError().text();
+
+    QList<uint> idGroupList;
     while (query.next()) {
         uint idGroup = query.value(0).toUInt();
         QString sName = query.value(1).toString();
@@ -181,7 +185,23 @@ void loadGroups(uint idLibrary)
         lib.mGroups[idGroup].setId(idGroup);
         lib.mGroups[idGroup].setName(sName);
         lib.mGroups[idGroup].setBlocked(isBlocked);
+        idGroupList << idGroup;
     }
+
+    foreach(uint idGroup, idGroupList) {
+        query.prepare("SELECT book.id FROM book, book_group WHERE book_group.book_id = book.id AND book_group.id_lib = book.id_lib AND book_group.group_id = :idGroup AND book.id_lib = :id_lib;");
+        query.bindValue(":id_lib", idLibrary);
+        query.bindValue(":idGroup", idGroup);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else {
+            while (query.next()) {
+                qlonglong idBook = query.value(0).toLongLong();
+                mLibs[idLibrary].mBooks[idBook].listIdGroups << idGroup;
+            }
+        }
+    }
+
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug() << "loadGroups " << t_end - t_start << "msec";
 }

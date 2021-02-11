@@ -253,7 +253,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     UpdateTagsMenu();
     loadGenres();
-    loadGroups(g_idCurrentLib);
     loadLibrary(g_idCurrentLib);
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск
@@ -1344,7 +1343,6 @@ void MainWindow::SelectLibrary()
     }
 
     loadLibrary(g_idCurrentLib);
-    loadGroups(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls();
 
@@ -1541,7 +1539,10 @@ void MainWindow::SelectGroup()
         query.exec();
     }
 
-    // TODO Формирование списка книг для выделенной Группы
+    // Формирование списка книг для выделенной Группы
+    QHash<uint, SBook> books = mLibs[g_idCurrentLib].mBooks;
+    SBook book = books[3];
+    QList<uint> listIdGroups = book.listIdGroups;
     QList<uint> listBooks;
     QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
@@ -1753,7 +1754,6 @@ void MainWindow::ManageLibrary()
             nCurrentTab = LoadLibraryPosition();
         }
         loadLibrary(g_idCurrentLib);
-        loadGroups(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
         
