@@ -2994,6 +2994,7 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     FillListWidgetSerials(g_idCurrentLib);
     FillListWidgetAuthors(g_idCurrentLib);
     FillTreeWidgetGenres();
+    FillListWidgetGroups();
     FillListBooks();
 }
 
