@@ -795,7 +795,7 @@ void MainWindow::TagSelect(int index)
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
-        FillListWidgetGroups(g_idCurrentLib);
+        //FillListWidgetGroups(g_idCurrentLib);
         FillListBooks();
     }
 }
@@ -2994,7 +2994,7 @@ void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &ar
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
     FillTreeWidgetGenres(g_idCurrentLib);
-    FillListWidgetGroups(g_idCurrentLib);
+    //FillListWidgetGroups(g_idCurrentLib);
     FillListBooks();
 }
 
