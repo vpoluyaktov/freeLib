@@ -1542,12 +1542,25 @@ void MainWindow::SelectGroup()
     }
 
     // TODO Формирование списка книг для выделенной Группы
+    QList<uint> listBooks;
+    QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
+        if ((idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)) {
+            foreach(uint iGroup, iBook->listIdGroups) {
+                if (iGroup == idCurrentGroup_) {
+                    listBooks << iBook.key();
+                    break;
+                }
+            }
+        }
+        ++iBook;
+    }
 
     // скроллинг до выделенной Группы
     ui->GroupList->scrollToItem(cur_item);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
-    //FillListBooks(listBooks, 0);
+    FillListBooks(listBooks, 0);
 }
 
 /*
