@@ -3320,5 +3320,7 @@ void MainWindow::AddBookToGroupAction()
         query.bindValue(":id_lib", g_idCurrentLib);
         if (!query.exec())
             qDebug() << query.lastError().text();
+        else
+            mLibs[g_idCurrentLib].mBooks[book_id].listIdGroups << group_id;
     }
 }
