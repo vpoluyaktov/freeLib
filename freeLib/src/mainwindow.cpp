@@ -252,7 +252,7 @@ MainWindow::MainWindow(QWidget* parent) :
     }
 
     UpdateTagsMenu();
-    loadGenres();
+    loadGenresFromSQLiteToLibraryStructure();
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск

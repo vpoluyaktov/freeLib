@@ -134,10 +134,10 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
     t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "loadBooks " << t_end-t_start << "msec";
 
-    loadGroups(g_idCurrentLib);
+    loadGroupsFromSQLiteToLibraryStructure(g_idCurrentLib);
 }
 
-void loadGenres()
+void loadGenresFromSQLiteToLibraryStructure()
 {
     if(!db_is_open)
         return;
@@ -161,7 +161,7 @@ void loadGenres()
     qDebug()<< "loadGenre " << t_end-t_start << "msec";
 }
 
-void loadGroups(uint idLibrary)
+void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
 {
     if (!db_is_open)
         return;
@@ -203,7 +203,7 @@ void loadGroups(uint idLibrary)
     }
 
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug() << "loadGroups " << t_end - t_start << "msec";
+    qDebug() << "loadGroupsFromSQLiteToLibraryStructure " << t_end - t_start << "msec";
 }
 
 QString SAuthor::getName() const
