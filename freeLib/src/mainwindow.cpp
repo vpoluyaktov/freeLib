@@ -1543,9 +1543,6 @@ void MainWindow::SelectGroup()
     }
 
     // Формирование списка книг для выделенной Группы
-    QHash<uint, SBook> books = mLibs[g_idCurrentLib].mBooks;
-    SBook book = books[3];
-    QList<uint> listIdGroups = book.listIdGroups;
     QList<uint> listBooks;
     QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
