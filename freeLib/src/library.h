@@ -27,6 +27,7 @@ struct SBook
     QString sFormat;
     QList<uint> listIdGenres;
     QList<uint> listIdAuthors;
+    QList<uint> listIdGroups;
     uint idInLib;
     QString sFile;
     uint idSerial;
