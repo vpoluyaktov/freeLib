@@ -3263,8 +3263,8 @@ void MainWindow::btnPageGroups()
     ui->SearchFrame->setEnabled(false);
     ui->frame_3->setEnabled(false);
     ui->Books->clear();
-    ui->comboBoxLanguageFilter->setEnabled(false);
-    ui->comboBoxTagFilter->setEnabled(false);
+    ui->comboBoxLanguageFilter->setEnabled(true);
+    ui->comboBoxTagFilter->setEnabled(true);
     SelectGroup();
     QApplication::restoreOverrideCursor();
 }
