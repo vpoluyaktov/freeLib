@@ -3341,10 +3341,10 @@ void MainWindow::AddGroupToList()
             item = new QListWidgetItem(GroupName);
             item->setData(Qt::UserRole, id);
             ui->GroupList->insertItem(ui->GroupList->count(), item);
+            // добавление новой группы в структуру текущей библиотеки
+            Group newGroup(GroupName, id, false);
+            mLibs[g_idCurrentLib].mGroups.insert(id, newGroup);
         }
-        // добавление новой группы в структуру текущей библиотеки
-        Group newGroup(GroupName, id, false);
-        mLibs[g_idCurrentLib].mGroups.insert(id, newGroup);
     }
 }
 
