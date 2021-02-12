@@ -115,6 +115,9 @@ private:
     void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
     // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
     QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary);
+    // удаление всех книг из выделенной группы
+    void RemoveAllBooksFromGroup();
+
 protected:
     APP_MODE mode;
 
