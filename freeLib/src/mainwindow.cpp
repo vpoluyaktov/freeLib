@@ -3302,6 +3302,7 @@ void MainWindow::AddGroupToList()
     GroupName = GroupName.trimmed();
     if (ok && !GroupName.isEmpty()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
+        // проверка на наличие в списке добавляемой группы
         query.prepare("SELECT name FROM groups WHERE id_lib = :id_lib;");
         query.bindValue(":id_lib", g_idCurrentLib);
         if (!query.exec())
@@ -3312,6 +3313,7 @@ void MainWindow::AddGroupToList()
                 return;
             }
         }
+        // вставка новой группы в базу данных
         query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
         query.bindValue(":name", GroupName);
         query.bindValue(":id_lib", g_idCurrentLib);
