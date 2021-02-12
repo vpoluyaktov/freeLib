@@ -827,6 +827,9 @@
                  <layout class="QHBoxLayout" name="horizontalLayoutGroupsButtons">
                   <item>
                    <widget class="QPushButton" name="btnGroupCreate">
+                    <property name="toolTip">
+                     <string>Create the new group</string>
+                    </property>
                     <property name="text">
                      <string>Create</string>
                     </property>
@@ -835,7 +838,10 @@
                   <item>
                    <widget class="QPushButton" name="btnGrouRemove">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
+                    </property>
+                    <property name="toolTip">
+                     <string>Deleting a selected group</string>
                     </property>
                     <property name="text">
                      <string>Remove</string>
@@ -857,6 +863,9 @@
                   </item>
                   <item>
                    <widget class="QPushButton" name="btnGroupClear">
+                    <property name="toolTip">
+                     <string>Delete all the books of the selected group</string>
+                    </property>
                     <property name="text">
                      <string>Clear</string>
                     </property>

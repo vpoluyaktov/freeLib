@@ -113,6 +113,10 @@ private:
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
     void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
+    // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
+    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary);
+    // удаление всех книг из выделенной группы
+    void RemoveAllBooksFromGroup();
 
 protected:
     APP_MODE mode;
@@ -178,6 +182,10 @@ private slots:
     void AddGroupToList();
     // добавление выделенной книги в Группу
     void AddBookToGroupAction();
+    // удаление всех книг из выделенной группы
+    void DeleteAllBooksFromGroup();
+    // удаление группы из списка групп
+    void RemoveGroupFromList();
 
     // экспорт выделенных книг
     void ExportAction();
