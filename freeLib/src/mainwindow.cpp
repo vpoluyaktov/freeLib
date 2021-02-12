@@ -3358,6 +3358,19 @@ void MainWindow::AddBookToGroupAction()
         uint group_id = qobject_cast<QAction*>(QObject::sender())->data().toInt();
         uint book_id = bookItem->data(0, Qt::UserRole).toUInt();
         QSqlQuery query(QSqlDatabase::database("libdb"));
+        // проверка, если ли добавляемая книга в группе, и выдача сообщения, если есть
+        query.prepare("SELECT book_id FROM book_group WHERE id_lib = :id_lib AND group_id = :group_id;");
+        query.bindValue(":group_id", group_id);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        while (query.next()) {
+            if (book_id == query.value(0).toUInt()) {
+                QMessageBox::warning(this, tr("Adding a book to the group"), tr("This book has already been previously added to the group!"), QMessageBox::Ok);
+                return;
+            }
+        }
+        // добавление выделенной книги в базу и структуру текущей библиотеки
         query.prepare("INSERT INTO book_group(book_id, group_id, id_lib) values(:book_id, :group_id, :id_lib);");
         query.bindValue(":book_id", book_id);
         query.bindValue(":group_id", group_id);
