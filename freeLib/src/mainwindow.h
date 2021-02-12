@@ -113,7 +113,8 @@ private:
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
     void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
-
+    // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
+    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary);
 protected:
     APP_MODE mode;
 

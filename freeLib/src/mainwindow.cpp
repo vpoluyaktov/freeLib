@@ -1543,19 +1543,7 @@ void MainWindow::SelectGroup()
     }
 
     // Формирование списка книг для выделенной Группы
-    QList<uint> listBooks;
-    QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
-        if ((idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)) {
-            foreach(uint iGroup, iBook->listIdGroups) {
-                if (iGroup == idCurrentGroup_) {
-                    listBooks << iBook.key();
-                    break;
-                }
-            }
-        }
-        ++iBook;
-    }
+    QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib);
 
     // скроллинг до выделенной Группы
     ui->GroupList->scrollToItem(cur_item);
@@ -3353,19 +3341,7 @@ void MainWindow::AddBookToGroupAction()
 void MainWindow::DeleteAllBooksFromGroup()
 {
     // Формирование списка книг для выделенной Группы
-    QList<uint> listBooks;
-    QHash<uint, SBook>::const_iterator BookConstIterator = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while (BookConstIterator != mLibs[g_idCurrentLib].mBooks.constEnd()) {
-        if (idCurrentLanguage_ == -1 || idCurrentLanguage_ == BookConstIterator->idLanguage) {
-            foreach(uint iGroup, BookConstIterator->listIdGroups) {
-                if (iGroup == idCurrentGroup_) {
-                    listBooks << BookConstIterator.key();
-                    break;
-                }
-            }
-        }
-        ++BookConstIterator;
-    }
+    QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib);
     
     // удаление в базе книг из сформированного списка
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -3393,4 +3369,25 @@ void MainWindow::DeleteAllBooksFromGroup()
         ++BookIterator;
     }
     ui->Books->clear();
+}
+
+/*
+    Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
+*/
+QList<uint> MainWindow::MakeListBooksFromSelectedGroup(uint idLibrary)
+{
+    QList<uint> listBooks;
+    QHash<uint, SBook>::const_iterator BookConstIterator = mLibs[g_idCurrentLib].mBooks.constBegin();
+    while (BookConstIterator != mLibs[g_idCurrentLib].mBooks.constEnd()) {
+        if (idCurrentLanguage_ == -1 || idCurrentLanguage_ == BookConstIterator->idLanguage) {
+            foreach(uint iGroup, BookConstIterator->listIdGroups) {
+                if (iGroup == idCurrentGroup_) {
+                    listBooks << BookConstIterator.key();
+                    break;
+                }
+            }
+        }
+        ++BookConstIterator;
+    }
+    return listBooks;
 }
