@@ -306,6 +306,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->btnGroupCreate, &QPushButton::clicked, this, &MainWindow::AddGroupToList);
+    connect(ui->btnGrouRemove, &QPushButton::clicked, this, &MainWindow::RemoveGroupFromList);
     connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
     connect(ui->actionNew_library_wizard,SIGNAL(triggered()),this,SLOT(newLibWizard()));
@@ -3407,4 +3408,18 @@ QList<uint> MainWindow::MakeListBooksFromSelectedGroup(uint idLibrary)
         ++BookConstIterator;
     }
     return listBooks;
+}
+
+/*
+    удаление группы из списка групп
+*/
+void MainWindow::RemoveGroupFromList()
+{
+    QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
+    if (QMessageBox::question(
+        this, tr("Remove selected group"),
+        tr("Are you sure you want to delete the group") + " '" + selectedGroupName + "'?",
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+
+    }
 }
