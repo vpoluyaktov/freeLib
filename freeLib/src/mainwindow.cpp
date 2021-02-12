@@ -3340,9 +3340,10 @@ void MainWindow::AddBookToGroupAction()
 */
 void MainWindow::DeleteAllBooksFromGroup()
 {
+    QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
     if (QMessageBox::question(
         this, tr("Clear selected group"),
-        tr("Are you sure you want to delete all books of the selected group?"),
+        tr("Are you sure you want to delete all books of the selected group") + " '" + selectedGroupName + "'?",
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         // Формирование списка книг для выделенной Группы
         QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib);

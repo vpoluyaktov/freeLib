@@ -1402,14 +1402,18 @@
         <translation>Эта группа уже есть в списке групп!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3344"/>
+        <location filename="mainwindow.cpp" line="3345"/>
         <source>Clear selected group</source>
         <translation>Очмстка выделенной группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3345"/>
+        <location filename="mainwindow.cpp" line="3346"/>
+        <source>Are you sure you want to delete all books of the selected group</source>
+        <translation>Вы действительно хотите удалить все книги для выделенной группы</translation>
+    </message>
+    <message>
         <source>Are you sure you want to delete all books of the selected group?</source>
-        <translation>Вы действительно хотите удалить все книги выделенной группы?</translation>
+        <translation type="vanished">Вы действительно хотите удалить все книги выделенной группы?</translation>
     </message>
     <message>
         <source>unknown author</source>
