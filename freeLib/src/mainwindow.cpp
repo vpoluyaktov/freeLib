@@ -3314,18 +3314,22 @@ void MainWindow::AddGroupToList()
             }
         }
         // вставка новой группы в базу данных
+        qlonglong id = -1;
         query.prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
         query.bindValue(":name", GroupName);
         query.bindValue(":id_lib", g_idCurrentLib);
         if (!query.exec())
             qDebug() << query.lastError().text();
         else {
-            qlonglong id = query.lastInsertId().toLongLong();
+            id = query.lastInsertId().toLongLong();
             QListWidgetItem* item;
             item = new QListWidgetItem(GroupName);
             item->setData(Qt::UserRole, id);
             ui->GroupList->insertItem(ui->GroupList->count(), item);
         }
+        // добавление новой группы в структуру текущей библиотеки
+        Group newGroup(GroupName, id, false);
+        mLibs[g_idCurrentLib].mGroups.insert(id, newGroup);
     }
 }
 
