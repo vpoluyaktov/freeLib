@@ -926,7 +926,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1230"/>
-        <location filename="mainwindow.cpp" line="2027"/>
+        <location filename="mainwindow.cpp" line="2013"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -938,7 +938,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1267"/>
-        <location filename="mainwindow.cpp" line="2057"/>
+        <location filename="mainwindow.cpp" line="2043"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1120,34 +1120,34 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1243"/>
-        <location filename="mainwindow.cpp" line="2039"/>
+        <location filename="mainwindow.cpp" line="2025"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1251"/>
-        <location filename="mainwindow.cpp" line="2045"/>
+        <location filename="mainwindow.cpp" line="2031"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1259"/>
-        <location filename="mainwindow.cpp" line="2051"/>
+        <location filename="mainwindow.cpp" line="2037"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1272"/>
-        <location filename="mainwindow.cpp" line="2063"/>
+        <location filename="mainwindow.cpp" line="2049"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1288"/>
-        <location filename="mainwindow.cpp" line="1985"/>
-        <location filename="mainwindow.cpp" line="1986"/>
-        <location filename="mainwindow.cpp" line="2075"/>
+        <location filename="mainwindow.cpp" line="1971"/>
+        <location filename="mainwindow.cpp" line="1972"/>
+        <location filename="mainwindow.cpp" line="2061"/>
         <source>Readed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1210,13 +1210,13 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1235"/>
-        <location filename="mainwindow.cpp" line="2033"/>
+        <location filename="mainwindow.cpp" line="2019"/>
         <source>No.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1280"/>
-        <location filename="mainwindow.cpp" line="2069"/>
+        <location filename="mainwindow.cpp" line="2055"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1246,12 +1246,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="457"/>
+        <location filename="mainwindow.cpp" line="458"/>
         <source>no tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="488"/>
+        <location filename="mainwindow.cpp" line="489"/>
         <source>setup ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1271,7 +1271,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1621"/>
+        <location filename="mainwindow.cpp" line="1607"/>
         <source>Can&apos;t find file: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1306,85 +1306,95 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1110"/>
+        <location filename="mainwindow.cpp" line="1111"/>
         <source>The search for deleted books in the storage and marking them in the database is completed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1110"/>
+        <location filename="mainwindow.cpp" line="1111"/>
         <source>Mark deleted books in base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1960"/>
+        <location filename="mainwindow.cpp" line="1946"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1976"/>
+        <location filename="mainwindow.cpp" line="1962"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1990"/>
+        <location filename="mainwindow.cpp" line="1976"/>
         <source>Not readed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1995"/>
+        <location filename="mainwindow.cpp" line="1981"/>
         <source>Add to Group</source>
         <oldsource>Add to Groups</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2551"/>
+        <location filename="mainwindow.cpp" line="2537"/>
         <source>Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3250"/>
+        <location filename="mainwindow.cpp" line="3236"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3302"/>
+        <location filename="mainwindow.cpp" line="3288"/>
         <source>Input Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3302"/>
+        <location filename="mainwindow.cpp" line="3288"/>
         <source>New Group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3302"/>
+        <location filename="mainwindow.cpp" line="3288"/>
         <source>New Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3313"/>
+        <location filename="mainwindow.cpp" line="3299"/>
         <source>Add new group</source>
         <oldsource>Add a new group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3313"/>
+        <location filename="mainwindow.cpp" line="3299"/>
         <source>This group is already on the group list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2796"/>
+        <location filename="mainwindow.cpp" line="3344"/>
+        <source>Clear selected group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3345"/>
+        <source>Are you sure you want to delete all books of the selected group?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="2782"/>
         <source>Send to ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1479"/>
-        <location filename="mainwindow.cpp" line="3063"/>
+        <location filename="mainwindow.cpp" line="3049"/>
         <source>Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3064"/>
+        <location filename="mainwindow.cpp" line="3050"/>
         <source>Book`s files</source>
         <translation type="unfinished"></translation>
     </message>
