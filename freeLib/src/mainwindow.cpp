@@ -1545,6 +1545,17 @@ void MainWindow::SelectGroup()
     // Формирование списка книг для выделенной Группы
     QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib);
 
+    // Выделение жирным выбранной Группы
+    QFont font = ui->GroupList->font();
+    for (int i = 0; i < ui->GroupList->count(); ++i) {
+        QListWidgetItem* item = ui->GroupList->item(i);
+        if (item != cur_item)
+            font.setBold(false);
+        else
+            font.setBold(true);
+        item->setFont(font);
+    }
+
     // скроллинг до выделенной Группы
     ui->GroupList->scrollToItem(cur_item);
 
