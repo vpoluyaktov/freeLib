@@ -401,6 +401,21 @@ MainWindow::MainWindow(QWidget* parent) :
         ui->Books->header()->restoreState(varHeaders.toByteArray());
     }
 
+    // доступность/недоступность кнопки Удалить Группу
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND blocked = true;");
+    query.bindValue(":id_lib", g_idCurrentLib);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    while (query.next()) {
+        if (idCurrentGroup_ == query.value(0).toInt()) {
+            ui->btnGrouRemove->setEnabled(false);
+            break;
+        }
+        else
+            ui->btnGrouRemove->setEnabled(true);
+    }
+
     settings.endGroup();
 }
 
