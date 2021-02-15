@@ -2003,6 +2003,7 @@ void MainWindow::ContextMenu(QPoint point)
             actionReaded = new QAction(tr("Not readed"), this);
             actionReaded->setData(QString::number(0).toInt());
             connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+            menu.addSeparator();
             readed->addAction(actionReaded);
             // меню книги Группы
             QMenu* groups = menu.addMenu(tr("Add to Group"));
@@ -2019,6 +2020,12 @@ void MainWindow::ContextMenu(QPoint point)
                 connect(actionGroup, &QAction::triggered, this, &MainWindow::AddBookToGroupAction);
                 groups->addAction(actionGroup);
             }
+            // action удаления выделенной книги из выделенной группы
+            QAction* actionDeleteFromGroup = new QAction(tr("Remove from group"), this);
+            uint idBooks = ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toUInt();
+            actionDeleteFromGroup->setData(QString::number(idBooks).toUInt());
+            connect(actionDeleteFromGroup, &QAction::triggered, this, &MainWindow::DeleteBookFromGroupAction);
+            menu.addAction(actionDeleteFromGroup);
         }
     }
     if(menu.actions().count()>0)
@@ -3379,6 +3386,42 @@ void MainWindow::AddBookToGroupAction()
             qDebug() << query.lastError().text();
         else
             mLibs[g_idCurrentLib].mBooks[book_id].listIdGroups << group_id;
+    }
+}
+
+/*
+    удаление выделенной книги из выделенной группы
+*/
+void MainWindow::DeleteBookFromGroupAction()
+{
+    QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
+    if (QMessageBox::question(
+        this, tr("Remove book from group"),
+        tr("Are you sure you want to delete from the group of the book") + "\n'" + bookItem->text(0) + "'?",
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+
+        uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
+
+        // удаление в базе книг из сформированного списка
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("DELETE FROM book_group WHERE id_lib = :id_lib AND group_id = :group_id AND book_id = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":group_id", idCurrentGroup_);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        // удаление из структуры связи этой книги с выделенной группой
+        QMutableListIterator<uint> GroupIterator(mLibs[g_idCurrentLib].mBooks[idBook].listIdGroups);
+        while (GroupIterator.hasNext()) {
+            if (GroupIterator.next() == idCurrentGroup_) {
+                GroupIterator.remove();
+                break;
+            }
+        }
+
+        // удаление книги из контрола дерева книг
+        SelectGroup();
     }
 }
 /*

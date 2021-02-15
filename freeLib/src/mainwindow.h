@@ -182,6 +182,8 @@ private slots:
     void AddGroupToList();
     // добавление выделенной книги в Группу
     void AddBookToGroupAction();
+    // удаление выделенной книги из выделенной группы
+    void DeleteBookFromGroupAction();
     // удаление всех книг из выделенной группы
     void DeleteAllBooksFromGroup();
     // удаление группы из списка групп
