@@ -116,7 +116,7 @@ private:
     // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
     QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary);
     // удаление всех книг из выделенной группы
-    void RemoveAllBooksFromGroup();
+    void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
 
 protected:
     APP_MODE mode;
