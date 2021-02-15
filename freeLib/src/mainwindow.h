@@ -117,6 +117,8 @@ private:
     QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary, uint idGroup);
     // удаление всех книг из выделенной группы
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
+    // заполнение комбобокса с форматами книг на вкладке Поиск
+    void FillFormatList();
 
 protected:
     APP_MODE mode;

@@ -329,7 +329,7 @@
                </size>
               </property>
               <property name="currentIndex">
-               <number>4</number>
+               <number>3</number>
               </property>
               <widget class="QWidget" name="pageAuthor">
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -563,6 +563,29 @@
                      </item>
                      <item>
                       <spacer name="horizontalSpacer_7">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="labelFindFormat">
+                       <property name="text">
+                        <string>Format:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="comboBoxFindFormat"/>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_10">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
