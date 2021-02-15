@@ -836,6 +836,16 @@
                    </widget>
                   </item>
                   <item>
+                   <widget class="QPushButton" name="btnGroupRename">
+                    <property name="toolTip">
+                     <string>Renaming the selected group</string>
+                    </property>
+                    <property name="text">
+                     <string>Rename</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QPushButton" name="btnGrouRemove">
                     <property name="enabled">
                      <bool>true</bool>
