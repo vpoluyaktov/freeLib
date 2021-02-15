@@ -257,6 +257,8 @@ MainWindow::MainWindow(QWidget* parent) :
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск
     FillRatingList();
+    // заполнение комбобокса с форматами книг на вкладке Поиск
+    FillFormatList();
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
@@ -3578,4 +3580,21 @@ void MainWindow::RemoveAllBooksFromGroup(uint idLibrary, uint idGroup)
         ++BookIterator;
     }
     ui->Books->clear();
+}
+
+/*
+    заполнение комбобокса с форматами книг на вкладке Поиск
+*/
+void MainWindow::FillFormatList()
+{
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT format FROM book WHERE id_lib = :id_lib GROUP BY format;");
+    query.bindValue(":id_lib", g_idCurrentLib);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    else {
+        ui->comboBoxFindFormat->addItem("*", Qt::UserRole);
+        while (query.next())
+            ui->comboBoxFindFormat->addItem(query.value(0).toString(), Qt::UserRole);
+    }
 }
