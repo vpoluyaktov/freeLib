@@ -108,7 +108,7 @@ private:
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
     void SaveCurrentBookLanguageFilter(const QString& lang);
     // заполнение комбобокса рейтинга на вкладке Поиск
-    void FiilRatingList();
+    void FillRatingList();
     // пометка ячейки статуса 'Прочитано'
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп

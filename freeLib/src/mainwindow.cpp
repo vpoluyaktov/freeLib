@@ -256,7 +256,7 @@ MainWindow::MainWindow(QWidget* parent) :
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateBookLanguageControls();
     // заполнение комбобокса рейтинга на вкладке Поиск
-    FiilRatingList();
+    FillRatingList();
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
@@ -3257,7 +3257,7 @@ void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
 /*
     заполнение комбобокса рейтинга на вкладке Поиска
 */
-void MainWindow::FiilRatingList()
+void MainWindow::FillRatingList()
 {
     for (int i = 0; i < 6; i++)
         ui->comboBoxFindRating->addItem(QString("%1").arg(i), i);
