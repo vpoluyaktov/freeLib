@@ -925,8 +925,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1240"/>
-        <location filename="mainwindow.cpp" line="2048"/>
+        <location filename="mainwindow.ui" line="1263"/>
+        <location filename="mainwindow.cpp" line="2050"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -937,8 +937,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1277"/>
-        <location filename="mainwindow.cpp" line="2078"/>
+        <location filename="mainwindow.ui" line="1300"/>
+        <location filename="mainwindow.cpp" line="2080"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
@@ -954,24 +954,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="629"/>
+        <location filename="mainwindow.ui" line="652"/>
         <source>Import date:</source>
         <oldsource>Date add:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="647"/>
+        <location filename="mainwindow.ui" line="670"/>
         <source>from:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="660"/>
-        <location filename="mainwindow.ui" line="687"/>
+        <location filename="mainwindow.ui" line="683"/>
+        <location filename="mainwindow.ui" line="710"/>
         <source>dd.MM.yyyy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="674"/>
+        <location filename="mainwindow.ui" line="697"/>
         <source>to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -982,12 +982,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="757"/>
+        <location filename="mainwindow.ui" line="780"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="768"/>
+        <location filename="mainwindow.ui" line="791"/>
         <source>Books found</source>
         <oldsource>Find books</oldsource>
         <translation type="unfinished"></translation>
@@ -1003,75 +1003,75 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="721"/>
+        <location filename="mainwindow.ui" line="744"/>
         <source>Maximum number of books:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="933"/>
+        <location filename="mainwindow.ui" line="956"/>
         <source>Send to device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="953"/>
+        <location filename="mainwindow.ui" line="976"/>
         <source>Open book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1572"/>
+        <location filename="mainwindow.ui" line="1595"/>
         <source>Check/uncheck books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="992"/>
-        <location filename="mainwindow.ui" line="1554"/>
+        <location filename="mainwindow.ui" line="1015"/>
+        <location filename="mainwindow.ui" line="1577"/>
         <source>Libraries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="706"/>
+        <location filename="mainwindow.ui" line="729"/>
         <source>When you click the &apos;Find&apos; button, the Language and Tag filters will be reset to the default state (*).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="967"/>
+        <location filename="mainwindow.ui" line="990"/>
         <source>Edit matadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="978"/>
+        <location filename="mainwindow.ui" line="1001"/>
         <source>Select/unselect books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1006"/>
+        <location filename="mainwindow.ui" line="1029"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1042"/>
+        <location filename="mainwindow.ui" line="1065"/>
         <source>Filters:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1065"/>
+        <location filename="mainwindow.ui" line="1088"/>
         <source>Book language:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="550"/>
-        <location filename="mainwindow.ui" line="1107"/>
+        <location filename="mainwindow.ui" line="1130"/>
         <source>Tag:</source>
         <oldsource>Tag</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="584"/>
+        <location filename="mainwindow.ui" line="607"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="607"/>
+        <location filename="mainwindow.ui" line="630"/>
         <source>Readed Books</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1086,182 +1086,187 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="831"/>
+        <location filename="mainwindow.ui" line="580"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="854"/>
         <source>Create the new group</source>
         <oldsource>Create a new group</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="834"/>
+        <location filename="mainwindow.ui" line="857"/>
         <source>Create</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="841"/>
+        <location filename="mainwindow.ui" line="864"/>
         <source>Renaming the selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="844"/>
+        <location filename="mainwindow.ui" line="867"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="854"/>
+        <location filename="mainwindow.ui" line="877"/>
         <source>Deleting a selected group</source>
         <oldsource>Deleting a selected group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="857"/>
+        <location filename="mainwindow.ui" line="880"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="877"/>
+        <location filename="mainwindow.ui" line="900"/>
         <source>Delete all the books of the selected group</source>
         <oldsource>Delete all the books of the selected group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="880"/>
+        <location filename="mainwindow.ui" line="903"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1253"/>
-        <location filename="mainwindow.cpp" line="2060"/>
+        <location filename="mainwindow.ui" line="1276"/>
+        <location filename="mainwindow.cpp" line="2062"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1261"/>
-        <location filename="mainwindow.cpp" line="2066"/>
+        <location filename="mainwindow.ui" line="1284"/>
+        <location filename="mainwindow.cpp" line="2068"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1269"/>
-        <location filename="mainwindow.cpp" line="2072"/>
+        <location filename="mainwindow.ui" line="1292"/>
+        <location filename="mainwindow.cpp" line="2074"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1282"/>
-        <location filename="mainwindow.cpp" line="2084"/>
+        <location filename="mainwindow.ui" line="1305"/>
+        <location filename="mainwindow.cpp" line="2086"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1298"/>
-        <location filename="mainwindow.cpp" line="1999"/>
-        <location filename="mainwindow.cpp" line="2000"/>
-        <location filename="mainwindow.cpp" line="2096"/>
+        <location filename="mainwindow.ui" line="1321"/>
+        <location filename="mainwindow.cpp" line="2001"/>
+        <location filename="mainwindow.cpp" line="2002"/>
+        <location filename="mainwindow.cpp" line="2098"/>
         <source>Readed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1495"/>
+        <location filename="mainwindow.ui" line="1518"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1514"/>
+        <location filename="mainwindow.ui" line="1537"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1585"/>
+        <location filename="mainwindow.ui" line="1608"/>
         <source>Switch to library mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1590"/>
+        <location filename="mainwindow.ui" line="1613"/>
         <source>Minimize window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1598"/>
+        <location filename="mainwindow.ui" line="1621"/>
         <source>Mark deleted books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1435"/>
+        <location filename="mainwindow.ui" line="1458"/>
         <source>Drop files for convert!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1465"/>
-        <location filename="mainwindow.ui" line="1530"/>
+        <location filename="mainwindow.ui" line="1488"/>
+        <location filename="mainwindow.ui" line="1553"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1387"/>
-        <location filename="mainwindow.ui" line="1473"/>
+        <location filename="mainwindow.ui" line="1410"/>
+        <location filename="mainwindow.ui" line="1496"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1506"/>
+        <location filename="mainwindow.ui" line="1529"/>
         <source>Add/Edit library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1580"/>
+        <location filename="mainwindow.ui" line="1603"/>
         <source>Switch to convert mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1377"/>
+        <location filename="mainwindow.ui" line="1400"/>
         <source>Preference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1245"/>
-        <location filename="mainwindow.cpp" line="2054"/>
+        <location filename="mainwindow.ui" line="1268"/>
+        <location filename="mainwindow.cpp" line="2056"/>
         <source>No.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1290"/>
-        <location filename="mainwindow.cpp" line="2090"/>
+        <location filename="mainwindow.ui" line="1313"/>
+        <location filename="mainwindow.cpp" line="2092"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1522"/>
+        <location filename="mainwindow.ui" line="1545"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1541"/>
+        <location filename="mainwindow.ui" line="1564"/>
         <source>Move to author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1546"/>
+        <location filename="mainwindow.ui" line="1569"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1562"/>
+        <location filename="mainwindow.ui" line="1585"/>
         <source>Move to series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1567"/>
+        <location filename="mainwindow.ui" line="1590"/>
         <source>New library wizard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="475"/>
+        <location filename="mainwindow.cpp" line="477"/>
         <source>no tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="506"/>
+        <location filename="mainwindow.cpp" line="508"/>
         <source>setup ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1281,7 +1286,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1635"/>
+        <location filename="mainwindow.cpp" line="1637"/>
         <source>Can&apos;t find file: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1316,139 +1321,139 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1128"/>
+        <location filename="mainwindow.cpp" line="1130"/>
         <source>The search for deleted books in the storage and marking them in the database is completed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1128"/>
+        <location filename="mainwindow.cpp" line="1130"/>
         <source>Mark deleted books in base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1974"/>
+        <location filename="mainwindow.cpp" line="1976"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1990"/>
+        <location filename="mainwindow.cpp" line="1992"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2004"/>
+        <location filename="mainwindow.cpp" line="2006"/>
         <source>Not readed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2010"/>
+        <location filename="mainwindow.cpp" line="2012"/>
         <source>Add to Group</source>
         <oldsource>Add to Groups</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2025"/>
+        <location filename="mainwindow.cpp" line="2027"/>
         <source>Remove from group</source>
         <oldsource>Remove from group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2572"/>
+        <location filename="mainwindow.cpp" line="2574"/>
         <source>Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3271"/>
+        <location filename="mainwindow.cpp" line="3273"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3323"/>
-        <location filename="mainwindow.cpp" line="3402"/>
+        <location filename="mainwindow.cpp" line="3325"/>
+        <location filename="mainwindow.cpp" line="3404"/>
         <source>Input Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3323"/>
+        <location filename="mainwindow.cpp" line="3325"/>
         <source>New Group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3323"/>
+        <location filename="mainwindow.cpp" line="3325"/>
         <source>New Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3335"/>
-        <location filename="mainwindow.cpp" line="3414"/>
+        <location filename="mainwindow.cpp" line="3337"/>
+        <location filename="mainwindow.cpp" line="3416"/>
         <source>Add new group</source>
         <oldsource>Add a new group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3335"/>
-        <location filename="mainwindow.cpp" line="3414"/>
+        <location filename="mainwindow.cpp" line="3337"/>
+        <location filename="mainwindow.cpp" line="3416"/>
         <source>This group is already on the group list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3377"/>
+        <location filename="mainwindow.cpp" line="3379"/>
         <source>Adding a book to the group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3377"/>
+        <location filename="mainwindow.cpp" line="3379"/>
         <source>This book has already been previously added to the group!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3402"/>
+        <location filename="mainwindow.cpp" line="3404"/>
         <source>New name Group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3448"/>
+        <location filename="mainwindow.cpp" line="3450"/>
         <source>Remove book from group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3449"/>
+        <location filename="mainwindow.cpp" line="3451"/>
         <source>Are you sure you want to delete from the group of the book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3483"/>
+        <location filename="mainwindow.cpp" line="3485"/>
         <source>Clear selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3484"/>
+        <location filename="mainwindow.cpp" line="3486"/>
         <source>Are you sure you want to delete all books of the selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3519"/>
+        <location filename="mainwindow.cpp" line="3521"/>
         <source>Remove selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3520"/>
+        <location filename="mainwindow.cpp" line="3522"/>
         <source>Are you sure you want to delete the group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2817"/>
+        <location filename="mainwindow.cpp" line="2819"/>
         <source>Send to ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1489"/>
-        <location filename="mainwindow.cpp" line="3084"/>
+        <location filename="mainwindow.ui" line="1512"/>
+        <location filename="mainwindow.cpp" line="3086"/>
         <source>Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3085"/>
+        <location filename="mainwindow.cpp" line="3087"/>
         <source>Book`s files</source>
         <translation type="unfinished"></translation>
     </message>
