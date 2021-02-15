@@ -114,7 +114,7 @@ private:
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
     void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
     // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
-    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary);
+    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary, uint idGroup);
     // удаление всех книг из выделенной группы
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
 

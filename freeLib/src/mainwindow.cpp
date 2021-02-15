@@ -1559,7 +1559,7 @@ void MainWindow::SelectGroup()
     }
 
     // Формирование списка книг для выделенной Группы
-    QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib);
+    QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib, idCurrentGroup_);
 
     // Выделение жирным выбранной Группы
     QFont font = ui->GroupList->font();
@@ -3442,14 +3442,14 @@ void MainWindow::DeleteAllBooksFromGroup()
 /*
     Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
 */
-QList<uint> MainWindow::MakeListBooksFromSelectedGroup(uint idLibrary)
+QList<uint> MainWindow::MakeListBooksFromSelectedGroup(uint idLibrary, uint idGroup)
 {
     QList<uint> listBooks;
-    QHash<uint, SBook>::const_iterator BookConstIterator = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while (BookConstIterator != mLibs[g_idCurrentLib].mBooks.constEnd()) {
+    QHash<uint, SBook>::const_iterator BookConstIterator = mLibs[idLibrary].mBooks.constBegin();
+    while (BookConstIterator != mLibs[idLibrary].mBooks.constEnd()) {
         if (idCurrentLanguage_ == -1 || idCurrentLanguage_ == BookConstIterator->idLanguage) {
             foreach(uint iGroup, BookConstIterator->listIdGroups) {
-                if (iGroup == idCurrentGroup_) {
+                if (iGroup == idGroup) {
                     listBooks << BookConstIterator.key();
                     break;
                 }
@@ -3501,7 +3501,7 @@ void MainWindow::RemoveGroupFromList()
 void MainWindow::RemoveAllBooksFromGroup(uint idLibrary, uint idGroup)
 {
     // Формирование списка книг для выделенной Группы
-    QList<uint> listBooks = MakeListBooksFromSelectedGroup(g_idCurrentLib);
+    QList<uint> listBooks = MakeListBooksFromSelectedGroup(idLibrary, idGroup);
 
     // удаление в базе книг из сформированного списка
     QSqlQuery query(QSqlDatabase::database("libdb"));
