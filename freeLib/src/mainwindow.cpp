@@ -2462,7 +2462,7 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
                 ui->GroupList->scrollToItem(item);
             }
         }
-
+        // добавление заблокированных групп в начало списка
         for (int i = 0; i != blockedItemList.count(); ++i) {
             ui->GroupList->insertItem(0, item);
             if (idGroup == idCurrentGroup_) {
