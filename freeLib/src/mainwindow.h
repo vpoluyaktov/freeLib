@@ -101,7 +101,7 @@ private:
     QList<uint> StartBooksSearch(
         const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
         int idLanguage, int idCurrentTag, const QString& sKeyword, uint idCurrentRating,
-        bool IsReaded, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+        bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
