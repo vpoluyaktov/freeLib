@@ -44,12 +44,12 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
     SBook &book = mLibs[g_idCurrentLib].mBooks[id_book];
     QString file = book.sFile;
     QString archive;
-    if(!book.sArchive.isEmpty()) {
+    if (!book.sArchive.isEmpty()) {
         archive = book.sArchive;
         archive = archive.replace("\\", "/");
     }
 
-    if(archive.isEmpty()) {
+    if (archive.isEmpty()) {
         // не zip: только файлы fb2, epub и fbd, расположенный рядом с одноименным не fb2 файлом.
         QFile book_file(file);
         if (!book_file.open(QFile::ReadOnly)) {
@@ -59,7 +59,7 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
         buffer.setData(book_file.readAll());
         fi.setFile(book_file);
         if (file_data)
-            *file_data=fi.created();
+            *file_data = fi.created();
         fi.setFile(file);
         QString fbd = fi.absolutePath() + "/" + fi.completeBaseName() + ".fbd";
         QFile info_file(fbd);
@@ -68,50 +68,40 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
             buffer_info.setData(info_file.readAll());
         }
     }
-    else
-    {
+    else {
+        // zip: только fb2.zip и zip файлы.
         QuaZip uz(archive);
-        if (!uz.open(QuaZip::mdUnzip))
-        {
-            qDebug()<<("Error open archive!")<<" "<<archive;
+        if (!uz.open(QuaZip::mdUnzip)) {
+            qDebug() << ("Error open archive!") << " " << archive;
             return fi;
         }
 
-        if(file_data)
-        {
-            SetCurrentZipFileName(&uz,file);
+        if(file_data) {
+            SetCurrentZipFileName(&uz, file);
             QuaZipFileInfo64 zip_fi;
             if(uz.getCurrentFileInfo(&zip_fi))
-            {
-                *file_data=zip_fi.dateTime;
-            }
+                *file_data = zip_fi.dateTime;
         }
         QuaZipFile zip_file(&uz);
-        SetCurrentZipFileName(&uz,file);
-        if(!zip_file.open(QIODevice::ReadOnly))
-        {
-            qDebug()<<"Error open file: "<<file;
+        SetCurrentZipFileName(&uz, file);
+        if (!zip_file.open(QIODevice::ReadOnly)) {
+            qDebug() << "Error open file: " << file;
         }
         if(caption)
-        {
             buffer.setData(zip_file.read(16*1024));
-        }
         else
-        {
             buffer.setData(zip_file.readAll());
-        }
         zip_file.close();
         fi.setFile(file);
-        QString fbd=fi.path()+"/"+fi.completeBaseName()+".fbd";
+        QString fbd = fi.path() + "/" + fi.completeBaseName() + ".fbd";
 
-        if(SetCurrentZipFileName(&uz,fbd))
-        {
+        if (SetCurrentZipFileName(&uz, fbd)) {
             zip_file.open(QIODevice::ReadOnly);
             buffer.setData(zip_file.readAll());
             zip_file.close();
         }
 
-        fi.setFile(archive+"/"+file);
+        fi.setFile(archive + "/" + file);
     }
     return fi;
 }
