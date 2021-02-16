@@ -101,22 +101,24 @@ private:
     QList<uint> StartBooksSearch(
         const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
         int idLanguage, int idCurrentTag, const QString& sKeyword, uint idCurrentRating,
-        bool IsReaded, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+        bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
     void SaveCurrentBookLanguageFilter(const QString& lang);
     // заполнение комбобокса рейтинга на вкладке Поиск
-    void FiilRatingList();
+    void FillRatingList();
     // пометка ячейки статуса 'Прочитано'
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
     void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
     // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
-    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary);
+    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary, uint idGroup);
     // удаление всех книг из выделенной группы
-    void RemoveAllBooksFromGroup();
+    void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
+    // заполнение комбобокса с форматами книг на вкладке Поиск
+    void FillFormatList();
 
 protected:
     APP_MODE mode;
@@ -182,6 +184,10 @@ private slots:
     void AddGroupToList();
     // добавление выделенной книги в Группу
     void AddBookToGroupAction();
+    // изменение названия группы
+    void RenameGroup();
+    // удаление выделенной книги из выделенной группы
+    void DeleteBookFromGroupAction();
     // удаление всех книг из выделенной группы
     void DeleteAllBooksFromGroup();
     // удаление группы из списка групп
