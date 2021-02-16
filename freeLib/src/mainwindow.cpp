@@ -3399,45 +3399,47 @@ void MainWindow::AddBookToGroupAction()
 */
 void MainWindow::RenameGroup()
 {
-    QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
-    QString oldGroupName = selectedItem->text();
-    bool ok;
-    QString newGroupName = QInputDialog::getText(
-        this, tr("Input Group"), tr("New name Group:"), QLineEdit::Normal, oldGroupName, &ok
-    );
-    newGroupName = newGroupName.trimmed();
-    if (ok && !newGroupName.isEmpty()) {
-        QSqlQuery query(QSqlDatabase::database("libdb"));
-        // проверка на наличие в списке добавляемой группы
-        query.prepare("SELECT name FROM groups WHERE id_lib = :id_lib;");
-        query.bindValue(":id_lib", g_idCurrentLib);
-        if (!query.exec())
-            qDebug() << query.lastError().text();
-        while (query.next()) {
-            if (newGroupName == query.value(0).toString().trimmed()) {
-                QMessageBox::warning(this, tr("Add new group"), tr("This group is already on the group list!"), QMessageBox::Ok);
-                return;
-            }
-        }
-        // изменение названия группы в базе данных
-        query.prepare("UPDATE groups SET name = :name WHERE id_lib = :id_lib AND id = :id;");
-        query.bindValue(":id_lib", g_idCurrentLib);
-        query.bindValue(":id", idCurrentGroup_);
-        query.bindValue(":name", newGroupName);
-        if (!query.exec())
-            qDebug() << query.lastError().text();
-        else {
-            // изменение названия группы в структуре библиотеки
-            QHash<uint, Group>::iterator GroupIterator = mLibs[g_idCurrentLib].mGroups.begin();
-            while (GroupIterator != mLibs[g_idCurrentLib].mGroups.end()) {
-                if (GroupIterator.value().getName() == oldGroupName) {
-                    GroupIterator.value().setName(newGroupName);
-                    break;
+    if (ui->GroupList->selectedItems().count() > 0) {
+        QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
+        QString oldGroupName = selectedItem->text();
+        bool ok;
+        QString newGroupName = QInputDialog::getText(
+            this, tr("Input Group"), tr("New name Group:"), QLineEdit::Normal, oldGroupName, &ok
+        );
+        newGroupName = newGroupName.trimmed();
+        if (ok && !newGroupName.isEmpty()) {
+            QSqlQuery query(QSqlDatabase::database("libdb"));
+            // проверка на наличие в списке добавляемой группы
+            query.prepare("SELECT name FROM groups WHERE id_lib = :id_lib;");
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+            while (query.next()) {
+                if (newGroupName == query.value(0).toString().trimmed()) {
+                    QMessageBox::warning(this, tr("Add new group"), tr("This group is already on the group list!"), QMessageBox::Ok);
+                    return;
                 }
-                ++GroupIterator;
             }
-            // изменение названия группы в контроле списка групп
-            selectedItem->setText(newGroupName);
+            // изменение названия группы в базе данных
+            query.prepare("UPDATE groups SET name = :name WHERE id_lib = :id_lib AND id = :id;");
+            query.bindValue(":id_lib", g_idCurrentLib);
+            query.bindValue(":id", idCurrentGroup_);
+            query.bindValue(":name", newGroupName);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+            else {
+                // изменение названия группы в структуре библиотеки
+                QHash<uint, Group>::iterator GroupIterator = mLibs[g_idCurrentLib].mGroups.begin();
+                while (GroupIterator != mLibs[g_idCurrentLib].mGroups.end()) {
+                    if (GroupIterator.value().getName() == oldGroupName) {
+                        GroupIterator.value().setName(newGroupName);
+                        break;
+                    }
+                    ++GroupIterator;
+                }
+                // изменение названия группы в контроле списка групп
+                selectedItem->setText(newGroupName);
+            }
         }
     }
 }
