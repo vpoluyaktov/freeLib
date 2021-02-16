@@ -69,14 +69,14 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
         }
     }
     else {
-        // zip: только fb2.zip и zip файлы.
+        // zip: только fb2.zip и zip файлы, в которых находятся не fb2 книги с fbd файлом рядом с ними (в zip в папке или вне папки).
         QuaZip uz(archive);
         if (!uz.open(QuaZip::mdUnzip)) {
             qDebug() << ("Error open archive!") << " " << archive;
             return fi;
         }
 
-        if(file_data) {
+        if (file_data) {
             SetCurrentZipFileName(&uz, file);
             QuaZipFileInfo64 zip_fi;
             if(uz.getCurrentFileInfo(&zip_fi))
