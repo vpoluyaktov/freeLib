@@ -3520,33 +3520,35 @@ QList<uint> MainWindow::MakeListBooksFromSelectedGroup(uint idLibrary, uint idGr
 */
 void MainWindow::RemoveGroupFromList()
 {
-    QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
-    if (QMessageBox::question(
-        this, tr("Remove selected group"),
-        tr("Are you sure you want to delete the group") + " '" + selectedGroupName + "'?",
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+    if (ui->GroupList->selectedItems().count() > 0) {
+        QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
+        if (QMessageBox::question(
+            this, tr("Remove selected group"),
+            tr("Are you sure you want to delete the group") + " '" + selectedGroupName + "'?",
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
-        // удаление всех книг из выделенной группы
-        RemoveAllBooksFromGroup(g_idCurrentLib, idCurrentGroup_);
+            // удаление всех книг из выделенной группы
+            RemoveAllBooksFromGroup(g_idCurrentLib, idCurrentGroup_);
 
-        // Удаление выбранной группы из базы
-        QSqlQuery query(QSqlDatabase::database("libdb"));
-        query.prepare("DELETE FROM groups WHERE id_lib = :id_lib AND id = :group_id;");
-        query.bindValue(":group_id", idCurrentGroup_);
-        query.bindValue(":id_lib", g_idCurrentLib);
-        if (!query.exec())
-            qDebug() << query.lastError().text();
-        
-        // Удаление выбранной группы из структуры текущей библиотеки
-        for (QHash<uint, Group>::iterator it = mLibs[g_idCurrentLib].mGroups.begin(); it != mLibs[g_idCurrentLib].mGroups.end(); ++it) {
-            if ((*it).getId() == idCurrentGroup_) {
-                mLibs[g_idCurrentLib].mGroups.erase(it);
-                break;
+            // Удаление выбранной группы из базы
+            QSqlQuery query(QSqlDatabase::database("libdb"));
+            query.prepare("DELETE FROM groups WHERE id_lib = :id_lib AND id = :group_id;");
+            query.bindValue(":group_id", idCurrentGroup_);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+
+            // Удаление выбранной группы из структуры текущей библиотеки
+            for (QHash<uint, Group>::iterator it = mLibs[g_idCurrentLib].mGroups.begin(); it != mLibs[g_idCurrentLib].mGroups.end(); ++it) {
+                if ((*it).getId() == idCurrentGroup_) {
+                    mLibs[g_idCurrentLib].mGroups.erase(it);
+                    break;
+                }
             }
-        }
 
-        // Удаление выбранной группы из списка групп
-        delete ui->GroupList->takeItem(ui->GroupList->currentRow());
+            // Удаление выбранной группы из списка групп
+            delete ui->GroupList->takeItem(ui->GroupList->currentRow());
+        }
     }
 }
 
