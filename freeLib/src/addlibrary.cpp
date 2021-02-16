@@ -276,10 +276,11 @@ void AddLibrary::SelectLibrary()
     ui->lineEditInpxFile->setText(inpx);
     ui->checkBoxFirstAuthorOnly->setChecked(firstAuthor);
     ui->checkBoxWoDeleted->setChecked(bWoDeleted);
-    ui->btnLibraryDelete->setDisabled(idCurrentLib_<0);
-    ui->comboBoxExistingLibs->setDisabled(idCurrentLib_<0);
-    ui->lineEditInpxFile->setDisabled(idCurrentLib_<0);
-    ui->lineEditBooksDir->setDisabled(idCurrentLib_<0);
+    ui->btnLibraryDelete->setDisabled(idCurrentLib_ < 0);
+    ui->comboBoxExistingLibs->setDisabled(idCurrentLib_ < 0);
+    ui->lineEditInpxFile->setDisabled(idCurrentLib_ < 0);
+    ui->lineEditBooksDir->setDisabled(idCurrentLib_ < 0);
+    ui->listWidgetBooksDirs->setDisabled(idCurrentLib_ < 0);
     ui->btnExportLibrary->setDisabled(idCurrentLib_ < 0);
     // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
