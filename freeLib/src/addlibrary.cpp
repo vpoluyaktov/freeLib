@@ -134,13 +134,13 @@ void AddLibrary::SelectBooksDir()
 void AddLibrary::UpdateLibList()
 
 {
-    if(!db_is_open)
+    if (!db_is_open)
         return;
     bool block = ui->comboBoxExistingLibs->blockSignals(true);
     ui->comboBoxExistingLibs->clear();
     QMap<int, SLib>::const_iterator i = mLibs.constBegin();
-    while(i!=mLibs.constEnd()){
-        ui->comboBoxExistingLibs->addItem(i->name,i.key());
+    while (i != mLibs.constEnd()) {
+        ui->comboBoxExistingLibs->addItem(i->name, i.key());
         ++i;
     }
     ui->comboBoxExistingLibs->blockSignals(block);
