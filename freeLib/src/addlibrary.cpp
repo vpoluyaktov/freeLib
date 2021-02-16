@@ -260,13 +260,12 @@ void AddLibrary::SelectLibrary(int idLib)
 void AddLibrary::SelectLibrary()
 {
     int nIndex = ui->comboBoxExistingLibs->currentIndex();
-    QString dirs,inpx;
+    QString inpx;
     bool firstAuthor=false;
     bool bWoDeleted = false;
-    if(nIndex>=0)
+    if (nIndex >= 0)
         idCurrentLib_ = ui->comboBoxExistingLibs->itemData(nIndex).toInt();
-    if(idCurrentLib_>=0){
-        dirs = mLibs[idCurrentLib_].path;
+    if (idCurrentLib_ >= 0){
         inpx = mLibs[idCurrentLib_].sInpx;
         firstAuthor = mLibs[idCurrentLib_].bFirstAuthor;
         bWoDeleted = mLibs[idCurrentLib_].bWoDeleted;
@@ -285,10 +284,10 @@ void AddLibrary::SelectLibrary()
     // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
     QSettings* settings=GetSettings();
-    ui->labelOPDS->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
-    ui->labelHTTP->setText(idCurrentLib_<0?"":QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+    ui->labelOPDS->setText(idCurrentLib_ < 0 ? "" : QString("<a href=\"http://localhost:%2/opds_%1\">http://localhost:%2/opds_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
+    ui->labelHTTP->setText(idCurrentLib_ < 0 ? "" : QString("<a href=\"http://localhost:%2/http_%1\">http://localhost:%2/http_%1</a>").arg(idCurrentLib_).arg(settings->value("OPDS_port",default_OPDS_port).toString()));
 
-    settings->setValue("LibID",idCurrentLib_);
+    settings->setValue("LibID", idCurrentLib_);
     //g_idCurrentLib = idCurrentLib_;
 }
 
