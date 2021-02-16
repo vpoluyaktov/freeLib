@@ -49,25 +49,21 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
         archive = archive.replace("\\", "/");
     }
 
-    if(archive.isEmpty())
-    {
+    if(archive.isEmpty()) {
+        // не zip: только файлы fb2, epub и fbd, расположенный рядом с одноименным не fb2 файлом.
         QFile book_file(file);
-        if(!book_file.open(QFile::ReadOnly))
-        {
-            qDebug()<<("Error open file!")<<" "<<file;
+        if (!book_file.open(QFile::ReadOnly)) {
+            qDebug() << ("Error open file!") << " " << file;
             return fi;
         }
         buffer.setData(book_file.readAll());
         fi.setFile(book_file);
-        if(file_data)
-        {
+        if (file_data)
             *file_data=fi.created();
-        }
         fi.setFile(file);
-        QString fbd=fi.absolutePath()+"/"+fi.completeBaseName()+".fbd";
+        QString fbd = fi.absolutePath() + "/" + fi.completeBaseName() + ".fbd";
         QFile info_file(fbd);
-        if(info_file.exists())
-        {
+        if (info_file.exists()) {
             info_file.open(QFile::ReadOnly);
             buffer_info.setData(info_file.readAll());
         }
