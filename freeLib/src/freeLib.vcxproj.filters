@@ -115,9 +115,6 @@
     <ClCompile Include="library.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="libwizard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -270,9 +267,6 @@
     <ClInclude Include="library.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="libwizard.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -400,9 +394,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="helpdialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="libwizard.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="mainwindow.ui">

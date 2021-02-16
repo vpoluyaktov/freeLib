@@ -97,7 +97,6 @@ SOURCES += main.cpp\
     dropform.cpp \
     opds_server.cpp \
     fontframe.cpp \
-    libwizard.cpp \
     exportframe.cpp \
     mobiEdit/mobiedit.cpp \
     quazip/quazip/quazipnewinfo.cpp \
@@ -145,7 +144,6 @@ HEADERS  += mainwindow.h \
     dropform.h \
     opds_server.h \
     fontframe.h \
-    libwizard.h \
     exportframe.h \
     mobiEdit/mobiedit.h \
     quazip/quazip/quazip.h \
@@ -176,7 +174,6 @@ FORMS    += mainwindow.ui \
     tagdialog.ui \
     dropform.ui \
     fontframe.ui \
-    libwizard.ui \
     exportframe.ui \
     bookeditdlg.ui
 

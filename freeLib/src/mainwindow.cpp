@@ -27,7 +27,6 @@
 #include "exportthread.h"
 #include "aboutdialog.h"
 #include "tagdialog.h"
-#include "libwizard.h"
 #include "bookeditdlg.h"
 #include "treebookitem.h"
 #include "genresortfilterproxymodel.h"
@@ -298,7 +297,6 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->btnGrouRemove, &QPushButton::clicked, this, &MainWindow::RemoveGroupFromList);
     connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
-    connect(ui->actionNew_library_wizard,SIGNAL(triggered()),this,SLOT(newLibWizard()));
 
     ChangingLanguage(false);
     ExportBookListBtnEnabled(false);
@@ -513,47 +511,6 @@ void MainWindow::EditBooks()
 {
     BookEditDlg dlg(this);
     dlg.exec();
-}
-
-/*
-    обработчик экшена "Помощник добавления библиотеки"
-*/
-void MainWindow::newLibWizard(bool AddLibOnly)
-{
-    LibWizard wiz(this);
-    if((AddLibOnly?wiz.AddLibMode():wiz.exec())==QDialog::Accepted || wiz.mode==MODE_CONVERTER)
-    {
-        if(wiz.mode==MODE_CONVERTER)
-        {
-            on_actionSwitch_to_convert_mode_triggered();
-            return;
-        }
-        AddLibrary al(this);
-        SLib lib;
-        lib.name = wiz.name;
-        lib.path = wiz.dir;
-        lib.sInpx = wiz.inpx;
-        lib.bWoDeleted = false;
-        lib.bFirstAuthor = false;
-        al.AddNewLibrary(lib);
-        QSettings settings;
-        if (settings.value("store_position", true).toBool())
-        {
-            // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-            LoadLibraryPosition();
-        }
-        loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
-        UpdateBookLanguageControls();
-
-        FillListWidgetAuthors(g_idCurrentLib);
-        FillListWidgetSerials(g_idCurrentLib);
-        FillTreeWidgetGenres(g_idCurrentLib);
-        FillListWidgetGroups(g_idCurrentLib);
-
-        searchChanged(ui->lineEditSearchString->text());
-        setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
-        FillLibrariesMenu();
-    }
 }
 
 /*

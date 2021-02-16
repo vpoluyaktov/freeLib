@@ -1496,7 +1496,6 @@
      <string>Library</string>
     </property>
     <addaction name="actionLibraries"/>
-    <addaction name="actionNew_library_wizard"/>
     <addaction name="actionAddLibrary"/>
     <addaction name="separator"/>
     <addaction name="actionSwitch_to_convert_mode"/>
