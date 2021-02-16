@@ -247,12 +247,13 @@ void AddLibrary::SelectLibrary(int idLib)
             }
         }
     }
-    ui->btnLibraryDelete->setDisabled(idLib<0);
-    ui->comboBoxExistingLibs->setDisabled(idLib<0);
-    ui->lineEditInpxFile->setDisabled(idLib<0);
-    ui->lineEditBooksDir->setDisabled(idLib<0);
-    ui->btnExportLibrary->setDisabled(idLib<0);
-    ui->btnUpdateLibrary->setDisabled(idLib<0);
+    ui->btnLibraryDelete->setDisabled(idLib < 0);
+    ui->comboBoxExistingLibs->setDisabled(idLib < 0);
+    ui->lineEditInpxFile->setDisabled(idLib < 0);
+    ui->lineEditBooksDir->setDisabled(idLib < 0);
+    ui->btnExportLibrary->setDisabled(idLib < 0);
+    ui->btnUpdateLibrary->setDisabled(idLib < 0);
+    ui->listWidgetBooksDirs->setDisabled(idLib < 0);
     ui->comboBoxExistingLibs->blockSignals(block);
 }
 
