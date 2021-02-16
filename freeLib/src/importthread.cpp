@@ -708,6 +708,7 @@ void ImportThread::importBooks(QString path, int &count)
                         SetCurrentZipFileName(&uz,zip_fi.name);
                         zip_file.open(QIODevice::ReadOnly);
                         buffer.setData(zip_file.readAll());
+                        zip_file.close();
                         readEPUB(buffer.data(),str.name,file_name, str.uncompressedSize);
                     }
                     else if(zip_fi.name.right(3).toLower()!="fbd")
@@ -722,6 +723,7 @@ void ImportThread::importBooks(QString path, int &count)
                             {
                                 zip_file.open(QIODevice::ReadOnly);
                                 buffer.setData(zip_file.readAll());
+                                zip_file.close();
                                 readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
                             }
                         }
