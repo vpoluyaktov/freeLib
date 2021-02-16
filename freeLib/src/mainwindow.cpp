@@ -1575,25 +1575,22 @@ void MainWindow::SelectGroup()
 */
 void MainWindow::SelectBook()
 {
-    if(ui->Books->selectedItems().count()==0)
-    {
+    if (ui->Books->selectedItems().count() == 0) {
         ExportBookListBtnEnabled(false);
         ui->Review->setHtml("");
         return;
     }
 
     ExportBookListBtnEnabled(true);
-    QTreeWidgetItem* item=ui->Books->selectedItems()[0];
-    if(item->type() != ITEM_TYPE_BOOK)
-    {
+    QTreeWidgetItem* item = ui->Books->selectedItems()[0];
+    if (item->type() != ITEM_TYPE_BOOK) {
         ui->btnOpenBook->setEnabled(false);
         ui->Review->setHtml("");
         return;
     }
 
-    uint idBook = item->data(0,Qt::UserRole).toUInt();
-    switch (ui->tabWidget->currentIndex())
-    {
+    uint idBook = item->data(0, Qt::UserRole).toUInt();
+    switch (ui->tabWidget->currentIndex()) {
     case 0: // Авторы
         idCurrentBookForAuthor_ = idBook;
         break;
@@ -1610,55 +1607,56 @@ void MainWindow::SelectBook()
 
     SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
     ui->btnOpenBook->setEnabled(true);
-    if(ui->splitter->sizes()[1]>0)
-    {
+    if (ui->splitter->sizes()[1] > 0) {
         QBuffer outbuff;
         QBuffer infobuff;
         QDateTime book_date;
-        QFileInfo fi=GetBookFile(outbuff,infobuff,idBook,false,&book_date);
+        QFileInfo fi = GetBookFile(outbuff, infobuff, idBook, false, &book_date);
         book_info bi;
-        if(fi.fileName().isEmpty())
-        {
-            GetBookInfo(bi,QByteArray(),"",true,idBook);
+        if (fi.fileName().isEmpty()) {
+            GetBookInfo(bi, QByteArray(), "", true, idBook);
             QString file = book.sArchive.trimmed().isEmpty() ? book.sFile : book.sArchive;
-            file = file.replace("\\","/");
-            bi.annotation="<font color=\"red\">"+tr("Can't find file: %1").arg(file)+"</font>";
+            file = file.replace("\\", "/");
+            bi.annotation = "<font color=\"red\">" + tr("Can't find file: %1").arg(file) + "</font>";
         }
-        else
-        {
-            if(fi.fileName().right(3).toLower()=="fb2" || infobuff.size()>0)
+        else {
+            if (fi.fileName().right(3).toLower() == "fb2" || infobuff.size() > 0)
                 GetBookInfo(bi, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2", false, idBook);
-            else if(fi.fileName().right(4).toLower()=="epub")
+            else if (fi.fileName().right(4).toLower() == "epub")
                 GetBookInfo(bi, outbuff.data(), "epub", false, idBook);
             else
-                GetBookInfo(bi, outbuff.data(), fi.suffix() ,false, idBook);
+                GetBookInfo(bi, outbuff.data(), fi.suffix(), false, idBook);
         }
 
-        QString seria;
+        QString sSeria;
         QTreeWidgetItem *parent=item->parent();
-        if(parent->type() == ITEM_TYPE_SERIA) //если это серия
-        {
+        if (parent->type() == ITEM_TYPE_SERIA) {
+            // если это серия
             QString sequenceName = parent->text(0);
             if (sequenceName != noSeries_) {
                 // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
                 sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
-                seria = QString("<a href=seria_%3%1>%2</a>").arg(
+                sSeria = QString("<a href=seria_%3%1>%2</a>").arg(
                     QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
                 );
             }
         }
 
         QString sAuthors;
-        foreach (auto idAuthor, book.listIdAuthors)
-        {
+        foreach (auto idAuthor, book.listIdAuthors) {
             QString sAuthor = mLibs[g_idCurrentLib].mAuthors[idAuthor].getName();
-            sAuthors+=(sAuthors.isEmpty()?"":"; ")+QString("<a href='author_%3%1'>%2</a>").arg(QString::number(idAuthor),sAuthor.replace(","," "),sAuthor.left(1));
+            sAuthors += (
+                sAuthors.isEmpty() ?"" : "; ") +
+                QString("<a href='author_%3%1'>%2</a>").arg(QString::number(idAuthor), sAuthor.replace(",", " "), sAuthor.left(1)
+            );
         }
         QString sGenres;
-        foreach (auto idGenre, book.listIdGenres)
-        {
+        foreach (auto idGenre, book.listIdGenres) {
             QString sGenre = mGenre[idGenre].sName;
-            sGenres+=(sGenres.isEmpty()?"":"; ")+QString("<a href='genre_%3%1'>%2</a>").arg(QString::number(idGenre),sGenre,sGenre.left(1));
+            sGenres += (
+                sGenres.isEmpty() ? "" : "; ") +
+                QString("<a href='genre_%3%1'>%2</a>").arg(QString::number(idGenre), sGenre, sGenre.left(1)
+            );
         }
 
         QString sKeyWords = mLibs[g_idCurrentLib].mBooks[idBook].sKeywords.trimmed();
@@ -1666,32 +1664,30 @@ void MainWindow::SelectBook()
         QFile file_html(":/preview.html");
         file_html.open(QIODevice::ReadOnly);
         QString content(file_html.readAll());
-        qint64 size=0;
-        QFileInfo arh;
-        if(!fi.fileName().isEmpty())
-        {
-            arh=fi;
-            while(!arh.exists())
-            {
-                arh.setFile(arh.absolutePath());
-                if(arh.fileName().isEmpty())
+        qint64 nSize = 0;
+        QFileInfo fiArh;
+        if (!fi.fileName().isEmpty()) {
+            fiArh = fi;
+            while(!fiArh.exists()) {
+                fiArh.setFile(fiArh.absolutePath());
+                if(fiArh.fileName().isEmpty())
                     break;
             }
-            size=arh.size();
+            nSize = fiArh.size();
         }
-        QString img_width="220";
-        content.replace("#annotation#",bi.annotation).
-                replace("#title#",book.sName).
-                replace("#width#",(bi.img.isEmpty()?"0":img_width)).
-                replace("#author#",sAuthors).
-                replace("#genre#",sGenres).
-                replace("#series#",seria).
+        QString sImgWidth = "220";
+        content.replace("#annotation#", bi.annotation).
+                replace("#title#", book.sName).
+                replace("#width#", (bi.img.isEmpty() ? "0" : sImgWidth)).
+                replace("#author#", sAuthors).
+                replace("#genre#", sGenres).
+                replace("#series#", sSeria).
                 replace("#keywords#", sKeyWords).
-                replace("#file_path#",arh.filePath()).
-                replace("#file_size#",sizeToString(size)/*QString::number(size)+(mem_i>0?"."+QString::number((rest*10+5)/1024):"")+" "+mem[mem_i]*/).
-                replace("#file_data#",book_date.toString("dd.MM.yyyy hh:mm:ss")).
-                replace("#file_name#",fi.fileName()).
-                replace("#image#",bi.img);
+                replace("#file_path#", fiArh.filePath()).
+                replace("#file_size#", sizeToString(nSize)).
+                replace("#file_data#", book_date.toString("dd.MM.yyyy hh:mm:ss")).
+                replace("#file_name#", fi.fileName()).
+                replace("#image#", bi.img);
         ui->Review->setHtml(content);
     }
 }
