@@ -1627,11 +1627,11 @@ void MainWindow::SelectBook()
         else
         {
             if(fi.fileName().right(3).toLower()=="fb2" || infobuff.size()>0)
-                GetBookInfo(bi,infobuff.size()==0?outbuff.data():infobuff.data(),"fb2",false,item->data(0,Qt::UserRole).toLongLong());
+                GetBookInfo(bi, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2", false, idBook);
             else if(fi.fileName().right(4).toLower()=="epub")
-                GetBookInfo(bi,outbuff.data(),"epub",false,item->data(0,Qt::UserRole).toLongLong());
+                GetBookInfo(bi, outbuff.data(), "epub", false, idBook);
             else
-                GetBookInfo(bi,outbuff.data(),fi.suffix(),false,item->data(0,Qt::UserRole).toLongLong());
+                GetBookInfo(bi, outbuff.data(), fi.suffix() ,false, idBook);
         }
 
         QString seria;
