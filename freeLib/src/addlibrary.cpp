@@ -523,17 +523,18 @@ void AddLibrary::AddBooksDirToList()
 */
 void AddLibrary::DeleteDirFromBookDirsList()
 {
-    QListWidgetItem *currentItem = ui->listWidgetBooksDirs->currentItem();
-    if (currentItem != nullptr)
-    {
+    QListWidgetItem* currentItem = ui->listWidgetBooksDirs->currentItem();
+    if (currentItem != nullptr) {
         if (QMessageBox::question(
             this, tr("Delete dir from Dirs List"),
             tr("Books Dir:") + " \"" + currentItem->text() + "\"\n\n" +
             tr("Are you sure you want to remove the selected folder from the list of catalogs of books of the library?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
-            == QMessageBox::No)
-            return;
-        ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
+            == QMessageBox::Yes) {
+            ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
+            // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+            SetEnabledOrDisabledControllsOfBooksDirs();
+        }
     }
 }
 
