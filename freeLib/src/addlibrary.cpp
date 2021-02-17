@@ -384,8 +384,8 @@ void AddLibrary::DeleteLibrary()
         SelectLibrary();
     }
     else {
-        ui->lineEditBooksDir->clear();
-        ui->listWidgetBooksDirs->clear();
+        // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+        SetControllsToDefaultState();
     }
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     bLibChanged_ = true;
@@ -621,4 +621,5 @@ void AddLibrary::SetControllsToDefaultState()
     ui->btnBooksDirDelete->setDisabled(true);
     ui->btnSaveLog->setDisabled(true);
     ui->btnUpdateLibrary->setDisabled(true);
+    ui->btnExportLibrary->setDisabled(true);
 }
