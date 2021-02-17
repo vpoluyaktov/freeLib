@@ -31,6 +31,11 @@ HelpDialog::HelpDialog(QWidget *parent) :
     {
         ui->webViewCommandLineParametrs->setHtml(fileCommandLineParametrs.readAll());
     }
+    QFile fileShortcuts(QApplication::applicationDirPath() + "/Help/shortcuts.html");
+    if (fileShortcuts.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->webViewShortcuts->setHtml(fileShortcuts.readAll());
+    }
 }
 
 HelpDialog::~HelpDialog()

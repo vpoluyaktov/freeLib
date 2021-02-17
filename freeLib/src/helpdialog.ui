@@ -134,6 +134,31 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabHelpShortuts">
+      <attribute name="title">
+       <string>freeLib Shortcut</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTextBrowser" name="webViewShortcuts"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
