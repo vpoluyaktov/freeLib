@@ -203,8 +203,6 @@ private slots:
     void EditBooks();
     // обработчик экшена "Отметить/снять отметки с книг" 
     void CheckBooks();
-    // обработчик экшена "Управления библиотеками" 
-    void ManageLibrary();
     // обработчик экшена "Настройки" 
     void Settings();
 
@@ -266,8 +264,8 @@ private slots:
     //void on_splitter_splitterMoved(int pos, int index);
 
 public slots:
-    // обработчик экшена "Помощник добавления библиотеки"
-    void newLibWizard(bool AddLibOnly=true);
+    // обработчик экшена "Управления библиотеками" 
+    void ManageLibrary();
 
 signals:
     void window_loaded();

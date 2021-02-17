@@ -579,21 +579,18 @@ int main(int argc, char *argv[])
   //  w.setWindowFlags(w.windowFlags() & ~Qt::WindowFullscreenButtonHint);
 #endif
 
-    if(!w.IsErrorQuit())
-    {
-        if(!CMDparser.isSet("tray") && settings.value("tray_icon",0).toInt()!=2)
+    if (!w.IsErrorQuit()) {
+        if (!CMDparser.isSet("tray") && settings.value("tray_icon", 0).toInt() != 2)
             w.show();
-    }
-    else{
+    } else {
         return 1;
     }
     splash->finish(&w);
     //current_lib.UpdateLib();
-    if(g_idCurrentLib<0 && settings.value("ApplicationMode",0).toInt()==0)
-        w.newLibWizard(false);
-    int result=a.exec();
-    if(global_settings)
-    {
+    if (g_idCurrentLib < 0 && settings.value("ApplicationMode", 0).toInt() == 0)
+        w.ManageLibrary();
+    int result = a.exec();
+    if (global_settings) {
         global_settings->sync();
         delete global_settings;
     }
