@@ -1594,7 +1594,7 @@
     <string>Check/uncheck books</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Ctrl+A</string>
+    <string notr="true">Ctrl+Shift+A</string>
    </property>
   </action>
   <action name="actionSwitch_to_convert_mode">
