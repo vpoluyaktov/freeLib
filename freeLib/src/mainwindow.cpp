@@ -2167,21 +2167,20 @@ void MainWindow::ProcPath(QString path,QStringList *book_list)
 */
 void MainWindow::FillLibrariesMenu()
 {
-    if(!db_is_open)
+    if (!db_is_open)
         return;
-    QMenu *lib_menu=new QMenu(this);
+    QMenu *lib_menu = new QMenu(this);
     auto i = mLibs.constBegin();
-    while(i!=mLibs.constEnd()){
-        QAction *action=new QAction(i->name, this);
+    while (i != mLibs.constEnd()){
+        QAction *action = new QAction(i->name, this);
         action->setData(i.key());
         action->setCheckable(true);
-        lib_menu->insertAction(nullptr,action);
-        connect(action,SIGNAL(triggered()),this,SLOT(SelectLibrary()));
-        action->setChecked(i.key()==g_idCurrentLib);
+        lib_menu->insertAction(nullptr, action);
+        connect(action, SIGNAL(triggered()), this, SLOT(SelectLibrary()));
+        action->setChecked(i.key() == g_idCurrentLib);
         ++i;
     }
-    if(lib_menu->actions().count()>0)
-    {
+    if (lib_menu->actions().count() > 0) {
         ui->actionLibraries->setMenu(lib_menu);
         ui->actionLibraries->setEnabled(true);
     }
