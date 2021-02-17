@@ -516,6 +516,8 @@ void AddLibrary::AddBooksDirToList()
         }
     }
     ui->listWidgetBooksDirs->addItem(BookDir);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
 }
 
 /*
