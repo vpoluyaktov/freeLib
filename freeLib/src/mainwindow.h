@@ -119,7 +119,8 @@ private:
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
     void FillFormatList();
-
+    // связывание кнопки с быстрыми клавишами
+    void BindShortcut(QAbstractButton* button, const QKeySequence& shortcut);
 protected:
     APP_MODE mode;
 

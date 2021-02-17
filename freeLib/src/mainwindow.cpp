@@ -11,6 +11,7 @@
 #include <QButtonGroup>
 #include <QPainter>
 #include <QInputDialog>
+#include <QShortcut>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -3544,4 +3545,12 @@ void MainWindow::FillFormatList()
         while (query.next())
             ui->comboBoxFindFormat->addItem(query.value(0).toString(), Qt::UserRole);
     }
+}
+
+/*
+    связывание кнопки с быстрыми клавишами
+*/
+void MainWindow::BindShortcut(QAbstractButton* button, const QKeySequence& shortcut)
+{
+    QObject::connect(new QShortcut(shortcut, button), &QShortcut::activated, [button]() { button->animateClick(); });
 }
