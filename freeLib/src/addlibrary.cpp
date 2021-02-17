@@ -356,24 +356,28 @@ void AddLibrary::SaveLibrary(int idLib, SLib &Lib)
     UpdateLibList();
     SelectLibrary(idSaveLib);
     bLibChanged_ = true;
- }
+}
+
 void AddLibrary::DeleteLibrary()
 {
-    if(idCurrentLib_<0)
+    if (idCurrentLib_ < 0)
         return;
 
-    if(QMessageBox::question(this,tr("Delete library"),tr("Delete library")+" \""+ui->comboBoxExistingLibs->currentText()+"\"",QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::No)
+    if (QMessageBox::question(
+        this, tr("Delete library"),
+        tr("Delete library") + " \"" + ui->comboBoxExistingLibs->currentText() + "\"",
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No
+        )
         return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->Log->clear();
-    ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_,false);
+    ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_, false);
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.exec("DELETE FROM lib where ID="+QString::number(idCurrentLib_));
+    query.exec("DELETE FROM lib where ID=" + QString::number(idCurrentLib_));
     mLibs.remove(idCurrentLib_);
     UpdateLibList();
-    if (ui->comboBoxExistingLibs->count() > 0)
-    {
+    if (ui->comboBoxExistingLibs->count() > 0) {
         ui->comboBoxExistingLibs->setCurrentIndex(0);
         SelectLibrary();
     }
