@@ -3553,10 +3553,3 @@ void MainWindow::FillFormatList()
     }
 }
 
-/*
-    связывание кнопки с быстрыми клавишами
-*/
-void MainWindow::BindAnyButtonShortcut(QAbstractButton* button, const QKeySequence& shortcut)
-{
-    QObject::connect(new QShortcut(shortcut, button), &QShortcut::activated, [button]() { button->animateClick(); });
-}

@@ -70,8 +70,8 @@ win32{
 }
 
 SOURCES += main.cpp\
-	library.cpp \
-        mainwindow.cpp \
+    library.cpp \
+    mainwindow.cpp \
     addlibrary.cpp \
     importthread.cpp \
     SmtpClient/smtpclient.cpp \
@@ -114,7 +114,8 @@ SOURCES += main.cpp\
     quazip/quazip/zip.c \
     bookeditdlg.cpp \
     treebookitem.cpp \
-    genresortfilterproxymodel.cpp
+    genresortfilterproxymodel.cpp \
+    utilities.cpp
 
 HEADERS  += mainwindow.h \
     common.h \
@@ -163,7 +164,8 @@ HEADERS  += mainwindow.h \
     bookeditdlg.h \
     treebookitem.h \
     genresortfilterproxymodel.h \
-    build_number.h
+    build_number.h \
+    utilities.h
 
 FORMS    += mainwindow.ui \
     addlibrary.ui \

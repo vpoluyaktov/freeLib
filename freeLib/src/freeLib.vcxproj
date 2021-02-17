@@ -249,6 +249,7 @@
     <ClCompile Include="treebookitem.cpp" />
     <ClCompile Include="quazip\quazip\unzip.c" />
     <ClCompile Include="quazip\quazip\zip.c" />
+    <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quazip\quazip\JlCompress.h" />
@@ -327,6 +328,8 @@
     <QtMoc Include="tagdialog.h">
     </QtMoc>
     <ClInclude Include="treebookitem.h" />
+    <QtMoc Include="utilities.h">
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
