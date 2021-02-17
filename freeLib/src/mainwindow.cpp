@@ -300,11 +300,11 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
 
     // назначение кнопкам быстрых клавиш
-    BindShortcut(ui->btnAuthor, QKeySequence("CTRL+A"));
-    BindShortcut(ui->btnSeries, QKeySequence("CTRL+S"));
-    BindShortcut(ui->btnGenre, QKeySequence("CTRL+G"));
-    BindShortcut(ui->btnSearch, QKeySequence("CTRL+F"));
-    BindShortcut(ui->btnGroups, QKeySequence("CTRL+P"));
+    BindAnyButtonShortcut(ui->btnAuthor, QKeySequence("CTRL+A"));
+    BindAnyButtonShortcut(ui->btnSeries, QKeySequence("CTRL+S"));
+    BindAnyButtonShortcut(ui->btnGenre, QKeySequence("CTRL+G"));
+    BindAnyButtonShortcut(ui->btnSearch, QKeySequence("CTRL+F"));
+    BindAnyButtonShortcut(ui->btnGroups, QKeySequence("CTRL+P"));
 
     ChangingLanguage(false);
     ExportBookListBtnEnabled(false);
@@ -3556,7 +3556,7 @@ void MainWindow::FillFormatList()
 /*
     связывание кнопки с быстрыми клавишами
 */
-void MainWindow::BindShortcut(QAbstractButton* button, const QKeySequence& shortcut)
+void MainWindow::BindAnyButtonShortcut(QAbstractButton* button, const QKeySequence& shortcut)
 {
     QObject::connect(new QShortcut(shortcut, button), &QShortcut::activated, [button]() { button->animateClick(); });
 }
