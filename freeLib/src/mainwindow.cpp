@@ -2171,13 +2171,15 @@ void MainWindow::FillLibrariesMenu()
         return;
     QMenu *lib_menu = new QMenu(this);
     auto i = mLibs.constBegin();
-    while (i != mLibs.constEnd()){
-        QAction *action = new QAction(i->name, this);
-        action->setData(i.key());
-        action->setCheckable(true);
-        lib_menu->insertAction(nullptr, action);
-        connect(action, SIGNAL(triggered()), this, SLOT(SelectLibrary()));
-        action->setChecked(i.key() == g_idCurrentLib);
+    while (i != mLibs.constEnd()) {
+        if (i.key() != -1) {
+            QAction* action = new QAction(i->name, this);
+            action->setData(i.key());
+            action->setCheckable(true);
+            lib_menu->insertAction(nullptr, action);
+            connect(action, SIGNAL(triggered()), this, SLOT(SelectLibrary()));
+            action->setChecked(i.key() == g_idCurrentLib);
+        }
         ++i;
     }
     if (lib_menu->actions().count() > 0) {
