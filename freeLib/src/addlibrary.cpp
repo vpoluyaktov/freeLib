@@ -162,8 +162,8 @@ void AddLibrary::InputINPX()
 void AddLibrary::SelectBooksDir()
 {
     QDir::setCurrent(ui->lineEditBooksDir->text());
-    QString dir=QFileDialog::getExistingDirectory(this,tr("Select books directory"));
-    if(!dir.isEmpty())
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select books directory"));
+    if (!dir.isEmpty())
         ui->lineEditBooksDir->setText(dir);
 }
 
