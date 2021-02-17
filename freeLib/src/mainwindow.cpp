@@ -299,9 +299,15 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
 
+    // назначение кнопкам быстрых клавиш
+    BindShortcut(ui->btnAuthor, QKeySequence("CTRL+A"));
+    BindShortcut(ui->btnSeries, QKeySequence("CTRL+S"));
+    BindShortcut(ui->btnGenre, QKeySequence("CTRL+G"));
+    BindShortcut(ui->btnSearch, QKeySequence("CTRL+F"));
+    BindShortcut(ui->btnGroups, QKeySequence("CTRL+P"));
+
     ChangingLanguage(false);
     ExportBookListBtnEnabled(false);
-
 
     mode=static_cast<APP_MODE>(settings.value("ApplicationMode",0).toInt());
     switch(mode)
