@@ -56,9 +56,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
 
     SelectLibrary(idCurrentLib_);
 //    SelectLibrary();
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
     SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
 }
 
@@ -298,11 +296,11 @@ void AddLibrary::SelectLibrary()
 {
     int nIndex = ui->comboBoxExistingLibs->currentIndex();
     QString inpx;
-    bool firstAuthor=false;
+    bool firstAuthor = false;
     bool bWoDeleted = false;
     if (nIndex >= 0)
         idCurrentLib_ = ui->comboBoxExistingLibs->itemData(nIndex).toInt();
-    if (idCurrentLib_ >= 0){
+    if (idCurrentLib_ >= 0) {
         inpx = mLibs[idCurrentLib_].sInpx;
         firstAuthor = mLibs[idCurrentLib_].bFirstAuthor;
         bWoDeleted = mLibs[idCurrentLib_].bWoDeleted;
@@ -319,6 +317,7 @@ void AddLibrary::SelectLibrary()
     ui->lineEditBooksDir->setDisabled(idCurrentLib_ < 0);
     ui->listWidgetBooksDirs->setDisabled(idCurrentLib_ < 0);
     ui->btnExportLibrary->setDisabled(idCurrentLib_ < 0);
+    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0);
     // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
     QSettings* settings=GetSettings();
@@ -552,7 +551,7 @@ void AddLibrary::RemoveItemFromBookDirsList()
 */
 void AddLibrary::SetEnabledOrDisabledControllsOfBooksDirs()
 {
-    if (idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() > 0)
+    if (idCurrentLib_ > -1 || ui->listWidgetBooksDirs->count() > 0)
         ui->btnUpdateLibrary->setEnabled(true);
     else
         ui->btnUpdateLibrary->setDisabled(true);
