@@ -66,10 +66,6 @@ private slots:
     void AddBooksDirToList();
     // удаление выбранного каталога с книгами из списка каталогов библиотеки
     void DeleteDirFromBookDirsList();
-    // обработчик вставки итема в список папок книг библиотеки
-    void InsertItemToBookDirsList();
-    // обработчик удаления итема из списка папок книг библиотеки
-    void RemoveItemFromBookDirsList();
     // обработчик сигнала выделения/снятия выделения итема списка книг библиотеки
     void SelectionChangedBookDirsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
     // обработчик сигнала изменения текста в контроле пути к каталогу с книгами

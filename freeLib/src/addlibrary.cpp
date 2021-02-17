@@ -51,7 +51,6 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
-    connect(ui->listWidgetBooksDirs->model(), &QAbstractItemModel::rowsInserted, this, &AddLibrary::InsertItemToBookDirsList);
     connect(ui->listWidgetBooksDirs->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AddLibrary::SelectionChangedBookDirsList);
     connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::LineEditBooksDirTextChanged);
 
@@ -536,23 +535,6 @@ void AddLibrary::DeleteDirFromBookDirsList()
             return;
         ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
     }
-}
-
-/*
-    обработчик вставки итема в список папок книг библиотеки
-*/
-void AddLibrary::InsertItemToBookDirsList()
-{
-    // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
-}
-/*
-    обработчик удаления итема из списка папок книг библиотеки
-*/
-void AddLibrary::RemoveItemFromBookDirsList()
-{
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
 }
 
 /*
