@@ -35,6 +35,8 @@ AddLibrary::AddLibrary(QWidget *parent) :
     layout->setMargin(0);
 
     idCurrentLib_ = g_idCurrentLib;
+    // установка контролов в состояние по - умолчанию при создании новой библиотеки
+    SetControllsToDefaultState();
     UpdateLibList();
 
     connect(tbInpx,SIGNAL(clicked()),this,SLOT(InputINPX()));
@@ -613,4 +615,10 @@ void AddLibrary::SetControllsToDefaultState()
     ui->rbtnAddNewBook->setChecked(true);
     ui->checkBoxFirstAuthorOnly->setChecked(false);
     ui->checkBoxWoDeleted->setChecked(false);
+    ui->btnLibraryEdit->setDisabled(true);
+    ui->btnLibraryDelete->setDisabled(true);
+    ui->btnBooksDirAdd->setDisabled(true);
+    ui->btnBooksDirDelete->setDisabled(true);
+    ui->btnSaveLog->setDisabled(true);
+    ui->btnUpdateLibrary->setDisabled(true);
 }
