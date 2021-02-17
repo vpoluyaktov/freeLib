@@ -25,20 +25,21 @@
         <translation>Додати/Редагувати бібліотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="132"/>
+        <location filename="addlibrary.ui" line="152"/>
+        <location filename="addlibrary.cpp" line="102"/>
         <source>Library name:</source>
         <oldsource>Library name</oldsource>
         <translation>Назва бібліотеки:</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="125"/>
+        <location filename="addlibrary.ui" line="145"/>
         <source>INPX file (optionally):</source>
         <oldsource>INPX file:</oldsource>
         <translation type="unfinished">INPX файл:</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="228"/>
-        <location filename="addlibrary.cpp" line="420"/>
+        <location filename="addlibrary.ui" line="248"/>
+        <location filename="addlibrary.cpp" line="445"/>
         <source>Books dir:</source>
         <oldsource>Books dir</oldsource>
         <translation>Тека з книгами:</translation>
@@ -53,7 +54,7 @@
         <translation>OPDS сервер</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="161"/>
+        <location filename="addlibrary.ui" line="181"/>
         <source>HTTP server</source>
         <translation>HTTP сервер</translation>
     </message>
@@ -63,73 +64,83 @@
         <translation>Додати нову бібліотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="174"/>
+        <location filename="addlibrary.ui" line="116"/>
+        <source>Edit name of the selected library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="119"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.ui" line="194"/>
         <source>Add new books dir to list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="177"/>
+        <location filename="addlibrary.ui" line="197"/>
         <source>+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="199"/>
+        <location filename="addlibrary.ui" line="219"/>
         <source>Delete selected books dir from list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="202"/>
+        <location filename="addlibrary.ui" line="222"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="241"/>
+        <location filename="addlibrary.ui" line="261"/>
         <source>Delete current library</source>
         <translation>Вилучити поточну бібліотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="255"/>
+        <location filename="addlibrary.ui" line="275"/>
         <source>Books Dirs List:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="264"/>
+        <location filename="addlibrary.ui" line="284"/>
         <source>Update type</source>
         <translation>Метод оновлення</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="285"/>
+        <location filename="addlibrary.ui" line="305"/>
         <source>Add new</source>
         <translation>Додати нову</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="292"/>
+        <location filename="addlibrary.ui" line="312"/>
         <source>Delete old and add new</source>
         <translation>Вилучити неіснуючі і додати нові</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="299"/>
+        <location filename="addlibrary.ui" line="319"/>
         <source>Recreate library</source>
         <translation>Перестворити бібліотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="315"/>
+        <location filename="addlibrary.ui" line="335"/>
         <source>import first author only</source>
         <translation>імпортувати лише першого автора</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="322"/>
+        <location filename="addlibrary.ui" line="342"/>
         <source>don`t add deleted books</source>
         <oldsource>don`t add deleted</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="344"/>
+        <location filename="addlibrary.ui" line="364"/>
         <source>Save Log...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="370"/>
+        <location filename="addlibrary.ui" line="390"/>
         <source>Export</source>
         <translation>Експорт</translation>
     </message>
@@ -138,127 +149,132 @@
         <translation type="vanished">Вилучити</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="383"/>
+        <location filename="addlibrary.ui" line="403"/>
         <source>Update</source>
         <translation>Оновити</translation>
     </message>
     <message>
-        <location filename="addlibrary.ui" line="402"/>
-        <location filename="addlibrary.cpp" line="355"/>
-        <location filename="addlibrary.cpp" line="383"/>
+        <location filename="addlibrary.ui" line="422"/>
+        <location filename="addlibrary.cpp" line="380"/>
+        <location filename="addlibrary.cpp" line="408"/>
         <source>Close</source>
         <translation>Закрити</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="103"/>
-        <location filename="addlibrary.cpp" line="299"/>
+        <location filename="addlibrary.cpp" line="126"/>
+        <location filename="addlibrary.cpp" line="324"/>
         <source>Add library</source>
         <translation>Додати бібліотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="103"/>
+        <location filename="addlibrary.cpp" line="126"/>
         <source>Library</source>
         <translation>Бібліотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="129"/>
+        <location filename="addlibrary.cpp" line="152"/>
         <source>Select books directory</source>
         <translation>Тека з книгами</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="77"/>
+        <location filename="addlibrary.cpp" line="79"/>
         <source>new</source>
         <translation>нова</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="444"/>
+        <location filename="addlibrary.cpp" line="469"/>
         <source>Specify the correct path to the books folder.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="444"/>
-        <location filename="addlibrary.cpp" line="451"/>
-        <location filename="addlibrary.cpp" line="464"/>
+        <location filename="addlibrary.cpp" line="469"/>
+        <location filename="addlibrary.cpp" line="476"/>
+        <location filename="addlibrary.cpp" line="489"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="188"/>
+        <location filename="addlibrary.cpp" line="212"/>
         <source>Break</source>
         <translation>Перервати</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="310"/>
+        <location filename="addlibrary.cpp" line="102"/>
+        <source>Input name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="335"/>
         <source>Update library</source>
         <translation>Оновлення бібліотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="327"/>
+        <location filename="addlibrary.cpp" line="352"/>
         <source>Delete library</source>
         <translation>Вилучення бібліотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="352"/>
+        <location filename="addlibrary.cpp" line="377"/>
         <source>Ending</source>
         <translation>Кінець</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="405"/>
+        <location filename="addlibrary.cpp" line="430"/>
         <source>Select destination directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="417"/>
+        <location filename="addlibrary.cpp" line="442"/>
         <source>Save Log to file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="419"/>
+        <location filename="addlibrary.cpp" line="444"/>
         <source>Library:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="431"/>
+        <location filename="addlibrary.cpp" line="456"/>
         <source>Log saved to file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="431"/>
+        <location filename="addlibrary.cpp" line="456"/>
         <source>Save Log to File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="451"/>
+        <location filename="addlibrary.cpp" line="476"/>
         <source>This directory is already in the directory listing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="464"/>
+        <location filename="addlibrary.cpp" line="489"/>
         <source>This directory is a sub-directory of one of the directories in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="483"/>
+        <location filename="addlibrary.cpp" line="508"/>
         <source>Delete dir from Dirs List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="484"/>
+        <location filename="addlibrary.cpp" line="509"/>
         <source>Books Dir:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="485"/>
+        <location filename="addlibrary.cpp" line="510"/>
         <source>Are you sure you want to remove the selected folder from the list of catalogs of books of the library?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="548"/>
+        <location filename="addlibrary.cpp" line="573"/>
         <source>Favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="555"/>
+        <location filename="addlibrary.cpp" line="580"/>
         <source>To read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -843,7 +859,7 @@
 <context>
     <name>ImportThread</name>
     <message>
-        <location filename="importthread.cpp" line="773"/>
+        <location filename="importthread.cpp" line="775"/>
         <source>Empty library name</source>
         <translation>Не вказано ім&apos;я бібліотеки</translation>
     </message>
@@ -871,12 +887,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1133"/>
+        <location filename="importthread.cpp" line="1135"/>
         <source>Books adds:</source>
         <translation>Додано книг:</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1145"/>
+        <location filename="importthread.cpp" line="1147"/>
         <source>Books adds: </source>
         <translation>Додано книг: </translation>
     </message>
@@ -884,58 +900,48 @@
 <context>
     <name>LibWizard</name>
     <message>
-        <location filename="libwizard.ui" line="17"/>
         <source>Library wizard</source>
-        <translation>Майстер бібліотеки</translation>
+        <translation type="vanished">Майстер бібліотеки</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="33"/>
         <source>Application mode</source>
-        <translation>Режим програми</translation>
+        <translation type="vanished">Режим програми</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="42"/>
         <source>library mode</source>
         <oldsource>libarry mode</oldsource>
-        <translation>режим бібліотеки</translation>
+        <translation type="vanished">режим бібліотеки</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="52"/>
         <source>converter mode</source>
-        <translation>режим конвертора</translation>
+        <translation type="vanished">режим конвертора</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="66"/>
         <source>Select book&apos;s directory:</source>
         <oldsource>Select book&apos;s directory</oldsource>
-        <translation>Обрати теку з книгами:</translation>
+        <translation type="vanished">Обрати теку з книгами:</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="80"/>
         <source>Select INPX file (optionally):</source>
         <oldsource>Select INPX file:</oldsource>
-        <translation type="unfinished">Обрати INPX файл:</translation>
+        <translation type="obsolete">Обрати INPX файл:</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="94"/>
         <source>Set library name:</source>
         <oldsource>Set library name</oldsource>
-        <translation>Задати ім&apos;я бібліотеки:</translation>
+        <translation type="vanished">Задати ім&apos;я бібліотеки:</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="108"/>
         <source>Book&apos;s directory:</source>
-        <translation>Тека з книгами:</translation>
+        <translation type="vanished">Тека з книгами:</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="122"/>
         <source>INPX file:</source>
-        <translation>INPX файл:</translation>
+        <translation type="vanished">INPX файл:</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="136"/>
         <source>Library name:</source>
-        <translation>Назва бібліотеки:</translation>
+        <translation type="vanished">Назва бібліотеки:</translation>
     </message>
     <message>
         <source>INPX file</source>
@@ -946,24 +952,20 @@
         <translation type="vanished">Назва бібліотеки</translation>
     </message>
     <message>
-        <location filename="libwizard.ui" line="150"/>
         <source>Update library</source>
-        <translation>Оновлення бібліотеки</translation>
+        <translation type="vanished">Оновлення бібліотеки</translation>
     </message>
     <message>
-        <location filename="libwizard.cpp" line="49"/>
         <source>Add library</source>
-        <translation>Додати бібліотеку</translation>
+        <translation type="vanished">Додати бібліотеку</translation>
     </message>
     <message>
-        <location filename="libwizard.cpp" line="49"/>
         <source>Library</source>
-        <translation>Бібліотеки</translation>
+        <translation type="vanished">Бібліотеки</translation>
     </message>
     <message>
-        <location filename="libwizard.cpp" line="59"/>
         <source>Select books directory</source>
-        <translation>Тека з книгами</translation>
+        <translation type="vanished">Тека з книгами</translation>
     </message>
 </context>
 <context>
@@ -980,7 +982,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1300"/>
-        <location filename="mainwindow.cpp" line="2080"/>
+        <location filename="mainwindow.cpp" line="2021"/>
         <source>Genre</source>
         <oldsource>Janre</oldsource>
         <translation>Жанр</translation>
@@ -991,7 +993,7 @@
         <translation>Серії</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>B</source>
         <translation>Б</translation>
     </message>
@@ -1008,7 +1010,7 @@
         <translation>Знайдено книг</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1595"/>
+        <location filename="mainwindow.ui" line="1594"/>
         <source>Check/uncheck books</source>
         <translation>Позначити/Зняти позначку з книг</translation>
     </message>
@@ -1042,32 +1044,32 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1268"/>
-        <location filename="mainwindow.cpp" line="2056"/>
+        <location filename="mainwindow.cpp" line="1997"/>
         <source>No.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1537"/>
+        <location filename="mainwindow.ui" line="1536"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1545"/>
+        <location filename="mainwindow.ui" line="1544"/>
         <source>About</source>
         <translation>Про програму</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1564"/>
+        <location filename="mainwindow.ui" line="1563"/>
         <source>Move to author</source>
         <translation>Перейти до автора</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1569"/>
+        <location filename="mainwindow.ui" line="1568"/>
         <source>Quit</source>
         <translation>Вихід</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1590"/>
+        <location filename="mainwindow.ui" line="1589"/>
         <source>New library wizard</source>
         <translation>Новий майстер бібліотеки</translation>
     </message>
@@ -1214,36 +1216,36 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1305"/>
-        <location filename="mainwindow.cpp" line="2086"/>
+        <location filename="mainwindow.cpp" line="2027"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1313"/>
-        <location filename="mainwindow.cpp" line="2092"/>
+        <location filename="mainwindow.cpp" line="2033"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1321"/>
-        <location filename="mainwindow.cpp" line="2001"/>
-        <location filename="mainwindow.cpp" line="2002"/>
-        <location filename="mainwindow.cpp" line="2098"/>
+        <location filename="mainwindow.cpp" line="1942"/>
+        <location filename="mainwindow.cpp" line="1943"/>
+        <location filename="mainwindow.cpp" line="2039"/>
         <source>Readed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1518"/>
+        <location filename="mainwindow.ui" line="1517"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1613"/>
+        <location filename="mainwindow.ui" line="1612"/>
         <source>Minimize window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1621"/>
+        <location filename="mainwindow.ui" line="1620"/>
         <source>Mark deleted books</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1263,7 +1265,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1015"/>
-        <location filename="mainwindow.ui" line="1577"/>
+        <location filename="mainwindow.ui" line="1576"/>
         <source>Libraries</source>
         <translation>Бібліотеки</translation>
     </message>
@@ -1273,13 +1275,13 @@
         <translation>Налаштування</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1585"/>
+        <location filename="mainwindow.ui" line="1584"/>
         <source>Move to series</source>
         <translation>Перейти до серії</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1263"/>
-        <location filename="mainwindow.cpp" line="2050"/>
+        <location filename="mainwindow.cpp" line="1991"/>
         <source>Name</source>
         <translation>Назва</translation>
     </message>
@@ -1304,25 +1306,25 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1276"/>
-        <location filename="mainwindow.cpp" line="2062"/>
+        <location filename="mainwindow.cpp" line="2003"/>
         <source>Size</source>
         <translation>Розмір</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1284"/>
-        <location filename="mainwindow.cpp" line="2068"/>
+        <location filename="mainwindow.cpp" line="2009"/>
         <source>Mark</source>
         <translation>Оцінка</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1292"/>
-        <location filename="mainwindow.cpp" line="2074"/>
+        <location filename="mainwindow.cpp" line="2015"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation>Додано</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1608"/>
+        <location filename="mainwindow.ui" line="1607"/>
         <source>Switch to library mode</source>
         <translation>Перейти в режим бібліотеки</translation>
     </message>
@@ -1333,32 +1335,32 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1488"/>
-        <location filename="mainwindow.ui" line="1553"/>
+        <location filename="mainwindow.ui" line="1552"/>
         <source>Help</source>
         <translation>Довідка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1529"/>
+        <location filename="mainwindow.ui" line="1528"/>
         <source>Add/Edit library</source>
         <translation>Додати/Змінити бібліотеку</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1603"/>
+        <location filename="mainwindow.ui" line="1602"/>
         <source>Switch to convert mode</source>
         <translation>Перейти в режим конвертора</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="477"/>
+        <location filename="mainwindow.cpp" line="461"/>
         <source>no tag</source>
         <translation>без теґу</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="508"/>
+        <location filename="mainwindow.cpp" line="492"/>
         <source>setup ...</source>
         <translation>налаштування…</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="183"/>
+        <location filename="mainwindow.cpp" line="168"/>
         <source>Database</source>
         <translation>База даних</translation>
     </message>
@@ -1373,181 +1375,181 @@
         <translation type="vanished">АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="183"/>
+        <location filename="mainwindow.cpp" line="168"/>
         <source>This version needs new database version. All your old books data will be lost. Continue?</source>
         <translation>Поточна версія програми потребує нову верчію бази даних.
 Вся інформація о бібліотеках буде втрачена.
 Продовжити?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1637"/>
+        <location filename="mainwindow.cpp" line="1577"/>
         <source>Can&apos;t find file: %1</source>
         <translation>Не можливо знайти файл: %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>kB</source>
         <translation>кБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>MB</source>
         <translation>МБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>GB</source>
         <translation>ГБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>TB</source>
         <translation>ТБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>PB</source>
         <translation>ПБ</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="164"/>
+        <location filename="mainwindow.cpp" line="149"/>
         <source>{ Books without series }</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1130"/>
+        <location filename="mainwindow.cpp" line="1073"/>
         <source>The search for deleted books in the storage and marking them in the database is completed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1130"/>
+        <location filename="mainwindow.cpp" line="1073"/>
         <source>Mark deleted books in base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1976"/>
+        <location filename="mainwindow.cpp" line="1917"/>
         <source>Save as</source>
         <translation type="unfinished">Зберегти як</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1992"/>
+        <location filename="mainwindow.cpp" line="1933"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2006"/>
+        <location filename="mainwindow.cpp" line="1947"/>
         <source>Not readed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2012"/>
+        <location filename="mainwindow.cpp" line="1953"/>
         <source>Add to Group</source>
         <oldsource>Add to Groups</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2027"/>
+        <location filename="mainwindow.cpp" line="1968"/>
         <source>Remove from group</source>
         <oldsource>Remove from group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2574"/>
+        <location filename="mainwindow.cpp" line="2516"/>
         <source>Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3273"/>
+        <location filename="mainwindow.cpp" line="3215"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3325"/>
-        <location filename="mainwindow.cpp" line="3404"/>
+        <location filename="mainwindow.cpp" line="3267"/>
+        <location filename="mainwindow.cpp" line="3347"/>
         <source>Input Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3325"/>
+        <location filename="mainwindow.cpp" line="3267"/>
         <source>New Group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3325"/>
+        <location filename="mainwindow.cpp" line="3267"/>
         <source>New Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3337"/>
-        <location filename="mainwindow.cpp" line="3416"/>
+        <location filename="mainwindow.cpp" line="3279"/>
+        <location filename="mainwindow.cpp" line="3359"/>
         <source>Add new group</source>
         <oldsource>Add a new group </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3337"/>
-        <location filename="mainwindow.cpp" line="3416"/>
+        <location filename="mainwindow.cpp" line="3279"/>
+        <location filename="mainwindow.cpp" line="3359"/>
         <source>This group is already on the group list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3379"/>
+        <location filename="mainwindow.cpp" line="3321"/>
         <source>Adding a book to the group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3379"/>
+        <location filename="mainwindow.cpp" line="3321"/>
         <source>This book has already been previously added to the group!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3404"/>
+        <location filename="mainwindow.cpp" line="3347"/>
         <source>New name Group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3450"/>
+        <location filename="mainwindow.cpp" line="3394"/>
         <source>Remove book from group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3451"/>
+        <location filename="mainwindow.cpp" line="3395"/>
         <source>Are you sure you want to delete from the group of the book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3485"/>
+        <location filename="mainwindow.cpp" line="3430"/>
         <source>Clear selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3486"/>
+        <location filename="mainwindow.cpp" line="3431"/>
         <source>Are you sure you want to delete all books of the selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3521"/>
+        <location filename="mainwindow.cpp" line="3468"/>
         <source>Remove selected group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3522"/>
+        <location filename="mainwindow.cpp" line="3469"/>
         <source>Are you sure you want to delete the group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2819"/>
+        <location filename="mainwindow.cpp" line="2761"/>
         <source>Send to ...</source>
         <translation>Відправити до…</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1512"/>
-        <location filename="mainwindow.cpp" line="3086"/>
+        <location filename="mainwindow.ui" line="1511"/>
+        <location filename="mainwindow.cpp" line="3028"/>
         <source>Books</source>
         <translation>Книги</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3087"/>
+        <location filename="mainwindow.cpp" line="3029"/>
         <source>Book`s files</source>
         <translation>Файли книг</translation>
     </message>

@@ -50,8 +50,10 @@ private slots:
     void SelectBooksDir();
     void StartImport();
     void SelectLibrary();
-    void DeleteLibrary();
     void Add_Library();
+    // правка названия библиотеки
+    void EditLibraryName();
+    void DeleteLibrary();
     void EndUpdate();
     void terminateImport();
     void reject();

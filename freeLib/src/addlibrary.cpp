@@ -1,5 +1,6 @@
 #include <QMainWindow>
 #include <QToolButton>
+#include <QInputDialog>
 
 #include "addlibrary.h"
 #include "ui_addlibrary.h"
@@ -41,8 +42,9 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnUpdateLibrary,SIGNAL(clicked()),this,SLOT(StartImport()));
     connect(ui->btnExportLibrary,SIGNAL(clicked()),this,SLOT(ExportLib()));
     connect(ui->comboBoxExistingLibs,SIGNAL(currentIndexChanged(int)),this,SLOT(SelectLibrary()));
-    connect(ui->btnLibraryDelete,SIGNAL(clicked()),this,SLOT(DeleteLibrary()));
-    connect(ui->btnLibraryAdd,SIGNAL(clicked()),this,SLOT(Add_Library()));
+    connect(ui->btnLibraryAdd, SIGNAL(clicked()), this, SLOT(Add_Library()));
+    connect(ui->btnLibraryEdit, &QToolButton::clicked, this, &AddLibrary::EditLibraryName);
+    connect(ui->btnLibraryDelete, SIGNAL(clicked()), this, SLOT(DeleteLibrary()));
     connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
@@ -87,6 +89,27 @@ void AddLibrary::Add_Library()
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
+}
+
+/*
+    правка названия библиотеки
+*/
+void AddLibrary::EditLibraryName()
+{
+    if (ui->comboBoxExistingLibs->currentIndex() > -1) {
+        bool ok;
+        QString newLibraryName = QInputDialog::getText(
+            this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
+        );
+        newLibraryName = newLibraryName.trimmed();
+        if (ok && !newLibraryName.isEmpty()) {
+            ui->comboBoxExistingLibs->blockSignals(true);
+            ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
+            ui->comboBoxExistingLibs->blockSignals(false);
+            mLibs[idCurrentLib_].name = newLibraryName;
+            SaveLibrary(idCurrentLib_, mLibs[idCurrentLib_]);
+        }
+    }
 }
 
 void AddLibrary::LogMessage(QString msg)
