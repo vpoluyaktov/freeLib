@@ -80,6 +80,8 @@ void AddLibrary::Add_Library()
     ui->comboBoxExistingLibs->blockSignals(true);
     ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
     ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
+    // установка контролов в состояние по - умолчанию при создании новой библиотеки
+    SetControllsToDefaultState();
     bool ok;
     QString editedLibraryName = QInputDialog::getText(
         this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
@@ -591,4 +593,17 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
     query.bindValue(":blocked", true);
     if (!query.exec())
         qDebug() << query.lastError().text();
+}
+
+/*
+    установка контролов в состояние по-умолчанию при создании новой библиотеки
+*/
+void AddLibrary::SetControllsToDefaultState()
+{
+    ui->lineEditInpxFile->clear();
+    ui->lineEditBooksDir->clear();
+    ui->listWidgetBooksDirs->clear();
+    ui->rbtnAddNewBook->setChecked(true);
+    ui->checkBoxFirstAuthorOnly->setChecked(false);
+    ui->checkBoxWoDeleted->setChecked(false);
 }
