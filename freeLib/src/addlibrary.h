@@ -72,6 +72,8 @@ private slots:
     void RemoveItemFromBookDirsList();
     // обработчик сигнала выделения/снятия выделения итема списка книг библиотеки
     void SelectionChangedBookDirsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
+    // обработчик сигнала изменения текста в контроле пути к каталогу с книгами
+    void LineEditBooksDirTextChanged(const QString& text);
 
 signals:
     void break_import();

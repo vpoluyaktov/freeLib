@@ -53,6 +53,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
     connect(ui->listWidgetBooksDirs->model(), &QAbstractItemModel::rowsInserted, this, &AddLibrary::InsertItemToBookDirsList);
     connect(ui->listWidgetBooksDirs->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AddLibrary::SelectionChangedBookDirsList);
+    connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::LineEditBooksDirTextChanged);
 
     ui->rbtnAddNewBook->setChecked(true);
 
@@ -629,4 +630,12 @@ void AddLibrary::SetControllsToDefaultState()
     ui->btnSaveLog->setDisabled(true);
     ui->btnUpdateLibrary->setDisabled(true);
     ui->btnExportLibrary->setDisabled(true);
+}
+
+/*
+    обработчик сигнала изменения текста в контроле пути к каталогу с книгами
+*/
+void AddLibrary::LineEditBooksDirTextChanged(const QString& text)
+{
+    ui->btnBooksDirAdd->setEnabled(!text.trimmed().isEmpty());
 }
