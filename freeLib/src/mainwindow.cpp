@@ -442,7 +442,7 @@ void MainWindow::UpdateTagsMenu()
     group->setExclusive(true);
     const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
 
-    int size = static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize)*app->devicePixelRatio());
+    int size = static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize) * app->devicePixelRatio());
     QSqlQuery query(QSqlDatabase::database("libdb"));
     // чтение id тега фильтрации текущей библиотеки
     query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
@@ -455,41 +455,40 @@ void MainWindow::UpdateTagsMenu()
     ui->comboBoxTagFilter->clear();
     ui->comboBoxFindTag->clear();
     int con=1;
-    ui->comboBoxTagFilter->addItem("*",0);
-    ui->comboBoxFindTag->addItem("*", 0);
+    ui->comboBoxTagFilter->addItem("*", 0);
+    ui->comboBoxFindTag->addItem("*",  0);
     TagMenu_.clear();
-    QAction *ac=new QAction(tr("no tag"),&TagMenu_);
+    QAction *ac=new QAction(tr("no tag"), &TagMenu_);
     ac->setData(0);
-    connect(ac,SIGNAL(triggered()),this,SLOT(SetTag()));
+    connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
     TagMenu_.addAction(ac);
     tagsPicList_.clear();
-    QPixmap pix=::CreateTag(QColor(0,0,0,0),size);
+    QPixmap pix = ::CreateTag(QColor(0, 0, 0, 0), size);
     pix.setDevicePixelRatio(app->devicePixelRatio());
-    Stag new_tag={pix,0};
-    tagsPicList_<<new_tag;
+    Stag new_tag = {pix, 0};
+    tagsPicList_ << new_tag;
     ui->comboBoxTagFilter->setVisible(bUseTag_);
     ui->comboBoxFindTag->setVisible(bUseTag_);
     ui->tag_label->setVisible(bUseTag_);
 
-    while(query.next())
-    {
-        ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(),query.value(2).toInt());
+    while(query.next()) {
+        ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
         ui->comboBoxFindTag->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
-        if(currentTag == ui->comboBoxTagFilter->count()-1 && bUseTag_)
-            ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count()-1);
-        pix=::CreateTag(QColor(query.value(0).toString().trimmed()),size);
-        Stag new_tag={pix,query.value(2).toInt()};
-        tagsPicList_<<new_tag;
+        if (currentTag == ui->comboBoxTagFilter->count() - 1 && bUseTag_)
+            ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count() - 1);
+        pix = ::CreateTag(QColor(query.value(0).toString().trimmed()), size);
+        Stag new_tag = {pix, query.value(2).toInt()};
+        tagsPicList_ << new_tag;
         ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
-        ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
+        ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);  //Добавляем изображение цвета в комбо
         con++;
-        QAction *ac=new QAction(pix,query.value(1).toString().trimmed(),&TagMenu_);
+        QAction *ac=new QAction(pix, query.value(1).toString().trimmed(), &TagMenu_);
         ac->setData(query.value(2).toString());
-        connect(ac,SIGNAL(triggered()),this,SLOT(SetTag()));
+        connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
         TagMenu_.addAction(ac);
     }
 
-    ui->comboBoxTagFilter->addItem(tr("setup ..."),-1);
+    ui->comboBoxTagFilter->addItem(tr("setup ..."), -1);
     ui->comboBoxTagFilter->blockSignals(wasBlocked);
 
     QApplication::restoreOverrideCursor();

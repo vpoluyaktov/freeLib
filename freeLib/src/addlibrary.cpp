@@ -1,5 +1,6 @@
 #include <QMainWindow>
 #include <QToolButton>
+#include <QInputDialog>
 
 #include "addlibrary.h"
 #include "ui_addlibrary.h"
@@ -34,6 +35,8 @@ AddLibrary::AddLibrary(QWidget *parent) :
     layout->setMargin(0);
 
     idCurrentLib_ = g_idCurrentLib;
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+    SetControllsToDefaultState();
     UpdateLibList();
 
     connect(tbInpx,SIGNAL(clicked()),this,SLOT(InputINPX()));
@@ -41,23 +44,24 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnUpdateLibrary,SIGNAL(clicked()),this,SLOT(StartImport()));
     connect(ui->btnExportLibrary,SIGNAL(clicked()),this,SLOT(ExportLib()));
     connect(ui->comboBoxExistingLibs,SIGNAL(currentIndexChanged(int)),this,SLOT(SelectLibrary()));
-    connect(ui->btnLibraryDelete,SIGNAL(clicked()),this,SLOT(DeleteLibrary()));
-    connect(ui->btnLibraryAdd,SIGNAL(clicked()),this,SLOT(Add_Library()));
+    connect(ui->btnLibraryAdd, SIGNAL(clicked()), this, SLOT(Add_Library()));
+    connect(ui->btnLibraryEdit, &QToolButton::clicked, this, &AddLibrary::EditLibraryName);
+    connect(ui->btnLibraryDelete, SIGNAL(clicked()), this, SLOT(DeleteLibrary()));
     connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
     connect(ui->btnSaveLog, &QPushButton::clicked, this, &AddLibrary::ButtonSaveLogClicked);
     connect(ui->btnBooksDirAdd, &QToolButton::clicked, this, &AddLibrary::AddBooksDirToList);
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
-    connect(ui->listWidgetBooksDirs->model(), &QAbstractItemModel::rowsInserted, this, &AddLibrary::InsertItemToBookDirsList);
     connect(ui->listWidgetBooksDirs->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AddLibrary::SelectionChangedBookDirsList);
+    connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::LineEditBooksDirTextChanged);
 
     ui->rbtnAddNewBook->setChecked(true);
 
     SelectLibrary(idCurrentLib_);
 //    SelectLibrary();
+    // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
 }
 
 AddLibrary::~AddLibrary()
@@ -73,20 +77,52 @@ bool AddLibrary::IsLibraryChanged() const
 void AddLibrary::Add_Library()
 {
     ui->Log->clear();
-    idCurrentLib_ =-1;
-    QString sNewName = tr("new") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
+    idCurrentLib_ = -1;
+    QString newLibraryName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
     ui->comboBoxExistingLibs->blockSignals(true);
-    ui->comboBoxExistingLibs->addItem(sNewName,-1);
-    SLib lib;//{sNewName,"","",false,false};
-    lib.name = sNewName;
+    ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
+    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+    SetControllsToDefaultState();
+    bool ok;
+    QString editedLibraryName = QInputDialog::getText(
+        this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
+    );
+    editedLibraryName = editedLibraryName.trimmed();
+    if (ok && !editedLibraryName.isEmpty()) {
+        newLibraryName = editedLibraryName;
+        ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
+    }
+    SLib lib;
+    lib.name = newLibraryName;
     lib.bFirstAuthor = false;
     lib.bWoDeleted = false;
-    SaveLibrary(idCurrentLib_,lib);
+    SaveLibrary(idCurrentLib_, lib);
     ui->comboBoxExistingLibs->blockSignals(false);
-    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count()-1);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
+}
+
+/*
+    правка названия библиотеки
+*/
+void AddLibrary::EditLibraryName()
+{
+    if (ui->comboBoxExistingLibs->currentIndex() > -1) {
+        bool ok;
+        QString newLibraryName = QInputDialog::getText(
+            this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
+        );
+        newLibraryName = newLibraryName.trimmed();
+        if (ok && !newLibraryName.isEmpty()) {
+            ui->comboBoxExistingLibs->blockSignals(true);
+            ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
+            ui->comboBoxExistingLibs->blockSignals(false);
+            mLibs[idCurrentLib_].name = newLibraryName;
+            SaveLibrary(idCurrentLib_, mLibs[idCurrentLib_]);
+        }
+    }
 }
 
 void AddLibrary::LogMessage(QString msg)
@@ -126,8 +162,8 @@ void AddLibrary::InputINPX()
 void AddLibrary::SelectBooksDir()
 {
     QDir::setCurrent(ui->lineEditBooksDir->text());
-    QString dir=QFileDialog::getExistingDirectory(this,tr("Select books directory"));
-    if(!dir.isEmpty())
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select books directory"));
+    if (!dir.isEmpty())
         ui->lineEditBooksDir->setText(dir);
 }
 
@@ -182,8 +218,9 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->lineEditBooksDir->setDisabled(true);
     ui->lineEditInpxFile->setDisabled(true);
     ui->comboBoxExistingLibs->setDisabled(true);
-    ui->btnLibraryDelete->setDisabled(true);
     ui->btnLibraryAdd->setDisabled(true);
+    ui->btnLibraryEdit->setDisabled(true);
+    ui->btnLibraryDelete->setDisabled(true);
     ui->checkBoxFirstAuthorOnly->setDisabled(true);
     ui->checkBoxWoDeleted->setDisabled(true);
     ui->btnCancel->setText(tr("Break"));
@@ -249,6 +286,7 @@ void AddLibrary::SelectLibrary(int idLib)
         }
     }
     ui->btnLibraryDelete->setDisabled(idLib < 0);
+    ui->btnLibraryEdit->setDisabled(idLib < 0);
     ui->comboBoxExistingLibs->setDisabled(idLib < 0);
     ui->lineEditInpxFile->setDisabled(idLib < 0);
     ui->lineEditBooksDir->setDisabled(idLib < 0);
@@ -262,11 +300,11 @@ void AddLibrary::SelectLibrary()
 {
     int nIndex = ui->comboBoxExistingLibs->currentIndex();
     QString inpx;
-    bool firstAuthor=false;
+    bool firstAuthor = false;
     bool bWoDeleted = false;
     if (nIndex >= 0)
         idCurrentLib_ = ui->comboBoxExistingLibs->itemData(nIndex).toInt();
-    if (idCurrentLib_ >= 0){
+    if (idCurrentLib_ >= 0) {
         inpx = mLibs[idCurrentLib_].sInpx;
         firstAuthor = mLibs[idCurrentLib_].bFirstAuthor;
         bWoDeleted = mLibs[idCurrentLib_].bWoDeleted;
@@ -277,11 +315,13 @@ void AddLibrary::SelectLibrary()
     ui->checkBoxFirstAuthorOnly->setChecked(firstAuthor);
     ui->checkBoxWoDeleted->setChecked(bWoDeleted);
     ui->btnLibraryDelete->setDisabled(idCurrentLib_ < 0);
+    ui->btnLibraryEdit->setDisabled(idCurrentLib_ < 0);
     ui->comboBoxExistingLibs->setDisabled(idCurrentLib_ < 0);
     ui->lineEditInpxFile->setDisabled(idCurrentLib_ < 0);
     ui->lineEditBooksDir->setDisabled(idCurrentLib_ < 0);
     ui->listWidgetBooksDirs->setDisabled(idCurrentLib_ < 0);
     ui->btnExportLibrary->setDisabled(idCurrentLib_ < 0);
+    ui->btnUpdateLibrary->setDisabled(idCurrentLib_ < 0);
     // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
     QSettings* settings=GetSettings();
@@ -320,30 +360,34 @@ void AddLibrary::SaveLibrary(int idLib, SLib &Lib)
     UpdateLibList();
     SelectLibrary(idSaveLib);
     bLibChanged_ = true;
- }
+}
+
 void AddLibrary::DeleteLibrary()
 {
-    if(idCurrentLib_<0)
+    if (idCurrentLib_ < 0)
         return;
 
-    if(QMessageBox::question(this,tr("Delete library"),tr("Delete library")+" \""+ui->comboBoxExistingLibs->currentText()+"\"",QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::No)
+    if (QMessageBox::question(
+        this, tr("Delete library"),
+        tr("Delete library") + " \"" + ui->comboBoxExistingLibs->currentText() + "\"",
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No
+        )
         return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->Log->clear();
-    ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_,false);
+    ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_, false);
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.exec("DELETE FROM lib where ID="+QString::number(idCurrentLib_));
+    query.exec("DELETE FROM lib where ID=" + QString::number(idCurrentLib_));
     mLibs.remove(idCurrentLib_);
     UpdateLibList();
-    if (ui->comboBoxExistingLibs->count() > 0)
-    {
+    if (ui->comboBoxExistingLibs->count() > 0) {
         ui->comboBoxExistingLibs->setCurrentIndex(0);
         SelectLibrary();
     }
     else {
-        ui->lineEditBooksDir->clear();
-        ui->listWidgetBooksDirs->clear();
+        // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+        SetControllsToDefaultState();
     }
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     bLibChanged_ = true;
@@ -357,8 +401,9 @@ void AddLibrary::EndUpdate()
     ui->btnCancel->setText(tr("Close"));
     ui->lineEditBooksDir->setDisabled(false);
     ui->lineEditInpxFile->setDisabled(false);
-    ui->btnLibraryDelete->setDisabled(false);
     ui->btnLibraryAdd->setDisabled(false);
+    ui->btnLibraryEdit->setDisabled(false);
+    ui->btnLibraryDelete->setDisabled(false);
     ui->comboBoxExistingLibs->setDisabled(false);
     ui->checkBoxFirstAuthorOnly->setDisabled(false);
     ui->checkBoxWoDeleted->setDisabled(false);
@@ -471,6 +516,8 @@ void AddLibrary::AddBooksDirToList()
         }
     }
     ui->listWidgetBooksDirs->addItem(BookDir);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
 }
 
 /*
@@ -478,35 +525,19 @@ void AddLibrary::AddBooksDirToList()
 */
 void AddLibrary::DeleteDirFromBookDirsList()
 {
-    QListWidgetItem *currentItem = ui->listWidgetBooksDirs->currentItem();
-    if (currentItem != nullptr)
-    {
+    QListWidgetItem* currentItem = ui->listWidgetBooksDirs->currentItem();
+    if (currentItem != nullptr) {
         if (QMessageBox::question(
             this, tr("Delete dir from Dirs List"),
             tr("Books Dir:") + " \"" + currentItem->text() + "\"\n\n" +
             tr("Are you sure you want to remove the selected folder from the list of catalogs of books of the library?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::No)
-            == QMessageBox::No)
-            return;
-        ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
+            == QMessageBox::Yes) {
+            ui->listWidgetBooksDirs->takeItem(ui->listWidgetBooksDirs->currentRow());
+            // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+            SetEnabledOrDisabledControllsOfBooksDirs();
+        }
     }
-}
-
-/*
-    обработчик вставки итема в список папок книг библиотеки
-*/
-void AddLibrary::InsertItemToBookDirsList()
-{
-    // установка доступности / недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
-}
-/*
-    обработчик удаления итема из списка папок книг библиотеки
-*/
-void AddLibrary::RemoveItemFromBookDirsList()
-{
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
 }
 
 /*
@@ -514,7 +545,7 @@ void AddLibrary::RemoveItemFromBookDirsList()
 */
 void AddLibrary::SetEnabledOrDisabledControllsOfBooksDirs()
 {
-    if (idCurrentLib_ < 0 || ui->listWidgetBooksDirs->count() > 0)
+    if (ui->listWidgetBooksDirs->count() > 0)
         ui->btnUpdateLibrary->setEnabled(true);
     else
         ui->btnUpdateLibrary->setDisabled(true);
@@ -559,4 +590,37 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
     query.bindValue(":blocked", true);
     if (!query.exec())
         qDebug() << query.lastError().text();
+}
+
+/*
+    установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+*/
+void AddLibrary::SetControllsToDefaultState()
+{
+    ui->lineEditInpxFile->clear();
+    ui->lineEditBooksDir->clear();
+    ui->listWidgetBooksDirs->clear();
+    ui->rbtnAddNewBook->setChecked(true);
+    ui->checkBoxFirstAuthorOnly->setChecked(false);
+    ui->checkBoxWoDeleted->setChecked(false);
+
+    ui->comboBoxExistingLibs->setDisabled(true);
+    ui->lineEditInpxFile->setDisabled(true);
+    ui->lineEditBooksDir->setDisabled(true);
+    ui->listWidgetBooksDirs->setDisabled(true);
+    ui->btnLibraryEdit->setDisabled(true);
+    ui->btnLibraryDelete->setDisabled(true);
+    ui->btnBooksDirAdd->setDisabled(true);
+    ui->btnBooksDirDelete->setDisabled(true);
+    ui->btnSaveLog->setDisabled(true);
+    ui->btnUpdateLibrary->setDisabled(true);
+    ui->btnExportLibrary->setDisabled(true);
+}
+
+/*
+    обработчик сигнала изменения текста в контроле пути к каталогу с книгами
+*/
+void AddLibrary::LineEditBooksDirTextChanged(const QString& text)
+{
+    ui->btnBooksDirAdd->setEnabled(!text.trimmed().isEmpty());
 }

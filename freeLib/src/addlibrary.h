@@ -43,6 +43,8 @@ private:
     void SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
     // занесение в таблицу groups две неудаляемые Группы
     void AddGroupToSQLite(qlonglong libID);
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+    void SetControllsToDefaultState();
 
 private slots:
     void LogMessage(QString msg);
@@ -50,8 +52,10 @@ private slots:
     void SelectBooksDir();
     void StartImport();
     void SelectLibrary();
-    void DeleteLibrary();
     void Add_Library();
+    // правка названия библиотеки
+    void EditLibraryName();
+    void DeleteLibrary();
     void EndUpdate();
     void terminateImport();
     void reject();
@@ -62,12 +66,10 @@ private slots:
     void AddBooksDirToList();
     // удаление выбранного каталога с книгами из списка каталогов библиотеки
     void DeleteDirFromBookDirsList();
-    // обработчик вставки итема в список папок книг библиотеки
-    void InsertItemToBookDirsList();
-    // обработчик удаления итема из списка папок книг библиотеки
-    void RemoveItemFromBookDirsList();
     // обработчик сигнала выделения/снятия выделения итема списка книг библиотеки
     void SelectionChangedBookDirsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
+    // обработчик сигнала изменения текста в контроле пути к каталогу с книгами
+    void LineEditBooksDirTextChanged(const QString& text);
 
 signals:
     void break_import();
