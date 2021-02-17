@@ -177,9 +177,8 @@
         <translation>Тека з книгами</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="79"/>
         <source>new</source>
-        <translation>нова</translation>
+        <translation type="vanished">нова</translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="469"/>
@@ -197,6 +196,11 @@
         <location filename="addlibrary.cpp" line="212"/>
         <source>Break</source>
         <translation>Перервати</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="79"/>
+        <source>New Library</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="102"/>

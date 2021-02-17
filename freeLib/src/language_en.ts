@@ -162,11 +162,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="79"/>
-        <source>new</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="addlibrary.cpp" line="469"/>
         <source>Specify the correct path to the books folder.</source>
         <translation type="unfinished"></translation>
@@ -181,6 +176,11 @@
     <message>
         <location filename="addlibrary.cpp" line="212"/>
         <source>Break</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="79"/>
+        <source>New Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

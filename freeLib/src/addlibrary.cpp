@@ -76,7 +76,7 @@ void AddLibrary::Add_Library()
 {
     ui->Log->clear();
     idCurrentLib_ =-1;
-    QString sNewName = tr("new") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
+    QString sNewName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
     ui->comboBoxExistingLibs->blockSignals(true);
     ui->comboBoxExistingLibs->addItem(sNewName,-1);
     SLib lib;//{sNewName,"","",false,false};

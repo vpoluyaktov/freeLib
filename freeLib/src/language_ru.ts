@@ -182,9 +182,8 @@
         <translation>Директория с книгами</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="79"/>
         <source>new</source>
-        <translation>новая</translation>
+        <translation type="vanished">новая</translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="469"/>
@@ -202,6 +201,11 @@
         <location filename="addlibrary.cpp" line="212"/>
         <source>Break</source>
         <translation>Прервать</translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="79"/>
+        <source>New Library</source>
+        <translation>Новая библиотека</translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="102"/>
