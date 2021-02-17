@@ -615,6 +615,11 @@ void AddLibrary::SetControllsToDefaultState()
     ui->rbtnAddNewBook->setChecked(true);
     ui->checkBoxFirstAuthorOnly->setChecked(false);
     ui->checkBoxWoDeleted->setChecked(false);
+
+    ui->comboBoxExistingLibs->setDisabled(true);
+    ui->lineEditInpxFile->setDisabled(true);
+    ui->lineEditBooksDir->setDisabled(true);
+    ui->listWidgetBooksDirs->setDisabled(true);
     ui->btnLibraryEdit->setDisabled(true);
     ui->btnLibraryDelete->setDisabled(true);
     ui->btnBooksDirAdd->setDisabled(true);
