@@ -58,7 +58,7 @@
     <message>
         <location filename="addlibrary.ui" line="116"/>
         <source>Edit name of the selected library</source>
-        <translation>Правка названия выбранной библиотеки</translation>
+        <translation>Править название выбранной библиотеки</translation>
     </message>
     <message>
         <location filename="addlibrary.ui" line="119"/>
