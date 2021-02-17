@@ -216,8 +216,9 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->lineEditBooksDir->setDisabled(true);
     ui->lineEditInpxFile->setDisabled(true);
     ui->comboBoxExistingLibs->setDisabled(true);
-    ui->btnLibraryDelete->setDisabled(true);
     ui->btnLibraryAdd->setDisabled(true);
+    ui->btnLibraryEdit->setDisabled(true);
+    ui->btnLibraryDelete->setDisabled(true);
     ui->checkBoxFirstAuthorOnly->setDisabled(true);
     ui->checkBoxWoDeleted->setDisabled(true);
     ui->btnCancel->setText(tr("Break"));
@@ -283,6 +284,7 @@ void AddLibrary::SelectLibrary(int idLib)
         }
     }
     ui->btnLibraryDelete->setDisabled(idLib < 0);
+    ui->btnLibraryEdit->setDisabled(idLib < 0);
     ui->comboBoxExistingLibs->setDisabled(idLib < 0);
     ui->lineEditInpxFile->setDisabled(idLib < 0);
     ui->lineEditBooksDir->setDisabled(idLib < 0);
@@ -311,6 +313,7 @@ void AddLibrary::SelectLibrary()
     ui->checkBoxFirstAuthorOnly->setChecked(firstAuthor);
     ui->checkBoxWoDeleted->setChecked(bWoDeleted);
     ui->btnLibraryDelete->setDisabled(idCurrentLib_ < 0);
+    ui->btnLibraryEdit->setDisabled(idCurrentLib_ < 0);
     ui->comboBoxExistingLibs->setDisabled(idCurrentLib_ < 0);
     ui->lineEditInpxFile->setDisabled(idCurrentLib_ < 0);
     ui->lineEditBooksDir->setDisabled(idCurrentLib_ < 0);
@@ -391,8 +394,9 @@ void AddLibrary::EndUpdate()
     ui->btnCancel->setText(tr("Close"));
     ui->lineEditBooksDir->setDisabled(false);
     ui->lineEditInpxFile->setDisabled(false);
-    ui->btnLibraryDelete->setDisabled(false);
     ui->btnLibraryAdd->setDisabled(false);
+    ui->btnLibraryEdit->setDisabled(false);
+    ui->btnLibraryDelete->setDisabled(false);
     ui->comboBoxExistingLibs->setDisabled(false);
     ui->checkBoxFirstAuthorOnly->setDisabled(false);
     ui->checkBoxWoDeleted->setDisabled(false);
