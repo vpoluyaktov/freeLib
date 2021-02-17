@@ -140,7 +140,8 @@ void AddLibrary::UpdateLibList()
     ui->comboBoxExistingLibs->clear();
     QMap<int, SLib>::const_iterator i = mLibs.constBegin();
     while (i != mLibs.constEnd()) {
-        ui->comboBoxExistingLibs->addItem(i->name, i.key());
+        if (i.key() != -1)
+            ui->comboBoxExistingLibs->addItem(i->name, i.key());
         ++i;
     }
     ui->comboBoxExistingLibs->blockSignals(block);
