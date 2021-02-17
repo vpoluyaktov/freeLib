@@ -60,6 +60,8 @@ AddLibrary::AddLibrary(QWidget *parent) :
 //    SelectLibrary();
     // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
     SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    SetEnabledOrDisabledControllsOfBooksDirs();
 }
 
 AddLibrary::~AddLibrary()
@@ -557,7 +559,7 @@ void AddLibrary::RemoveItemFromBookDirsList()
 */
 void AddLibrary::SetEnabledOrDisabledControllsOfBooksDirs()
 {
-    if (idCurrentLib_ > -1 || ui->listWidgetBooksDirs->count() > 0)
+    if (ui->listWidgetBooksDirs->count() > 0)
         ui->btnUpdateLibrary->setEnabled(true);
     else
         ui->btnUpdateLibrary->setDisabled(true);
