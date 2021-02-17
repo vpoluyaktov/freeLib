@@ -210,7 +210,7 @@
     <message>
         <location filename="addlibrary.cpp" line="102"/>
         <source>Input name</source>
-        <translation>Название</translation>
+        <translation>Ввод</translation>
     </message>
     <message>
         <location filename="addlibrary.cpp" line="335"/>

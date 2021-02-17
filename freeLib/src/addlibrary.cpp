@@ -75,17 +75,26 @@ bool AddLibrary::IsLibraryChanged() const
 void AddLibrary::Add_Library()
 {
     ui->Log->clear();
-    idCurrentLib_ =-1;
-    QString sNewName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
+    idCurrentLib_ = -1;
+    QString newLibraryName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
     ui->comboBoxExistingLibs->blockSignals(true);
-    ui->comboBoxExistingLibs->addItem(sNewName,-1);
-    SLib lib;//{sNewName,"","",false,false};
-    lib.name = sNewName;
+    ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
+    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
+    bool ok;
+    QString editedLibraryName = QInputDialog::getText(
+        this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
+    );
+    editedLibraryName = editedLibraryName.trimmed();
+    if (ok && !editedLibraryName.isEmpty()) {
+        newLibraryName = editedLibraryName;
+        ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
+    }
+    SLib lib;
+    lib.name = newLibraryName;
     lib.bFirstAuthor = false;
     lib.bWoDeleted = false;
-    SaveLibrary(idCurrentLib_,lib);
+    SaveLibrary(idCurrentLib_, lib);
     ui->comboBoxExistingLibs->blockSignals(false);
-    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count()-1);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
     SetEnabledOrDisabledControllsOfBooksDirs();
     ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
