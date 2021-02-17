@@ -35,7 +35,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     layout->setMargin(0);
 
     idCurrentLib_ = g_idCurrentLib;
-    // установка контролов в состояние по - умолчанию при создании новой библиотеки
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
     SetControllsToDefaultState();
     UpdateLibList();
 
@@ -80,7 +80,7 @@ void AddLibrary::Add_Library()
     ui->comboBoxExistingLibs->blockSignals(true);
     ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
     ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
-    // установка контролов в состояние по - умолчанию при создании новой библиотеки
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
     SetControllsToDefaultState();
     bool ok;
     QString editedLibraryName = QInputDialog::getText(
@@ -605,7 +605,7 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
 }
 
 /*
-    установка контролов в состояние по-умолчанию при создании новой библиотеки
+    установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
 */
 void AddLibrary::SetControllsToDefaultState()
 {

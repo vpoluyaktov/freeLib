@@ -43,7 +43,7 @@ private:
     void SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
     // занесение в таблицу groups две неудаляемые Группы
     void AddGroupToSQLite(qlonglong libID);
-    // установка контролов в состояние по-умолчанию при создании новой библиотеки
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
     void SetControllsToDefaultState();
 
 private slots:
