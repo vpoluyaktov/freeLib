@@ -205,6 +205,9 @@
     <ClCompile Include="quazip\quazip\zip.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quazip\quazip\JlCompress.h">
@@ -351,6 +354,9 @@
     <ClInclude Include="treebookitem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="utilities.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">

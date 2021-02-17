@@ -17,6 +17,7 @@
 #include "dropform.h"
 #include "opds_server.h"
 #include "common.h"
+#include "utilities.h"
 
 namespace Ui {
 class MainWindow;
@@ -119,8 +120,7 @@ private:
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
     void FillFormatList();
-    // связывание кнопки с быстрыми клавишами
-    void BindAnyButtonShortcut(QAbstractButton* button, const QKeySequence& shortcut);
+
 protected:
     APP_MODE mode;
 
