@@ -450,6 +450,7 @@ void MainWindow::UpdateTagsMenu()
 {
     if(!db_is_open)
         return;
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QSettings settings;
 
@@ -473,7 +474,7 @@ void MainWindow::UpdateTagsMenu()
     ui->comboBoxTagFilter->addItem("*", 0);
     ui->comboBoxFindTag->addItem("*",  0);
     TagMenu_.clear();
-    QAction *ac=new QAction(tr("no tag"), &TagMenu_);
+    QAction *ac = new QAction(tr("no tag"), &TagMenu_);
     ac->setData(0);
     ac->setShortcut(tr("Ctrl+0"));
     this->addAction(ac); // для срабатывания шортката
@@ -499,7 +500,7 @@ void MainWindow::UpdateTagsMenu()
         ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);  //Добавляем изображение цвета в комбо
         con++;
-        QAction *ac=new QAction(pix, query.value(1).toString().trimmed(), &TagMenu_);
+        QAction *ac = new QAction(pix, query.value(1).toString().trimmed(), &TagMenu_);
         ac->setData(query.value(2).toString());
         ac->setShortcut("Ctrl+"+QString::number(query.value(2).toInt()));
         this->addAction(ac); // для срабатывания шортката
