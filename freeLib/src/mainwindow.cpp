@@ -1628,6 +1628,7 @@ void MainWindow::SelectBook()
             if (sequenceName != noSeries_) {
                 // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
                 sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
+                // TODO Не переходит на серию { Книги без серии }
                 sSeria = QString("<a href=seria_%3%1>%2</a>").arg(
                     QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
                 );
