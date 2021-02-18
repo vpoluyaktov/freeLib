@@ -1334,6 +1334,8 @@ void MainWindow::SelectLibrary()
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls();
+    // заполнение комбобокса с форматами книг на вкладке Поиск
+    FillFormatList();
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
@@ -1735,7 +1737,7 @@ void MainWindow::ManageLibrary()
     SaveLibPosition();
     AddLibrary al(this);
     al.exec();
-    if(al.IsLibraryChanged()){
+    if (al.IsLibraryChanged()) {
         ui->Books->clear();
         QSettings settings;
         int nCurrentTab;
@@ -1747,7 +1749,9 @@ void MainWindow::ManageLibrary()
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
-        
+        // заполнение комбобокса с форматами книг на вкладке Поиск
+        FillFormatList();
+
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
@@ -3559,6 +3563,7 @@ void MainWindow::FillFormatList()
     if (!query.exec())
         qDebug() << query.lastError().text();
     else {
+        ui->comboBoxFindFormat->clear();
         ui->comboBoxFindFormat->addItem("*", Qt::UserRole);
         while (query.next())
             ui->comboBoxFindFormat->addItem(query.value(0).toString(), Qt::UserRole);
