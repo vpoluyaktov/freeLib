@@ -215,6 +215,8 @@ private slots:
 
     // ѕроверить книги на их удаление с жесткого диска и пометить в базе удаленные
     void MarkDeletedBooks();
+    // ќптимизаци€ базы данных
+    void DatabaseOptimization();
 
     // выбор библиотеки дл€ ее загрузки
     void SelectLibrary();

@@ -269,6 +269,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->btnOption,SIGNAL(clicked()),this,SLOT(Settings()));
     connect(ui->actionPreference,SIGNAL(triggered()),this,SLOT(Settings()));
     connect(ui->actionMarkDeletedBooks, SIGNAL(triggered()), this, SLOT(MarkDeletedBooks()));
+    connect(ui->actionDatabaseOptimization, &QAction::triggered, this, &MainWindow::DatabaseOptimization);
+
     connect(ui->actionCheck_uncheck,SIGNAL(triggered()),this,SLOT(CheckBooks()));
     connect(ui->btnCheck,SIGNAL(clicked()),this,SLOT(CheckBooks()));
     connect(ui->btnEdit,SIGNAL(clicked()),this,SLOT(EditBooks()));
@@ -3593,4 +3595,14 @@ void MainWindow::CreateReadedMenu()
     actionReaded->setData(QString::number(0).toInt());
     connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
     menuReaded_->addAction(actionReaded);
+}
+
+/*
+    Оптимизация базы данных
+*/
+void MainWindow::DatabaseOptimization()
+{
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    if (query.exec("VACUUM"))
+        QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
 }
