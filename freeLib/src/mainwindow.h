@@ -48,6 +48,7 @@ private:
     QString lastSearchSymbol_;
     QMenu TagMenu_;
     QMenu* menuRating_;
+    QMenu* menuReaded_;
     QObject* currentListForTag_;
     QList<Stag> tagsPicList_;
     QToolButton *FirstButton_;
@@ -123,6 +124,8 @@ private:
     void FillFormatList();
     // создание меню Рейтинга
     void CreateRatingMenu();
+    // создание меню Прочитано/Не прочитано
+    void CreateReadedMenu();
 
 protected:
     APP_MODE mode;

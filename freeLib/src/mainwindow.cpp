@@ -244,6 +244,8 @@ MainWindow::MainWindow(QWidget* parent) :
 
     // создание меню Рейтинга
     CreateRatingMenu();
+    // создание меню Прочитано/Не прочитано
+    CreateReadedMenu();
 
     UpdateTagsMenu();
     loadGenresFromSQLiteToLibraryStructure();
@@ -1959,18 +1961,10 @@ void MainWindow::ContextMenu(QPoint point)
             if (menu.actions().count() > 0)
                 menu.addSeparator();
             menu.addMenu(menuRating_);
-            
-            // меню книги Прочитано/Не прочитано
-            QMenu* readed = menu.addMenu(tr("Readed"));
-            QAction* actionReaded = new QAction(tr("Readed"), this);
-            actionReaded->setData(QString::number(1).toInt());
-            connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
-            readed->addAction(actionReaded);
-            actionReaded = new QAction(tr("Not readed"), this);
-            actionReaded->setData(QString::number(0).toInt());
-            connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
             menu.addSeparator();
-            readed->addAction(actionReaded);
+            // меню книги Прочитано/Не прочитано
+            menu.addMenu(menuReaded_);
+            menu.addSeparator();
             // меню книги Группы
             QMenu* groups = menu.addMenu(tr("Add to Group"));
             QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -3583,4 +3577,20 @@ void MainWindow::CreateRatingMenu()
         connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
         menuRating_->addAction(actionStar);
     }
+}
+
+/*
+    создание меню Прочитано/Не прочитано
+*/
+void MainWindow::CreateReadedMenu()
+{
+    menuReaded_ = new QMenu(tr("Readed"), this);
+    QAction* actionReaded = new QAction(tr("Readed"), this);
+    actionReaded->setData(QString::number(1).toInt());
+    connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+    menuReaded_->addAction(actionReaded);
+    actionReaded = new QAction(tr("Not readed"), this);
+    actionReaded->setData(QString::number(0).toInt());
+    connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+    menuReaded_->addAction(actionReaded);
 }
