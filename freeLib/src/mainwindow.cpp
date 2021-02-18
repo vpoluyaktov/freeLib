@@ -467,6 +467,8 @@ void MainWindow::UpdateTagsMenu()
     TagMenu_.clear();
     QAction *ac=new QAction(tr("no tag"), &TagMenu_);
     ac->setData(0);
+    ac->setShortcut(tr("Ctrl+0"));
+    this->addAction(ac); // для срабатывания шортката
     connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
     TagMenu_.addAction(ac);
     tagsPicList_.clear();
@@ -491,6 +493,8 @@ void MainWindow::UpdateTagsMenu()
         con++;
         QAction *ac=new QAction(pix, query.value(1).toString().trimmed(), &TagMenu_);
         ac->setData(query.value(2).toString());
+        ac->setShortcut("Ctrl+"+QString::number(query.value(2).toInt()));
+        this->addAction(ac); // для срабатывания шортката
         connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
         TagMenu_.addAction(ac);
     }
@@ -1367,6 +1371,8 @@ void MainWindow::SelectAuthor()
     if (ui->AuthorList->selectedItems().count() == 0)
         return;
 
+    currentListForTag_ = qobject_cast<QObject*>(ui->AuthorList);
+
     QListWidgetItem* cur_item = ui->AuthorList->selectedItems()[0];
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
     QSettings settings;
@@ -1408,6 +1414,8 @@ void MainWindow::SelectSeria()
     ExportBookListBtnEnabled(false);
     if(ui->SeriaList->selectedItems().count()==0)
         return;
+
+    currentListForTag_ = qobject_cast<QObject*>(ui->SeriaList);
 
     QListWidgetItem* cur_item=ui->SeriaList->selectedItems()[0];
     idCurrentSerial_ = cur_item->data(Qt::UserRole).toUInt();
@@ -1459,6 +1467,9 @@ void MainWindow::SelectGenre()
     ExportBookListBtnEnabled(false);
     if (ui->GenreList->selectedItems().count() == 0)
         return;
+    
+    currentListForTag_ = qobject_cast<QObject*>(ui->GenreList);
+    
     QTreeWidgetItem* cur_item = ui->GenreList->selectedItems()[0];
     idCurrentGenre_ = cur_item->data(0, Qt::UserRole).toUInt();
     QList<uint> listBooks;
@@ -1498,6 +1509,8 @@ void MainWindow::SelectGroup()
     ExportBookListBtnEnabled(false);
     if (ui->GroupList->selectedItems().count() == 0)
         return;
+
+    currentListForTag_ = qobject_cast<QObject*>(ui->GroupList);
 
     QListWidgetItem* cur_item = ui->GroupList->selectedItems()[0];
     idCurrentGroup_ = cur_item->data(Qt::UserRole).toUInt();
@@ -1543,6 +1556,8 @@ void MainWindow::SelectBook()
         ui->Review->setHtml("");
         return;
     }
+
+    currentListForTag_ = qobject_cast<QObject*>(ui->Books);
 
     ExportBookListBtnEnabled(true);
     QTreeWidgetItem* item = ui->Books->selectedItems()[0];
