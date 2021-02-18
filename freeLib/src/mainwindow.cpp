@@ -1203,7 +1203,7 @@ void MainWindow::StartSearch()
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
     int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
-    uint idCurrentRating = ui->comboBoxFindRating->currentText().toUInt();
+    int idCurrentRating = ui->comboBoxFindRating->currentData().toInt();
     QString sKeyword = ui->lineEditFindKeywords->text().trimmed();
     bool IsReaded = ui->checkBoxFindReaded->isChecked();
     QString sFormat = ui->comboBoxFindFormat->currentText();
@@ -1268,7 +1268,7 @@ void MainWindow::StartSearch()
 */
 QList<uint> MainWindow::StartBooksSearch(
     const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-    int idLanguage, int idCurrentTag, const QString& sKeyword, uint idCurrentRating,
+    int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
     bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
@@ -1285,7 +1285,7 @@ QList<uint> MainWindow::StartBooksSearch(
             (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
                 || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
                 || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
-            idCurrentRating == iBook->nStars &&
+            (idCurrentRating == -1 || (iBook->nStars == idCurrentRating)) &&
             (sKeyword.isEmpty() || iBook->sKeywords.contains(sKeyword, Qt::CaseInsensitive)) &&
             (IsReaded ? iBook->bReaded : true) &&
             (sFormat != "*" ? (sFormat == iBook->sFormat) : true))
@@ -3226,6 +3226,7 @@ void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
 */
 void MainWindow::FillRatingList()
 {
+    ui->comboBoxFindRating->addItem("*", -1);
     for (int i = 0; i < 6; i++)
         ui->comboBoxFindRating->addItem(QString("%1").arg(i), i);
 }
