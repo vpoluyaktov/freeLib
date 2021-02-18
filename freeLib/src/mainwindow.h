@@ -46,7 +46,7 @@ private:
     HelpDialog *pHelpDlg_;
     QToolButton* tbClear_;
     QString lastSearchSymbol_;
-    QMenu TagMenu_;
+    QMenu menuTag_;
     QMenu* menuRating_;
     QMenu* menuReaded_;
     QObject* currentListForTag_;

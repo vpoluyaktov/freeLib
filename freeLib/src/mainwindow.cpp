@@ -477,13 +477,13 @@ void MainWindow::UpdateTagsMenu()
     int con=1;
     ui->comboBoxTagFilter->addItem("*", 0);
     ui->comboBoxFindTag->addItem("*",  0);
-    TagMenu_.clear();
-    QAction *ac = new QAction(tr("no tag"), &TagMenu_);
+    menuTag_.clear();
+    QAction *ac = new QAction(tr("no tag"), &menuTag_);
     ac->setData(0);
     ac->setShortcut(tr("Ctrl+0"));
     this->addAction(ac); // для срабатывания шортката
     connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
-    TagMenu_.addAction(ac);
+    menuTag_.addAction(ac);
     tagsPicList_.clear();
     QPixmap pix = ::CreateTag(QColor(0, 0, 0, 0), size);
     pix.setDevicePixelRatio(app->devicePixelRatio());
@@ -504,12 +504,12 @@ void MainWindow::UpdateTagsMenu()
         ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);  //Добавляем изображение цвета в комбо
         con++;
-        QAction *ac = new QAction(pix, query.value(1).toString().trimmed(), &TagMenu_);
+        QAction *ac = new QAction(pix, query.value(1).toString().trimmed(), &menuTag_);
         ac->setData(query.value(2).toString());
         ac->setShortcut("Ctrl+"+QString::number(query.value(2).toInt()));
         this->addAction(ac); // для срабатывания шортката
         connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
-        TagMenu_.addAction(ac);
+        menuTag_.addAction(ac);
     }
 
     ui->comboBoxTagFilter->addItem(tr("setup ..."), -1);
@@ -1993,7 +1993,7 @@ void MainWindow::ContextMenu(QPoint point)
     if(menu.actions().count()>0)
         menu.addSeparator();
     if(bUseTag_)
-        menu.addActions(TagMenu_.actions());
+        menu.addActions(menuTag_.actions());
     if(menu.actions().count()>0)
         menu.exec(QCursor::pos());
 }
