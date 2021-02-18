@@ -505,6 +505,7 @@ void AddLibrary::AddBooksDirToList()
     for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
     {
         QString DirPath = ui->listWidgetBooksDirs->item(i)->text();
+        // TODO Исправить определение вложенности папки в папку (другой алгоритм)
         if (BookDir.contains(DirPath, Qt::CaseSensitive))
         {
             QMessageBox::critical(
