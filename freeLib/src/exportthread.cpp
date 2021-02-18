@@ -508,12 +508,12 @@ void ExportThread::process()
 void ExportThread::export_lib()
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.exec(QString("SELECT book.id,author.id,janre.id,book.name,star,num_in_seria,book.language,file,size,deleted,date,format,book.keys,archive,date,book.id_inlib, "
-               "book.favorite,seria.name,seria.favorite,janre.main_janre||':',author.favorite,author.name1||','||author.name2||','||author.name3||':' "
+    query.exec(QString("SELECT book.id,author.id,genre.id,book.name,star,num_in_seria,book.language,file,size,deleted,date,format,book.keys,archive,date,book.id_inlib, "
+               "book.tag,seria.name,seria.tag,genre.main_genre||':',author.tag,author.LastName||','||author.FirstName||','||author.MiddleName||':' "
                "FROM book_author "
                "JOIN book on book.id=book_author.id_book "
-               "LEFT JOIN book_janre ON book_janre.id_book=book.id "
-               "LEFT JOIN janre ON janre.id=book_janre.id_janre "
+               "LEFT JOIN book_genre ON book_genre.id_book=book.id "
+               "LEFT JOIN genre ON genre.id=book_genre.id_genre "
                "LEFT JOIN seria ON seria.id=book.id_seria "
                "JOIN author ON author.id=book_author.id_author "
                "WHERE book_author.id_lib=%1 "
@@ -554,7 +554,7 @@ void ExportThread::export_lib()
     }
     QString authors;
     QString fav_authors;
-    QString janres;
+    QString genres;
     bool next_book=false;
     QString buf;
     while(loop_enable)
@@ -575,14 +575,14 @@ void ExportThread::export_lib()
                 emit Progress(0,count);
             inpx.write(buf.toUtf8());
             authors="";
-            janres="";
+            genres="";
             fav_authors="";
         }
         if(loop_enable)
         {
             lastbookid=query.value(0).toLongLong();
             authors+=query.value(21).toString().trimmed();
-            janres+=query.value(19).toString().trimmed();
+            genres+=query.value(19).toString().trimmed();
             fav_authors+=(query.value(20).toString().trimmed()+":");
             buf=(QString("%1\4%2\4%3\4%4\4%5\4%6\4%7\4%8\4%9").arg
                         (
@@ -590,7 +590,7 @@ void ExportThread::export_lib()
                             query.value(3).toString().trimmed(),    //TITLE
                             query.value(17).toString().trimmed(),   //SERIES
                             query.value(5).toString().trimmed(),    //SERNO
-                            janres,                                 //GENRE
+                            genres,                                 //GENRE
                             query.value(15).toString().trimmed(),   //LIBID
                             "",                                     //INSNO
                             query.value(7).toString().trimmed(),    //FILE

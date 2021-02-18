@@ -53,7 +53,7 @@ private:
 
     qlonglong AddSeriaToSQLite(QString str,qlonglong libID,int tag);
     qlonglong AddAuthorToSQLite(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);
-    qlonglong AddGenreToSQLite(qlonglong id_book, QString janre, qlonglong id_lib, QString language);
+    qlonglong AddGenreToSQLite(qlonglong id_book, QString genre, qlonglong id_lib, QString language);
     qlonglong AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group);
     qlonglong AddBookToSQLite(
         qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,

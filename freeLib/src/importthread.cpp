@@ -22,7 +22,7 @@ void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
         query.exec("DELETE FROM seria WHERE id_lib="+QString::number(id_lib));
         query.exec("DELETE FROM groups WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_author WHERE id_lib="+QString::number(id_lib));
-        query.exec("DELETE FROM book_janre WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM book_genre WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_group WHERE id_lib="+QString::number(id_lib));
         query.exec("VACUUM");
     }
@@ -345,10 +345,10 @@ qlonglong ImportThread::AddSeriaToSQLite(QString str, qlonglong libID, int tag)
         qlonglong id=Query_->value(0).toLongLong();
         return id;
     }
-    Query_->prepare("INSERT INTO seria(name,id_lib,favorite) values(:name,:id_lib,:favorite)");
+    Query_->prepare("INSERT INTO seria(name,id_lib,tag) values(:name,:id_lib,:tag)");
     Query_->bindValue(":name",name);
     Query_->bindValue(":id_lib",libID);
-    Query_->bindValue(":favorite",tag);
+    Query_->bindValue(":tag",tag);
     if(!Query_->exec())
         qDebug() << Query_->lastError().text();
     qlonglong id = Query_->lastInsertId().toLongLong();
@@ -360,23 +360,23 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
     if(str.trimmed().isEmpty())
         return -1;
     QStringList names=str.split(',');
-    QString name1;
+    QString LastName;
     if(names.count()>0)
-        name1=names[0].trimmed();
-    QString name2;
+        LastName=names[0].trimmed();
+    QString FirstName;
     if(names.count()>1)
-        name2=names[1].trimmed();
-    QString name3;
+        FirstName=names[1].trimmed();
+    QString MiddleName;
     if(names.count()>2)
-        name3=names[2].trimmed();
-    if(name1.isEmpty() && name2.isEmpty() && name3.isEmpty())
+        MiddleName=names[2].trimmed();
+    if(LastName.isEmpty() && FirstName.isEmpty() && MiddleName.isEmpty())
         return -1;
 
-    Query_->prepare("SELECT id,favorite FROM author WHERE id_lib=:id_lib and name1=:name1 and name2=:name2 and name3=:name3");
+    Query_->prepare("SELECT id,tag FROM author WHERE id_lib=:id_lib and LastName=:LastName and FirstName=:FirstName and MiddleName=:MiddleName");
     Query_->bindValue(":id_lib",libID);
-    Query_->bindValue(":name1",name1);
-    Query_->bindValue(":name2",name2);
-    Query_->bindValue(":name3",name3);
+    Query_->bindValue(":LastName",LastName);
+    Query_->bindValue(":FirstName",FirstName);
+    Query_->bindValue(":MiddleName",MiddleName);
     Query_->exec();
     qlonglong id=0;
     if(Query_->next())
@@ -385,12 +385,12 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
     }
     if(id==0)
     {
-        Query_->prepare("INSERT INTO author(name1,name2,name3,id_lib,favorite) values(:name1,:name2,:name3,:id_lib,:favorite)");
-        Query_->bindValue(":name1",name1);
-        Query_->bindValue(":name2",name2);
-        Query_->bindValue(":name3",name3);
+        Query_->prepare("INSERT INTO author(LastName,FirstName,MiddleName,id_lib,tag) values(:LastName,:FirstName,:MiddleName,:id_lib,:tag)");
+        Query_->bindValue(":LastName",LastName);
+        Query_->bindValue(":FirstName",FirstName);
+        Query_->bindValue(":MiddleName",MiddleName);
         Query_->bindValue(":id_lib",libID);
-        Query_->bindValue(":favorite",tag);
+        Query_->bindValue(":tag",tag);
         if(!Query_->exec())
             qDebug() << Query_->lastError().text();
         id = Query_->lastInsertId().toLongLong();
@@ -398,7 +398,7 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
     else
     {
         if(Query_->value(1).toInt()!=tag && tag>0)
-            Query_->exec("UPDATE author SET favorite="+QString::number(tag) +" WHERE id="+QString::number(id));
+            Query_->exec("UPDATE author SET tag="+QString::number(tag) +" WHERE id="+QString::number(id));
     }
     if(first_author)
         Query_->exec("UPDATE book SET first_author_id="+QString::number(id)+" WHERE id="+QString::number(id_book));
@@ -412,8 +412,8 @@ qlonglong ImportThread::AddBookToSQLite(
     QString keys, qlonglong id_lib, QString archive, int tag, bool readed
 )
 {
-    Query_->prepare("INSERT INTO book(name,star,id_seria,num_in_seria,language,file,size,'deleted',date,keys,id_inlib,id_lib,format,archive,favorite,readed) "
-                   "values(:name,:star,:id_seria,:num_in_seria,:language,:file,:size,:deleted,:date,:keys,:id_inlib,:id_lib,:format,:archive,:favorite,:readed)");
+    Query_->prepare("INSERT INTO book(name,star,id_seria,num_in_seria,language,file,size,'deleted',date,keys,id_inlib,id_lib,format,archive,tag,readed) "
+                   "values(:name,:star,:id_seria,:num_in_seria,:language,:file,:size,:deleted,:date,:keys,:id_inlib,:id_lib,:format,:archive,:tag,:readed)");
 
     Query_->bindValue(":name",name);
     Query_->bindValue(":star",star);
@@ -429,7 +429,7 @@ qlonglong ImportThread::AddBookToSQLite(
     Query_->bindValue(":id_lib",id_lib);
     Query_->bindValue(":format",format);
     Query_->bindValue(":archive",archive);
-    Query_->bindValue(":favorite",tag);
+    Query_->bindValue(":tag",tag);
     Query_->bindValue(":readed", readed);
     if(!Query_->exec())
         qDebug() << Query_->lastError().text();
@@ -438,23 +438,23 @@ qlonglong ImportThread::AddBookToSQLite(
     return id;
 }
 
-qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book,QString janre,qlonglong id_lib,QString language)
+qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book,QString genre,qlonglong id_lib,QString language)
 {
-    qlonglong id_janre=0;
-    janre.replace(" ","_");
-    Query_->exec("SELECT id,main_janre FROM janre where keys LIKE '%"+janre.toLower()+";%'");
+    qlonglong id_genre=0;
+    genre.replace(" ","_");
+    Query_->exec("SELECT id,main_genre FROM genre where keys LIKE '%"+genre.toLower()+";%'");
     if(Query_->next())
-        id_janre = Query_->value(0).toLongLong();
+        id_genre = Query_->value(0).toLongLong();
     else {
-        qDebug() << "Неизвестный жанр: " + janre;
+        qDebug() << "Неизвестный жанр: " + genre;
         // код Жанра Прочие/Неотсортированное
-        Query_->prepare("SELECT id FROM janre WHERE name ='Неотсортированное';");
+        Query_->prepare("SELECT id FROM genre WHERE name ='Неотсортированное';");
         if (!Query_->exec())
             qDebug() << Query_->lastError().text();
         Query_->next();
-        id_janre = Query_->value(0).toUInt();
+        id_genre = Query_->value(0).toUInt();
     }
-    Query_->exec("INSERT INTO book_janre(id_book,id_janre,id_lib,language) values("+QString::number(id_book)+","+QString::number(id_janre)+","+QString::number(id_lib)+",'"+language+"')");
+    Query_->exec("INSERT INTO book_genre(id_book,id_genre,id_lib,language) values("+QString::number(id_book)+","+QString::number(id_genre)+","+QString::number(id_lib)+",'"+language+"')");
     Query_->exec("select last_insert_rowid()");
     Query_->next();
     qlonglong id=Query_->value(0).toLongLong();
@@ -805,7 +805,7 @@ void ImportThread::process()
         Query_->exec("DROP TABLE IF EXISTS tmp;");
         Query_->exec(QString("CREATE TABLE tmp AS SELECT id FROM book WHERE id_lib=%1 AND deleted=1;").arg(QString::number(ExistingLibID_)));
         Query_->exec(QString("DELETE FROM book WHERE id_lib=%1 AND id IN (SELECT IN FROM tmp);").arg(QString::number(ExistingLibID_)));
-        Query_->exec(QString("DELETE FROM book_janre WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
+        Query_->exec(QString("DELETE FROM book_genre WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec(QString("DELETE FROM book_author WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec(QString("DELETE FROM book_group WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec("DROP TABLE IF EXISTS tmp;");
@@ -836,7 +836,7 @@ void ImportThread::process()
 #define _STAR           10
 #define _KEYS           11
 #define _AUTHORS        12
-#define _JANRES         13
+#define _GENRES         13
 #define _FOLDER         14
 #define _TAG            15
 #define _TAG_SERIA      16
@@ -856,7 +856,7 @@ void ImportThread::process()
     field_index[_STAR]          =12;//star
     field_index[_KEYS]          =13;//keys
     field_index[_AUTHORS]       =0; //Authors
-    field_index[_JANRES]        =1; //Janres
+    field_index[_GENRES]        =1; //Genres
     field_index[_FOLDER]        =-1; //Folder
     field_index[_TAG]           =-1; //Tag
     field_index[_TAG_SERIA]     =-1; //TagSeria
@@ -908,7 +908,7 @@ void ImportThread::process()
                     else if(substring=="AUTHOR")
                         field_index[_AUTHORS]=i;
                     else if(substring=="GENRE")
-                        field_index[_JANRES]=i;
+                        field_index[_GENRES]=i;
                     else if(substring=="FOLDER")
                         field_index[_FOLDER]=i;
                     else if(substring=="TAG")
@@ -1111,15 +1111,15 @@ void ImportThread::process()
                 }
 
                 qlonglong t3=QDateTime::currentMSecsSinceEpoch();
-                if(substrings.count()>=field_index[_JANRES]+1)
+                if(substrings.count()>=field_index[_GENRES]+1)
                 {
-                    QStringList Janres=substrings[field_index[_JANRES]].split(':');
+                    QStringList Genres=substrings[field_index[_GENRES]].split(':');
                     bool first=true;
-                    foreach(QString janre,Janres)
+                    foreach(QString genre,Genres)
                     {
-                        if(!first && janre.trimmed().isEmpty())
+                        if(!first && genre.trimmed().isEmpty())
                             continue;
-                        AddGenreToSQLite(id_book,janre.trimmed(),ExistingLibID_,language);
+                        AddGenreToSQLite(id_book,genre.trimmed(),ExistingLibID_,language);
                         first=false;
                     }
                 }

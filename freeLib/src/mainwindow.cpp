@@ -471,7 +471,7 @@ void MainWindow::UpdateTagsMenu()
     query.next();
     int currentTag = query.value(0).toInt();
     // чтение данных тега
-    query.exec("SELECT color, name, id FROM favorite");
+    query.exec("SELECT color, name, id FROM tag");
     ui->comboBoxTagFilter->clear();
     ui->comboBoxFindTag->clear();
     int con=1;
@@ -698,8 +698,8 @@ void MainWindow::SetTag()
         switch (item->type()) {
         case ITEM_TYPE_BOOK:
             item->setIcon(0,GetTagFromTagsPicList(tag_id));
-            query.prepare("UPDATE book set favorite=:favorite where id=:id");
-            query.bindValue(":favorite",tag_id);
+            query.prepare("UPDATE book set tag=:tag where id=:id");
+            query.bindValue(":tag",tag_id);
             query.bindValue(":id",id);
             query.exec();
             mLibs[g_idCurrentLib].mBooks[id].nTag = tag_id;
@@ -707,8 +707,8 @@ void MainWindow::SetTag()
 
         case ITEM_TYPE_SERIA:
             UpdateListPix(id,2,tag_id);
-            query.prepare("UPDATE seria set favorite=:favorite where id=:id");
-            query.bindValue(":favorite",tag_id);
+            query.prepare("UPDATE seria set tag=:tag where id=:id");
+            query.bindValue(":tag",tag_id);
             query.bindValue(":id",id);
             query.exec();
             mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
@@ -716,8 +716,8 @@ void MainWindow::SetTag()
 
         case ITEM_TYPE_AUTHOR:
             UpdateListPix(id,1,tag_id);
-            query.prepare("UPDATE author set favorite=:favorite where id=:id");
-            query.bindValue(":favorite",tag_id);
+            query.prepare("UPDATE author set tag=:tag where id=:id");
+            query.bindValue(":tag",tag_id);
             query.bindValue(":id",id);
             query.exec();
             mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
@@ -731,8 +731,8 @@ void MainWindow::SetTag()
     {
         id=ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,1,tag_id);
-        query.prepare("UPDATE author set favorite=:favorite where id=:id");
-        query.bindValue(":favorite",tag_id);
+        query.prepare("UPDATE author set tag=:tag where id=:id");
+        query.bindValue(":tag",tag_id);
         query.bindValue(":id",id);
         query.exec();
         mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
@@ -741,8 +741,8 @@ void MainWindow::SetTag()
     {
         id=ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,2 ,tag_id);
-        query.prepare("UPDATE seria set favorite=:favorite where id=:id");
-        query.bindValue(":favorite",tag_id);
+        query.prepare("UPDATE seria set tag=:tag where id=:id");
+        query.bindValue(":tag",tag_id);
         query.bindValue(":id",id);
         query.exec();
         mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
@@ -1220,7 +1220,7 @@ void MainWindow::StartSearch()
         // читаем из базы id_parent для выбранного элемента контролов Жанров
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
-        query.prepare("SELECT id_parent FROM janre WHERE id=:id;");
+        query.prepare("SELECT id_parent FROM genre WHERE id=:id;");
         query.bindValue(":id", idGenre);
         if (!query.exec())
             qDebug() << query.lastError().text();
@@ -2340,29 +2340,29 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 
     QMap<uint,QTreeWidgetItem*> mTopGenresItem;
     auto iGenre = mGenre.constBegin();
-    while(iGenre!=mGenre.constEnd()){
+    while (iGenre != mGenre.constEnd()) {
         QTreeWidgetItem *item;
-        if(iGenre->idParrentGenre==0 && !mTopGenresItem.contains(iGenre.key())){
+        if (iGenre->idParrentGenre == 0 && !mTopGenresItem.contains(iGenre.key())){
             item=new QTreeWidgetItem(ui->GenreList);
-            item->setFont(0,bold_font);
-            item->setText(0,iGenre->sName);
-            item->setData(0,Qt::UserRole,iGenre.key());
+            item->setFont(0, bold_font);
+            item->setText(0, iGenre->sName);
+            item->setData(0, Qt::UserRole,iGenre.key());
             item->setExpanded(false);
             mTopGenresItem[iGenre.key()] = item;
-        }else{
-            if(mCounts.contains(iGenre.key())){
-                if(!mTopGenresItem.contains(iGenre->idParrentGenre)){
+        } else {
+            if (mCounts.contains(iGenre.key())){
+                if(!mTopGenresItem.contains(iGenre->idParrentGenre)) {
                     QTreeWidgetItem *itemTop = new QTreeWidgetItem(ui->GenreList);
-                    itemTop->setFont(0,bold_font);
-                    itemTop->setText(0,mGenre[iGenre->idParrentGenre].sName);
-                    itemTop->setData(0,Qt::UserRole,iGenre->idParrentGenre);
+                    itemTop->setFont(0, bold_font);
+                    itemTop->setText(0, mGenre[iGenre->idParrentGenre].sName);
+                    itemTop->setData(0, Qt::UserRole,iGenre->idParrentGenre);
                     itemTop->setExpanded(false);
                     mTopGenresItem[iGenre->idParrentGenre] = itemTop;
                 }
-                item=new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
+                item = new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
                 item->setText(0,QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
                 item->setData(0,Qt::UserRole,iGenre.key());
-                if(iGenre.key()==idCurrentGenre_)
+                if (iGenre.key() == idCurrentGenre_)
                 {
                     item->setSelected(true);
                     ui->GenreList->scrollToItem(item);
