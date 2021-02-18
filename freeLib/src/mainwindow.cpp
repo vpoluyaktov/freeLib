@@ -366,7 +366,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->AuthorList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
     ui->SeriaList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->SeriaList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
-    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(TagSelect(int)));
+    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(FilterTagSelect(int)));
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
 
@@ -745,13 +745,13 @@ void MainWindow::SetTag()
 }
 
 /*
-    обработчик выбора цветного тэга в выпадающем списке цветных тэгов
+    обработчик фильтра выбора цветного тэга в выпадающем списке цветных тэгов
 */
-void MainWindow::TagSelect(int index)
+void MainWindow::FilterTagSelect(int index)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
-    if(ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt()==-1)
+    if (ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt() == -1)
     {
         // чтение id тега фильтрации текущей библиотеки
         query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
@@ -762,10 +762,10 @@ void MainWindow::TagSelect(int index)
         ui->comboBoxTagFilter->setCurrentIndex(query.value(0).toInt());
         ui->comboBoxTagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
-        if(td.exec())
+        if (td.exec())
             UpdateTagsMenu();
     }
-    else if(index >= 0)
+    else if (index >= 0)
     {
         // сохранение тега фильтрации текущей библиотеки
         query.prepare("UPDATE lib SET currentTag = :currentTag WHERE id = :id_lib;");
@@ -776,7 +776,6 @@ void MainWindow::TagSelect(int index)
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
-        //FillListWidgetGroups(g_idCurrentLib);
         FillListBooks();
     }
 }
