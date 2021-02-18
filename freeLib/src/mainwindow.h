@@ -47,6 +47,7 @@ private:
     QToolButton* tbClear_;
     QString lastSearchSymbol_;
     QMenu TagMenu_;
+    QMenu* menuRating_;
     QObject* currentListForTag_;
     QList<Stag> tagsPicList_;
     QToolButton *FirstButton_;
@@ -120,6 +121,8 @@ private:
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
     void FillFormatList();
+    // создание меню Рейтинга
+    void CreateRatingMenu();
 
 protected:
     APP_MODE mode;

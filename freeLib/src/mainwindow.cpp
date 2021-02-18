@@ -237,6 +237,9 @@ MainWindow::MainWindow(QWidget* parent) :
         nCurrentTab = 0;
     }
 
+    // создание меню Рейтинга
+    CreateRatingMenu();
+
     UpdateTagsMenu();
     loadGenresFromSQLiteToLibraryStructure();
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
@@ -1950,15 +1953,8 @@ void MainWindow::ContextMenu(QPoint point)
             // меню Оценки
             if (menu.actions().count() > 0)
                 menu.addSeparator();
-
-            QMenu* rating = menu.addMenu(tr("Rating"));
-            for (int i = 0; i < 6; i++)
-            {
-                QAction* actionStar = new QAction(QString("%1").arg(i), this);
-                actionStar->setData(QString::number(i).toInt());
-                connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
-                rating->addAction(actionStar);
-            }
+            menu.addMenu(menuRating_);
+            
             // меню книги Прочитано/Не прочитано
             QMenu* readed = menu.addMenu(tr("Readed"));
             QAction* actionReaded = new QAction(tr("Readed"), this);
@@ -3568,3 +3564,18 @@ void MainWindow::FillFormatList()
     }
 }
 
+/*
+    создание меню Рейтинга
+*/
+void MainWindow::CreateRatingMenu()
+{
+    menuRating_ = new QMenu(tr("Rating"), this);
+    for (int i = 0; i < 6; i++) {
+        QAction* actionStar = new QAction(QString("%1").arg(i), this);
+        actionStar->setData(QString::number(i).toInt());
+        actionStar->setShortcut("Alt+" + QString::number(i));
+        this->addAction(actionStar); // для срабатывания шортката
+        connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
+        menuRating_->addAction(actionStar);
+    }
+}
