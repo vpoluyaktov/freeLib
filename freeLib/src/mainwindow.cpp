@@ -296,11 +296,11 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->Books, SIGNAL(itemSelectionChanged()), this, SLOT(SelectBook()));
     connect(ui->Books, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(BookDblClick()));
     connect(ui->Books, SIGNAL(BookItemChanged(QTreeWidgetItem*, int)), this, SLOT(BookItemChanged(QTreeWidgetItem*, int)));
-    connect(ui->btnAuthor,SIGNAL(clicked()),this,SLOT(btnAuthor()));
-    connect(ui->btnSeries, SIGNAL(clicked()), this, SLOT(btnSeries()));
-    connect(ui->btnGenre,SIGNAL(clicked()),this,SLOT(btnGenres()));
-    connect(ui->btnGroups, SIGNAL(clicked()), this, SLOT(btnPageGroups()));
-    connect(ui->btnSearch,SIGNAL(clicked()),this,SLOT(btnPageSearch()));
+    connect(ui->btnAuthor,SIGNAL(clicked()),this,SLOT(btnAuthorClick()));
+    connect(ui->btnSeries, SIGNAL(clicked()), this, SLOT(btnSeriesClick()));
+    connect(ui->btnGenre,SIGNAL(clicked()),this,SLOT(btnGenresClick()));
+    connect(ui->btnGroups, SIGNAL(clicked()), this, SLOT(btnPageGroupsClick()));
+    connect(ui->btnSearch,SIGNAL(clicked()),this,SLOT(btnPageSearchClick()));
     connect(ui->btnFind,SIGNAL(clicked()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindAuthor,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
@@ -1625,14 +1625,14 @@ void MainWindow::SelectBook()
         if (parent->type() == ITEM_TYPE_SERIA) {
             // если это серия
             QString sequenceName = parent->text(0);
-            if (sequenceName != noSeries_) {
-                // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
-                sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
-                // TODO Не переходит на серию { Книги без серии }
-                sSeria = QString("<a href=seria_%3%1>%2</a>").arg(
-                    QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
-                );
-            }
+            // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
+            sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
+            //if (sequenceName != noSeries_) {
+            // TODO Не переходит на серию { Книги без серии }
+            sSeria = QString("<a href=seria_%3%1>%2</a>").arg(
+                QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
+            );
+            //}
         }
 
         QString sAuthors;
@@ -1813,7 +1813,7 @@ void MainWindow::SelectFirstItemList()
 /*
     обработчик кнопки отображения списка Авторов
 */
-void MainWindow::btnAuthor()
+void MainWindow::btnAuthorClick()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(0);
@@ -1828,7 +1828,7 @@ void MainWindow::btnAuthor()
 /*
     обработчик кнопки отображения списка Серий
 */
-void MainWindow::btnSeries()
+void MainWindow::btnSeriesClick()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(1);
@@ -1843,7 +1843,7 @@ void MainWindow::btnSeries()
 /*
     обработчик кнопки отображения дерева Жанров
 */
-void MainWindow::btnGenres()
+void MainWindow::btnGenresClick()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(2);
@@ -1858,7 +1858,7 @@ void MainWindow::btnGenres()
 /*
     обработчик кнопки отображения панели Поиска книг
 */
-void MainWindow::btnPageSearch()
+void MainWindow::btnPageSearchClick()
 {
     ui->tabWidget->setCurrentIndex(3);
     ui->SearchFrame->setEnabled(false);
@@ -2104,7 +2104,7 @@ void MainWindow::MoveToAuthor(qlonglong id, QString FirstLetter)
     ui->lineEditSearchString->setText(/*id<0?Item->text(0).left(1).toUpper():*/FirstLetter);
     ui->btnAuthor->setChecked(true);
     searchChanged(FirstLetter);
-    btnAuthor();
+    btnAuthorClick();
     ui->AuthorList->clearSelection();
     for (int i = 0; i < ui->AuthorList->count(); i++)
     {
@@ -2125,7 +2125,7 @@ void MainWindow::MoveToSeria(qlonglong id,QString FirstLetter)
 {
     ui->lineEditSearchString->setText(FirstLetter);
     ui->btnSeries->setChecked(true);
-    btnSeries();
+    btnSeriesClick();
     ui->SeriaList->clearSelection();
     for (int i=0;i<ui->SeriaList->count();i++)
     {
@@ -2145,7 +2145,7 @@ void MainWindow::MoveToSeria(qlonglong id,QString FirstLetter)
 void MainWindow::MoveToGenre(qlonglong id)
 {
     ui->btnGenre->setChecked(true);
-    btnGenres();
+    btnGenresClick();
     ui->GenreList->clearSelection();
     for (int i=0;i<ui->GenreList->topLevelItemCount();i++)
     {
@@ -3244,7 +3244,7 @@ void MainWindow::MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded)
 /*
     обработчик кнопки отображения Групп книг
 */
-void MainWindow::btnPageGroups()
+void MainWindow::btnPageGroupsClick()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(4);

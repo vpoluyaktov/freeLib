@@ -171,20 +171,20 @@ private slots:
     void HeaderContextMenu(QPoint point);
 
     // обработчик кнопки отображения списка Авторов
-    void btnAuthor();
+    void btnAuthorClick();
     // обработчик кнопки отображения списка Серий
-    void btnSeries();
+    void btnSeriesClick();
     // обработчик кнопки отображения дерева Жанров
-    void btnGenres();
+    void btnGenresClick();
     // обработчик кнопки отображения панели Поиска книг
-    void btnPageSearch();
+    void btnPageSearchClick();
     // обработчик кнопки Найти на вкладке Поиск
     void StartSearch();
     // обработчик изменения текста в контроле строки поиска
     void searchChanged(QString str);
     void searchClear();
     // обработчик кнопки отображения Групп книг
-    void btnPageGroups();
+    void btnPageGroupsClick();
     // обработчик сигнала выделения/снятия выделения итема списка Групп
     void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
     // обработчик кнопки добавления Группы в список Групп
