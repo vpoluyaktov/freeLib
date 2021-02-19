@@ -46,7 +46,9 @@ private:
     HelpDialog *pHelpDlg_;
     QToolButton* tbClear_;
     QString lastSearchSymbol_;
-    QMenu TagMenu_;
+    QMenu menuTag_;
+    QMenu* menuRating_;
+    QMenu* menuReaded_;
     QObject* currentListForTag_;
     QList<Stag> tagsPicList_;
     QToolButton *FirstButton_;
@@ -101,7 +103,7 @@ private:
     // поиск книг по заданным критериям
     QList<uint> StartBooksSearch(
         const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-        int idLanguage, int idCurrentTag, const QString& sKeyword, uint idCurrentRating,
+        int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
         bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
@@ -120,6 +122,10 @@ private:
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
     void FillFormatList();
+    // создание меню Рейтинга
+    void CreateRatingMenu();
+    // создание меню Прочитано/Не прочитано
+    void CreateReadedMenu();
 
 protected:
     APP_MODE mode;
@@ -209,6 +215,8 @@ private slots:
 
     // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
     void MarkDeletedBooks();
+    // Оптимизация базы данных
+    void DatabaseOptimization();
 
     // выбор библиотеки для ее загрузки
     void SelectLibrary();
@@ -237,8 +245,8 @@ private slots:
     // обработчик двойного клика по выбранной Книге
     void BookDblClick();
     
-    // обработчик выбора цветного тэга в выпадающем списке цветных тэгов
-    void TagSelect(int index);
+    // обработчик фильтра выбора цветного тэга в выпадающем списке цветных тэгов
+    void FilterTagSelect(int index);
     // установка иконки цветного тэга для Автора/Серии/Книги
     void SetTag();
 

@@ -109,15 +109,20 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
 /*
     создание цветной иконки тэга
 */
-QPixmap CreateTag(QColor color,int size)
+QPixmap CreateTag(QColor color, int size)
 {
-    QPixmap pixmap(size,size-4);
+    QPixmap pixmap(size, size-4);
     pixmap.fill(Qt::transparent);
     QPainter paint(&pixmap);
     paint.setBrush(QBrush(color));
-    QPen pen=QPen(QColor(static_cast<int>(color.red()*0.5),static_cast<int>(color.green()*0.5),static_cast<int>(color.blue()*0.5),static_cast<int>(color.alpha()*0.5)));
+    QPen pen = QPen(QColor(
+        static_cast<int>(color.red()*0.5),
+        static_cast<int>(color.green()*0.5),
+        static_cast<int>(color.blue()*0.5),
+        static_cast<int>(color.alpha()*0.5)
+    ));
     paint.setPen(pen);
-    paint.drawEllipse(2,0,size-5,size-5);
+    paint.drawEllipse(2, 0, size-5, size-5);
     return pixmap;
 }
 
@@ -237,6 +242,11 @@ MainWindow::MainWindow(QWidget* parent) :
         nCurrentTab = 0;
     }
 
+    // создание меню Рейтинга
+    CreateRatingMenu();
+    // создание меню Прочитано/Не прочитано
+    CreateReadedMenu();
+
     UpdateTagsMenu();
     loadGenresFromSQLiteToLibraryStructure();
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
@@ -259,6 +269,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->btnOption,SIGNAL(clicked()),this,SLOT(Settings()));
     connect(ui->actionPreference,SIGNAL(triggered()),this,SLOT(Settings()));
     connect(ui->actionMarkDeletedBooks, SIGNAL(triggered()), this, SLOT(MarkDeletedBooks()));
+    connect(ui->actionDatabaseOptimization, &QAction::triggered, this, &MainWindow::DatabaseOptimization);
+
     connect(ui->actionCheck_uncheck,SIGNAL(triggered()),this,SLOT(CheckBooks()));
     connect(ui->btnCheck,SIGNAL(clicked()),this,SLOT(CheckBooks()));
     connect(ui->btnEdit,SIGNAL(clicked()),this,SLOT(EditBooks()));
@@ -358,7 +370,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->AuthorList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
     ui->SeriaList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->SeriaList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
-    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(TagSelect(int)));
+    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(FilterTagSelect(int)));
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
 
@@ -442,6 +454,7 @@ void MainWindow::UpdateTagsMenu()
 {
     if(!db_is_open)
         return;
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QSettings settings;
 
@@ -458,17 +471,19 @@ void MainWindow::UpdateTagsMenu()
     query.next();
     int currentTag = query.value(0).toInt();
     // чтение данных тега
-    query.exec("SELECT color, name, id FROM favorite");
+    query.exec("SELECT color, name, id FROM tag");
     ui->comboBoxTagFilter->clear();
     ui->comboBoxFindTag->clear();
     int con=1;
     ui->comboBoxTagFilter->addItem("*", 0);
     ui->comboBoxFindTag->addItem("*",  0);
-    TagMenu_.clear();
-    QAction *ac=new QAction(tr("no tag"), &TagMenu_);
+    menuTag_.clear();
+    QAction *ac = new QAction(tr("no tag"), &menuTag_);
     ac->setData(0);
+    ac->setShortcut(tr("Ctrl+0"));
+    this->addAction(ac); // для срабатывания шортката
     connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
-    TagMenu_.addAction(ac);
+    menuTag_.addAction(ac);
     tagsPicList_.clear();
     QPixmap pix = ::CreateTag(QColor(0, 0, 0, 0), size);
     pix.setDevicePixelRatio(app->devicePixelRatio());
@@ -489,10 +504,12 @@ void MainWindow::UpdateTagsMenu()
         ui->comboBoxTagFilter->setItemData(con, pix, Qt::DecorationRole);//Добавляем изображение цвета в комбо
         ui->comboBoxFindTag->setItemData(con, pix, Qt::DecorationRole);  //Добавляем изображение цвета в комбо
         con++;
-        QAction *ac=new QAction(pix, query.value(1).toString().trimmed(), &TagMenu_);
+        QAction *ac = new QAction(pix, query.value(1).toString().trimmed(), &menuTag_);
         ac->setData(query.value(2).toString());
+        ac->setShortcut("Ctrl+"+QString::number(query.value(2).toInt()));
+        this->addAction(ac); // для срабатывания шортката
         connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
-        TagMenu_.addAction(ac);
+        menuTag_.addAction(ac);
     }
 
     ui->comboBoxTagFilter->addItem(tr("setup ..."), -1);
@@ -681,8 +698,8 @@ void MainWindow::SetTag()
         switch (item->type()) {
         case ITEM_TYPE_BOOK:
             item->setIcon(0,GetTagFromTagsPicList(tag_id));
-            query.prepare("UPDATE book set favorite=:favorite where id=:id");
-            query.bindValue(":favorite",tag_id);
+            query.prepare("UPDATE book set tag=:tag where id=:id");
+            query.bindValue(":tag",tag_id);
             query.bindValue(":id",id);
             query.exec();
             mLibs[g_idCurrentLib].mBooks[id].nTag = tag_id;
@@ -690,8 +707,8 @@ void MainWindow::SetTag()
 
         case ITEM_TYPE_SERIA:
             UpdateListPix(id,2,tag_id);
-            query.prepare("UPDATE seria set favorite=:favorite where id=:id");
-            query.bindValue(":favorite",tag_id);
+            query.prepare("UPDATE seria set tag=:tag where id=:id");
+            query.bindValue(":tag",tag_id);
             query.bindValue(":id",id);
             query.exec();
             mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
@@ -699,8 +716,8 @@ void MainWindow::SetTag()
 
         case ITEM_TYPE_AUTHOR:
             UpdateListPix(id,1,tag_id);
-            query.prepare("UPDATE author set favorite=:favorite where id=:id");
-            query.bindValue(":favorite",tag_id);
+            query.prepare("UPDATE author set tag=:tag where id=:id");
+            query.bindValue(":tag",tag_id);
             query.bindValue(":id",id);
             query.exec();
             mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
@@ -714,8 +731,8 @@ void MainWindow::SetTag()
     {
         id=ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,1,tag_id);
-        query.prepare("UPDATE author set favorite=:favorite where id=:id");
-        query.bindValue(":favorite",tag_id);
+        query.prepare("UPDATE author set tag=:tag where id=:id");
+        query.bindValue(":tag",tag_id);
         query.bindValue(":id",id);
         query.exec();
         mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
@@ -724,8 +741,8 @@ void MainWindow::SetTag()
     {
         id=ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toUInt();
         UpdateListPix(id,2 ,tag_id);
-        query.prepare("UPDATE seria set favorite=:favorite where id=:id");
-        query.bindValue(":favorite",tag_id);
+        query.prepare("UPDATE seria set tag=:tag where id=:id");
+        query.bindValue(":tag",tag_id);
         query.bindValue(":id",id);
         query.exec();
         mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
@@ -733,13 +750,13 @@ void MainWindow::SetTag()
 }
 
 /*
-    обработчик выбора цветного тэга в выпадающем списке цветных тэгов
+    обработчик фильтра выбора цветного тэга в выпадающем списке цветных тэгов
 */
-void MainWindow::TagSelect(int index)
+void MainWindow::FilterTagSelect(int index)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
-    if(ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt()==-1)
+    if (ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt() == -1)
     {
         // чтение id тега фильтрации текущей библиотеки
         query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
@@ -750,10 +767,10 @@ void MainWindow::TagSelect(int index)
         ui->comboBoxTagFilter->setCurrentIndex(query.value(0).toInt());
         ui->comboBoxTagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
-        if(td.exec())
+        if (td.exec())
             UpdateTagsMenu();
     }
-    else if(index >= 0)
+    else if (index >= 0)
     {
         // сохранение тега фильтрации текущей библиотеки
         query.prepare("UPDATE lib SET currentTag = :currentTag WHERE id = :id_lib;");
@@ -764,7 +781,6 @@ void MainWindow::TagSelect(int index)
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
-        //FillListWidgetGroups(g_idCurrentLib);
         FillListBooks();
     }
 }
@@ -1187,7 +1203,7 @@ void MainWindow::StartSearch()
     uint idGenre = ui->comboBoxFindGenre->currentData().toUInt();
     int idLanguage = ui->comboBoxFindLanguage->currentData().toInt();
     int idCurrentTag = ui->comboBoxFindTag->itemData(ui->comboBoxFindTag->currentIndex()).toInt();
-    uint idCurrentRating = ui->comboBoxFindRating->currentText().toUInt();
+    int idCurrentRating = ui->comboBoxFindRating->currentData().toInt();
     QString sKeyword = ui->lineEditFindKeywords->text().trimmed();
     bool IsReaded = ui->checkBoxFindReaded->isChecked();
     QString sFormat = ui->comboBoxFindFormat->currentText();
@@ -1204,7 +1220,7 @@ void MainWindow::StartSearch()
         // читаем из базы id_parent для выбранного элемента контролов Жанров
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
-        query.prepare("SELECT id_parent FROM janre WHERE id=:id;");
+        query.prepare("SELECT id_parent FROM genre WHERE id=:id;");
         query.bindValue(":id", idGenre);
         if (!query.exec())
             qDebug() << query.lastError().text();
@@ -1252,7 +1268,7 @@ void MainWindow::StartSearch()
 */
 QList<uint> MainWindow::StartBooksSearch(
     const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
-    int idLanguage, int idCurrentTag, const QString& sKeyword, uint idCurrentRating,
+    int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
     bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
@@ -1269,7 +1285,7 @@ QList<uint> MainWindow::StartBooksSearch(
             (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
                 || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
                 || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
-            idCurrentRating == iBook->nStars &&
+            (idCurrentRating == -1 || (iBook->nStars == idCurrentRating)) &&
             (sKeyword.isEmpty() || iBook->sKeywords.contains(sKeyword, Qt::CaseInsensitive)) &&
             (IsReaded ? iBook->bReaded : true) &&
             (sFormat != "*" ? (sFormat == iBook->sFormat) : true))
@@ -1318,6 +1334,8 @@ void MainWindow::SelectLibrary()
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls();
+    // заполнение комбобокса с форматами книг на вкладке Поиск
+    FillFormatList();
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
@@ -1367,6 +1385,8 @@ void MainWindow::SelectAuthor()
     if (ui->AuthorList->selectedItems().count() == 0)
         return;
 
+    currentListForTag_ = qobject_cast<QObject*>(ui->AuthorList);
+
     QListWidgetItem* cur_item = ui->AuthorList->selectedItems()[0];
     idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
     QSettings settings;
@@ -1408,6 +1428,8 @@ void MainWindow::SelectSeria()
     ExportBookListBtnEnabled(false);
     if(ui->SeriaList->selectedItems().count()==0)
         return;
+
+    currentListForTag_ = qobject_cast<QObject*>(ui->SeriaList);
 
     QListWidgetItem* cur_item=ui->SeriaList->selectedItems()[0];
     idCurrentSerial_ = cur_item->data(Qt::UserRole).toUInt();
@@ -1459,6 +1481,9 @@ void MainWindow::SelectGenre()
     ExportBookListBtnEnabled(false);
     if (ui->GenreList->selectedItems().count() == 0)
         return;
+    
+    currentListForTag_ = qobject_cast<QObject*>(ui->GenreList);
+    
     QTreeWidgetItem* cur_item = ui->GenreList->selectedItems()[0];
     idCurrentGenre_ = cur_item->data(0, Qt::UserRole).toUInt();
     QList<uint> listBooks;
@@ -1498,6 +1523,8 @@ void MainWindow::SelectGroup()
     ExportBookListBtnEnabled(false);
     if (ui->GroupList->selectedItems().count() == 0)
         return;
+
+    currentListForTag_ = qobject_cast<QObject*>(ui->GroupList);
 
     QListWidgetItem* cur_item = ui->GroupList->selectedItems()[0];
     idCurrentGroup_ = cur_item->data(Qt::UserRole).toUInt();
@@ -1543,6 +1570,8 @@ void MainWindow::SelectBook()
         ui->Review->setHtml("");
         return;
     }
+
+    currentListForTag_ = qobject_cast<QObject*>(ui->Books);
 
     ExportBookListBtnEnabled(true);
     QTreeWidgetItem* item = ui->Books->selectedItems()[0];
@@ -1599,6 +1628,7 @@ void MainWindow::SelectBook()
             if (sequenceName != noSeries_) {
                 // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
                 sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
+                // TODO Не переходит на серию { Книги без серии }
                 sSeria = QString("<a href=seria_%3%1>%2</a>").arg(
                     QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
                 );
@@ -1708,7 +1738,7 @@ void MainWindow::ManageLibrary()
     SaveLibPosition();
     AddLibrary al(this);
     al.exec();
-    if(al.IsLibraryChanged()){
+    if (al.IsLibraryChanged()) {
         ui->Books->clear();
         QSettings settings;
         int nCurrentTab;
@@ -1720,7 +1750,9 @@ void MainWindow::ManageLibrary()
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls();
-        
+        // заполнение комбобокса с форматами книг на вкладке Поиск
+        FillFormatList();
+
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
@@ -1935,26 +1967,11 @@ void MainWindow::ContextMenu(QPoint point)
             // меню Оценки
             if (menu.actions().count() > 0)
                 menu.addSeparator();
-
-            QMenu* rating = menu.addMenu(tr("Rating"));
-            for (int i = 0; i < 6; i++)
-            {
-                QAction* actionStar = new QAction(QString("%1").arg(i), this);
-                actionStar->setData(QString::number(i).toInt());
-                connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
-                rating->addAction(actionStar);
-            }
-            // меню книги Прочитано/Не прочитано
-            QMenu* readed = menu.addMenu(tr("Readed"));
-            QAction* actionReaded = new QAction(tr("Readed"), this);
-            actionReaded->setData(QString::number(1).toInt());
-            connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
-            readed->addAction(actionReaded);
-            actionReaded = new QAction(tr("Not readed"), this);
-            actionReaded->setData(QString::number(0).toInt());
-            connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+            menu.addMenu(menuRating_);
             menu.addSeparator();
-            readed->addAction(actionReaded);
+            // меню книги Прочитано/Не прочитано
+            menu.addMenu(menuReaded_);
+            menu.addSeparator();
             // меню книги Группы
             QMenu* groups = menu.addMenu(tr("Add to Group"));
             QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -1981,7 +1998,7 @@ void MainWindow::ContextMenu(QPoint point)
     if(menu.actions().count()>0)
         menu.addSeparator();
     if(bUseTag_)
-        menu.addActions(TagMenu_.actions());
+        menu.addActions(menuTag_.actions());
     if(menu.actions().count()>0)
         menu.exec(QCursor::pos());
 }
@@ -2328,29 +2345,29 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 
     QMap<uint,QTreeWidgetItem*> mTopGenresItem;
     auto iGenre = mGenre.constBegin();
-    while(iGenre!=mGenre.constEnd()){
+    while (iGenre != mGenre.constEnd()) {
         QTreeWidgetItem *item;
-        if(iGenre->idParrentGenre==0 && !mTopGenresItem.contains(iGenre.key())){
+        if (iGenre->idParrentGenre == 0 && !mTopGenresItem.contains(iGenre.key())){
             item=new QTreeWidgetItem(ui->GenreList);
-            item->setFont(0,bold_font);
-            item->setText(0,iGenre->sName);
-            item->setData(0,Qt::UserRole,iGenre.key());
+            item->setFont(0, bold_font);
+            item->setText(0, iGenre->sName);
+            item->setData(0, Qt::UserRole,iGenre.key());
             item->setExpanded(false);
             mTopGenresItem[iGenre.key()] = item;
-        }else{
-            if(mCounts.contains(iGenre.key())){
-                if(!mTopGenresItem.contains(iGenre->idParrentGenre)){
+        } else {
+            if (mCounts.contains(iGenre.key())){
+                if(!mTopGenresItem.contains(iGenre->idParrentGenre)) {
                     QTreeWidgetItem *itemTop = new QTreeWidgetItem(ui->GenreList);
-                    itemTop->setFont(0,bold_font);
-                    itemTop->setText(0,mGenre[iGenre->idParrentGenre].sName);
-                    itemTop->setData(0,Qt::UserRole,iGenre->idParrentGenre);
+                    itemTop->setFont(0, bold_font);
+                    itemTop->setText(0, mGenre[iGenre->idParrentGenre].sName);
+                    itemTop->setData(0, Qt::UserRole,iGenre->idParrentGenre);
                     itemTop->setExpanded(false);
                     mTopGenresItem[iGenre->idParrentGenre] = itemTop;
                 }
-                item=new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
+                item = new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
                 item->setText(0,QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
                 item->setData(0,Qt::UserRole,iGenre.key());
-                if(iGenre.key()==idCurrentGenre_)
+                if (iGenre.key() == idCurrentGenre_)
                 {
                     item->setSelected(true);
                     ui->GenreList->scrollToItem(item);
@@ -3209,6 +3226,7 @@ void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
 */
 void MainWindow::FillRatingList()
 {
+    ui->comboBoxFindRating->addItem("*", -1);
     for (int i = 0; i < 6; i++)
         ui->comboBoxFindRating->addItem(QString("%1").arg(i), i);
 }
@@ -3547,9 +3565,51 @@ void MainWindow::FillFormatList()
     if (!query.exec())
         qDebug() << query.lastError().text();
     else {
+        ui->comboBoxFindFormat->clear();
         ui->comboBoxFindFormat->addItem("*", Qt::UserRole);
         while (query.next())
             ui->comboBoxFindFormat->addItem(query.value(0).toString(), Qt::UserRole);
     }
 }
 
+/*
+    создание меню Рейтинга
+*/
+void MainWindow::CreateRatingMenu()
+{
+    menuRating_ = new QMenu(tr("Rating"), this);
+    for (int i = 0; i < 6; i++) {
+        QAction* actionStar = new QAction(QString("%1").arg(i), this);
+        actionStar->setData(QString::number(i).toInt());
+        actionStar->setShortcut("Alt+" + QString::number(i));
+        this->addAction(actionStar); // для срабатывания шортката
+        connect(actionStar, &QAction::triggered, this, &MainWindow::RatingAction);
+        menuRating_->addAction(actionStar);
+    }
+}
+
+/*
+    создание меню Прочитано/Не прочитано
+*/
+void MainWindow::CreateReadedMenu()
+{
+    menuReaded_ = new QMenu(tr("Readed"), this);
+    QAction* actionReaded = new QAction(tr("Readed"), this);
+    actionReaded->setData(QString::number(1).toInt());
+    connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+    menuReaded_->addAction(actionReaded);
+    actionReaded = new QAction(tr("Not readed"), this);
+    actionReaded->setData(QString::number(0).toInt());
+    connect(actionReaded, &QAction::triggered, this, &MainWindow::ReadedAction);
+    menuReaded_->addAction(actionReaded);
+}
+
+/*
+    Оптимизация базы данных
+*/
+void MainWindow::DatabaseOptimization()
+{
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    if (query.exec("VACUUM"))
+        QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
+}

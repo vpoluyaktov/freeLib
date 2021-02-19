@@ -53,6 +53,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
     connect(ui->listWidgetBooksDirs->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AddLibrary::SelectionChangedBookDirsList);
     connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::LineEditBooksDirTextChanged);
+    connect(ui->checkBoxShowLog, &QCheckBox::clicked, this, &AddLibrary::ExpandLog);
 
     ui->rbtnAddNewBook->setChecked(true);
 
@@ -504,8 +505,11 @@ void AddLibrary::AddBooksDirToList()
     // проверка, является ли добавляемый каталог одним из подкаталогов путей в списке
     for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
     {
-        QString DirPath = ui->listWidgetBooksDirs->item(i)->text();
-        if (BookDir.contains(DirPath, Qt::CaseSensitive))
+        // QDir::separator() для случаев, когда в имени папки находится (.), которую contains() воспринимает, как разделитель,
+        // что иногда приводит к неверным результатам сравнения в нашем случае: папка "_fb2.zip" ложно определяется, как вложенная в папку "_fb2"
+        QString DirPath = ui->listWidgetBooksDirs->item(i)->text() + QDir::separator();
+        QString tempBookDir = BookDir + QDir::separator();
+        if (tempBookDir.contains(DirPath, Qt::CaseSensitive))
         {
             QMessageBox::critical(
                 this, tr("Error"), tr("This directory is a sub-directory of one of the directories in the list.")
@@ -624,3 +628,12 @@ void AddLibrary::LineEditBooksDirTextChanged(const QString& text)
 {
     ui->btnBooksDirAdd->setEnabled(!text.trimmed().isEmpty());
 }
+
+/*
+    расширить окно лога
+*/
+void AddLibrary::ExpandLog()
+{
+    ui->checkBoxShowLog->isChecked() ? ui->widgetBaseControlls->hide() : ui->widgetBaseControlls->show();
+}
+

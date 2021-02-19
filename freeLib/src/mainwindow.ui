@@ -1517,6 +1517,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionMarkDeletedBooks"/>
+    <addaction name="actionDatabaseOptimization"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menuBooks"/>
@@ -1618,6 +1619,11 @@
   <action name="actionMarkDeletedBooks">
    <property name="text">
     <string>Mark deleted books</string>
+   </property>
+  </action>
+  <action name="actionDatabaseOptimization">
+   <property name="text">
+    <string>Database optimization</string>
    </property>
   </action>
  </widget>
