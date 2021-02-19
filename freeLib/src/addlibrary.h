@@ -70,6 +70,8 @@ private slots:
     void SelectionChangedBookDirsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
     // обработчик сигнала изменени€ текста в контроле пути к каталогу с книгами
     void LineEditBooksDirTextChanged(const QString& text);
+    // расширить окно лога
+    void ExpandLog();
 
 signals:
     void break_import();

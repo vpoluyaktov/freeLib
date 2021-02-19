@@ -53,6 +53,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnBooksDirDelete, &QToolButton::clicked, this, &AddLibrary::DeleteDirFromBookDirsList);
     connect(ui->listWidgetBooksDirs->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AddLibrary::SelectionChangedBookDirsList);
     connect(ui->lineEditBooksDir, &QLineEdit::textChanged, this, &AddLibrary::LineEditBooksDirTextChanged);
+    connect(ui->checkBoxShowLog, &QCheckBox::clicked, this, &AddLibrary::ExpandLog);
 
     ui->rbtnAddNewBook->setChecked(true);
 
@@ -625,3 +626,12 @@ void AddLibrary::LineEditBooksDirTextChanged(const QString& text)
 {
     ui->btnBooksDirAdd->setEnabled(!text.trimmed().isEmpty());
 }
+
+/*
+    расширить окно лога
+*/
+void AddLibrary::ExpandLog()
+{
+    ui->checkBoxShowLog->isChecked() ? ui->widgetBaseControlls->hide() : ui->widgetBaseControlls->show();
+}
+
