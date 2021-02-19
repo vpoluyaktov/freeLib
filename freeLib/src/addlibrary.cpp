@@ -505,9 +505,11 @@ void AddLibrary::AddBooksDirToList()
     // проверка, является ли добавляемый каталог одним из подкаталогов путей в списке
     for (int i = 0; i < ui->listWidgetBooksDirs->count(); ++i)
     {
-        QString DirPath = ui->listWidgetBooksDirs->item(i)->text();
-        // TODO Исправить определение вложенности папки в папку (другой алгоритм)
-        if (BookDir.contains(DirPath, Qt::CaseSensitive))
+        // QDir::separator() для случаев, когда в имени папки находится (.), которую contains() воспринимает, как разделитель,
+        // что иногда приводит к неверным результатам сравнения в нашем случае: папка "_fb2.zip" ложно определяется, как вложенная в папку "_fb2"
+        QString DirPath = ui->listWidgetBooksDirs->item(i)->text() + QDir::separator();
+        QString tempBookDir = BookDir + QDir::separator();
+        if (tempBookDir.contains(DirPath, Qt::CaseSensitive))
         {
             QMessageBox::critical(
                 this, tr("Error"), tr("This directory is a sub-directory of one of the directories in the list.")
