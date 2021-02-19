@@ -152,8 +152,6 @@ MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    noSeries_ = tr("{ Books without series }");
-
     trayIcon_ = nullptr;
     pDropForm_ = nullptr;
     errorQuit_ = false;
@@ -1627,12 +1625,9 @@ void MainWindow::SelectBook()
             QString sequenceName = parent->text(0);
             // удаление 'Sequence:' перед реальным названием серии, чтобы работала ссылка на эту Серию
             sequenceName = sequenceName.remove(0, sequenceName.indexOf(":") + 1).trimmed();
-            //if (sequenceName != noSeries_) {
-            // TODO Не переходит на серию { Книги без серии }
             sSeria = QString("<a href=seria_%3%1>%2</a>").arg(
                 QString::number(/*-*/parent->data(0, Qt::UserRole).toLongLong()), sequenceName, sequenceName.left(1).toUpper()
             );
-            //}
         }
 
         QString sAuthors;
@@ -2290,9 +2285,8 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
     auto iSerial = mCounts.constBegin();
     while(iSerial!=mCounts.constEnd()){
         QString SeriaName = mLibs[idLibrary].mSerials[iSerial.key()].sName;
-        QString NewSeriaName = SeriaName != "" ? SeriaName : noSeries_;
         //QBrush Brush; Brush = SeriaName != "" ? Qt::black : Qt::darkMagenta;
-        item = new QListWidgetItem(QString("%1 (%2)").arg(NewSeriaName).arg(iSerial.value()));
+        item = new QListWidgetItem(QString("%1 (%2)").arg(SeriaName).arg(iSerial.value()));
         //item->setForeground(Brush);
         item->setData(Qt::UserRole,iSerial.key());
         if(bUseTag_)
@@ -2536,7 +2530,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 if(iSerial==mSerias.constEnd()){
                     item_seria = new TreeBookItem(mAuthors[idAuthor],ITEM_TYPE_SERIA);
                     QString SeriaName = mLibs[g_idCurrentLib].mSerials[idSerial].sName;
-                    QString NewSeriaName = tr("Sequence") + ": " + (SeriaName != "" ? SeriaName : noSeries_);
+                    QString NewSeriaName = tr("Sequence") + ": " + SeriaName;
                     item_seria->setText(0, NewSeriaName);
                     item_author->addChild(item_seria);
                     item_seria->setExpanded(true);

@@ -65,7 +65,6 @@ private:
     uint idCurrentBookForGroup_;
     bool bUseTag_;
     bool bShowDeleted_;
-    QString noSeries_;
     bool errorQuit_;
 
 private:
