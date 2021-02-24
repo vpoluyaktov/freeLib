@@ -1983,12 +1983,14 @@ void MainWindow::ContextMenu(QPoint point)
                 connect(actionGroup, &QAction::triggered, this, &MainWindow::AddBookToGroupAction);
                 groups->addAction(actionGroup);
             }
-            // action удаления выделенной книги из выделенной группы
-            QAction* actionDeleteFromGroup = new QAction(tr("Remove from group"), this);
-            uint idBooks = ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toUInt();
-            actionDeleteFromGroup->setData(QString::number(idBooks).toUInt());
-            connect(actionDeleteFromGroup, &QAction::triggered, this, &MainWindow::DeleteBookFromGroupAction);
-            menu.addAction(actionDeleteFromGroup);
+            if (ui->tabWidget->currentIndex() == 4 && ui->GroupList->selectedItems().count() > 0) {
+                // action удаления выделенной книги из выделенной группы
+                QAction* actionDeleteFromGroup = new QAction(tr("Remove from group"), this);
+                uint idBooks = ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toUInt();
+                actionDeleteFromGroup->setData(QString::number(idBooks).toUInt());
+                connect(actionDeleteFromGroup, &QAction::triggered, this, &MainWindow::DeleteBookFromGroupAction);
+                menu.addAction(actionDeleteFromGroup);
+            }
         }
     }
     if(menu.actions().count()>0)
