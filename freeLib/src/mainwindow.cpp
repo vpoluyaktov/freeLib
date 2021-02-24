@@ -305,7 +305,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
     connect(ui->btnGroupCreate, &QPushButton::clicked, this, &MainWindow::AddGroupToList);
     connect(ui->btnGroupRename, &QPushButton::clicked, this, &MainWindow::RenameGroup);
-    connect(ui->btnGrouRemove, &QPushButton::clicked, this, &MainWindow::RemoveGroupFromList);
+    connect(ui->btnGroupRemove, &QPushButton::clicked, this, &MainWindow::RemoveGroupFromList);
     connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
 
@@ -413,12 +413,12 @@ MainWindow::MainWindow(QWidget* parent) :
         qDebug() << query.lastError().text();
     while (query.next()) {
         if (idCurrentGroup_ == query.value(0).toInt()) {
-            ui->btnGrouRemove->setEnabled(false);
+            ui->btnGroupRemove->setEnabled(false);
             ui->btnGroupRename->setEnabled(false);
             break;
         }
         else {
-            ui->btnGrouRemove->setEnabled(true);
+            ui->btnGroupRemove->setEnabled(true);
             ui->btnGroupRename->setEnabled(true);
         }
     }
@@ -3278,11 +3278,11 @@ void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QI
         QModelIndex index = selected.indexes()[0];
         int i = index.row();
         if (index.row() > 1) {
-            ui->btnGrouRemove->setEnabled(true);
+            ui->btnGroupRemove->setEnabled(true);
             ui->btnGroupRename->setEnabled(true);
         }
         else {
-            ui->btnGrouRemove->setDisabled(true);
+            ui->btnGroupRemove->setDisabled(true);
             ui->btnGroupRename->setDisabled(true);
         }
     }
