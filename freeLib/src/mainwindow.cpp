@@ -3459,15 +3459,19 @@ void MainWindow::DeleteBookFromGroupAction()
 void MainWindow::DeleteAllBooksFromGroup()
 {
     if (ui->GroupList->selectedItems().count() > 0) {
-        QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
-        if (QMessageBox::question(
-            this, tr("Clear selected group"),
-            tr("Are you sure you want to delete all books of the selected group") + " '" + selectedGroupName + "'?",
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
-            // удаление всех книг из выделенной группы
-            RemoveAllBooksFromGroup(g_idCurrentLib, idCurrentGroup_);
-            // корректировка числа книг в названии Группы
-            ui->GroupList->selectedItems()[0]->setText(GetGroupNameWhitoutBookCount(g_idCurrentLib, idCurrentGroup_));
+        // число книг в группе
+        int bookCount = GetBookCountFromGroup(g_idCurrentLib, idCurrentGroup_);
+        if (bookCount > 0) {
+            QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
+            if (QMessageBox::question(
+                this, tr("Clear selected group"),
+                tr("Are you sure you want to delete all books of the selected group") + " '" + selectedGroupName + "'?",
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+                // удаление всех книг из выделенной группы
+                RemoveAllBooksFromGroup(g_idCurrentLib, idCurrentGroup_);
+                // корректировка числа книг в названии Группы
+                ui->GroupList->selectedItems()[0]->setText(GetGroupNameWhitoutBookCount(g_idCurrentLib, idCurrentGroup_));
+            }
         }
     }
 }
