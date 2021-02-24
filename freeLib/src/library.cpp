@@ -197,7 +197,7 @@ void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
         else {
             while (query.next()) {
                 qlonglong idBook = query.value(0).toLongLong();
-                mLibs[idLibrary].mBooks[idBook].listIdGroups << idGroup;
+                lib.mBooks[idBook].listIdGroups << idGroup;
             }
         }
     }
