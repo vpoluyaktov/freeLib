@@ -189,15 +189,17 @@ void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
     }
 
     foreach(uint idGroup, idGroupList) {
-        query.prepare("SELECT book.id FROM book, book_group WHERE book_group.book_id = book.id AND book_group.id_lib = book.id_lib AND book_group.group_id = :idGroup AND book.id_lib = :id_lib;");
+        query.prepare("SELECT book.id, book_group.group_id FROM book, book_group WHERE book_group.book_id = book.id AND book_group.id_lib = book.id_lib AND book_group.group_id = :idGroup AND book.id_lib = :id_lib;");
         query.bindValue(":id_lib", idLibrary);
         query.bindValue(":idGroup", idGroup);
         if (!query.exec())
             qDebug() << query.lastError().text();
         else {
             while (query.next()) {
-                qlonglong idBook = query.value(0).toLongLong();
-                lib.mBooks[idBook].listIdGroups << idGroup;
+                uint idBook = query.value(0).toUInt();
+                uint idGroup = query.value(1).toUInt();
+                if (lib.mBooks.contains(idBook) && lib.mGroups.contains(idGroup))
+                    lib.mGroupBooksLink.insert(idGroup, idBook);
             }
         }
     }
