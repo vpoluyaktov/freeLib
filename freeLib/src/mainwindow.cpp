@@ -405,7 +405,7 @@ MainWindow::MainWindow(QWidget* parent) :
         ui->Books->header()->restoreState(varHeaders.toByteArray());
     }
 
-    // доступность/недоступность кнопки Удалить Группу
+    // доступность/недоступность кнопок Удалить/Переименовать Группу
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND blocked = true;");
     query.bindValue(":id_lib", g_idCurrentLib);
@@ -414,10 +414,13 @@ MainWindow::MainWindow(QWidget* parent) :
     while (query.next()) {
         if (idCurrentGroup_ == query.value(0).toInt()) {
             ui->btnGrouRemove->setEnabled(false);
+            ui->btnGroupRename->setEnabled(false);
             break;
         }
-        else
+        else {
             ui->btnGrouRemove->setEnabled(true);
+            ui->btnGroupRename->setEnabled(true);
+        }
     }
 
     settings.endGroup();
@@ -3274,10 +3277,14 @@ void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QI
     if (ui->GroupList->selectedItems().count() > 0) {
         QModelIndex index = selected.indexes()[0];
         int i = index.row();
-        if (index.row() > 1)
+        if (index.row() > 1) {
             ui->btnGrouRemove->setEnabled(true);
-        else
+            ui->btnGroupRename->setEnabled(true);
+        }
+        else {
             ui->btnGrouRemove->setDisabled(true);
+            ui->btnGroupRename->setDisabled(true);
+        }
     }
 }
 
