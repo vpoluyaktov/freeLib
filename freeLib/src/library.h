@@ -27,7 +27,6 @@ struct SBook
     QString sFormat;
     QList<uint> listIdGenres;
     QList<uint> listIdAuthors;
-    QList<uint> listIdGroups;
     uint idInLib;
     QString sFile;
     uint idSerial;
@@ -122,6 +121,7 @@ struct SLib
     QHash<uint,SBook> mBooks;
     QHash<uint,SSerial> mSerials;
     QHash<uint, Group> mGroups;
+    QMultiHash<uint, uint> mGroupBooksLink;
     QVector<QString> vLaguages;
     SLib()
     {

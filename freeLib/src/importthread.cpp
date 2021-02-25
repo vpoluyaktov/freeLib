@@ -303,12 +303,17 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
         }
 
     }
-    if(bi.genres.count()==0)
-        bi.genres<<genre_info("Without Genre",0);
-    if(bi.authors.count()==0)
-        bi.authors<<author_info("",0);
-    if(bi.language.isEmpty())
-        bi.language="ru";
+
+    if (bi.title.isEmpty())
+        bi.title = "[ " + QObject::tr("Without Title") + " ]";
+    if (bi.genres.count() == 0)
+        bi.genres << genre_info("Without Genre", 0);
+    if (bi.authors.count() == 0)
+        bi.authors << author_info("", 0);
+    if (bi.language.isEmpty())
+        bi.language = "ru";
+    if (bi.seria.isEmpty())
+        bi.seria = "{ " + QObject::tr("Without Series") + " }";
 }
 
 ImportThread::ImportThread(QObject *parent) :

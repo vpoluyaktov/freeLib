@@ -65,7 +65,6 @@ private:
     uint idCurrentBookForGroup_;
     bool bUseTag_;
     bool bShowDeleted_;
-    QString noSeries_;
     bool errorQuit_;
 
 private:
@@ -116,8 +115,6 @@ private:
     void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
     // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
     void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
-    // Формирование списка книг для выделенной Группы текущей библиотеки idLibrary
-    QList<uint> MakeListBooksFromSelectedGroup(uint idLibrary, uint idGroup);
     // удаление всех книг из выделенной группы
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
@@ -126,6 +123,12 @@ private:
     void CreateRatingMenu();
     // создание меню Прочитано/Не прочитано
     void CreateReadedMenu();
+    // переименование названия Группы с учетом числа книг в ней
+    void SetNewGroupNameWithBookCount(uint idLibrary, uint idGroup);
+    // число книг в группе
+    int GetBookCountFromGroup(uint idLibrary, uint idGroup);
+    // название Группы без числа книг в ней
+    QString GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup);
 
 protected:
     APP_MODE mode;
@@ -171,20 +174,20 @@ private slots:
     void HeaderContextMenu(QPoint point);
 
     // обработчик кнопки отображения списка Авторов
-    void btnAuthor();
+    void btnAuthorClick();
     // обработчик кнопки отображения списка Серий
-    void btnSeries();
+    void btnSeriesClick();
     // обработчик кнопки отображения дерева Жанров
-    void btnGenres();
+    void btnGenresClick();
     // обработчик кнопки отображения панели Поиска книг
-    void btnPageSearch();
+    void btnPageSearchClick();
     // обработчик кнопки Найти на вкладке Поиск
     void StartSearch();
     // обработчик изменения текста в контроле строки поиска
     void searchChanged(QString str);
     void searchClear();
     // обработчик кнопки отображения Групп книг
-    void btnPageGroups();
+    void btnPageGroupsClick();
     // обработчик сигнала выделения/снятия выделения итема списка Групп
     void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
     // обработчик кнопки добавления Группы в список Групп
