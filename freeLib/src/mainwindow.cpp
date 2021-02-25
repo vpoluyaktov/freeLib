@@ -2488,97 +2488,96 @@ void MainWindow::FillListBooks()
 /*
     заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
 */
-void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
+void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     QFont bold_font(ui->Books->font());
     bold_font.setBold(true);
-    TreeBookItem* ScrollItem=nullptr;
+    TreeBookItem* ScrollItem = nullptr;
 
-    TreeBookItem* item_seria=nullptr;
+    TreeBookItem* item_seria = nullptr;
     TreeBookItem* item_book;
     TreeBookItem* item_author;
-    QMap<uint,TreeBookItem*> mAuthors;
-
-    QMultiMap<uint,TreeBookItem*> mSerias;
+    QMap<uint, TreeBookItem*> mAuthors;
+    QMultiMap<uint, TreeBookItem*> mSerias;
 
     const bool wasBlocked = ui->Books->blockSignals(true);
     ui->Books->clear();
 
     foreach(uint idBook, listBook) {
         SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
-        if(IsMatchingFilterConditions(book))
-        {
-            uint idSerial=book.idSerial;
+        if(IsMatchingFilterConditions(book)) {
+            uint idSerial = book.idSerial;
             uint idAuthor;
-            if(idCurrentAuthor>0)
+            if (idCurrentAuthor > 0)
                 idAuthor = idCurrentAuthor;
-            else{
+            else
                 idAuthor = book.idFirstAuthor;
-            }
-            if(!mAuthors.contains(idAuthor)){
-                item_author = new TreeBookItem(ui->Books,ITEM_TYPE_AUTHOR);
-                item_author->setText(0,mLibs[g_idCurrentLib].mAuthors[idAuthor].getName());
+            if (!mAuthors.contains(idAuthor)) {
+                item_author = new TreeBookItem(ui->Books, ITEM_TYPE_AUTHOR);
+                item_author->setText(0, mLibs[g_idCurrentLib].mAuthors[idAuthor].getName());
                 item_author->setExpanded(true);
-                item_author->setFont(0,bold_font);
-                item_author->setCheckState(0,Qt::Unchecked);
-                item_author->setData(0,Qt::UserRole,idAuthor);
+                item_author->setFont(0, bold_font);
+                item_author->setCheckState(0, Qt::Unchecked);
+                item_author->setData(0, Qt::UserRole,idAuthor);
                 if(bUseTag_)
-                    item_author->setIcon(0,GetTagFromTagsPicList(mLibs[g_idCurrentLib].mAuthors[idAuthor].nTag));
+                    item_author->setIcon(0, GetTagFromTagsPicList(mLibs[g_idCurrentLib].mAuthors[idAuthor].nTag));
                 mAuthors[idAuthor] = item_author;
-            }else
+            } else
                 item_author = mAuthors[idAuthor];
 
-            if(idSerial>0){
+            if (idSerial > 0) {
                 auto iSerial = mSerias.find(idSerial);
-                while(iSerial != mSerias.constEnd()){
+                while (iSerial != mSerias.constEnd()) {
                     item_seria = iSerial.value();
-                    if(item_seria->parent()->data(0,Qt::UserRole)==idAuthor)
+                    if (item_seria->parent()->data(0, Qt::UserRole) == idAuthor)
                         break;
                     ++iSerial;
                 }
-                if(iSerial==mSerias.constEnd()){
-                    item_seria = new TreeBookItem(mAuthors[idAuthor],ITEM_TYPE_SERIA);
+                if (iSerial == mSerias.constEnd()) {
+                    item_seria = new TreeBookItem(mAuthors[idAuthor], ITEM_TYPE_SERIA);
                     QString SeriaName = mLibs[g_idCurrentLib].mSerials[idSerial].sName;
                     QString NewSeriaName = tr("Sequence") + ": " + SeriaName;
                     item_seria->setText(0, NewSeriaName);
                     item_author->addChild(item_seria);
                     item_seria->setExpanded(true);
-                    item_seria->setFont(0,bold_font);
-                    item_seria->setCheckState(0,Qt::Unchecked);
-                    item_seria->setData(0,Qt::UserRole,idSerial);
-                    if(bUseTag_)
-                        item_seria->setIcon(0,GetTagFromTagsPicList(mLibs[g_idCurrentLib].mSerials[idSerial].nTag));
+                    item_seria->setFont(0, bold_font);
+                    item_seria->setCheckState(0, Qt::Unchecked);
+                    item_seria->setData(0, Qt::UserRole,idSerial);
+                    if (bUseTag_)
+                        item_seria->setIcon(0, GetTagFromTagsPicList(mLibs[g_idCurrentLib].mSerials[idSerial].nTag));
 
                     mSerias.insert(idSerial,item_seria);
 
                 }
-                item_book = new TreeBookItem(item_seria,ITEM_TYPE_BOOK);
-            }else
-                item_book = new TreeBookItem(item_author,ITEM_TYPE_BOOK);
+                item_book = new TreeBookItem(item_seria, ITEM_TYPE_BOOK);
+            } else
+                item_book = new TreeBookItem(item_author, ITEM_TYPE_BOOK);
 
-            item_book->setCheckState(0,Qt::Unchecked);
-            item_book->setData(0,Qt::UserRole,idBook);
-            if(bUseTag_)
-                item_book->setIcon(0,GetTagFromTagsPicList(book.nTag));
+            item_book->setCheckState(0, Qt::Unchecked);
+            item_book->setData(0, Qt::UserRole,idBook);
+            if (bUseTag_)
+                item_book->setIcon(0, GetTagFromTagsPicList(book.nTag));
 
-            item_book->setText(0,book.sName);
-            if(book.numInSerial>0){
-                item_book->setText(1,QString::number(book.numInSerial));
+            item_book->setText(0, book.sName);
+            if (book.numInSerial > 0) {
+                item_book->setText(1, QString::number(book.numInSerial));
                 item_book->setTextAlignment(1, Qt::AlignRight);
             }
 
-            if(book.nSize>0)
-                item_book->setText(2,sizeToString(book.nSize));
+            if (book.nSize>0)
+                item_book->setText(2, sizeToString(book.nSize));
             item_book->setTextAlignment(2, Qt::AlignRight);
 
-            QPixmap pix(":/icons/img/icons/stars/"+QString::number(book.nStars).trimmed()+QString("star%1.png").arg(app->devicePixelRatio()>=2?"@2x":""));
+            QPixmap pix(
+                ":/icons/img/icons/stars/" + QString::number(book.nStars).trimmed() + QString("star%1.png").arg(app->devicePixelRatio() >= 2 ? "@2x" : "")
+            );
             pix.setDevicePixelRatio(app->devicePixelRatio());
-            item_book->setData(3,Qt::DecorationRole,pix);
+            item_book->setData(3, Qt::DecorationRole,pix);
 
-            item_book->setText(4,book.date.toString("dd.MM.yyyy"));
+            item_book->setText(4, book.date.toString("dd.MM.yyyy"));
             item_book->setTextAlignment(4, Qt::AlignCenter);
 
             item_book->setText(5,mGenre[book.listIdGenres.first()].sName);
@@ -2594,9 +2593,8 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
             // пометка ячейки статуса 'Прочитано'
             MarkReadedBook(item_book, book.bReaded);
 
-            if(book.bDeleted)
-            {
-                QBrush brush(QColor::fromRgb(196,96,96));
+            if (book.bDeleted) {
+                QBrush brush(QColor::fromRgb(196, 96, 96));
                 for (int i = 0; i != 9; ++i)
                     item_book->setForeground(i, brush);
             }
@@ -2618,14 +2616,11 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
                 break;
             }
 
-            if(idBook == idCurrentBook)
-            {
-                ScrollItem=item_book;
-            }
+            if (idBook == idCurrentBook)
+                ScrollItem = item_book;
         }
     }
-    if(ScrollItem)
-    {
+    if (ScrollItem) {
         ScrollItem->setSelected(true);
         ui->Books->scrollToItem(ScrollItem);
     }
@@ -2634,7 +2629,7 @@ void MainWindow::FillListBooks(QList<uint> listBook,uint idCurrentAuthor)
 
     ui->Books->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillListBooks " << t_end-t_start << "msec";
+    qDebug() << "FillListBooks " << t_end-t_start << "msec";
 
     QApplication::restoreOverrideCursor();
 }
