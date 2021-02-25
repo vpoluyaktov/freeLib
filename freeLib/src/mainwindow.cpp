@@ -2506,9 +2506,9 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
     const bool wasBlocked = ui->Books->blockSignals(true);
     ui->Books->clear();
 
-    foreach(uint idBook, listBook) {
+    foreach (uint idBook, listBook) {
         SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
-        if(IsMatchingFilterConditions(book)) {
+        if (IsMatchingFilterConditions(book)) {
             uint idSerial = book.idSerial;
             uint idAuthor;
             if (idCurrentAuthor > 0)
