@@ -225,7 +225,8 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->checkBoxFirstAuthorOnly->setDisabled(true);
     ui->checkBoxWoDeleted->setDisabled(true);
     ui->btnCancel->setText(tr("Break"));
-    ui->widgetBaseControlls->hide();
+    ui->checkBoxShowLog->setChecked(true);
+    ExpandLog();
 
     thread_ = new QThread;
     imp_tr_=new ImportThread();
@@ -408,7 +409,8 @@ void AddLibrary::EndUpdate()
     ui->comboBoxExistingLibs->setDisabled(false);
     ui->checkBoxFirstAuthorOnly->setDisabled(false);
     ui->checkBoxWoDeleted->setDisabled(false);
-    ui->widgetBaseControlls->show();
+    ui->checkBoxShowLog->setChecked(false);
+    ExpandLog();
     
     // загрузка полного лога в Log контрол
     ui->Log->clear();
