@@ -443,12 +443,12 @@ qlonglong ImportThread::AddBookToSQLite(
     return id;
 }
 
-qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book,QString genre,qlonglong id_lib,QString language)
+qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book, QString genre, qlonglong id_lib, QString language)
 {
-    qlonglong id_genre=0;
-    genre.replace(" ","_");
-    Query_->exec("SELECT id,main_genre FROM genre where keys LIKE '%"+genre.toLower()+";%'");
-    if(Query_->next())
+    qlonglong id_genre = 0;
+    genre.replace(" ", "_");
+    Query_->exec("SELECT id, main_genre FROM genre WHERE keys LIKE '%" + genre.toLower() + ";%'");
+    if (Query_->next())
         id_genre = Query_->value(0).toLongLong();
     else {
         qDebug() << "Неизвестный жанр: " + genre;
@@ -459,10 +459,14 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book,QString genre,qlonglo
         Query_->next();
         id_genre = Query_->value(0).toUInt();
     }
-    Query_->exec("INSERT INTO book_genre(id_book,id_genre,id_lib,language) values("+QString::number(id_book)+","+QString::number(id_genre)+","+QString::number(id_lib)+",'"+language+"')");
-    Query_->exec("select last_insert_rowid()");
+    Query_->exec(
+        "INSERT INTO book_genre(id_book,id_genre,id_lib,language) VALUES(" +
+        QString::number(id_book) + "," + QString::number(id_genre) + "," +
+        QString::number(id_lib) + ",'" + language + "')"
+    );
+    Query_->exec("SELECT last_insert_rowid()");
     Query_->next();
-    qlonglong id=Query_->value(0).toLongLong();
+    qlonglong id = Query_->value(0).toLongLong();
     return id;
 }
 
