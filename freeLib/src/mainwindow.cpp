@@ -1388,8 +1388,8 @@ void MainWindow::SelectAuthor()
 
     currentListForTag_ = qobject_cast<QObject*>(ui->AuthorList);
 
-    QListWidgetItem* cur_item = ui->AuthorList->selectedItems()[0];
-    idCurrentAuthor_ = cur_item->data(Qt::UserRole).toUInt();
+    QListWidgetItem* selectedItem = ui->AuthorList->selectedItems()[0];
+    idCurrentAuthor_ = selectedItem->data(Qt::UserRole).toUInt();
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -1401,11 +1401,12 @@ void MainWindow::SelectAuthor()
     }
 
     // Выделение жирным выбранного Автора
+    QListWidgetItem* item = nullptr;
     QFont font = ui->AuthorList->font();
     for (int i = 0; i < ui->AuthorList->count(); ++i)
     {
-        QListWidgetItem* item = ui->AuthorList->item(i);
-        if (item != cur_item)
+        item = ui->AuthorList->item(i);
+        if (item != selectedItem)
             font.setBold(false);
         else
             font.setBold(true);
@@ -1413,7 +1414,7 @@ void MainWindow::SelectAuthor()
     }
 
     // скроллинг до выделенного Автора
-    ui->AuthorList->scrollToItem(cur_item);
+    ui->AuthorList->scrollToItem(selectedItem);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     QList<uint> listBooks = mLibs[g_idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
