@@ -1527,8 +1527,8 @@ void MainWindow::SelectGroup()
 
     currentListForTag_ = qobject_cast<QObject*>(ui->GroupList);
 
-    QListWidgetItem* cur_item = ui->GroupList->selectedItems()[0];
-    idCurrentGroup_ = cur_item->data(Qt::UserRole).toUInt();
+    QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
+    idCurrentGroup_ = selectedItem->data(Qt::UserRole).toUInt();
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
@@ -1542,9 +1542,10 @@ void MainWindow::SelectGroup()
 
     // Выделение жирным выбранной Группы
     QFont font = ui->GroupList->font();
+    QListWidgetItem* item = nullptr;
     for (int i = 0; i < ui->GroupList->count(); ++i) {
-        QListWidgetItem* item = ui->GroupList->item(i);
-        if (item != cur_item)
+        item = ui->GroupList->item(i);
+        if (item != selectedItem)
             font.setBold(false);
         else
             font.setBold(true);
@@ -1552,7 +1553,7 @@ void MainWindow::SelectGroup()
     }
 
     // скроллинг до выделенной Группы
-    ui->GroupList->scrollToItem(cur_item);
+    ui->GroupList->scrollToItem(selectedItem);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     QList<uint> listBooks = mLibs[g_idCurrentLib].mGroupBooksLink.values(idCurrentGroup_);
