@@ -1324,10 +1324,9 @@ void MainWindow::SelectLibrary()
     QAction* action=qobject_cast<QAction*>(sender());
     QSettings settings;
     settings.setValue("LibID",action->data().toLongLong());
-    g_idCurrentLib=action->data().toInt();
+    g_idCurrentLib = action->data().toInt();
     int nCurrentTab;
-    if (settings.value("store_position", true).toBool())
-    {
+    if (settings.value("store_position", true).toBool()) {
         // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
         nCurrentTab = LoadLibraryPosition();
     }
@@ -1344,11 +1343,12 @@ void MainWindow::SelectLibrary()
     FillListWidgetGroups(g_idCurrentLib);
 
     searchChanged(ui->lineEditSearchString->text());
-    setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
+    setWindowTitle(
+        AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name)
+    );
     FillLibrariesMenu();
 
-    if (settings.value("store_position", true).toBool())
-    {
+    if (settings.value("store_position", true).toBool()) {
         switch (nCurrentTab)
         {
         case 0:
@@ -1368,8 +1368,7 @@ void MainWindow::SelectLibrary()
             break;
         }
     }
-    else
-    {
+    else {
         SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
         FillListBooks();
     }
