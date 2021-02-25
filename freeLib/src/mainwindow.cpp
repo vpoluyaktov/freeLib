@@ -1432,8 +1432,8 @@ void MainWindow::SelectSeria()
 
     currentListForTag_ = qobject_cast<QObject*>(ui->SeriaList);
 
-    QListWidgetItem* cur_item=ui->SeriaList->selectedItems()[0];
-    idCurrentSerial_ = cur_item->data(Qt::UserRole).toUInt();
+    QListWidgetItem* selectedItem = ui->SeriaList->selectedItems()[0];
+    idCurrentSerial_ = selectedItem->data(Qt::UserRole).toUInt();
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
@@ -1447,19 +1447,19 @@ void MainWindow::SelectSeria()
 
     QList<uint> listBooks;
     QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while(iBook != mLibs[g_idCurrentLib].mBooks.constEnd()){
-        if(iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)){
+    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
+        if (iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage))
             listBooks << iBook.key();
-        }
         ++iBook;
     }
 
     // Выделение жирным выбранной Серии
+    QListWidgetItem* item = nullptr;
     QFont font = ui->SeriaList->font();
     for (int i = 0; i < ui->SeriaList->count(); ++i)
     {
-        QListWidgetItem* item = ui->SeriaList->item(i);
-        if (item != cur_item)
+        item = ui->SeriaList->item(i);
+        if (item != selectedItem)
             font.setBold(false);
         else
             font.setBold(true);
@@ -1467,7 +1467,7 @@ void MainWindow::SelectSeria()
     }
 
     // скроллинг до выделенной Серии
-    ui->SeriaList->scrollToItem(cur_item);
+    ui->SeriaList->scrollToItem(selectedItem);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     FillListBooks(listBooks, 0);
