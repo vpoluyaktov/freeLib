@@ -1427,7 +1427,7 @@ void MainWindow::SelectSeria()
 {
     ui->Books->clear();
     ExportBookListBtnEnabled(false);
-    if(ui->SeriaList->selectedItems().count()==0)
+    if (ui->SeriaList->selectedItems().count() == 0)
         return;
 
     currentListForTag_ = qobject_cast<QObject*>(ui->SeriaList);
