@@ -125,7 +125,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
     while (query.next()) {
         uint idBook = query.value(0).toUInt();
         uint idGenre = query.value(1).toUInt();
-        if (idGenre == 0) idGenre = idGenreUnsorted;// 1112; // Прочие/Неотсортированное
+        if (idGenre == 0) idGenre = idGenreUnsorted;// 328; // Прочие/Неотсортированное
         if (lib.mBooks.contains(idBook))
             lib.mBooks[idBook].listIdGenres << idGenre;
     }
@@ -146,16 +146,18 @@ void loadGenresFromSQLiteToLibraryStructure()
 
     t_start = QDateTime::currentMSecsSinceEpoch();
     mGenre.clear();
-    query.prepare("SELECT id, name, id_parent, sort_index FROM genre;");
-    //                    0     1       2          3
+    query.prepare("SELECT id, name, name_en, id_parent, sort_index, code FROM genre;");
+    //                    0     1       2       3           4        5
     if (!query.exec())
         qDebug() << query.lastError().text();
     while (query.next()) {
         uint idGenre = query.value(0).toUInt();
         SGenre &genre = mGenre[idGenre];
         genre.sName = query.value(1).toString();
-        genre.idParrentGenre = static_cast<ushort>(query.value(2).toUInt());
-        genre.nSort = static_cast<ushort>(query.value(3).toUInt());
+        genre.sNameEn = query.value(2).toString();
+        genre.idParrentGenre = static_cast<ushort>(query.value(3).toUInt());
+        genre.nSort = static_cast<ushort>(query.value(4).toUInt());
+        genre.sCode = query.value(5).toString();
     }
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug() << "loadGenre " << t_end-t_start << "msec";

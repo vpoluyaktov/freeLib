@@ -299,7 +299,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
 
         bi.genres.clear();
         foreach (uint idGenre, mLibs[g_idCurrentLib].mBooks[id_book].listIdGenres) {
-            bi.genres << genre_info(mGenre[idGenre].sName,idGenre);
+            bi.genres << genre_info(mGenre[idGenre].sName.trimmed(), idGenre);
         }
 
     }
@@ -447,7 +447,7 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book, QString genre, qlong
 {
     qlonglong id_genre = 0;
     genre.replace(" ", "_");
-    Query_->exec("SELECT id, main_genre FROM genre WHERE keys LIKE '%" + genre.toLower() + ";%'");
+    Query_->exec("SELECT id FROM genre WHERE code = '" + genre.toLower() + "'");
     if (Query_->next())
         id_genre = Query_->value(0).toLongLong();
     else {
@@ -460,7 +460,7 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book, QString genre, qlong
         id_genre = Query_->value(0).toUInt();
     }
     Query_->exec(
-        "INSERT INTO book_genre(id_book,id_genre,id_lib,language) VALUES(" +
+        "INSERT INTO book_genre(id_book, id_genre, id_lib, language) VALUES(" +
         QString::number(id_book) + "," + QString::number(id_genre) + "," +
         QString::number(id_lib) + ",'" + language + "')"
     );
@@ -528,8 +528,9 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
     GetBookInfo(bi,ba,"fb2",true);
     qlonglong id_seria = AddSeriaToSQLite(bi.seria,ExistingLibID_,0);
     qlonglong id_book = AddBookToSQLite(
-        bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),
-        0,false,fi.suffix(),QDate::currentDate(),bi.language,bi.keywords,ExistingLibID_,arh_name,0, bi.readed
+        bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
+        (file_size == 0 ? ba.size() : file_size), 0, false, fi.suffix(), QDate::currentDate(),
+        bi.language, bi.keywords, ExistingLibID_, arh_name, 0, bi.readed
     );
 
     bool first_author=true;
@@ -540,8 +541,8 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
         if(FirstAuthorOnly_)
             break;
     }
-    foreach(genre_info genre,bi.genres)
-        AddGenreToSQLite(id_book,genre.genre,ExistingLibID_,bi.language);
+    foreach(genre_info genre, bi.genres)
+        AddGenreToSQLite(id_book, genre.genre, ExistingLibID_, bi.language);
 }
 
 void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
@@ -559,8 +560,9 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
 
     qlonglong id_seria = AddSeriaToSQLite(bi.seria,ExistingLibID_,0);
     qlonglong id_book = AddBookToSQLite(
-        bi.star,bi.title,id_seria,bi.num_in_seria,file_name,(file_size==0?ba.size():file_size),
-        0,false,"epub",QDate::currentDate(),bi.language,"",ExistingLibID_,arh_name,0, bi.readed
+        bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
+        (file_size == 0 ? ba.size() : file_size), 0, false, "epub",
+        QDate::currentDate(), bi.language, "", ExistingLibID_, arh_name, 0, bi.readed
     );
 
     bool first_author=true;
@@ -605,8 +607,8 @@ void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString
 
     qlonglong id_seria = AddSeriaToSQLite(seria, ExistingLibID_, 0);
     qlonglong id_book = AddBookToSQLite(
-        0, title, id_seria, num_seria.toInt(), file_name, ba.size(), 0, false, "fb2", QDate::currentDate(),
-        language, "", ExistingLibID_, arh_name, 0, 0
+        0, title, id_seria, num_seria.toInt(), file_name, ba.size(), 0, false, "fb2",
+        QDate::currentDate(), language, "", ExistingLibID_, arh_name, 0, 0
     );
     return;
     bool first_author = true;
@@ -1060,8 +1062,8 @@ void ImportThread::process()
             qlonglong id_book;
             if(!bWoDeleted_ || !deleted){
                 id_book = AddBookToSQLite(
-                    star,name,id_seria,num_in_seria,file,size,id_in_lib,deleted,format,date,
-                    language,keys,ExistingLibID_,folder,tag,0/* //todo нужно реальное значения прочитанности книги*/
+                    star, name, id_seria, num_in_seria, file, size, id_in_lib, deleted, format, date,
+                    language, keys, ExistingLibID_, folder, tag, 0/* //todo нужно реальное значения прочитанности книги*/
                 );
                 qlonglong t2=QDateTime::currentMSecsSinceEpoch();
 

@@ -509,7 +509,7 @@ void ExportThread::export_lib()
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.exec(QString("SELECT book.id,author.id,genre.id,book.name,star,num_in_seria,book.language,file,size,deleted,date,format,book.keys,archive,date,book.id_inlib, "
-               "book.tag,seria.name,seria.tag,genre.main_genre||':',author.tag,author.LastName||','||author.FirstName||','||author.MiddleName||':' "
+               "book.tag,seria.name,seria.tag,genre.code||':',author.tag,author.LastName||','||author.FirstName||','||author.MiddleName||':' "
                "FROM book_author "
                "JOIN book on book.id=book_author.id_book "
                "LEFT JOIN book_genre ON book_genre.id_book=book.id "

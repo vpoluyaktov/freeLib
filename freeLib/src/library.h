@@ -66,13 +66,18 @@ struct SSerial
 
 struct SGenre
 {
-    QString sName;
+    QString sName; // русское название Жанра
+    QString sNameEn; // английское название Жанра
     ushort idParrentGenre;
     ushort nSort;
+    QString sCode;
     SGenre()
     {
+        sName = "";
+        sNameEn = "";
         idParrentGenre = 0;
         nSort = 0;
+        sCode = "";
     }
 };
 
