@@ -21,7 +21,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
     query.prepare("SELECT id, name, tag FROM seria WHERE id_lib=:id_lib;");
     //                    0    1     2
     query.bindValue(":id_lib",idLibrary);
-    if(!query.exec())
+    if (!query.exec())
         qDebug() << query.lastError().text();
     while (query.next()) {
         uint idSerial = query.value(0).toUInt();
@@ -55,7 +55,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
     query.prepare("SELECT id, name, star, id_seria, num_in_seria, language, file, size, deleted, date, format, id_inlib, archive, first_author_id, tag, readed, keys FROM book WHERE id_lib=:id_lib;");
     //                     0   1      2     3            4           5        6     7      8       9     10      11        12         13            14    15     16
     query.bindValue(":id_lib", idLibrary);
-    if(!query.exec())
+    if (!query.exec())
         qDebug() << query.lastError().text();
     while (query.next()) {
         QString sName = query.value(1).toString();
@@ -67,7 +67,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
         book.numInSerial = query.value(4).toUInt();
         QString sLaguage = query.value(5).toString().toLower();
         int idLaguage = lib.vLaguages.indexOf(sLaguage);
-        if (idLaguage<0) {
+        if (idLaguage < 0) {
             idLaguage = lib.vLaguages.count();
             lib.vLaguages << sLaguage;
         }
@@ -111,7 +111,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
     }
 
     // код Жанра Прочие/Неотсортированное
-    query.prepare("SELECT id FROM genre WHERE name LIKE '%Неотсортированное%';");
+    query.prepare("SELECT id FROM genre WHERE name ='Неотсортированное';");
     if (!query.exec())
         qDebug() << query.lastError().text();
     query.next();
