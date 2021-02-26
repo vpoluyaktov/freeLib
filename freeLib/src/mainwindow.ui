@@ -256,63 +256,125 @@
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="SearchFrame">
-              <property name="frameShape">
-               <enum>QFrame::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="font">
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
+             <layout class="QHBoxLayout" name="horizontalLayoListTools">
+              <item>
+               <widget class="QFrame" name="SearchFrame">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayoutSearchFrame">
+                 <property name="spacing">
+                  <number>3</number>
                  </property>
-                 <property name="text">
-                  <string>Search:</string>
+                 <property name="leftMargin">
+                  <number>5</number>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEditSearchString">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                 <property name="topMargin">
+                  <number>0</number>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>22</height>
-                  </size>
+                 <property name="rightMargin">
+                  <number>5</number>
                  </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::WheelFocus</enum>
+                 <property name="bottomMargin">
+                  <number>0</number>
                  </property>
-                 <property name="maxLength">
-                  <number>20</number>
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Search:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditSearchString">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::WheelFocus</enum>
+                   </property>
+                   <property name="maxLength">
+                    <number>20</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="ExpandTreeGemresFrame">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayoutExpandTreeGemresFrame">
+                 <property name="spacing">
+                  <number>3</number>
                  </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QToolButton" name="btnExpandTreeGenre">
+                   <property name="toolTip">
+                    <string>Expand Tree Genres</string>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resource.qrc">
+                     <normaloff>:/icons/img/icons/minus.png</normaloff>:/icons/img/icons/minus.png</iconset>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="btnCollapseTreeGenre">
+                   <property name="toolTip">
+                    <string>Collapsу Tree Genre</string>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resource.qrc">
+                     <normaloff>:/icons/img/icons/plus.png</normaloff>:/icons/img/icons/plus.png</iconset>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QStackedWidget" name="tabWidget">
@@ -1165,7 +1227,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_3">
+             <widget class="QFrame" name="frameLang">
               <property name="enabled">
                <bool>true</bool>
               </property>
