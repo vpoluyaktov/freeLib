@@ -2310,8 +2310,6 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
 
         ++iSerial;
     }
-//    if(currentListForTag_==(QObject*)ui->SeriaList)
-//        current_list_id=-1;
 
     ui->SeriaList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
