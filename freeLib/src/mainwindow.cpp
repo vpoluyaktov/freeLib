@@ -2345,15 +2345,29 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
         ++iBook;
     }
 
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.setForwardOnly(true);
+    QString childGenresCount;
     QMap<uint, QTreeWidgetItem*> mTopGenresItem;
     auto iGenre = mGenre.constBegin();
     while (iGenre != mGenre.constEnd()) {
         QTreeWidgetItem *item;
         if (iGenre->idParrentGenre == 0 && !mTopGenresItem.contains(iGenre.key())){
+            // определение числа книг в всех дочерних жанрах данной группы Жанров
+            query.prepare("SELECT COUNT(book_genre.id_book) FROM lib, genre, book_genre WHERE lib.id = :id_lib AND genre.id_parent = :id_parent AND genre.id = book_genre.id_genre AND book_genre.id_lib = lib.id;");
+            query.bindValue(":id_lib", idLibrary);
+            query.bindValue(":id_parent", iGenre.key());
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+            query.next();
+            uint allGenresCountForGroup = query.value(0).toUInt();
+            childGenresCount = allGenresCountForGroup  > 0
+                ? QString("%1 (%2)").arg(iGenre->sName).arg(allGenresCountForGroup)
+                : iGenre->sName;
             item = new QTreeWidgetItem(ui->GenreList);
             item->setFont(0, bold_font);
-            item->setText(0, iGenre->sName);
-            item->setData(0, Qt::UserRole,iGenre.key());
+            item->setText(0, childGenresCount);
+            item->setData(0, Qt::UserRole, iGenre.key());
             item->setExpanded(false);
             mTopGenresItem[iGenre.key()] = item;
         } else {
