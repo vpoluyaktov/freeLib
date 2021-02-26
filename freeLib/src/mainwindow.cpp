@@ -2601,7 +2601,7 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
 
             if (book.bDeleted) {
                 QBrush brush(QColor::fromRgb(196, 96, 96));
-                for (int i = 0; i != 9; ++i)
+                for (int i = 0; i != item_book->columnCount(); ++i)
                     item_book->setForeground(i, brush);
             }
 
