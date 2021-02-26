@@ -1818,7 +1818,7 @@ void MainWindow::btnAuthorClick()
     ui->tabWidget->setCurrentIndex(0);
     ui->SearchFrame->setEnabled(true);
     ui->ExpandTreeGemresFrame->setVisible(false);
-    ui->frame_3->setEnabled(true);
+    ui->frameLang->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
     SelectAuthor();
@@ -1834,7 +1834,7 @@ void MainWindow::btnSeriesClick()
     ui->tabWidget->setCurrentIndex(1);
     ui->SearchFrame->setEnabled(true);
     ui->ExpandTreeGemresFrame->setVisible(false);
-    ui->frame_3->setEnabled(true);
+    ui->frameLang->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
     SelectSeria();
@@ -1850,7 +1850,7 @@ void MainWindow::btnGenresClick()
     ui->tabWidget->setCurrentIndex(2);
     ui->SearchFrame->setEnabled(false);
     ui->ExpandTreeGemresFrame->setVisible(true);
-    ui->frame_3->setEnabled(false);
+    ui->frameLang->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
     SelectGenre();
@@ -1865,7 +1865,7 @@ void MainWindow::btnPageSearchClick()
     ui->tabWidget->setCurrentIndex(3);
     ui->SearchFrame->setEnabled(false);
     ui->ExpandTreeGemresFrame->setVisible(false);
-    ui->frame_3->setEnabled(false);
+    ui->frameLang->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(false);
     ui->comboBoxTagFilter->setEnabled(false);
     ui->Books->clear();
@@ -3257,7 +3257,7 @@ void MainWindow::btnPageGroupsClick()
     ui->tabWidget->setCurrentIndex(4);
     ui->SearchFrame->setEnabled(false);
     ui->ExpandTreeGemresFrame->setVisible(false);
-    ui->frame_3->setEnabled(false);
+    ui->frameLang->setEnabled(false);
     ui->Books->clear();
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
