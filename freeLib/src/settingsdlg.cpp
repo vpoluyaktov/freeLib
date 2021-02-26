@@ -250,9 +250,9 @@ void SettingsDlg::btnDirPath()
 }
 void SettingsDlg::btnDBPath()
 {
-    QDir::setCurrent(QFileInfo(ui->database_path->text()).absolutePath());
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Select database directory"));
     QString databasePath = ui->database_path->text().trimmed();
+    QDir::setCurrent(QFileInfo(databasePath).absolutePath());
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select database directory"));
     if (!dir.isEmpty() && dir != databasePath) {
         settings.setValue("database_path", databasePath);
         settings.sync();
