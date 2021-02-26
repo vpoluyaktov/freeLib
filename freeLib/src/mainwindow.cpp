@@ -2229,40 +2229,37 @@ void MainWindow::FillListWidgetAuthors(uint idLibrary)
     SLib &currentLib = mLibs[idLibrary];
     QListWidgetItem *selectedItem = nullptr;
     QString sSearch = ui->lineEditSearchString->text();
-    auto i = currentLib.mAuthors.constBegin();
 
-    while(i!=currentLib.mAuthors.constEnd()){
-        if(sSearch == "*" || (sSearch=="#" && !i->getName().left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || i->getName().startsWith(sSearch,Qt::CaseInsensitive)){
+    auto i = currentLib.mAuthors.constBegin();
+    while (i!=currentLib.mAuthors.constEnd()){
+        if (sSearch == "*" || (sSearch=="#" && !i->getName().left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || i->getName().startsWith(sSearch, Qt::CaseInsensitive)) {
             QList<uint> booksId = currentLib.mAuthorBooksLink.values(i.key());
-            int count =0;
-            foreach( uint idBook, booksId) {
+            int count = 0;
+            foreach (uint idBook, booksId) {
                 SBook &book = currentLib.mBooks[idBook];
-                if(IsMatchingFilterConditions(book))
-                {
+                if (IsMatchingFilterConditions(book))
                     count++;
-                }
             }
-            if(count>0){
-                item=new QListWidgetItem(QString("%1 (%2)").arg(i->getName()).arg(count));
-                item->setData(Qt::UserRole,i.key());
-                if(bUseTag_)
+            if (count > 0) {
+                item = new QListWidgetItem(QString("%1 (%2)").arg(i->getName()).arg(count));
+                item->setData(Qt::UserRole, i.key());
+                if (bUseTag_)
                     item->setIcon(GetTagFromTagsPicList(i->nTag));
                 ui->AuthorList->addItem(item);
-                if(idCurrentAuthor_ == i.key()){
+                if (idCurrentAuthor_ == i.key()) {
                     item->setSelected(true);
                     selectedItem = item;
                 }
             }
         }
-
         ++i;
     }
-    if(selectedItem!=nullptr)
+    if (selectedItem != nullptr)
         ui->AuthorList->scrollToItem(selectedItem);
 
     ui->AuthorList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillListWidgetAuthors " << t_end-t_start << "msec";
+    qDebug() << "FillListWidgetAuthors " << t_end-t_start << "msec";
     QApplication::restoreOverrideCursor();
 }
 
