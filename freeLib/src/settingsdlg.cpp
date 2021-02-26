@@ -251,23 +251,20 @@ void SettingsDlg::btnDirPath()
 void SettingsDlg::btnDBPath()
 {
     QDir::setCurrent(QFileInfo(ui->database_path->text()).absolutePath());
-    QString dir=QFileDialog::getExistingDirectory(this,tr("Select database directory"));
-    if(!dir.isEmpty() && dir!=ui->database_path->text())
-    {
-        settings.setValue("database_path",ui->database_path->text());
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select database directory"));
+    QString databasePath = ui->database_path->text().trimmed();
+    if (!dir.isEmpty() && dir != databasePath) {
+        settings.setValue("database_path", databasePath);
         settings.sync();
-        QSqlDatabase dbase=QSqlDatabase::database("libdb",false);
+        QSqlDatabase dbase = QSqlDatabase::database("libdb", false);
         if (dbase.isOpen())
             dbase.close();
-        if(QFile().rename(RelativeToAbsolutePath(ui->database_path->text()),dir+"/freeLib.sqlite"))
-        {
-            QFile().remove(RelativeToAbsolutePath(ui->database_path->text()));
-            ui->database_path->setText(dir+"/freeLib.sqlite");
-            dbase.setDatabaseName(RelativeToAbsolutePath(ui->database_path->text()));
-            if(!dbase.open())
-            {
+        if (QFile().rename(RelativeToAbsolutePath(databasePath), dir + "/freeLib.sqlite")) {
+            QFile().remove(RelativeToAbsolutePath(databasePath));
+            ui->database_path->setText(dir + "/freeLib.sqlite");
+            dbase.setDatabaseName(RelativeToAbsolutePath(ui->database_path->text().trimmed()));
+            if (!dbase.open())
                 app->closingDown();
-            }
         }
     }
 }
