@@ -2280,7 +2280,7 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
     auto iBook = mLibs[idLibrary].mBooks.constBegin();
     while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
         if(IsMatchingFilterConditions(*iBook) &&
-                (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch,Qt::CaseInsensitive)))
+                (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch, Qt::CaseInsensitive)))
         {
             if(mCounts.contains(iBook->idSerial))
                 mCounts[iBook->idSerial]++;
@@ -2293,27 +2293,25 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
 
     QListWidgetItem *item;
     auto iSerial = mCounts.constBegin();
-    while(iSerial!=mCounts.constEnd()){
+    while (iSerial != mCounts.constEnd()) {
         QString SeriaName = mLibs[idLibrary].mSerials[iSerial.key()].sName;
         //QBrush Brush; Brush = SeriaName != "" ? Qt::black : Qt::darkMagenta;
         item = new QListWidgetItem(QString("%1 (%2)").arg(SeriaName).arg(iSerial.value()));
         //item->setForeground(Brush);
-        item->setData(Qt::UserRole,iSerial.key());
-        if(bUseTag_)
+        item->setData(Qt::UserRole, iSerial.key());
+        if (bUseTag_)
             item->setIcon(GetTagFromTagsPicList(mLibs[idLibrary].mSerials[iSerial.key()].nTag));
         ui->SeriaList->addItem(item);
-        if(iSerial.key()==idCurrentSerial_)
-        {
+        if (iSerial.key() == idCurrentSerial_) {
             item->setSelected(true);
             ui->SeriaList->scrollToItem(item);
         }
-
         ++iSerial;
     }
 
     ui->SeriaList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillListWidgetSerials " << t_end-t_start << "msec";
+    qDebug() << "FillListWidgetSerials " << t_end-t_start << "msec";
 }
 
 /*
