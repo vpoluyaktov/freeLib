@@ -2352,7 +2352,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
     auto iGenre = mGenre.constBegin();
     while (iGenre != mGenre.constEnd()) {
         QTreeWidgetItem *item;
-        if (iGenre->idParrentGenre == 0 && !mTopGenresItem.contains(iGenre.key())){
+        if (iGenre->idParrentGenre == 0 && !mTopGenresItem.contains(iGenre.key())) {
             // определение числа книг в всех дочерних жанрах данной группы Жанров
             query.prepare("SELECT COUNT(book_genre.id_book) FROM lib, genre, book_genre WHERE lib.id = :id_lib AND genre.id_parent = :id_parent AND genre.id = book_genre.id_genre AND book_genre.id_lib = lib.id;");
             query.bindValue(":id_lib", idLibrary);
@@ -2376,7 +2376,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
                     QTreeWidgetItem *itemTop = new QTreeWidgetItem(ui->GenreList);
                     itemTop->setFont(0, bold_font);
                     itemTop->setText(0, mGenre[iGenre->idParrentGenre].sName);
-                    itemTop->setData(0, Qt::UserRole,iGenre->idParrentGenre);
+                    itemTop->setData(0, Qt::UserRole, iGenre->idParrentGenre);
                     itemTop->setExpanded(false);
                     mTopGenresItem[iGenre->idParrentGenre] = itemTop;
                 }
