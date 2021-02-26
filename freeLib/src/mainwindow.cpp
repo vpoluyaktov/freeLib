@@ -2345,7 +2345,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
         ++iBook;
     }
 
-    QMap<uint,QTreeWidgetItem*> mTopGenresItem;
+    QMap<uint, QTreeWidgetItem*> mTopGenresItem;
     auto iGenre = mGenre.constBegin();
     while (iGenre != mGenre.constEnd()) {
         QTreeWidgetItem *item;
@@ -2357,7 +2357,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
             item->setExpanded(false);
             mTopGenresItem[iGenre.key()] = item;
         } else {
-            if (mCounts.contains(iGenre.key())){
+            if (mCounts.contains(iGenre.key())) {
                 if (!mTopGenresItem.contains(iGenre->idParrentGenre)) {
                     QTreeWidgetItem *itemTop = new QTreeWidgetItem(ui->GenreList);
                     itemTop->setFont(0, bold_font);
