@@ -2350,7 +2350,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
     while (iGenre != mGenre.constEnd()) {
         QTreeWidgetItem *item;
         if (iGenre->idParrentGenre == 0 && !mTopGenresItem.contains(iGenre.key())){
-            item=new QTreeWidgetItem(ui->GenreList);
+            item = new QTreeWidgetItem(ui->GenreList);
             item->setFont(0, bold_font);
             item->setText(0, iGenre->sName);
             item->setData(0, Qt::UserRole,iGenre.key());
@@ -2367,8 +2367,8 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
                     mTopGenresItem[iGenre->idParrentGenre] = itemTop;
                 }
                 item = new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
-                item->setText(0,QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
-                item->setData(0,Qt::UserRole,iGenre.key());
+                item->setText(0, QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
+                item->setData(0, Qt::UserRole,iGenre.key());
                 if (iGenre.key() == idCurrentGenre_) {
                     item->setSelected(true);
                     ui->GenreList->scrollToItem(item);
