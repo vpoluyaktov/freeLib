@@ -308,6 +308,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->btnGroupRemove, &QPushButton::clicked, this, &MainWindow::RemoveGroupFromList);
     connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
+    connect(ui->btnExpandTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::expandAll);
+    connect(ui->btnCollapseTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::collapseAll);
 
     // назначение кнопкам быстрых клавиш
     BindAnyButtonShortcut(ui->btnAuthor, QKeySequence("CTRL+A"));
@@ -1815,6 +1817,7 @@ void MainWindow::btnAuthorClick()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(0);
     ui->SearchFrame->setEnabled(true);
+    ui->ExpandTreeGemresFrame->setVisible(false);
     ui->frame_3->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
@@ -1830,6 +1833,7 @@ void MainWindow::btnSeriesClick()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(1);
     ui->SearchFrame->setEnabled(true);
+    ui->ExpandTreeGemresFrame->setVisible(false);
     ui->frame_3->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
@@ -1845,6 +1849,7 @@ void MainWindow::btnGenresClick()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(2);
     ui->SearchFrame->setEnabled(false);
+    ui->ExpandTreeGemresFrame->setVisible(true);
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
@@ -1859,6 +1864,7 @@ void MainWindow::btnPageSearchClick()
 {
     ui->tabWidget->setCurrentIndex(3);
     ui->SearchFrame->setEnabled(false);
+    ui->ExpandTreeGemresFrame->setVisible(false);
     ui->frame_3->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(false);
     ui->comboBoxTagFilter->setEnabled(false);
@@ -3250,6 +3256,7 @@ void MainWindow::btnPageGroupsClick()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->tabWidget->setCurrentIndex(4);
     ui->SearchFrame->setEnabled(false);
+    ui->ExpandTreeGemresFrame->setVisible(false);
     ui->frame_3->setEnabled(false);
     ui->Books->clear();
     ui->comboBoxLanguageFilter->setEnabled(true);
