@@ -2327,16 +2327,14 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
     const bool wasBlocked = ui->GenreList->blockSignals(true);
     ui->GenreList->clear();
     ui->comboBoxFindGenre->clear();
-    ui->comboBoxFindGenre->addItem("*",0);
+    ui->comboBoxFindGenre->addItem("*", 0);
     QFont bold_font(ui->AuthorList->font());
     bold_font.setBold(true);
 
-
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[idLibrary].mBooks.constBegin();
-    while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
-        if(IsMatchingFilterConditions(*iBook))
-        {
+    while (iBook != mLibs[idLibrary].mBooks.constEnd()) {
+        if (IsMatchingFilterConditions(*iBook)) {
             foreach (uint iGenre, iBook->listIdGenres) {
                 if(mCounts.contains(iGenre))
                     mCounts[iGenre]++;
@@ -2360,7 +2358,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
             mTopGenresItem[iGenre.key()] = item;
         } else {
             if (mCounts.contains(iGenre.key())){
-                if(!mTopGenresItem.contains(iGenre->idParrentGenre)) {
+                if (!mTopGenresItem.contains(iGenre->idParrentGenre)) {
                     QTreeWidgetItem *itemTop = new QTreeWidgetItem(ui->GenreList);
                     itemTop->setFont(0, bold_font);
                     itemTop->setText(0, mGenre[iGenre->idParrentGenre].sName);
@@ -2371,8 +2369,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
                 item = new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
                 item->setText(0,QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
                 item->setData(0,Qt::UserRole,iGenre.key());
-                if (iGenre.key() == idCurrentGenre_)
-                {
+                if (iGenre.key() == idCurrentGenre_) {
                     item->setSelected(true);
                     ui->GenreList->scrollToItem(item);
                 }
@@ -2384,19 +2381,15 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
     // заполнение комбобокса на вкладке Жанров 'Поиск' (дерево с 2-мя уровнями ветвей, обход без рекурсии)
     int topCount = ui->GenreList->topLevelItemCount();
     QStandardItemModel* model = (QStandardItemModel*)ui->comboBoxFindGenre->model();
-    for (int i = 0; i < topCount; i++)
-    {
+    for (int i = 0; i < topCount; i++) {
         QTreeWidgetItem* topLevelItem = ui->GenreList->topLevelItem(i);
         int childCount = topLevelItem->childCount();
         uint topLevelKey = topLevelItem->data(0, Qt::UserRole).toUInt();
         auto topLevelGenre = mGenre.find(topLevelKey);
-        if (childCount == 0)
-        {
+        if (childCount == 0) {
             ui->comboBoxFindGenre->addItem(topLevelGenre.value().sName, topLevelKey);
             model->item(ui->comboBoxFindGenre->count()-1)->setFont(bold_font);
-        }
-        else
-        {
+        } else {
             ui->comboBoxFindGenre->addItem(topLevelGenre.value().sName, topLevelKey);
             model->item(ui->comboBoxFindGenre->count()-1)->setFont(bold_font);
             for (int j = 0; j < childCount; j++) {
@@ -2410,7 +2403,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 
     ui->GenreList->blockSignals(wasBlocked);
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "FillTreeWidgetGenres " << t_end-t_start << "msec";
+    qDebug() << "FillTreeWidgetGenres " << t_end-t_start << "msec";
 }
 
 /*
