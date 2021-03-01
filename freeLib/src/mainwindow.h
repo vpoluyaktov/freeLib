@@ -17,6 +17,7 @@
 #include "dropform.h"
 #include "opds_server.h"
 #include "common.h"
+#include "utilities.h"
 
 namespace Ui {
 class MainWindow;
@@ -39,28 +40,23 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    QSystemTrayIcon *trIcon;
-    QToolButton *tbClear;
-    DropForm *pDropForm;
-    HelpDialog *pHelpDlg;
-    QString lastSearchSymbol;
-    QMenu TagMenu;
-    QObject* currentListForTag;
-    QList<Stag> tagsPicList;
-    opds_server opds;
-    QToolButton *FirstButton;
-    QToolButton *langBtnHash;
+    opds_server opds_;
+    QSystemTrayIcon *trayIcon_;
+    DropForm *pDropForm_;
+    HelpDialog *pHelpDlg_;
+    QToolButton* tbClear_;
+    QString lastSearchSymbol_;
+    QMenu menuTag_;
+    QMenu* menuRating_;
+    QMenu* menuReaded_;
+    QObject* currentListForTag_;
+    QList<Stag> tagsPicList_;
+    QToolButton *FirstButton_;
+    QToolButton *langBtnHash_;
 
     int idCurrentLanguage_;
-    uint idCurrentAuthor_;
-    uint idCurrentGenre_;
-    uint idCurrentSerial_;
-    uint idCurrentBookForAuthor_;
-    uint idCurrentBookForGenre_;
-    uint idCurrentBookForSeria_;
     bool bUseTag_;
     bool bShowDeleted_;
-    QString noSeries_;
     bool errorQuit_;
 
 private:
@@ -68,36 +64,63 @@ private:
     // заполнение меню цветных тегов панели инструментов
     void UpdateTagsMenu();
     // обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
-    void UpdateBookLanguageControls();
+    void UpdateBookLanguageControls(uint idLibrary);
     // обновление контролов меню экспорта книг на панели инструментов
     void UpdateExportMenu();
     
     // заполнение контрола списка Авторов из базы для выбранной библиотеки
-    void FillAuthors();
+    void FillListWidgetAuthors(uint idLibrary);
     // заполнение контрола списка Серий из базы для выбранной библиотеки
-    void FillSerials();
+    void FillListWidgetSerials(uint idLibrary);
     // заполнение контрола дерева Жанров из базы для выбранной библиотеки
-    void FillGenres();
+    void FillTreeWidgetGenres(uint idLibrary);
+    // заполнение контрола списка Групп из базы для выбранной библиотеки
+    void FillListWidgetGroups(uint idLibrary);
     // выбор (выделение) Автора, Серии, Жанра, в зависимости от активного виджета списков Авторов, Серий или Жанров
     void FillListBooks();
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     void FillListBooks(QList<uint> listBook, uint idCurrentAuthor);
-
-    bool IsBookInList(const SBook &book) const;
+    // выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
+    bool IsMatchingFilterConditions(uint idLibrary, const SBook &book) const;
     // обновление иконки тэга в списках Авторов, Серий, Книг
     void UpdateListPix(qlonglong id, int list, int tag_id);
     void UncheckBooks(QList<qlonglong> list);
     // сохранение настроек Библиотеки
-    void SaveLibPosition();
+    void SaveLibPosition(uint idLibrary);
+    // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
+    int LoadLibraryPosition(uint idLibrary);
     void DeleteDropForm();
 
     // поиск книг по заданным критериям
     QList<uint> StartBooksSearch(
-        const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre, int idLanguage,
-        const QDate& dateFrom, const QDate& dateTo, int nMaxCount
+        uint idLibrary, const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+        int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
+        bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
+    // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+    void SaveCurrentBookLanguageFilter(uint idLibrary, const QString& lang);
+    // заполнение комбобокса рейтинга на вкладке Поиск
+    void FillRatingList();
+    // пометка ячейки статуса 'Прочитано'
+    void MarkReadedBook(QTreeWidgetItem* bookItem, bool idReaded);
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка Групп
+    void SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QItemSelection& selected);
+    // удаление всех книг из выделенной группы
+    void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
+    // заполнение комбобокса с форматами книг на вкладке Поиск
+    void FillFormatList(uint idLibrary);
+    // создание меню Рейтинга
+    void CreateRatingMenu();
+    // создание меню Прочитано/Не прочитано
+    void CreateReadedMenu();
+    // переименование названия Группы с учетом числа книг в ней
+    void SetNewGroupNameWithBookCount(uint idLibrary, uint idGroup);
+    // число книг в группе
+    int GetBookCountFromGroup(uint idLibrary, uint idGroup);
+    // название Группы без числа книг в ней
+    QString GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup);
 
 protected:
     APP_MODE mode;
@@ -116,7 +139,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* e);
 
     // доступность/недоступность кнопок Экспорта и Открытия книги на панели инструментов
-    void ExportBookListBtn(bool Enable);
+    void ExportBookListBtnEnabled(bool Enable);
 
     void CheckParent(QTreeWidgetItem* parent);
     void CheckChild(QTreeWidgetItem* parent);
@@ -124,7 +147,7 @@ protected:
     void SendMail();
 
     // Заполнение меню списка Библиотек
-    void FillLibrariesMenu();
+    void FillLibrariesMenu(uint idLibrary);
     //void FillBookList(QSqlQuery& query);
     void FillCheckedBookList(QList<book_info>& list, QTreeWidgetItem* item = nullptr, bool send_all = false, bool count_only = false, bool checked_only = false);
     void FillCheckedItemsBookList(QList<book_info>& list, QTreeWidgetItem* item, bool send_all, bool count_only);
@@ -143,34 +166,52 @@ private slots:
     void HeaderContextMenu(QPoint point);
 
     // обработчик кнопки отображения списка Авторов
-    void btnAuthor();
+    void btnAuthorClick();
     // обработчик кнопки отображения списка Серий
-    void btnSeries();
+    void btnSeriesClick();
     // обработчик кнопки отображения дерева Жанров
-    void btnGenres();
+    void btnGenresClick();
     // обработчик кнопки отображения панели Поиска книг
-    void btnPageSearch();
+    void btnPageSearchClick();
     // обработчик кнопки Найти на вкладке Поиск
     void StartSearch();
     // обработчик изменения текста в контроле строки поиска
     void searchChanged(QString str);
     void searchClear();
+    // обработчик кнопки отображения Групп книг
+    void btnPageGroupsClick();
+    // обработчик сигнала выделения/снятия выделения итема списка Групп
+    void SelectionChangedGroupsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
+    // обработчик кнопки добавления Группы в список Групп
+    void AddGroupToList();
+    // добавление выделенной книги в Группу
+    void AddBookToGroupAction();
+    // изменение названия группы
+    void RenameGroup();
+    // удаление выделенной книги из выделенной группы
+    void DeleteBookFromGroupAction();
+    // удаление всех книг из выделенной группы
+    void DeleteAllBooksFromGroup();
+    // удаление группы из списка групп
+    void RemoveGroupFromList();
 
     // экспорт выделенных книг
     void ExportAction();
     // установка рейтинга (оценки) книги
     void RatingAction();
+    // установка признака прочитана/не прочитана книга
+    void ReadedAction();
     // правка метаданных книги
     void EditBooks();
     // обработчик экшена "Отметить/снять отметки с книг" 
     void CheckBooks();
-    // обработчик экшена "Управления библиотеками" 
-    void ManageLibrary();
     // обработчик экшена "Настройки" 
     void Settings();
 
     // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
     void MarkDeletedBooks();
+    // Оптимизация базы данных
+    void DatabaseOptimization();
 
     // выбор библиотеки для ее загрузки
     void SelectLibrary();
@@ -180,6 +221,8 @@ private slots:
     void SelectSeria();
     // выбор (выделение) Жанра в дереве Жанров
     void SelectGenre();
+    // выбор (выделение) Группы в списке Групп
+    void SelectGroup();
     // выбор (выделение) Книги в списке Книг
     void SelectBook();
 
@@ -197,8 +240,8 @@ private slots:
     // обработчик двойного клика по выбранной Книге
     void BookDblClick();
     
-    // обработчик выбора цветного тэга в выпадающем списке цветных тэгов
-    void TagSelect(int index);
+    // обработчик фильтра выбора цветного тэга в выпадающем списке цветных тэгов
+    void FilterTagSelect(int index);
     // установка иконки цветного тэга для Автора/Серии/Книги
     void SetTag();
 
@@ -219,14 +262,14 @@ private slots:
     void on_btnSwitchToLib_clicked();
     // обработчик вызова диалога настроек из конвертера по нажатию кнопки
     void on_btnPreference_clicked();
-    // загрузка списков Авторов, Серий, Жанров, книг, соответсвующих выбранному языку в выпадающем списке языков на панели инструментов
+    // загрузка списков Авторов, Серий, Жанров, книг, соответствующих выбранному языку в выпадающем списке языков на панели инструментов
     void on_comboBoxLanguageFilter_currentIndexChanged(const QString& arg1);
 
     //void on_splitter_splitterMoved(int pos, int index);
 
 public slots:
-    // обработчик экшена "Помощник добавления библиотеки"
-    void newLibWizard(bool AddLibOnly=true);
+    // обработчик экшена "Управления библиотеками" 
+    void ManageLibrary();
 
 signals:
     void window_loaded();

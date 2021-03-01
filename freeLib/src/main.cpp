@@ -19,7 +19,7 @@
 #include "common.h"
 #include "build_number.h"
 
-int idCurrentLib;
+int g_idCurrentLib;
 QTranslator* translator;
 QTranslator* translator_qt;
 QList<tag> tag_list;
@@ -436,12 +436,15 @@ void UpdateLibs()
 //    if(!openDB(false,false))
 //        errorQuit=true;
     if(!db_is_open)
-        idCurrentLib=-1;
+        g_idCurrentLib=-1;
     else{
         QSettings settings/*=GetSettings()*/;
-        idCurrentLib=settings.value("LibID",-1).toInt();
+        g_idCurrentLib=settings.value("LibID",-1).toInt();
         QSqlQuery query(QSqlDatabase::database("libdb"));
-        query.exec("SELECT id,name,path,inpx,firstauthor, woDeleted FROM lib ORDER BY name");
+        query.exec(
+            "SELECT id, name, path, inpx, firstauthor, woDeleted,  currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag, currentBookLanguage FROM lib ORDER BY name"
+        );
+        //          0    1     2      3         4          5            6           7             8               9             10                 11                  12                       13              14                   15                  16              17
         mLibs.clear();
         while(query.next())
         {
@@ -451,14 +454,26 @@ void UpdateLibs()
             mLibs[idLib].sInpx = query.value(3).toString().trimmed();
             mLibs[idLib].bFirstAuthor = query.value(4).toBool();
             mLibs[idLib].bWoDeleted = query.value(5).toBool();
+            mLibs[idLib].nCurrentTab = query.value(6).toInt();
+            mLibs[idLib].uIdCurrentAuthor = query.value(7).toUInt();
+            mLibs[idLib].uIdCurrentSeria = query.value(8).toUInt();
+            mLibs[idLib].uIdCurrentGenre = query.value(9).toUInt();
+            mLibs[idLib].uIdCurrentGroup = query.value(10).toUInt();
+            mLibs[idLib].uIdCurrentBookForAuthor = query.value(11).toUInt();
+            mLibs[idLib].uIdCurrentBookForSeria = query.value(12).toUInt();
+            mLibs[idLib].uIdCurrentBookForGenre = query.value(13).toUInt();
+            mLibs[idLib].uIdCurrentBookForGroup = query.value(14).toUInt();
+            mLibs[idLib].sCurrentSearchingFilter = query.value(15).toString().trimmed();
+            mLibs[idLib].uIdCurrentTag = query.value(16).toUInt();
+            mLibs[idLib].sCurrentBookLanguage = query.value(17).toString().trimmed();
         }
         if(mLibs.empty())
-            idCurrentLib = -1;
+            g_idCurrentLib = -1;
         else{
-            if(idCurrentLib ==-1)
-                idCurrentLib = mLibs.constBegin().key();
-            if(!mLibs.contains(idCurrentLib))
-                idCurrentLib = -1;
+            if(g_idCurrentLib ==-1)
+                g_idCurrentLib = mLibs.constBegin().key();
+            if(!mLibs.contains(g_idCurrentLib))
+                g_idCurrentLib = -1;
         }
     }
 }
@@ -557,28 +572,25 @@ int main(int argc, char *argv[])
         splash->show();
     a.processEvents();
     setProxy();
-    //idCurrentLib=settings->value("LibID",-1).toInt();
+    //g_idCurrentLib=settings->value("LibID",-1).toInt();
     UpdateLibs();
     MainWindow w;
 #ifdef Q_OS_OSX
   //  w.setWindowFlags(w.windowFlags() & ~Qt::WindowFullscreenButtonHint);
 #endif
 
-    if(!w.IsErrorQuit())
-    {
-        if(!CMDparser.isSet("tray") && settings.value("tray_icon",0).toInt()!=2)
+    if (!w.IsErrorQuit()) {
+        if (!CMDparser.isSet("tray") && settings.value("tray_icon", 0).toInt() != 2)
             w.show();
-    }
-    else{
+    } else {
         return 1;
     }
     splash->finish(&w);
     //current_lib.UpdateLib();
-    if(idCurrentLib<0 && settings.value("ApplicationMode",0).toInt()==0)
-        w.newLibWizard(false);
-    int result=a.exec();
-    if(global_settings)
-    {
+    if (g_idCurrentLib < 0 && settings.value("ApplicationMode", 0).toInt() == 0)
+        w.ManageLibrary();
+    int result = a.exec();
+    if (global_settings) {
         global_settings->sync();
         delete global_settings;
     }

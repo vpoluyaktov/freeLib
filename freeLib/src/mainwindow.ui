@@ -215,6 +215,31 @@
                 </widget>
                </item>
                <item>
+                <widget class="QToolButton" name="btnGroups">
+                 <property name="minimumSize">
+                  <size>
+                   <width>70</width>
+                   <height>26</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>26</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Groups</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <spacer name="horizontalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
@@ -231,63 +256,125 @@
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="SearchFrame">
-              <property name="frameShape">
-               <enum>QFrame::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="font">
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
+             <layout class="QHBoxLayout" name="horizontalLayoListTools">
+              <item>
+               <widget class="QFrame" name="SearchFrame">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayoutSearchFrame">
+                 <property name="spacing">
+                  <number>3</number>
                  </property>
-                 <property name="text">
-                  <string>Search:</string>
+                 <property name="leftMargin">
+                  <number>5</number>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEditSearchString">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                 <property name="topMargin">
+                  <number>0</number>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>22</height>
-                  </size>
+                 <property name="rightMargin">
+                  <number>5</number>
                  </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::WheelFocus</enum>
+                 <property name="bottomMargin">
+                  <number>0</number>
                  </property>
-                 <property name="maxLength">
-                  <number>20</number>
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Search:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEditSearchString">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::WheelFocus</enum>
+                   </property>
+                   <property name="maxLength">
+                    <number>20</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="ExpandTreeGemresFrame">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayoutExpandTreeGemresFrame">
+                 <property name="spacing">
+                  <number>3</number>
                  </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QToolButton" name="btnExpandTreeGenre">
+                   <property name="toolTip">
+                    <string>Expand Tree Genres</string>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resource.qrc">
+                     <normaloff>:/icons/img/icons/minus.png</normaloff>:/icons/img/icons/minus.png</iconset>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="btnCollapseTreeGenre">
+                   <property name="toolTip">
+                    <string>Collapsу Tree Genre</string>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resource.qrc">
+                     <normaloff>:/icons/img/icons/plus.png</normaloff>:/icons/img/icons/plus.png</iconset>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QStackedWidget" name="tabWidget">
@@ -407,7 +494,7 @@
                 </item>
                </layout>
               </widget>
-              <widget class="QWidget" name="page">
+              <widget class="QWidget" name="pageSearch">
                <layout class="QVBoxLayout" name="verticalLayout_8">
                 <property name="spacing">
                  <number>0</number>
@@ -476,6 +563,150 @@
                    </item>
                    <item>
                     <widget class="QLineEdit" name="lineEditFindSeria"/>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayoutFindKeywords">
+                     <item>
+                      <widget class="QLabel" name="labelFindKeywords">
+                       <property name="text">
+                        <string>Keywords:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="lineEditFindKeywords"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayoFindLangTag">
+                     <item>
+                      <widget class="QLabel" name="label_10">
+                       <property name="text">
+                        <string>Language:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="comboBoxFindLanguage"/>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_6">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeType">
+                        <enum>QSizePolicy::Expanding</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="labelFindTag">
+                       <property name="text">
+                        <string>Tag:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="comboBoxFindTag">
+                       <property name="insertPolicy">
+                        <enum>QComboBox::NoInsert</enum>
+                       </property>
+                       <property name="sizeAdjustPolicy">
+                        <enum>QComboBox::AdjustToContents</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_7">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="labelFindFormat">
+                       <property name="text">
+                        <string>Format:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="comboBoxFindFormat"/>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_10">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayoutFindRating">
+                     <item>
+                      <widget class="QLabel" name="labelFindRating">
+                       <property name="text">
+                        <string>Rating:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="comboBoxFindRating"/>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_12">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QCheckBox" name="checkBoxFindReaded">
+                       <property name="text">
+                        <string>Readed Books</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_11">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_6">
@@ -552,35 +783,15 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_10">
+                    <widget class="QLabel" name="labelInformation">
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
                      <property name="text">
-                      <string>Language:</string>
+                      <string>When you click the 'Find' button, the Language and Tag filters will be reset to the default state (*).</string>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="comboBoxFindLanguage"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_13">
-                     <property name="text">
-                      <string>Maximum number of books:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="spinBoxFindMaxBooks">
-                     <property name="minimum">
-                      <number>0</number>
-                     </property>
-                     <property name="maximum">
-                      <number>10000000</number>
-                     </property>
-                     <property name="singleStep">
-                      <number>1000</number>
-                     </property>
-                     <property name="value">
-                      <number>1000</number>
+                     <property name="wordWrap">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -589,6 +800,29 @@
                      <property name="spacing">
                       <number>6</number>
                      </property>
+                     <item>
+                      <widget class="QLabel" name="label_13">
+                       <property name="text">
+                        <string>Maximum number of books:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSpinBox" name="spinBoxFindMaxBooks">
+                       <property name="minimum">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000000</number>
+                       </property>
+                       <property name="singleStep">
+                        <number>1000</number>
+                       </property>
+                       <property name="value">
+                        <number>1000</number>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <spacer name="horizontalSpacer_5">
                        <property name="orientation">
@@ -612,28 +846,32 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_11">
-                     <property name="text">
-                      <string>Books found</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="labelFindBooks">
-                     <property name="font">
-                      <font>
-                       <pointsize>26</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string notr="true">0</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
+                    <layout class="QHBoxLayout" name="horizontalLayFindCountMessage">
+                     <item>
+                      <widget class="QLabel" name="label_11">
+                       <property name="text">
+                        <string>Books found</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="labelFindBooks">
+                       <property name="font">
+                        <font>
+                         <pointsize>26</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string notr="true">0</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </item>
                    <item>
                     <spacer name="verticalSpacer">
@@ -650,6 +888,88 @@
                    </item>
                   </layout>
                  </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="pageGroups">
+               <layout class="QVBoxLayout" name="verticalLayout_14">
+                <property name="spacing">
+                 <number>7</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayoutGroupsButtons">
+                  <item>
+                   <widget class="QPushButton" name="btnGroupCreate">
+                    <property name="toolTip">
+                     <string>Create the new group</string>
+                    </property>
+                    <property name="text">
+                     <string>Create</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnGroupRename">
+                    <property name="toolTip">
+                     <string>Renaming the selected group</string>
+                    </property>
+                    <property name="text">
+                     <string>Rename</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnGroupRemove">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="toolTip">
+                     <string>Deleting a selected group</string>
+                    </property>
+                    <property name="text">
+                     <string>Remove</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacerGroupsButtons">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnGroupClear">
+                    <property name="toolTip">
+                     <string>Delete all the books of the selected group</string>
+                    </property>
+                    <property name="text">
+                     <string>Clear</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QListWidget" name="GroupList"/>
                 </item>
                </layout>
               </widget>
@@ -907,7 +1227,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_3">
+             <widget class="QFrame" name="frameLang">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -1056,6 +1376,14 @@
                    </property>
                    <property name="textAlignment">
                     <set>AlignCenter</set>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Readed</string>
+                   </property>
+                   <property name="textAlignment">
+                    <set>AlignHCenter|AlignTop</set>
                    </property>
                   </column>
                  </widget>
@@ -1230,7 +1558,6 @@
      <string>Library</string>
     </property>
     <addaction name="actionLibraries"/>
-    <addaction name="actionNew_library_wizard"/>
     <addaction name="actionAddLibrary"/>
     <addaction name="separator"/>
     <addaction name="actionSwitch_to_convert_mode"/>
@@ -1252,6 +1579,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionMarkDeletedBooks"/>
+    <addaction name="actionDatabaseOptimization"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menuBooks"/>
@@ -1329,7 +1657,7 @@
     <string>Check/uncheck books</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Ctrl+A</string>
+    <string notr="true">Ctrl+Shift+A</string>
    </property>
   </action>
   <action name="actionSwitch_to_convert_mode">
@@ -1353,6 +1681,11 @@
   <action name="actionMarkDeletedBooks">
    <property name="text">
     <string>Mark deleted books</string>
+   </property>
+  </action>
+  <action name="actionDatabaseOptimization">
+   <property name="text">
+    <string>Database optimization</string>
    </property>
   </action>
  </widget>

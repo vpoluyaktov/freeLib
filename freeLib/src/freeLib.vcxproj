@@ -219,7 +219,6 @@
     <ClCompile Include="fb2mobi\hyphenations.cpp" />
     <ClCompile Include="importthread.cpp" />
     <ClCompile Include="library.cpp" />
-    <ClCompile Include="libwizard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="SmtpClient\mimeattachment.cpp" />
@@ -250,6 +249,7 @@
     <ClCompile Include="treebookitem.cpp" />
     <ClCompile Include="quazip\quazip\unzip.c" />
     <ClCompile Include="quazip\quazip\zip.c" />
+    <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quazip\quazip\JlCompress.h" />
@@ -285,8 +285,6 @@
     </QtMoc>
     <ClInclude Include="quazip\quazip\ioapi.h" />
     <ClInclude Include="library.h" />
-    <QtMoc Include="libwizard.h">
-    </QtMoc>
     <QtMoc Include="mainwindow.h">
     </QtMoc>
     <QtMoc Include="SmtpClient\mimeattachment.h">
@@ -330,6 +328,8 @@
     <QtMoc Include="tagdialog.h">
     </QtMoc>
     <ClInclude Include="treebookitem.h" />
+    <QtMoc Include="utilities.h">
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -370,8 +370,6 @@
     <QtUic Include="fontframe.ui">
     </QtUic>
     <QtUic Include="helpdialog.ui">
-    </QtUic>
-    <QtUic Include="libwizard.ui">
     </QtUic>
     <QtUic Include="mainwindow.ui">
     </QtUic>

@@ -350,8 +350,8 @@ void ExportThread::export_books()
         foreach(book_info i,book_list)
         {
             QString archive,file;
-            QString LibPath=mLibs[idCurrentLib].path;
-            SBook &book = mLibs[idCurrentLib].mBooks[i.id];
+            QString LibPath=mLibs[g_idCurrentLib].path;
+            SBook &book = mLibs[g_idCurrentLib].mBooks[i.id];
             if(!book.sArchive.isEmpty())
             {
                 archive=book.sArchive.replace(".inp",".zip");
@@ -431,7 +431,7 @@ void ExportThread::export_books()
             buffers<<new QBuffer(this);
             QBuffer infobuff;
             fi=GetBookFile(*buffers.last(),infobuff,i.id);
-            SBook &book = mLibs[idCurrentLib].mBooks[i.id];
+            SBook &book = mLibs[g_idCurrentLib].mBooks[i.id];
             if(fi.fileName().isEmpty())
             {
                 emit Progress(count*100/book_list.count(),count);
@@ -448,8 +448,8 @@ void ExportThread::export_books()
                 file_name=settings->value("ExportFileName",default_exp_file_name).toString().trimmed();
                 if(file_name.isEmpty())
                     file_name=default_exp_file_name;
-                QString author=BuildFileName(mLibs[idCurrentLib].mAuthors[book.idFirstAuthor].getName());
-                QString seria_name=BuildFileName(mLibs[idCurrentLib].mSerials[book.idSerial].sName);
+                QString author=BuildFileName(mLibs[g_idCurrentLib].mAuthors[book.idFirstAuthor].getName());
+                QString seria_name=BuildFileName(mLibs[g_idCurrentLib].mSerials[book.idSerial].sName);
                 QString book_name=BuildFileName(book.sName);
                 QString ser_num = QString::number(book.numInSerial);
                 if(buffers.count()>1)
@@ -508,12 +508,12 @@ void ExportThread::process()
 void ExportThread::export_lib()
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.exec(QString("SELECT book.id,author.id,janre.id,book.name,star,num_in_seria,book.language,file,size,deleted,date,format,book.keys,archive,date,book.id_inlib, "
-               "book.favorite,seria.name,seria.favorite,janre.main_janre||':',author.favorite,author.name1||','||author.name2||','||author.name3||':' "
+    query.exec(QString("SELECT book.id,author.id,genre.id,book.name,star,num_in_seria,book.language,file,size,deleted,date,format,book.keys,archive,date,book.id_inlib, "
+               "book.tag,seria.name,seria.tag,genre.code||':',author.tag,author.LastName||','||author.FirstName||','||author.MiddleName||':' "
                "FROM book_author "
                "JOIN book on book.id=book_author.id_book "
-               "LEFT JOIN book_janre ON book_janre.id_book=book.id "
-               "LEFT JOIN janre ON janre.id=book_janre.id_janre "
+               "LEFT JOIN book_genre ON book_genre.id_book=book.id "
+               "LEFT JOIN genre ON genre.id=book_genre.id_genre "
                "LEFT JOIN seria ON seria.id=book.id_seria "
                "JOIN author ON author.id=book_author.id_author "
                "WHERE book_author.id_lib=%1 "
@@ -540,8 +540,8 @@ void ExportThread::export_lib()
     version.close();
     QFile collection(collection_file);
     collection.open(QFile::WriteOnly);
-    collection.write((mLibs[idCurrentLib].name+"\r\n").toUtf8());
-    collection.write((mLibs[idCurrentLib].name+"\r\n").toUtf8());
+    collection.write((mLibs[g_idCurrentLib].name+"\r\n").toUtf8());
+    collection.write((mLibs[g_idCurrentLib].name+"\r\n").toUtf8());
     collection.write(QString("0\r\n").toUtf8());
     collection.write(QString("freeLib\r\n").toUtf8());
     collection.close();
@@ -554,7 +554,7 @@ void ExportThread::export_lib()
     }
     QString authors;
     QString fav_authors;
-    QString janres;
+    QString genres;
     bool next_book=false;
     QString buf;
     while(loop_enable)
@@ -575,14 +575,14 @@ void ExportThread::export_lib()
                 emit Progress(0,count);
             inpx.write(buf.toUtf8());
             authors="";
-            janres="";
+            genres="";
             fav_authors="";
         }
         if(loop_enable)
         {
             lastbookid=query.value(0).toLongLong();
             authors+=query.value(21).toString().trimmed();
-            janres+=query.value(19).toString().trimmed();
+            genres+=query.value(19).toString().trimmed();
             fav_authors+=(query.value(20).toString().trimmed()+":");
             buf=(QString("%1\4%2\4%3\4%4\4%5\4%6\4%7\4%8\4%9").arg
                         (
@@ -590,7 +590,7 @@ void ExportThread::export_lib()
                             query.value(3).toString().trimmed(),    //TITLE
                             query.value(17).toString().trimmed(),   //SERIES
                             query.value(5).toString().trimmed(),    //SERNO
-                            janres,                                 //GENRE
+                            genres,                                 //GENRE
                             query.value(15).toString().trimmed(),   //LIBID
                             "",                                     //INSNO
                             query.value(7).toString().trimmed(),    //FILE
@@ -616,7 +616,7 @@ void ExportThread::export_lib()
         }
     }
     inpx.close();
-    QuaZip zip(export_dir+QString("/%1.inpx").arg(BuildFileName(mLibs[idCurrentLib].name)));
+    QuaZip zip(export_dir+QString("/%1.inpx").arg(BuildFileName(mLibs[g_idCurrentLib].name)));
     qDebug()<<zip.getZipName();
     qDebug()<<zip.open(QuaZip::mdCreate);
     QuaZipFile zip_file(&zip);

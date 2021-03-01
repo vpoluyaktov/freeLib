@@ -2,6 +2,8 @@
 #define ADDLIBRARY_H
 
 #include <QDialog>
+#include <QItemSelectionModel>
+
 #include "importthread.h"
 #include "common.h"
 #include "library.h"
@@ -25,14 +27,24 @@ public:
     
 private:
     Ui::AddLibrary *ui;
-    ImportThread *imp_tr;
-    QThread *thread;
+    ImportThread *imp_tr_;
+    QThread *thread_;
     int idCurrentLib_;
-    bool bLibChanged;
-    QStringList m_LogList;
+    bool bLibChanged_;
+    QStringList LogList_;
 
     void UpdateLibList();
     void SaveLibrary(int idLib, SLib& Lib);
+    // формирования списка каталогов с книгами для текущей библиотеки
+    void MakeDirsList();
+    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+    void SetEnabledOrDisabledControllsOfBooksDirs();
+    // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
+    void SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
+    // занесение в таблицу groups две неудаляемые Группы
+    void AddGroupToSQLite(qlonglong libID);
+    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+    void SetControllsToDefaultState();
 
 private slots:
     void LogMessage(QString msg);
@@ -40,15 +52,26 @@ private slots:
     void SelectBooksDir();
     void StartImport();
     void SelectLibrary();
-    void DeleteLibrary();
     void Add_Library();
+    // правка названия библиотеки
+    void EditLibraryName();
+    void DeleteLibrary();
     void EndUpdate();
     void terminateImport();
     void reject();
     void ExistingLibsChanged();
-    void BookDirChanged(const QString&);
     void ExportLib();
     void ButtonSaveLogClicked();
+    // добавление нового каталога с книгами в список каталогов библиотеки
+    void AddBooksDirToList();
+    // удаление выбранного каталога с книгами из списка каталогов библиотеки
+    void DeleteDirFromBookDirsList();
+    // обработчик сигнала выделения/снятия выделения итема списка книг библиотеки
+    void SelectionChangedBookDirsList(const QItemSelection& /*selected*/, const QItemSelection& /*deselected*/);
+    // обработчик сигнала изменения текста в контроле пути к каталогу с книгами
+    void LineEditBooksDirTextChanged(const QString& text);
+    // расширить окно лога
+    void ExpandLog();
 
 signals:
     void break_import();

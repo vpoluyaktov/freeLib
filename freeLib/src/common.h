@@ -80,15 +80,20 @@ struct book_info
     QString language;
     QString seria;
     QString isbn;
+    QString keywords;
     qlonglong id_seria;
     int num_in_seria;
     QString img;
     int star;
+    bool readed;
     book_info()
     {
-        star=0;
-        num_in_seria=0;
-  //      num_in_seria=-1;
+        id = 0;
+        id_seria = 0;
+        num_in_seria = 0;
+        star = 0;
+        keywords = "";
+        readed = false;
     }
 //    book_info(qlonglong id,qlonglong id_seria):id(id),id_seria(id_seria)
 //    {
@@ -127,6 +132,6 @@ bool SetCurrentZipFileName(QuaZip *zip,QString name);
 QString RelativeToAbsolutePath(QString path);
 QString sizeToString(uint size);
 
-extern int idCurrentLib;
+extern int g_idCurrentLib;
 
 #endif // COMMON_H

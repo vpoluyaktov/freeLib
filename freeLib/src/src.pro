@@ -70,8 +70,8 @@ win32{
 }
 
 SOURCES += main.cpp\
-	library.cpp \
-        mainwindow.cpp \
+    library.cpp \
+    mainwindow.cpp \
     addlibrary.cpp \
     importthread.cpp \
     SmtpClient/smtpclient.cpp \
@@ -97,7 +97,6 @@ SOURCES += main.cpp\
     dropform.cpp \
     opds_server.cpp \
     fontframe.cpp \
-    libwizard.cpp \
     exportframe.cpp \
     mobiEdit/mobiedit.cpp \
     quazip/quazip/quazipnewinfo.cpp \
@@ -115,7 +114,8 @@ SOURCES += main.cpp\
     quazip/quazip/zip.c \
     bookeditdlg.cpp \
     treebookitem.cpp \
-    genresortfilterproxymodel.cpp
+    genresortfilterproxymodel.cpp \
+    utilities.cpp
 
 HEADERS  += mainwindow.h \
     common.h \
@@ -145,7 +145,6 @@ HEADERS  += mainwindow.h \
     dropform.h \
     opds_server.h \
     fontframe.h \
-    libwizard.h \
     exportframe.h \
     mobiEdit/mobiedit.h \
     quazip/quazip/quazip.h \
@@ -165,7 +164,8 @@ HEADERS  += mainwindow.h \
     bookeditdlg.h \
     treebookitem.h \
     genresortfilterproxymodel.h \
-    build_number.h
+    build_number.h \
+    utilities.h
 
 FORMS    += mainwindow.ui \
     addlibrary.ui \
@@ -176,7 +176,6 @@ FORMS    += mainwindow.ui \
     tagdialog.ui \
     dropform.ui \
     fontframe.ui \
-    libwizard.ui \
     exportframe.ui \
     bookeditdlg.ui
 

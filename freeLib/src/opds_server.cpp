@@ -214,7 +214,7 @@ QString opds_server::books_list(QString lib_url, QString current_url, QString id
     }
     else if(all || !ganre.isEmpty())
     {
-        query.exec("SELECT name1||' '||name2||' '||name3 FROM author WHERE id= "+author);
+        query.exec("SELECT LastName||' '||FirstName||' '||MiddleName FROM author WHERE id= "+author);
         QString author_str;
         while(query.next())
         {
@@ -232,7 +232,7 @@ QString opds_server::books_list(QString lib_url, QString current_url, QString id
     }
     else
     {
-        query.exec("SELECT name1||' '||name2||' '||name3 FROM author WHERE id= "+author);
+        query.exec("SELECT LastName||' '||FirstName||' '||MiddleName FROM author WHERE id= "+author);
         QString author_str;
         while(query.next())
         {
@@ -261,8 +261,8 @@ QString opds_server::books_list(QString lib_url, QString current_url, QString id
     QString add_ganre="";
     if(!ganre.isEmpty())
     {
-        condition+="janre.id="+ganre+" and ";
-        add_ganre="left join book_janre on book_janre.id_book=book.id left join janre on book_janre.id_janre=janre.id";
+        condition+="genre.id="+ganre+" and ";
+        add_ganre="left join book_genre on book_genre.id_book=book.id left join genre on book_genre.id_genre=genre.id";
     }
     if(!search.isEmpty())
     {
@@ -285,20 +285,20 @@ QString opds_server::books_list(QString lib_url, QString current_url, QString id
         condition+="not deleted and ";
     if(search.isEmpty())
     {
-        query.exec(QString("SELECT book.name,book.id,book.file,book.format,seria.name,name1||' '||name2||' '||name3,seria.id,author.id,num_in_seria,book.language from book_author "
+        query.exec(QString("SELECT book.name,book.id,book.file,book.format,seria.name,LastName||' '||FirstName||' '||MiddleName,seria.id,author.id,num_in_seria,book.language from book_author "
                    "join book on book.id=book_author.id_book left join author on book_author.id_author=author.id left join seria on book.id_seria=seria.id "+add_ganre+" WHERE "+
-               condition.left(condition.length()-5)+" ORDER BY author.name1, seria.name,num_in_seria,book.name LIMIT %1 OFFSET %2").
+               condition.left(condition.length()-5)+" ORDER BY author.LastName, seria.name,num_in_seria,book.name LIMIT %1 OFFSET %2").
                arg(QString::number(MAX_BOOKS_PER_PAGE+1),QString::number(first_book*MAX_BOOKS_PER_PAGE)));
     }
     else
     {
-        query.exec(QString("SELECT DISTINCT book.name,book.id,book.file,book.format,seria.name,first_author.name1||' '||first_author.name2||' '||first_author.name3,seria.id,first_author_id,num_in_seria,book.language from book_author "
+        query.exec(QString("SELECT DISTINCT book.name,book.id,book.file,book.format,seria.name,first_author.LastName||' '||first_author.FirstName||' '||first_author.MiddleName,seria.id,first_author_id,num_in_seria,book.language from book_author "
                    "join book on book.id=book_author.id_book join author AS first_author on book.first_author_id=first_author.id left join author on book_author.id_author=author.id left join seria on book.id_seria=seria.id "+add_ganre+" WHERE "+
                condition.left(condition.length()-5)+" ORDER BY first_author.rus_index, seria.name,num_in_seria,book.name_index LIMIT %1 OFFSET %2").
                arg(QString::number(MAX_BOOKS_PER_PAGE+1),QString::number(first_book*MAX_BOOKS_PER_PAGE)));
     }
     QSqlQuery queryAuthors(QSqlDatabase::database("libdb"));
-    QSqlQuery queryJanres(QSqlDatabase::database("libdb"));
+    QSqlQuery queryGenres(QSqlDatabase::database("libdb"));
     long current_books_count=MAX_BOOKS_PER_PAGE;
     QString parameters="";
     QStringList keys=params.keys();
@@ -353,20 +353,20 @@ QString opds_server::books_list(QString lib_url, QString current_url, QString id
             AddTextNode("updated",QDateTime::currentDateTimeUtc().toString(Qt::ISODate),entry);
             AddTextNode("id","tag:book:"+query.value(1).toString(),entry);
             AddTextNode("title",query.value(0).toString()+(query.value(4).toString().isEmpty()?"":" ("+query.value(4).toString()+")"),entry);
-            queryAuthors.exec("SELECT name1||' '||name2||' '||name3 FROM book_author JOIN author ON id_author=author.id WHERE id_book="+query.value(1).toString());
+            queryAuthors.exec("SELECT LastName||' '||FirstName||' '||MiddleName FROM book_author JOIN author ON id_author=author.id WHERE id_book="+query.value(1).toString());
             while(queryAuthors.next())
             {
                 QDomElement author=doc.createElement("author");
                 entry.appendChild(author);
                 AddTextNode("name",queryAuthors.value(0).toString(),author);
             }
-            queryJanres.exec("SELECT name FROM book_janre JOIN janre ON id_janre=janre.id WHERE id_book="+query.value(1).toString());
-            while(queryJanres.next())
+            queryGenres.exec("SELECT name FROM book_genre JOIN genre ON id_genre=genre.id WHERE id_book="+query.value(1).toString());
+            while(queryGenres.next())
             {
                 QDomElement category=doc.createElement("category");
                 entry.appendChild(category);
-                category.setAttribute("term",queryJanres.value(0).toString());
-                category.setAttribute("label",queryJanres.value(0).toString());
+                category.setAttribute("term",queryGenres.value(0).toString());
+                category.setAttribute("label",queryGenres.value(0).toString());
             }
 
             if(query.value(3).toString().toLower()=="fb2")
@@ -986,7 +986,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
         strings=url.split("/");
     }
     //qDebug()<<strings;
-    int id_lib=idCurrentLib;
+    int id_lib=g_idCurrentLib;
     QString lib_url="/http";
     qDebug()<<"url:"<<url;
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -1005,7 +1005,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
             else
             {
                 lib_url="/opds";
-                id_lib = idCurrentLib;
+                id_lib = g_idCurrentLib;
             }
             strings.removeFirst();
             url.remove(0,1);
@@ -1026,7 +1026,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
             else
             {
                 lib_url="/http";
-                id_lib = idCurrentLib;
+                id_lib = g_idCurrentLib;
             }
             strings.removeFirst();
             url.remove(0,1);
@@ -1036,7 +1036,7 @@ void opds_server::process(QString url, QTextStream &ts, QString session)
     }
     SLib &lib = mLibs[id_lib];
     if(!lib.bLoaded)
-        loadLibrary(id_lib);
+        loadBooksDataFromSQLiteToLibraryStructure(id_lib);
 
     uint nPage = 0;
     if(!QFileInfo(url).exists())
