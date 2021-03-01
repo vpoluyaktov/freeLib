@@ -1210,7 +1210,7 @@ void MainWindow::StartSearch()
     QList<uint> listBooks;
     if (idGenre == 0) // * - книги всех Жанров
         listBooks = StartBooksSearch(
-            sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
+            g_idCurrentLib, sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
             sKeyword, idCurrentRating, IsReaded, sFormat, dateFrom, dateTo, nMaxCount
         );
     else {
@@ -1227,7 +1227,7 @@ void MainWindow::StartSearch()
 
         if (idParrentGenre > 0) // Жанр
             listBooks = StartBooksSearch(
-                sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
+                g_idCurrentLib, sName, sAuthor, sSeria, idGenre, idLanguage, idCurrentTag,
                 sKeyword, idCurrentRating, IsReaded, sFormat, dateFrom, dateTo, nMaxCount
             );
         else {
@@ -1243,7 +1243,7 @@ void MainWindow::StartSearch()
             foreach(uint uGenreId, GenreList) {
                 listBooksForCurrentGenre.clear();
                 listBooksForCurrentGenre << StartBooksSearch(
-                    sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag,
+                    g_idCurrentLib, sName, sAuthor, sSeria, uGenreId, idLanguage, idCurrentTag,
                     sKeyword, idCurrentRating, IsReaded, sFormat, dateFrom, dateTo, nMaxCount
                 );
                 // защита от добавления одной и той же книги, но другого Жанра этой же Группы
@@ -1265,24 +1265,24 @@ void MainWindow::StartSearch()
     Поиск книг по заданным критериям
 */
 QList<uint> MainWindow::StartBooksSearch(
-    const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+    uint idLibrary, const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
     int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
     bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
 {
     QList<uint> listBooks;
     int nCount = 0;
-    auto iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
+    auto iBook = mLibs[idLibrary].mBooks.constBegin();
+    while (iBook != mLibs[idLibrary].mBooks.constEnd()) {
         if ((bShowDeleted_ || !iBook->bDeleted) &&
             iBook->date >= dateFrom && iBook->date <= dateTo &&
-            (sAuthor.isEmpty() || mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor, Qt::CaseInsensitive)) &&
+            (sAuthor.isEmpty() || mLibs[idLibrary].mAuthors[iBook->idFirstAuthor].getName().contains(sAuthor, Qt::CaseInsensitive)) &&
             (sName.isEmpty() || iBook->sName.contains(sName, Qt::CaseInsensitive)) &&
-            (sSeria.isEmpty() || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.contains(sSeria, Qt::CaseInsensitive))) &&
+            (sSeria.isEmpty() || (iBook->idSerial > 0 && mLibs[idLibrary].mSerials[iBook->idSerial].sName.contains(sSeria, Qt::CaseInsensitive))) &&
             (idLanguage == -1 || (iBook->idLanguage == idLanguage)) &&
             (!bUseTag_ || idCurrentTag == 0 || idCurrentTag == iBook->nTag
-                || (iBook->idSerial > 0 && mLibs[g_idCurrentLib].mSerials[iBook->idSerial].nTag == idCurrentTag)
-                || (mLibs[g_idCurrentLib].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
+                || (iBook->idSerial > 0 && mLibs[idLibrary].mSerials[iBook->idSerial].nTag == idCurrentTag)
+                || (mLibs[idLibrary].mAuthors[iBook->idFirstAuthor].nTag == idCurrentTag)) &&
             (idCurrentRating == -1 || (iBook->nStars == idCurrentRating)) &&
             (sKeyword.isEmpty() || iBook->sKeywords.contains(sKeyword, Qt::CaseInsensitive)) &&
             (IsReaded ? iBook->bReaded : true) &&

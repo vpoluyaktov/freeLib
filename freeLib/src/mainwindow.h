@@ -93,7 +93,7 @@ private:
 
     // поиск книг по заданным критериям
     QList<uint> StartBooksSearch(
-        const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+        uint idLibrary, const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
         int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
         bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
