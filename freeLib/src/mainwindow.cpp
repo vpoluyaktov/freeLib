@@ -378,7 +378,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
 
     opds_.server_run();
-    FillLibrariesMenu();
+    FillLibrariesMenu(g_idCurrentLib);
     UpdateExportMenu();
 
     setMouseTracking(true);
@@ -1343,7 +1343,7 @@ void MainWindow::SelectLibrary()
     setWindowTitle(
         AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name)
     );
-    FillLibrariesMenu();
+    FillLibrariesMenu(g_idCurrentLib);
 
     if (settings.value("store_position", true).toBool()) {
         switch (nCurrentTab)
@@ -1750,7 +1750,7 @@ void MainWindow::ManageLibrary()
 
         searchChanged(ui->lineEditSearchString->text());
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
-        FillLibrariesMenu();
+        FillLibrariesMenu(g_idCurrentLib);
 
         if (settings.value("store_position", true).toBool())
         {
@@ -2184,7 +2184,7 @@ void MainWindow::ProcPath(QString path,QStringList *book_list)
 /*
     Заполнение меню списка Библиотек
 */
-void MainWindow::FillLibrariesMenu()
+void MainWindow::FillLibrariesMenu(uint idLibrary)
 {
     if (!db_is_open)
         return;
@@ -2197,7 +2197,7 @@ void MainWindow::FillLibrariesMenu()
             action->setCheckable(true);
             lib_menu->insertAction(nullptr, action);
             connect(action, SIGNAL(triggered()), this, SLOT(SelectLibrary()));
-            action->setChecked(i.key() == g_idCurrentLib);
+            action->setChecked(i.key() == idLibrary);
         }
         ++i;
     }
