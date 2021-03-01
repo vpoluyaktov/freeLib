@@ -55,14 +55,6 @@ private:
     QToolButton *langBtnHash_;
 
     int idCurrentLanguage_;
-    uint idCurrentAuthor_;
-    uint idCurrentGenre_;
-    uint idCurrentSerial_;
-    uint idCurrentGroup_;
-    uint idCurrentBookForAuthor_;
-    uint idCurrentBookForGenre_;
-    uint idCurrentBookForSeria_;
-    uint idCurrentBookForGroup_;
     bool bUseTag_;
     bool bShowDeleted_;
     bool errorQuit_;

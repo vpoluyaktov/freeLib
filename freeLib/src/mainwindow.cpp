@@ -229,14 +229,14 @@ MainWindow::MainWindow(QWidget* parent) :
     }
     else
     {
-        idCurrentAuthor_ = 0;
-        idCurrentSerial_ = 0;
-        idCurrentGenre_ = 0;
-        idCurrentGroup_ = 0;
-        idCurrentBookForAuthor_ = 0;
-        idCurrentBookForGenre_ = 0;
-        idCurrentBookForSeria_ = 0;
-        idCurrentBookForGroup_ = 0;
+        mLibs[g_idCurrentLib].uIdCurrentAuthor = 0;
+        mLibs[g_idCurrentLib].uIdCurrentSeria = 0;
+        mLibs[g_idCurrentLib].uIdCurrentGenre = 0;
+        mLibs[g_idCurrentLib].uIdCurrentGroup = 0;
+        mLibs[g_idCurrentLib].uIdCurrentBookForAuthor = 0;
+        mLibs[g_idCurrentLib].uIdCurrentBookForGenre = 0;
+        mLibs[g_idCurrentLib].uIdCurrentBookForSeria = 0;
+        mLibs[g_idCurrentLib].uIdCurrentBookForGroup = 0;
         nCurrentTab = 0;
     }
 
@@ -414,7 +414,7 @@ MainWindow::MainWindow(QWidget* parent) :
     if (!query.exec())
         qDebug() << query.lastError().text();
     while (query.next()) {
-        if (idCurrentGroup_ == query.value(0).toInt()) {
+        if (mLibs[g_idCurrentLib].uIdCurrentGroup == query.value(0).toInt()) {
             ui->btnGroupRemove->setEnabled(false);
             ui->btnGroupRename->setEnabled(false);
             break;
@@ -800,14 +800,14 @@ void MainWindow::SaveLibPosition()
         "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentGroup, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :idCurrentBookForGroup, :currentSearchingFilter) WHERE id = :id_lib;"
     );
     query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
-    query.bindValue(":idCurrentAuthor", idCurrentAuthor_);
-    query.bindValue(":idCurrentSeria", idCurrentSerial_);
-    query.bindValue(":idCurrentGenre", idCurrentGenre_);
-    query.bindValue(":idCurrentGroup", idCurrentGroup_);
-    query.bindValue(":idCurrentBookForAuthor", idCurrentBookForAuthor_);
-    query.bindValue(":idCurrentBookForSeria", idCurrentBookForSeria_);
-    query.bindValue(":idCurrentBookForGenre", idCurrentBookForGenre_);
-    query.bindValue(":idCurrentBookForGroup", idCurrentBookForGroup_);
+    query.bindValue(":idCurrentAuthor", mLibs[g_idCurrentLib].uIdCurrentAuthor);
+    query.bindValue(":idCurrentSeria", mLibs[g_idCurrentLib].uIdCurrentSeria);
+    query.bindValue(":idCurrentGenre", mLibs[g_idCurrentLib].uIdCurrentGenre);
+    query.bindValue(":idCurrentGroup", mLibs[g_idCurrentLib].uIdCurrentGroup);
+    query.bindValue(":idCurrentBookForAuthor", mLibs[g_idCurrentLib].uIdCurrentBookForAuthor);
+    query.bindValue(":idCurrentBookForSeria", mLibs[g_idCurrentLib].uIdCurrentBookForSeria);
+    query.bindValue(":idCurrentBookForGenre", mLibs[g_idCurrentLib].uIdCurrentBookForGenre);
+    query.bindValue(":idCurrentBookForGroup", mLibs[g_idCurrentLib].uIdCurrentBookForGroup);
     query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
     query.bindValue(":id_lib", g_idCurrentLib);
     query.exec();
@@ -1390,13 +1390,13 @@ void MainWindow::SelectAuthor()
     currentListForTag_ = qobject_cast<QObject*>(ui->AuthorList);
 
     QListWidgetItem* selectedItem = ui->AuthorList->selectedItems()[0];
-    idCurrentAuthor_ = selectedItem->data(Qt::UserRole).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentAuthor = selectedItem->data(Qt::UserRole).toUInt();
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentAuthor = :currentAuthor WHERE id=:id_lib");
-        query.bindValue(":currentAuthor", idCurrentAuthor_);
+        query.bindValue(":currentAuthor", mLibs[g_idCurrentLib].uIdCurrentAuthor);
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
@@ -1418,8 +1418,8 @@ void MainWindow::SelectAuthor()
     ui->AuthorList->scrollToItem(selectedItem);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
-    QList<uint> listBooks = mLibs[g_idCurrentLib].mAuthorBooksLink.values(idCurrentAuthor_);
-    FillListBooks(listBooks, idCurrentAuthor_);
+    QList<uint> listBooks = mLibs[g_idCurrentLib].mAuthorBooksLink.values(mLibs[g_idCurrentLib].uIdCurrentAuthor);
+    FillListBooks(listBooks, mLibs[g_idCurrentLib].uIdCurrentAuthor);
 }
 
 /*
@@ -1435,14 +1435,14 @@ void MainWindow::SelectSeria()
     currentListForTag_ = qobject_cast<QObject*>(ui->SeriaList);
 
     QListWidgetItem* selectedItem = ui->SeriaList->selectedItems()[0];
-    idCurrentSerial_ = selectedItem->data(Qt::UserRole).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentSeria = selectedItem->data(Qt::UserRole).toUInt();
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentSeria = :currentSeria WHERE id = :id_lib");
-        query.bindValue(":currentSeria", idCurrentSerial_);
+        query.bindValue(":currentSeria", mLibs[g_idCurrentLib].uIdCurrentSeria);
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
@@ -1450,7 +1450,8 @@ void MainWindow::SelectSeria()
     QList<uint> listBooks;
     QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
-        if (iBook->idSerial == idCurrentSerial_ && (idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage))
+        if (iBook->idSerial == mLibs[g_idCurrentLib].uIdCurrentSeria &&
+            (idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage))
             listBooks << iBook.key();
         ++iBook;
     }
@@ -1488,13 +1489,13 @@ void MainWindow::SelectGenre()
     currentListForTag_ = qobject_cast<QObject*>(ui->GenreList);
     
     QTreeWidgetItem* selectedItem = ui->GenreList->selectedItems()[0];
-    idCurrentGenre_ = selectedItem->data(0, Qt::UserRole).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentGenre = selectedItem->data(0, Qt::UserRole).toUInt();
     QList<uint> listBooks;
     QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
     while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
         if ((idCurrentLanguage_ == -1 || idCurrentLanguage_ == iBook->idLanguage)) {
             foreach(uint iGenre, iBook->listIdGenres) {
-                if (iGenre == idCurrentGenre_) {
+                if (iGenre == mLibs[g_idCurrentLib].uIdCurrentGenre) {
                     listBooks << iBook.key();
                     break;
                 }
@@ -1508,7 +1509,7 @@ void MainWindow::SelectGenre()
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentGenre = :currentGenre WHERE id = :id_lib");
-        query.bindValue(":currentGenre", idCurrentGenre_);
+        query.bindValue(":currentGenre", mLibs[g_idCurrentLib].uIdCurrentGenre);
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
@@ -1530,14 +1531,14 @@ void MainWindow::SelectGroup()
     currentListForTag_ = qobject_cast<QObject*>(ui->GroupList);
 
     QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
-    idCurrentGroup_ = selectedItem->data(Qt::UserRole).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentGroup = selectedItem->data(Qt::UserRole).toUInt();
 
     QSettings settings;
     if (settings.value("store_position", true).toBool()) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.setForwardOnly(true);
         query.prepare("UPDATE lib SET currentGroup = :currentGroup WHERE id = :id_lib");
-        query.bindValue(":currentGroup", idCurrentGroup_);
+        query.bindValue(":currentGroup", mLibs[g_idCurrentLib].uIdCurrentGroup);
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
     }
@@ -1558,7 +1559,7 @@ void MainWindow::SelectGroup()
     ui->GroupList->scrollToItem(selectedItem);
 
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
-    QList<uint> listBooks = mLibs[g_idCurrentLib].mGroupBooksLink.values(idCurrentGroup_);
+    QList<uint> listBooks = mLibs[g_idCurrentLib].mGroupBooksLink.values(mLibs[g_idCurrentLib].uIdCurrentGroup);
     FillListBooks(listBooks, 0);
 }
 
@@ -1586,16 +1587,16 @@ void MainWindow::SelectBook()
     uint idBook = item->data(0, Qt::UserRole).toUInt();
     switch (ui->tabWidget->currentIndex()) {
     case 0: // Авторы
-        idCurrentBookForAuthor_ = idBook;
+        mLibs[g_idCurrentLib].uIdCurrentBookForAuthor = idBook;
         break;
     case 1: // Серии
-        idCurrentBookForSeria_ = idBook;
+        mLibs[g_idCurrentLib].uIdCurrentBookForSeria = idBook;
         break;
     case 2: // Жанры
-        idCurrentBookForGenre_ = idBook;
+        mLibs[g_idCurrentLib].uIdCurrentBookForGenre = idBook;
         break;
     case 4: // Группы
-        idCurrentBookForGroup_ = idBook;
+        mLibs[g_idCurrentLib].uIdCurrentBookForGroup = idBook;
         break;
     }
 
@@ -2246,7 +2247,7 @@ void MainWindow::FillListWidgetAuthors(uint idLibrary)
                 if (bUseTag_)
                     item->setIcon(GetTagFromTagsPicList(i->nTag));
                 ui->AuthorList->addItem(item);
-                if (idCurrentAuthor_ == i.key()) {
+                if (mLibs[idLibrary].uIdCurrentAuthor == i.key()) {
                     item->setSelected(true);
                     selectedItem = item;
                 }
@@ -2299,7 +2300,7 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
         if (bUseTag_)
             item->setIcon(GetTagFromTagsPicList(mLibs[idLibrary].mSerials[iSerial.key()].nTag));
         ui->SeriaList->addItem(item);
-        if (iSerial.key() == idCurrentSerial_) {
+        if (iSerial.key() == mLibs[idLibrary].uIdCurrentSeria) {
             item->setSelected(true);
             ui->SeriaList->scrollToItem(item);
         }
@@ -2376,7 +2377,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
                 item = new QTreeWidgetItem(mTopGenresItem[iGenre->idParrentGenre]);
                 item->setText(0, QString("%1 (%2)").arg(iGenre->sName).arg(mCounts[iGenre.key()]));
                 item->setData(0, Qt::UserRole,iGenre.key());
-                if (iGenre.key() == idCurrentGenre_) {
+                if (iGenre.key() == mLibs[idLibrary].uIdCurrentGenre) {
                     item->setSelected(true);
                     ui->GenreList->scrollToItem(item);
                 }
@@ -2443,8 +2444,8 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
         else
             ui->GroupList->addItem(item);
         
-        // выделенная Группа по idCurrentGroup_
-        if (idGroup == idCurrentGroup_)
+        // выделенная Группа по uIdCurrentGroup
+        if (idGroup == mLibs[idLibrary].uIdCurrentGroup)
             selectedItem = item;
         
         ++iGroup;
@@ -2454,7 +2455,7 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
     for (int i = 0; i != blockedItemList.count(); ++i)
         ui->GroupList->insertItem(0, blockedItemList[i]);
 
-    // скроллинг до Группы, выделенной по idCurrentGroup_
+    // скроллинг до Группы, выделенной по uIdCurrentGroup
     if (selectedItem != nullptr) {
         selectedItem->setSelected(true);
         ui->GroupList->scrollToItem(selectedItem);
@@ -2586,10 +2587,10 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
             item_book->setText(4, book.date.toString("dd.MM.yyyy"));
             item_book->setTextAlignment(4, Qt::AlignCenter);
 
-            item_book->setText(5,mGenre[book.listIdGenres.first()].sName);
+            item_book->setText(5, mGenre[book.listIdGenres.first()].sName);
             item_book->setTextAlignment(5, Qt::AlignLeft);
 
-            item_book->setText(6,mLibs[g_idCurrentLib].vLaguages[book.idLanguage]);
+            item_book->setText(6, mLibs[g_idCurrentLib].vLaguages[book.idLanguage]);
             item_book->setTextAlignment(6, Qt::AlignCenter);
 
             item_book->setText(7, book.sFormat);
@@ -2609,16 +2610,16 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
             switch (ui->tabWidget->currentIndex())
             {
             case 0: // Авторы
-                idCurrentBook = idCurrentBookForAuthor_;
+                idCurrentBook = mLibs[g_idCurrentLib].uIdCurrentBookForAuthor;
                 break;
             case 1: // Серии
-                idCurrentBook = idCurrentBookForSeria_;
+                idCurrentBook = mLibs[g_idCurrentLib].uIdCurrentBookForSeria;
                 break;
             case 2: // Жанры
-                idCurrentBook = idCurrentBookForGenre_;
+                idCurrentBook = mLibs[g_idCurrentLib].uIdCurrentBookForGenre;
                 break;
             case 4: // Группы
-                idCurrentBook = idCurrentBookForGroup_;
+                idCurrentBook = mLibs[g_idCurrentLib].uIdCurrentBookForGroup;
                 break;
             }
 
@@ -3204,14 +3205,14 @@ int MainWindow::LoadLibraryPosition()
         qDebug() << query.lastError().text();
     query.next();
     int nCurrentTab = query.value(0).toInt();
-    idCurrentAuthor_ = query.value(1).toUInt();
-    idCurrentSerial_ = query.value(2).toUInt();
-    idCurrentGenre_ = query.value(3).toUInt();
-    idCurrentGroup_ = query.value(4).toUInt();
-    idCurrentBookForAuthor_ = query.value(5).toUInt();
-    idCurrentBookForSeria_ = query.value(6).toUInt();
-    idCurrentBookForGenre_ = query.value(7).toUInt();
-    idCurrentBookForGroup_ = query.value(8).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentAuthor = query.value(1).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentSeria = query.value(2).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentGenre = query.value(3).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentGroup = query.value(4).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentBookForAuthor = query.value(5).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentBookForSeria = query.value(6).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentBookForGenre = query.value(7).toUInt();
+    mLibs[g_idCurrentLib].uIdCurrentBookForGroup = query.value(8).toUInt();
     ui->lineEditSearchString->setText(query.value(9).toString());
     return nCurrentTab;
 }
@@ -3380,7 +3381,7 @@ void MainWindow::RenameGroup()
 {
     if (ui->GroupList->selectedItems().count() > 0) {
         // название Группы без числа книг в ней
-        QString oldGroupNameWithoutBookCount = GetGroupNameWhitoutBookCount(g_idCurrentLib, idCurrentGroup_);
+        QString oldGroupNameWithoutBookCount = GetGroupNameWhitoutBookCount(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
         bool ok;
         QString newGroupName = QInputDialog::getText(
             this, tr("Input Group"), tr("New name Group:"), QLineEdit::Normal, oldGroupNameWithoutBookCount, &ok
@@ -3402,7 +3403,7 @@ void MainWindow::RenameGroup()
             // изменение названия группы в базе данных
             query.prepare("UPDATE groups SET name = :name WHERE id_lib = :id_lib AND id = :id;");
             query.bindValue(":id_lib", g_idCurrentLib);
-            query.bindValue(":id", idCurrentGroup_);
+            query.bindValue(":id", mLibs[g_idCurrentLib].uIdCurrentGroup);
             query.bindValue(":name", newGroupName);
             if (!query.exec())
                 qDebug() << query.lastError().text();
@@ -3419,7 +3420,7 @@ void MainWindow::RenameGroup()
                 // изменение названия группы в контроле списка групп
                 QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
                 selectedItem->setText(
-                    QString("%1 (%2)").arg(newGroupName).arg(GetBookCountFromGroup(g_idCurrentLib, idCurrentGroup_))
+                    QString("%1 (%2)").arg(newGroupName).arg(GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup))
                 );
             }
         }
@@ -3443,16 +3444,16 @@ void MainWindow::DeleteBookFromGroupAction()
         QSqlQuery query(QSqlDatabase::database("libdb"));
         query.prepare("DELETE FROM book_group WHERE id_lib = :id_lib AND group_id = :group_id AND book_id = :book_id;");
         query.bindValue(":book_id", idBook);
-        query.bindValue(":group_id", idCurrentGroup_);
+        query.bindValue(":group_id", mLibs[g_idCurrentLib].uIdCurrentGroup);
         query.bindValue(":id_lib", g_idCurrentLib);
         if (!query.exec())
             qDebug() << query.lastError().text();
 
         // удаление из структуры связи этой книги с выделенной группой
-        mLibs[g_idCurrentLib].mGroupBooksLink.remove(idCurrentGroup_, idBook);
+        mLibs[g_idCurrentLib].mGroupBooksLink.remove(mLibs[g_idCurrentLib].uIdCurrentGroup, idBook);
 
         // изменение отображения в названии группы числа книг
-        SetNewGroupNameWithBookCount(g_idCurrentLib, idCurrentGroup_);
+        SetNewGroupNameWithBookCount(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
 
         // удаление книги из контрола дерева книг
         SelectGroup();
@@ -3465,7 +3466,7 @@ void MainWindow::DeleteAllBooksFromGroup()
 {
     if (ui->GroupList->selectedItems().count() > 0) {
         // число книг в группе
-        int bookCount = GetBookCountFromGroup(g_idCurrentLib, idCurrentGroup_);
+        int bookCount = GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
         if (bookCount > 0) {
             QString selectedGroupName = ui->GroupList->selectedItems()[0]->text();
             if (QMessageBox::question(
@@ -3473,9 +3474,9 @@ void MainWindow::DeleteAllBooksFromGroup()
                 tr("Are you sure you want to delete all books of the selected group") + " '" + selectedGroupName + "'?",
                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
                 // удаление всех книг из выделенной группы
-                RemoveAllBooksFromGroup(g_idCurrentLib, idCurrentGroup_);
+                RemoveAllBooksFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
                 // корректировка числа книг в названии Группы
-                ui->GroupList->selectedItems()[0]->setText(GetGroupNameWhitoutBookCount(g_idCurrentLib, idCurrentGroup_));
+                ui->GroupList->selectedItems()[0]->setText(GetGroupNameWhitoutBookCount(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup));
             }
         }
     }
@@ -3494,19 +3495,19 @@ void MainWindow::RemoveGroupFromList()
             QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
             // удаление всех книг из выделенной группы
-            RemoveAllBooksFromGroup(g_idCurrentLib, idCurrentGroup_);
+            RemoveAllBooksFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
 
             // Удаление выбранной группы из базы
             QSqlQuery query(QSqlDatabase::database("libdb"));
             query.prepare("DELETE FROM groups WHERE id_lib = :id_lib AND id = :group_id;");
-            query.bindValue(":group_id", idCurrentGroup_);
+            query.bindValue(":group_id", mLibs[g_idCurrentLib].uIdCurrentGroup);
             query.bindValue(":id_lib", g_idCurrentLib);
             if (!query.exec())
                 qDebug() << query.lastError().text();
 
             // Удаление выбранной группы из структуры текущей библиотеки
             for (QHash<uint, Group>::iterator it = mLibs[g_idCurrentLib].mGroups.begin(); it != mLibs[g_idCurrentLib].mGroups.end(); ++it) {
-                if ((*it).getId() == idCurrentGroup_) {
+                if ((*it).getId() == mLibs[g_idCurrentLib].uIdCurrentGroup) {
                     mLibs[g_idCurrentLib].mGroups.erase(it);
                     break;
                 }
@@ -3648,5 +3649,5 @@ int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
 */
 QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
 {
-    return mLibs[g_idCurrentLib].mGroups.find(idCurrentGroup_).value().getName();;
+    return mLibs[g_idCurrentLib].mGroups.find(mLibs[g_idCurrentLib].uIdCurrentGroup).value().getName();;
 }
