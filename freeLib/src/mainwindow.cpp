@@ -788,7 +788,7 @@ void MainWindow::SaveLibPosition()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentGroup, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :idCurrentBookForGroup, :currentSearchingFilter) WHERE id = :id_lib;"
+        "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag, currentBookLanguage) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentGroup, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :idCurrentBookForGroup, :currentSearchingFilter, :currentTag, :currentBookLanguage) WHERE id = :id_lib;"
     );
     query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
     query.bindValue(":idCurrentAuthor", mLibs[g_idCurrentLib].uIdCurrentAuthor);
@@ -800,6 +800,8 @@ void MainWindow::SaveLibPosition()
     query.bindValue(":idCurrentBookForGenre", mLibs[g_idCurrentLib].uIdCurrentBookForGenre);
     query.bindValue(":idCurrentBookForGroup", mLibs[g_idCurrentLib].uIdCurrentBookForGroup);
     query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
+    query.bindValue(":currentTag", mLibs[g_idCurrentLib].uIdCurrentTag);
+    query.bindValue(":currentBookLanguage", mLibs[g_idCurrentLib].sCurrentBookLanguage);
     query.bindValue(":id_lib", g_idCurrentLib);
     query.exec();
 }
@@ -1695,13 +1697,13 @@ void MainWindow::UpdateBookLanguageControls()
 
     QSqlQuery query(QSqlDatabase::database("libdb"));
     bool bIsAllLang = true;
-    for (int iLang = 0; iLang < currentLib.vLaguages.size(); iLang++){
+    for (int iLang = 0; iLang < currentLib.vLaguages.size(); iLang++) {
         QString sLanguage = currentLib.vLaguages[iLang].toUpper();
         if (!sLanguage.isEmpty()) {
             ui->comboBoxLanguageFilter->addItem(sLanguage, iLang);
             ui->comboBoxFindLanguage->addItem(sLanguage, iLang);
             // язык фильтрации книг текущей библиотеки
-            if(sLanguage == mLibs[g_idCurrentLib].sCurrentBookLanguage) {
+            if (sLanguage == mLibs[g_idCurrentLib].sCurrentBookLanguage) {
                 ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count() - 1);
                 idCurrentLanguage_ = iLang;
                 bIsAllLang = false;
