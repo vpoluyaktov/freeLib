@@ -3201,6 +3201,7 @@ int MainWindow::LoadLibraryPosition()
     mLibs[g_idCurrentLib].uIdCurrentBookForSeria = query.value(6).toUInt();
     mLibs[g_idCurrentLib].uIdCurrentBookForGenre = query.value(7).toUInt();
     mLibs[g_idCurrentLib].uIdCurrentBookForGroup = query.value(8).toUInt();
+    mLibs[g_idCurrentLib].sCurrentSearchingFilter = query.value(9).toString();
     ui->lineEditSearchString->setText(query.value(9).toString());
     mLibs[g_idCurrentLib].uIdCurrentTag = query.value(10).toUInt();
     mLibs[g_idCurrentLib].sCurrentBookLanguage = query.value(11).toString();
