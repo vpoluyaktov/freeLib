@@ -320,6 +320,8 @@ MainWindow::MainWindow(QWidget* parent) :
     BindAnyButtonShortcut(ui->btnGroups, QKeySequence("CTRL+P"));
 
     ChangingLanguage(false);
+    // восстановление фильтрации по 1-й букве Автора/Серии (активация символьной кнопки)
+    searchChanged(ui->lineEditSearchString->text());
     ExportBookListBtnEnabled(false);
 
     mode=static_cast<APP_MODE>(settings.value("ApplicationMode",0).toInt());
