@@ -225,7 +225,7 @@ MainWindow::MainWindow(QWidget* parent) :
     if (settings.value("store_position", true).toBool())
     {
         // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-        nCurrentTab = LoadLibraryPosition();
+        nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
     }
     else
     {
@@ -1325,7 +1325,7 @@ void MainWindow::SelectLibrary()
     int nCurrentTab;
     if (settings.value("store_position", true).toBool()) {
         // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-        nCurrentTab = LoadLibraryPosition();
+        nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
     }
 
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
@@ -1735,7 +1735,7 @@ void MainWindow::ManageLibrary()
         if (settings.value("store_position", true).toBool())
         {
             // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-            nCurrentTab = LoadLibraryPosition();
+            nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
         }
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
@@ -3180,32 +3180,32 @@ void MainWindow::changeEvent(QEvent *event)
 /*
     чтение из базы данные 'позиции' библиотеки
 */
-int MainWindow::LoadLibraryPosition()
+int MainWindow::LoadLibraryPosition(uint idLibrary)
 {
-    // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
+    // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
         "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag, currentBookLanguage FROM lib WHERE id=:id;"
     );
     //              0           1                2            3              4                  5                   6                   7                   8                      9                 10             11
-    query.bindValue(":id", g_idCurrentLib);
+    query.bindValue(":id", idLibrary);
     if (!query.exec())
         qDebug() << query.lastError().text();
     query.next();
     int nCurrentTab = query.value(0).toInt();
-    mLibs[g_idCurrentLib].uIdCurrentAuthor = query.value(1).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentSeria = query.value(2).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentGenre = query.value(3).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentGroup = query.value(4).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentBookForAuthor = query.value(5).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentBookForSeria = query.value(6).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentBookForGenre = query.value(7).toUInt();
-    mLibs[g_idCurrentLib].uIdCurrentBookForGroup = query.value(8).toUInt();
-    mLibs[g_idCurrentLib].sCurrentSearchingFilter = query.value(9).toString();
+    mLibs[idLibrary].uIdCurrentAuthor = query.value(1).toUInt();
+    mLibs[idLibrary].uIdCurrentSeria = query.value(2).toUInt();
+    mLibs[idLibrary].uIdCurrentGenre = query.value(3).toUInt();
+    mLibs[idLibrary].uIdCurrentGroup = query.value(4).toUInt();
+    mLibs[idLibrary].uIdCurrentBookForAuthor = query.value(5).toUInt();
+    mLibs[idLibrary].uIdCurrentBookForSeria = query.value(6).toUInt();
+    mLibs[idLibrary].uIdCurrentBookForGenre = query.value(7).toUInt();
+    mLibs[idLibrary].uIdCurrentBookForGroup = query.value(8).toUInt();
+    mLibs[idLibrary].sCurrentSearchingFilter = query.value(9).toString();
     ui->lineEditSearchString->setText(query.value(9).toString());
-    mLibs[g_idCurrentLib].uIdCurrentTag = query.value(10).toUInt();
-    mLibs[g_idCurrentLib].sCurrentBookLanguage = query.value(11).toString();
+    mLibs[idLibrary].uIdCurrentTag = query.value(10).toUInt();
+    mLibs[idLibrary].sCurrentBookLanguage = query.value(11).toString();
     return nCurrentTab;
 }
 
