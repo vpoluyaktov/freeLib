@@ -467,17 +467,11 @@ void MainWindow::UpdateTagsMenu()
 
     int size = static_cast<int>(ui->comboBoxTagFilter->style()->pixelMetric(QStyle::PM_SmallIconSize) * app->devicePixelRatio());
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    // чтение id тега фильтрации текущей библиотеки
-    query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
-    query.bindValue(":id_lib", g_idCurrentLib);
-    query.exec();
-    query.next();
-    int currentTag = query.value(0).toInt();
     // чтение данных тега
     query.exec("SELECT color, name, id FROM tag");
     ui->comboBoxTagFilter->clear();
     ui->comboBoxFindTag->clear();
-    int con=1;
+    int con = 1;
     ui->comboBoxTagFilter->addItem("*", 0);
     ui->comboBoxFindTag->addItem("*",  0);
     menuTag_.clear();
@@ -499,7 +493,7 @@ void MainWindow::UpdateTagsMenu()
     while(query.next()) {
         ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
         ui->comboBoxFindTag->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
-        if (currentTag == ui->comboBoxTagFilter->count() - 1 && bUseTag_)
+        if (mLibs[g_idCurrentLib].uIdCurrentTag == ui->comboBoxTagFilter->count() - 1 && bUseTag_)
             ui->comboBoxTagFilter->setCurrentIndex(ui->comboBoxTagFilter->count() - 1);
         pix = ::CreateTag(QColor(query.value(0).toString().trimmed()), size);
         Stag new_tag = {pix, query.value(2).toInt()};
@@ -761,13 +755,9 @@ void MainWindow::FilterTagSelect(int index)
     query.setForwardOnly(true);
     if (ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt() == -1)
     {
-        // чтение id тега фильтрации текущей библиотеки
-        query.prepare("SELECT currentTag FROM lib WHERE id = :id_lib;");
-        query.bindValue(":id_lib", g_idCurrentLib);
-        query.exec();
-        query.next();
         const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
-        ui->comboBoxTagFilter->setCurrentIndex(query.value(0).toInt());
+        // id тега фильтрации текущей библиотеки
+        ui->comboBoxTagFilter->setCurrentIndex(mLibs[g_idCurrentLib].uIdCurrentTag);
         ui->comboBoxTagFilter->blockSignals(wasBlocked);
         TagDialog td(this);
         if (td.exec())
@@ -3197,9 +3187,9 @@ int MainWindow::LoadLibraryPosition()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter FROM lib WHERE id=:id;"
+        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag FROM lib WHERE id=:id;"
     );
-    //              0           1                2            3              4                  5                   6                   7                   8                      9
+    //              0           1                2            3              4                  5                   6                   7                   8                      9                 10
     query.bindValue(":id", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();
@@ -3214,6 +3204,7 @@ int MainWindow::LoadLibraryPosition()
     mLibs[g_idCurrentLib].uIdCurrentBookForGenre = query.value(7).toUInt();
     mLibs[g_idCurrentLib].uIdCurrentBookForGroup = query.value(8).toUInt();
     ui->lineEditSearchString->setText(query.value(9).toString());
+    mLibs[g_idCurrentLib].uIdCurrentTag = query.value(10).toUInt();
     return nCurrentTab;
 }
 
