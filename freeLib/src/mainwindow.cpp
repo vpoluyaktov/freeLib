@@ -2228,7 +2228,7 @@ void MainWindow::FillListWidgetAuthors(uint idLibrary)
             int count = 0;
             foreach (uint idBook, booksId) {
                 SBook &book = currentLib.mBooks[idBook];
-                if (IsMatchingFilterConditions(book))
+                if (IsMatchingFilterConditions(idLibrary, book))
                     count++;
             }
             if (count > 0) {
@@ -2267,8 +2267,8 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[idLibrary].mBooks.constBegin();
     while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
-        if(IsMatchingFilterConditions(*iBook) &&
-                (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch, Qt::CaseInsensitive)))
+        if(IsMatchingFilterConditions(idLibrary , *iBook) &&
+            (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch, Qt::CaseInsensitive)))
         {
             if(mCounts.contains(iBook->idSerial))
                 mCounts[iBook->idSerial]++;
@@ -2318,7 +2318,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[idLibrary].mBooks.constBegin();
     while (iBook != mLibs[idLibrary].mBooks.constEnd()) {
-        if (IsMatchingFilterConditions(*iBook)) {
+        if (IsMatchingFilterConditions(idLibrary , *iBook)) {
             foreach (uint iGenre, iBook->listIdGenres) {
                 if(mCounts.contains(iGenre))
                     mCounts[iGenre]++;
@@ -2505,7 +2505,7 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
 
     foreach (uint idBook, listBook) {
         SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
-        if (IsMatchingFilterConditions(book)) {
+        if (IsMatchingFilterConditions(g_idCurrentLib, book)) {
             uint idSerial = book.idSerial;
             uint idAuthor;
             if (idCurrentAuthor > 0)
@@ -2634,7 +2634,7 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
 /*
     выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
 */
-bool MainWindow::IsMatchingFilterConditions(const SBook &book) const
+bool MainWindow::IsMatchingFilterConditions(uint idLibrary, const SBook &book) const
 {
     int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
     uint idSerial=book.idSerial;
@@ -2642,8 +2642,8 @@ bool MainWindow::IsMatchingFilterConditions(const SBook &book) const
     return (idCurrentLanguage_ == -1 || idCurrentLanguage_ == book.idLanguage)
             &&(bShowDeleted_ || !book.bDeleted) &&
             (!bUseTag_ || current_tag==0 || current_tag==book.nTag
-             ||(idSerial>0 && mLibs[g_idCurrentLib].mSerials[idSerial].nTag == current_tag)
-             ||(mLibs[g_idCurrentLib].mAuthors[book.idFirstAuthor].nTag == current_tag));
+             ||(idSerial>0 && mLibs[idLibrary].mSerials[idSerial].nTag == current_tag)
+             ||(mLibs[idLibrary].mAuthors[book.idFirstAuthor].nTag == current_tag));
 }
 
 void MainWindow::dropEvent(QDropEvent *ev)
