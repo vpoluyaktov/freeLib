@@ -237,6 +237,7 @@ MainWindow::MainWindow(QWidget* parent) :
         mLibs[g_idCurrentLib].uIdCurrentBookForGenre = 0;
         mLibs[g_idCurrentLib].uIdCurrentBookForSeria = 0;
         mLibs[g_idCurrentLib].uIdCurrentBookForGroup = 0;
+        mLibs[g_idCurrentLib].uIdCurrentTag = 0;
         nCurrentTab = 0;
     }
 
