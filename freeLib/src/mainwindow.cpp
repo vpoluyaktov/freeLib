@@ -3188,9 +3188,9 @@ int MainWindow::LoadLibraryPosition()
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
     query.prepare(
-        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag FROM lib WHERE id=:id;"
+        "SELECT currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag, currentBookLanguage FROM lib WHERE id=:id;"
     );
-    //              0           1                2            3              4                  5                   6                   7                   8                      9                 10
+    //              0           1                2            3              4                  5                   6                   7                   8                      9                 10             11
     query.bindValue(":id", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();
@@ -3206,6 +3206,7 @@ int MainWindow::LoadLibraryPosition()
     mLibs[g_idCurrentLib].uIdCurrentBookForGroup = query.value(8).toUInt();
     ui->lineEditSearchString->setText(query.value(9).toString());
     mLibs[g_idCurrentLib].uIdCurrentTag = query.value(10).toUInt();
+    mLibs[g_idCurrentLib].sCurrentBookLanguage = query.value(11).toString();
     return nCurrentTab;
 }
 
