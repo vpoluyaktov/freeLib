@@ -1694,19 +1694,14 @@ void MainWindow::UpdateBookLanguageControls()
     ui->comboBoxFindLanguage->setCurrentIndex(0);
 
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    // чтение языка фильтрации книг текущей библиотеки
-    query.prepare("SELECT currentBookLanguage FROM lib WHERE id = :id_lib;");
-    query.bindValue(":id_lib", g_idCurrentLib);
-    query.exec();
-    query.next();
     bool bIsAllLang = true;
-    QString sCurrentLanguage = query.value(0).toString();
-    for(int iLang = 0; iLang < currentLib.vLaguages.size(); iLang++){
+    for (int iLang = 0; iLang < currentLib.vLaguages.size(); iLang++){
         QString sLanguage = currentLib.vLaguages[iLang].toUpper();
         if (!sLanguage.isEmpty()) {
             ui->comboBoxLanguageFilter->addItem(sLanguage, iLang);
             ui->comboBoxFindLanguage->addItem(sLanguage, iLang);
-            if(sLanguage == sCurrentLanguage) {
+            // язык фильтрации книг текущей библиотеки
+            if(sLanguage == mLibs[g_idCurrentLib].sCurrentBookLanguage) {
                 ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count() - 1);
                 idCurrentLanguage_ = iLang;
                 bIsAllLang = false;
