@@ -253,7 +253,7 @@ MainWindow::MainWindow(QWidget* parent) :
     // заполнение комбобокса рейтинга на вкладке Поиск
     FillRatingList();
     // заполнение комбобокса с форматами книг на вкладке Поиск
-    FillFormatList();
+    FillFormatList(g_idCurrentLib);
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
@@ -1332,7 +1332,7 @@ void MainWindow::SelectLibrary()
     UpdateTagsMenu();
     UpdateBookLanguageControls(g_idCurrentLib);
     // заполнение комбобокса с форматами книг на вкладке Поиск
-    FillFormatList();
+    FillFormatList(g_idCurrentLib);
 
     FillListWidgetAuthors(g_idCurrentLib);
     FillListWidgetSerials(g_idCurrentLib);
@@ -1741,7 +1741,7 @@ void MainWindow::ManageLibrary()
         UpdateTagsMenu();
         UpdateBookLanguageControls(g_idCurrentLib);
         // заполнение комбобокса с форматами книг на вкладке Поиск
-        FillFormatList();
+        FillFormatList(g_idCurrentLib);
 
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
@@ -3549,11 +3549,11 @@ void MainWindow::RemoveAllBooksFromGroup(uint idLibrary, uint idGroup)
 /*
     заполнение комбобокса с форматами книг на вкладке Поиск
 */
-void MainWindow::FillFormatList()
+void MainWindow::FillFormatList(uint idLibrary)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.prepare("SELECT format FROM book WHERE id_lib = :id_lib GROUP BY format;");
-    query.bindValue(":id_lib", g_idCurrentLib);
+    query.bindValue(":id_lib", idLibrary);
     if (!query.exec())
         qDebug() << query.lastError().text();
     else {

@@ -110,7 +110,7 @@ private:
     // удаление всех книг из выделенной группы
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
-    void FillFormatList();
+    void FillFormatList(uint idLibrary);
     // создание меню Рейтинга
     void CreateRatingMenu();
     // создание меню Прочитано/Не прочитано
