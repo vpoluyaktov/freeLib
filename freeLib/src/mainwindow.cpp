@@ -249,7 +249,7 @@ MainWindow::MainWindow(QWidget* parent) :
     UpdateTagsMenu();
     loadGenresFromSQLiteToLibraryStructure();
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
-    UpdateBookLanguageControls();
+    UpdateBookLanguageControls(g_idCurrentLib);
     // заполнение комбобокса рейтинга на вкладке Поиск
     FillRatingList();
     // заполнение комбобокса с форматами книг на вкладке Поиск
@@ -784,7 +784,7 @@ void MainWindow::FilterTagSelect(int index)
 /*
     сохранение настроек Библиотеки
 */
-void MainWindow::SaveLibPosition()
+void MainWindow::SaveLibPosition(uint idLibrary)
 {
     // сохранение в базу данных 'позиции' текущей библиотеки с id = g_idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -793,18 +793,18 @@ void MainWindow::SaveLibPosition()
         "UPDATE lib SET (currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag, currentBookLanguage) = (:idCurrentTab, :idCurrentAuthor, :idCurrentSeria, :idCurrentGenre, :idCurrentGroup, :idCurrentBookForAuthor, :idCurrentBookForSeria, :idCurrentBookForGenre, :idCurrentBookForGroup, :currentSearchingFilter, :currentTag, :currentBookLanguage) WHERE id = :id_lib;"
     );
     query.bindValue(":idCurrentTab", ui->tabWidget->currentIndex());
-    query.bindValue(":idCurrentAuthor", mLibs[g_idCurrentLib].uIdCurrentAuthor);
-    query.bindValue(":idCurrentSeria", mLibs[g_idCurrentLib].uIdCurrentSeria);
-    query.bindValue(":idCurrentGenre", mLibs[g_idCurrentLib].uIdCurrentGenre);
-    query.bindValue(":idCurrentGroup", mLibs[g_idCurrentLib].uIdCurrentGroup);
-    query.bindValue(":idCurrentBookForAuthor", mLibs[g_idCurrentLib].uIdCurrentBookForAuthor);
-    query.bindValue(":idCurrentBookForSeria", mLibs[g_idCurrentLib].uIdCurrentBookForSeria);
-    query.bindValue(":idCurrentBookForGenre", mLibs[g_idCurrentLib].uIdCurrentBookForGenre);
-    query.bindValue(":idCurrentBookForGroup", mLibs[g_idCurrentLib].uIdCurrentBookForGroup);
+    query.bindValue(":idCurrentAuthor", mLibs[idLibrary].uIdCurrentAuthor);
+    query.bindValue(":idCurrentSeria", mLibs[idLibrary].uIdCurrentSeria);
+    query.bindValue(":idCurrentGenre", mLibs[idLibrary].uIdCurrentGenre);
+    query.bindValue(":idCurrentGroup", mLibs[idLibrary].uIdCurrentGroup);
+    query.bindValue(":idCurrentBookForAuthor", mLibs[idLibrary].uIdCurrentBookForAuthor);
+    query.bindValue(":idCurrentBookForSeria", mLibs[idLibrary].uIdCurrentBookForSeria);
+    query.bindValue(":idCurrentBookForGenre", mLibs[idLibrary].uIdCurrentBookForGenre);
+    query.bindValue(":idCurrentBookForGroup", mLibs[idLibrary].uIdCurrentBookForGroup);
     query.bindValue(":currentSearchingFilter", ui->lineEditSearchString->text().trimmed());
-    query.bindValue(":currentTag", mLibs[g_idCurrentLib].uIdCurrentTag);
-    query.bindValue(":currentBookLanguage", mLibs[g_idCurrentLib].sCurrentBookLanguage);
-    query.bindValue(":id_lib", g_idCurrentLib);
+    query.bindValue(":currentTag", mLibs[idLibrary].uIdCurrentTag);
+    query.bindValue(":currentBookLanguage", mLibs[idLibrary].sCurrentBookLanguage);
+    query.bindValue(":id_lib", idLibrary);
     query.exec();
 }
 
@@ -812,7 +812,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(pHelpDlg_!=nullptr)
         delete pHelpDlg_;
-    SaveLibPosition();
+    SaveLibPosition(g_idCurrentLib);
     QSettings settings;
     settings.setValue("ApplicationMode", mode);
     if(mode==MODE_LIBRARY)
@@ -870,7 +870,7 @@ void MainWindow::Settings()
         // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
         MarkDeletedBooks();
     }
-    SaveLibPosition();
+    SaveLibPosition(g_idCurrentLib);
     SelectBook();
     opds_.server_run();
     UpdateExportMenu();
@@ -1315,7 +1315,7 @@ QList<uint> MainWindow::StartBooksSearch(
 void MainWindow::SelectLibrary()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    SaveLibPosition();
+    SaveLibPosition(g_idCurrentLib);
     ui->Books->clear();
     idCurrentLanguage_ = -1; // если не был задан язык фильтрации, то это - *, все языки
     QAction* action=qobject_cast<QAction*>(sender());
@@ -1330,7 +1330,7 @@ void MainWindow::SelectLibrary()
 
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateTagsMenu();
-    UpdateBookLanguageControls();
+    UpdateBookLanguageControls(g_idCurrentLib);
     // заполнение комбобокса с форматами книг на вкладке Поиск
     FillFormatList();
 
@@ -1683,10 +1683,10 @@ void MainWindow::SelectBook()
 /*
     обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
 */
-void MainWindow::UpdateBookLanguageControls()
+void MainWindow::UpdateBookLanguageControls(uint idLibrary)
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    SLib &currentLib = mLibs[g_idCurrentLib];
+    SLib &currentLib = mLibs[idLibrary];
 
     ui->comboBoxLanguageFilter->blockSignals(true);
     ui->comboBoxFindLanguage->blockSignals(true);
@@ -1705,7 +1705,7 @@ void MainWindow::UpdateBookLanguageControls()
             ui->comboBoxLanguageFilter->addItem(sLanguage, iLang);
             ui->comboBoxFindLanguage->addItem(sLanguage, iLang);
             // язык фильтрации книг текущей библиотеки
-            if (sLanguage == mLibs[g_idCurrentLib].sCurrentBookLanguage) {
+            if (sLanguage == mLibs[idLibrary].sCurrentBookLanguage) {
                 ui->comboBoxLanguageFilter->setCurrentIndex(ui->comboBoxLanguageFilter->count() - 1);
                 idCurrentLanguage_ = iLang;
                 bIsAllLang = false;
@@ -1713,8 +1713,8 @@ void MainWindow::UpdateBookLanguageControls()
         }
     }
     ui->comboBoxLanguageFilter->model()->sort(0);
-    // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
-    SaveCurrentBookLanguageFilter(g_idCurrentLib, ui->comboBoxLanguageFilter->currentText());
+    // сохранение языка фильтрации книг текущей библиотеки с id = idLibrary
+    SaveCurrentBookLanguageFilter(idLibrary, ui->comboBoxLanguageFilter->currentText());
     ui->comboBoxLanguageFilter->blockSignals(false);
     ui->comboBoxFindLanguage->blockSignals(false);
     QApplication::restoreOverrideCursor();
@@ -1725,7 +1725,7 @@ void MainWindow::UpdateBookLanguageControls()
 */
 void MainWindow::ManageLibrary()
 {
-    SaveLibPosition();
+    SaveLibPosition(g_idCurrentLib);
     AddLibrary al(this);
     al.exec();
     if (al.IsLibraryChanged()) {
@@ -1739,7 +1739,7 @@ void MainWindow::ManageLibrary()
         }
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
-        UpdateBookLanguageControls();
+        UpdateBookLanguageControls(g_idCurrentLib);
         // заполнение комбобокса с форматами книг на вкладке Поиск
         FillFormatList();
 

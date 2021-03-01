@@ -64,7 +64,7 @@ private:
     // заполнение меню цветных тегов панели инструментов
     void UpdateTagsMenu();
     // обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
-    void UpdateBookLanguageControls();
+    void UpdateBookLanguageControls(uint idLibrary);
     // обновление контролов меню экспорта книг на панели инструментов
     void UpdateExportMenu();
     
@@ -86,7 +86,7 @@ private:
     void UpdateListPix(qlonglong id, int list, int tag_id);
     void UncheckBooks(QList<qlonglong> list);
     // сохранение настроек Библиотеки
-    void SaveLibPosition();
+    void SaveLibPosition(uint idLibrary);
     // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
     int LoadLibraryPosition(uint idLibrary);
     void DeleteDropForm();
