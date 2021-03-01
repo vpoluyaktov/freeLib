@@ -55,14 +55,6 @@ private:
     QToolButton *langBtnHash_;
 
     int idCurrentLanguage_;
-    uint idCurrentAuthor_;
-    uint idCurrentGenre_;
-    uint idCurrentSerial_;
-    uint idCurrentGroup_;
-    uint idCurrentBookForAuthor_;
-    uint idCurrentBookForGenre_;
-    uint idCurrentBookForSeria_;
-    uint idCurrentBookForGroup_;
     bool bUseTag_;
     bool bShowDeleted_;
     bool errorQuit_;
@@ -72,7 +64,7 @@ private:
     // заполнение меню цветных тегов панели инструментов
     void UpdateTagsMenu();
     // обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
-    void UpdateBookLanguageControls();
+    void UpdateBookLanguageControls(uint idLibrary);
     // обновление контролов меню экспорта книг на панели инструментов
     void UpdateExportMenu();
     
@@ -89,26 +81,26 @@ private:
     // заполнение контрола дерева Книг по Авторам и Сериям из базы для выбранной библиотеки
     void FillListBooks(QList<uint> listBook, uint idCurrentAuthor);
     // выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
-    bool IsMatchingFilterConditions(const SBook &book) const;
+    bool IsMatchingFilterConditions(uint idLibrary, const SBook &book) const;
     // обновление иконки тэга в списках Авторов, Серий, Книг
     void UpdateListPix(qlonglong id, int list, int tag_id);
     void UncheckBooks(QList<qlonglong> list);
     // сохранение настроек Библиотеки
-    void SaveLibPosition();
-    // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-    int LoadLibraryPosition();
+    void SaveLibPosition(uint idLibrary);
+    // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
+    int LoadLibraryPosition(uint idLibrary);
     void DeleteDropForm();
 
     // поиск книг по заданным критериям
     QList<uint> StartBooksSearch(
-        const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+        uint idLibrary, const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
         int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
         bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
-    void SaveCurrentBookLanguageFilter(const QString& lang);
+    void SaveCurrentBookLanguageFilter(uint idLibrary, const QString& lang);
     // заполнение комбобокса рейтинга на вкладке Поиск
     void FillRatingList();
     // пометка ячейки статуса 'Прочитано'
@@ -118,7 +110,7 @@ private:
     // удаление всех книг из выделенной группы
     void RemoveAllBooksFromGroup(uint idLibrary, uint idGroup);
     // заполнение комбобокса с форматами книг на вкладке Поиск
-    void FillFormatList();
+    void FillFormatList(uint idLibrary);
     // создание меню Рейтинга
     void CreateRatingMenu();
     // создание меню Прочитано/Не прочитано
@@ -155,7 +147,7 @@ protected:
     void SendMail();
 
     // Заполнение меню списка Библиотек
-    void FillLibrariesMenu();
+    void FillLibrariesMenu(uint idLibrary);
     //void FillBookList(QSqlQuery& query);
     void FillCheckedBookList(QList<book_info>& list, QTreeWidgetItem* item = nullptr, bool send_all = false, bool count_only = false, bool checked_only = false);
     void FillCheckedItemsBookList(QList<book_info>& list, QTreeWidgetItem* item, bool send_all, bool count_only);

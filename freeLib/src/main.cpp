@@ -464,7 +464,7 @@ void UpdateLibs()
             mLibs[idLib].uIdCurrentBookForGenre = query.value(13).toUInt();
             mLibs[idLib].uIdCurrentBookForGroup = query.value(14).toUInt();
             mLibs[idLib].sCurrentSearchingFilter = query.value(15).toString().trimmed();
-            mLibs[idLib].uCurrentTag = query.value(16).toUInt();
+            mLibs[idLib].uIdCurrentTag = query.value(16).toUInt();
             mLibs[idLib].sCurrentBookLanguage = query.value(17).toString().trimmed();
         }
         if(mLibs.empty())

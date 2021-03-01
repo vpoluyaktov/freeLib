@@ -119,7 +119,7 @@ struct SLib
     uint uIdCurrentBookForGenre;
     uint uIdCurrentBookForGroup;
     QString sCurrentSearchingFilter;
-    uint uCurrentTag;
+    uint uIdCurrentTag;
     QString sCurrentBookLanguage;
     QHash<uint,SAuthor> mAuthors;
     QMultiHash<uint,uint> mAuthorBooksLink;
@@ -142,7 +142,7 @@ struct SLib
         uIdCurrentBookForSeria = 0;
         uIdCurrentBookForGenre = 0;
         uIdCurrentBookForGroup = 0;
-        uCurrentTag = 0;
+        uIdCurrentTag = 0;
     }
 };
 
