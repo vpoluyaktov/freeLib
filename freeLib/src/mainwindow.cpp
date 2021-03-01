@@ -1714,7 +1714,7 @@ void MainWindow::UpdateBookLanguageControls()
     }
     ui->comboBoxLanguageFilter->model()->sort(0);
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
-    SaveCurrentBookLanguageFilter(ui->comboBoxLanguageFilter->currentText());
+    SaveCurrentBookLanguageFilter(g_idCurrentLib, ui->comboBoxLanguageFilter->currentText());
     ui->comboBoxLanguageFilter->blockSignals(false);
     ui->comboBoxFindLanguage->blockSignals(false);
     QApplication::restoreOverrideCursor();
@@ -2973,7 +2973,7 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
 void MainWindow::on_comboBoxLanguageFilter_currentIndexChanged(const QString &arg1)
 {
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
-    SaveCurrentBookLanguageFilter(arg1);
+    SaveCurrentBookLanguageFilter(g_idCurrentLib, arg1);
     idCurrentLanguage_ = ui->comboBoxLanguageFilter->currentData().toInt();
 
     FillListWidgetAuthors(g_idCurrentLib);
@@ -3211,14 +3211,14 @@ int MainWindow::LoadLibraryPosition()
 }
 
 /*
-    сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+    сохранение языка фильтрации книг текущей библиотеки с id = idLibrary
 */
-void MainWindow::SaveCurrentBookLanguageFilter(const QString& lang)
+void MainWindow::SaveCurrentBookLanguageFilter(uint idLibrary, const QString& lang)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.prepare("UPDATE lib SET currentBookLanguage = :currentBookLanguage WHERE id = :id_lib;");
     query.bindValue(":currentBookLanguage", lang);
-    query.bindValue(":id_lib", g_idCurrentLib);
+    query.bindValue(":id_lib", idLibrary);
     query.exec();
 }
 

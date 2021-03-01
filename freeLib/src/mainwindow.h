@@ -100,7 +100,7 @@ private:
     // Выделение 1-го элемента списка Авторов или Серии
     void SelectFirstItemList();
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
-    void SaveCurrentBookLanguageFilter(const QString& lang);
+    void SaveCurrentBookLanguageFilter(uint idLibrary, const QString& lang);
     // заполнение комбобокса рейтинга на вкладке Поиск
     void FillRatingList();
     // пометка ячейки статуса 'Прочитано'
