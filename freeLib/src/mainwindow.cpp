@@ -3643,5 +3643,5 @@ int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
 */
 QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
 {
-    return mLibs[g_idCurrentLib].mGroups.find(mLibs[g_idCurrentLib].uIdCurrentGroup).value().getName();;
+    return mLibs[idLibrary].mGroups.find(idGroup).value().getName();
 }
