@@ -3601,9 +3601,11 @@ void MainWindow::CreateReadedMenu()
 */
 void MainWindow::DatabaseOptimization()
 {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    if (query.exec("VACUUM"))
-        QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
+    query.exec("VACUUM");
+    QApplication::restoreOverrideCursor();
+    QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
 }
 
 /*
