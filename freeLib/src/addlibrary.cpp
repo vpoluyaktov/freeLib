@@ -596,6 +596,12 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
     query.bindValue(":blocked", true);
     if (!query.exec())
         qDebug() << query.lastError().text();
+    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
+    query.bindValue(":name", tr("I read"));
+    query.bindValue(":id_lib", libID);
+    query.bindValue(":blocked", true);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
 }
 
 /*
