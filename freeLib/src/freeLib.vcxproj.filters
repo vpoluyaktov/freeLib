@@ -596,4 +596,15 @@
   <ItemGroup>
     <ResourceCompile Include=".\win.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\icons\favorites.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\icons\read.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\icons\toRead.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
