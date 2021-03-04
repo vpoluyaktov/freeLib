@@ -174,7 +174,7 @@ void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
 
     SLib& lib = mLibs[idLibrary];
     lib.mGroups.clear();
-    query.prepare("SELECT id, name, blocked FROM groups WHERE id_lib=:id_lib;");
+    query.prepare("SELECT id, name, blocked, blocked_name FROM groups WHERE id_lib=:id_lib;");
     query.bindValue(":id_lib", idLibrary);
     if (!query.exec())
         qDebug() << query.lastError().text();
@@ -184,9 +184,11 @@ void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
         uint idGroup = query.value(0).toUInt();
         QString sName = query.value(1).toString();
         bool isBlocked = query.value(2).toBool();
+        QString sBlockedName = query.value(3).toString();
         lib.mGroups[idGroup].setId(idGroup);
         lib.mGroups[idGroup].setName(sName);
         lib.mGroups[idGroup].setBlocked(isBlocked);
+        lib.mGroups[idGroup].setBlockedName(sBlockedName);
         idGroupList << idGroup;
     }
 

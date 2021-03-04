@@ -85,13 +85,15 @@ class Group
 {
 private:
     QString Name_;
+    QString BlockedName_;
     uint Id_;
     bool Blocked_;
 public:
     Group() {
-        Name_ = ""; Id_ = 0; Blocked_ = false;
+        Name_ = ""; Id_ = 0; Blocked_ = false; BlockedName_ = "";
     };
-    Group(const QString& Name, uint id, bool blocked) : Name_(Name), Id_(id), Blocked_(blocked) { };
+    Group(const QString& Name, uint id, bool blocked, const QString& blockedName = "") :
+        Name_(Name), Id_(id), Blocked_(blocked), BlockedName_(blockedName) { };
 
     void setName(QString Name) { Name_ = Name; };
     void setId(uint Id) { Id_ = Id; };
@@ -99,6 +101,11 @@ public:
     QString getName() const { return Name_; };
     QString getId() const { return Id_; };
     bool isBlocked() const { return Blocked_; };
+    void setBlockedName(QString BlockedName) {
+        if (isBlocked())
+            BlockedName_ = BlockedName;
+    };
+    QString getBlockedName() const { return BlockedName_; };
 };
 
 struct SLib
