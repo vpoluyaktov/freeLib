@@ -376,6 +376,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(FilterTagSelect(int)));
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
+    ui->GroupList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->GroupList, &QListWidget::customContextMenuRequested, this, &MainWindow::GroupContextMenu);
 
     opds_.server_run();
     FillLibrariesMenu(g_idCurrentLib);
@@ -3662,4 +3664,154 @@ int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
 QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
 {
     return mLibs[idLibrary].mGroups.find(idGroup).value().getName();
+}
+
+/*
+    создание и вызов контекстного меню для списка Групп
+*/
+void MainWindow::GroupContextMenu(QPoint point)
+{
+    currentListForTag_ = QObject::sender();
+    QMenu menu;
+    if (ui->GroupList->selectedItems().count() > 0) {
+        QListWidgetItem* item = ui->GroupList->selectedItems()[0];
+        uint idGroup = item->data(Qt::UserRole).toUInt();
+        if (!item->icon().isNull()) {
+            QAction* actionDeleteIcon = new QAction(tr("Remove the Group icon..."), this);
+            actionDeleteIcon->setData(QString::number(idGroup).toUInt());
+            connect(actionDeleteIcon, &QAction::triggered, this, &MainWindow::DeleteGroupIconAction);
+            menu.addAction(actionDeleteIcon);
+        }
+
+        QAction* actionSetIcon = new QAction(tr("Set the Group icon..."), this);
+        actionSetIcon->setData(QString::number(idGroup).toUInt());
+        connect(actionSetIcon, &QAction::triggered, this, &MainWindow::SetGroupIconAction);
+        menu.addAction(actionSetIcon);
+        menu.addSeparator();
+
+        QAction* actionSetDefaultIcon = new QAction(tr("Default icons..."), this);
+        actionSetDefaultIcon->setData(QString::number(idGroup).toUInt());
+        connect(actionSetDefaultIcon, &QAction::triggered, this, &MainWindow::SetGroupDefaultIconsAction);
+        menu.addAction(actionSetDefaultIcon);
+
+        if (menu.actions().count() > 0)
+            menu.exec(QCursor::pos());
+    }
+}
+
+/*
+  обработчик контекстного меню Групп по удалению иконки выделенной Группы  
+*/
+void MainWindow::DeleteGroupIconAction()
+{
+    QListWidgetItem* item = ui->GroupList->selectedItems()[0];
+    int idGroup = item->data(Qt::UserRole).toInt();
+    if (QMessageBox::question(
+        this, tr("Remove the Group icon"),
+        tr("Are you sure you want to remove the icon for the selected group?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.bindValue(":id_group", idGroup);
+        query.bindValue(":icon", QByteArray());
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else
+            item->setIcon(QIcon());
+    }
+}
+
+/*
+  обработчик контекстного меню Групп по присвоению иконки выделенной Группы
+*/
+void MainWindow::SetGroupIconAction()
+{
+    QString iconPath = QFileDialog::getOpenFileName(
+        this, tr("Open Image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.jpeg *.ico)")
+    );
+    if (!iconPath.isEmpty()) {
+        QListWidgetItem* item = ui->GroupList->selectedItems()[0];
+        int idGroup = item->data(Qt::UserRole).toInt();
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        QPixmap pixmap(iconPath);
+        QByteArray byteArray;
+        QBuffer buffer(&byteArray);
+        buffer.open(QIODevice::WriteOnly);
+        pixmap.save(&buffer, "PNG");
+        query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.bindValue(":id_group", idGroup);
+        query.bindValue(":icon", byteArray);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else
+            item->setIcon(QIcon(pixmap));
+    }
+}
+
+/*
+    обработчик контекстного меню Групп по заданию иконок заблокированных Групп по умолчанию
+*/
+void MainWindow::SetGroupDefaultIconsAction()
+{
+    if (QMessageBox::question(
+        this, tr("Default icons"),
+        tr("Are you sure you want to set default icons for blocked Groups?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        QHash<uint, Group> hGroups = mLibs[g_idCurrentLib].mGroups;
+        for (int i = 0; i < ui->GroupList->count(); ++i) {
+            QListWidgetItem* item = ui->GroupList->item(i);
+            uint idGroup = item->data(Qt::UserRole).toUInt();
+            QHash<uint, Group>::const_iterator ciGroup = hGroups.find(idGroup);
+            QString blockedName = ciGroup.value().getBlockedName();
+            if (blockedName == "favorites") {
+                // Избранное
+                QPixmap favoritesPixmap(":/icons/img/icons/favorites.png");
+                QByteArray favoritesByteArray;
+                QBuffer favoritesBuffer(&favoritesByteArray);
+                favoritesBuffer.open(QIODevice::WriteOnly);
+                favoritesPixmap.save(&favoritesBuffer, "PNG");
+                query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+                query.bindValue(":id_lib", g_idCurrentLib);
+                query.bindValue(":id_group", idGroup);
+                query.bindValue(":icon", favoritesByteArray);
+                if (!query.exec())
+                    qDebug() << query.lastError().text();
+                else
+                    item->setIcon(QIcon(favoritesPixmap));
+            }
+            else if (blockedName == "toRead") {
+                // К прочтению
+                QPixmap toReadPixmap(":/icons/img/icons/toRead.png");
+                QByteArray toReadByteArray;
+                QBuffer toReadBuffer(&toReadByteArray);
+                toReadBuffer.open(QIODevice::WriteOnly);
+                toReadPixmap.save(&toReadBuffer, "PNG");
+                query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+                query.bindValue(":id_lib", g_idCurrentLib);
+                query.bindValue(":id_group", idGroup);
+                query.bindValue(":icon", toReadByteArray);
+                if (!query.exec())
+                    qDebug() << query.lastError().text();
+                else
+                    item->setIcon(QIcon(toReadPixmap));
+            }
+            else if (blockedName == "read") {
+                // Читаю
+                QPixmap readPixmap(":/icons/img/icons/read.png");
+                QByteArray readByteArray;
+                QBuffer readBuffer(&readByteArray);
+                readBuffer.open(QIODevice::WriteOnly);
+                readPixmap.save(&readBuffer, "PNG");
+                query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+                query.bindValue(":id_lib", g_idCurrentLib);
+                query.bindValue(":id_group", idGroup);
+                query.bindValue(":icon", readByteArray);
+                if (!query.exec())
+                    qDebug() << query.lastError().text();
+                else
+                    item->setIcon(QIcon(readPixmap));
+            }
+        }
+    }
 }
