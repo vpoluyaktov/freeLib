@@ -41,7 +41,7 @@ private:
     void SetEnabledOrDisabledControllsOfBooksDirs();
     // установка доступности/недоступности контролов, в зависимости от наличия выделения итемов виджета списка папок
     void SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs();
-    // занесение в таблицу groups две неудаляемые Группы
+    // занесение в таблицу groups заблокированные от удаления/правки Группы
     void AddGroupToSQLite(qlonglong libID);
     // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
     void SetControllsToDefaultState();

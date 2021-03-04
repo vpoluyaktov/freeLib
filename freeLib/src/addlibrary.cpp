@@ -578,7 +578,7 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
 }
 
 /*
-    занесение в таблицу groups две неудаляемые Группы
+    занесение в таблицу groups заблокированные от удаления/правки Группы
 */
 void AddLibrary::AddGroupToSQLite(qlonglong libID)
 {
