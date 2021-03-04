@@ -2429,7 +2429,7 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
             item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, idGroup);
         
-        if (iGroup->getBlocked())
+        if (iGroup->isBlocked())
             blockedItemList << item;
         else
             ui->GroupList->addItem(item);
@@ -3275,7 +3275,7 @@ void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QI
     if (ui->GroupList->selectedItems().count() > 0) {
         QModelIndex index = selected.indexes()[0];
         uint idGroup = ui->GroupList->item(index.row())->data(Qt::UserRole).toUInt();
-        if (mLibs[g_idCurrentLib].mGroups[idGroup].getBlocked()) {
+        if (mLibs[g_idCurrentLib].mGroups[idGroup].isBlocked()) {
             // для 3-х заблокированных от удаления/переименования Групп
             ui->btnGroupRemove->setDisabled(true);
             ui->btnGroupRename->setDisabled(true);
