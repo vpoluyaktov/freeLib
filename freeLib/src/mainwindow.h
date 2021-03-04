@@ -164,6 +164,8 @@ private slots:
     void ContextMenu(QPoint point);
     // создание и вызов контекстного меню заголовков таблицы Книг
     void HeaderContextMenu(QPoint point);
+    // создание и вызов контекстного меню для списка Групп
+    void GroupContextMenu(QPoint point);
 
     // обработчик кнопки отображения списка Авторов
     void btnAuthorClick();
@@ -244,6 +246,11 @@ private slots:
     void FilterTagSelect(int index);
     // установка иконки цветного тэга для Автора/Серии/Книги
     void SetTag();
+
+    // обработчик контекстного меню Групп по удалению иконки выделенной Группы
+    void DeleteGroupIconAction();
+    // обработчик контекстного меню Групп по присвоению иконки выделенной Группы
+    void SetGroupIconAction();
 
     void About();
     void HelpDlg();

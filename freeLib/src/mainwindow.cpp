@@ -376,6 +376,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(FilterTagSelect(int)));
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
+    ui->GroupList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->GroupList, &QListWidget::customContextMenuRequested, this, &MainWindow::GroupContextMenu);
 
     opds_.server_run();
     FillLibrariesMenu(g_idCurrentLib);
@@ -3662,4 +3664,81 @@ int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
 QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
 {
     return mLibs[idLibrary].mGroups.find(idGroup).value().getName();
+}
+
+/*
+    создание и вызов контекстного меню для списка Групп
+*/
+void MainWindow::GroupContextMenu(QPoint point)
+{
+    currentListForTag_ = QObject::sender();
+    QMenu menu;
+    if (ui->GroupList->selectedItems().count() > 0) {
+        QListWidgetItem* item = ui->GroupList->selectedItems()[0];
+        uint idGroup = item->data(Qt::UserRole).toUInt();
+        if (!item->icon().isNull()) {
+            QAction* actionDeleteIcon = new QAction(tr("Remove the Group icon..."), this);
+            actionDeleteIcon->setData(QString::number(idGroup).toUInt());
+            connect(actionDeleteIcon, &QAction::triggered, this, &MainWindow::DeleteGroupIconAction);
+            menu.addAction(actionDeleteIcon);
+        }
+
+        QAction* actionSetIcon = new QAction(tr("Set the Group icon..."), this);
+        actionSetIcon->setData(QString::number(idGroup).toUInt());
+        connect(actionSetIcon, &QAction::triggered, this, &MainWindow::SetGroupIconAction);
+        menu.addAction(actionSetIcon);
+
+        if (menu.actions().count() > 0)
+            menu.exec(QCursor::pos());
+    }
+}
+
+/*
+  обработчик контекстного меню Групп по удалению иконки выделенной Группы  
+*/
+void MainWindow::DeleteGroupIconAction()
+{
+    QListWidgetItem* item = ui->GroupList->selectedItems()[0];
+    int idGroup = item->data(Qt::UserRole).toInt();
+    if (QMessageBox::question(
+        this, tr("Remove the Group icon"),
+        tr("Are you sure you want to remove the icon for the selected group?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.bindValue(":id_group", idGroup);
+        query.bindValue(":icon", QByteArray());
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else
+            item->setIcon(QIcon());
+    }
+}
+
+/*
+  обработчик контекстного меню Групп по присвоению иконки выделенной Группы
+*/
+void MainWindow::SetGroupIconAction()
+{
+    QString iconPath = QFileDialog::getOpenFileName(
+        this, tr("Open Image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.jpeg *.ico)")
+    );
+    if (!iconPath.isEmpty()) {
+        QListWidgetItem* item = ui->GroupList->selectedItems()[0];
+        int idGroup = item->data(Qt::UserRole).toInt();
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        QPixmap pixmap(iconPath);
+        QByteArray byteArray;
+        QBuffer buffer(&byteArray);
+        buffer.open(QIODevice::WriteOnly);
+        pixmap.save(&buffer, "PNG");
+        query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+        query.bindValue(":id_lib", g_idCurrentLib);
+        query.bindValue(":id_group", idGroup);
+        query.bindValue(":icon", byteArray);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        else
+            item->setIcon(QIcon(pixmap));
+    }
 }
