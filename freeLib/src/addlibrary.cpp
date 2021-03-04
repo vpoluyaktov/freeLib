@@ -578,21 +578,50 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
 }
 
 /*
-    занесение в таблицу groups две неудаляемые Группы
+    занесение в таблицу groups заблокированные от удаления/правки Группы
 */
 void AddLibrary::AddGroupToSQLite(qlonglong libID)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
+
+    // Избранное
+    QPixmap favoritesPixmap(":/icons/img/icons/favorites.png");
+    QByteArray favoritesByteArray;
+    QBuffer favoritesBuffer(&favoritesByteArray);
+    favoritesBuffer.open(QIODevice::WriteOnly);
+    favoritesPixmap.save(&favoritesBuffer, "PNG");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked, icon) values(:name, :id_lib, :blocked, :icon);");
     query.bindValue(":name", tr("Favorites"));
     query.bindValue(":id_lib", libID);
     query.bindValue(":blocked", true);
+    query.bindValue(":icon", favoritesByteArray);
     if (!query.exec())
         qDebug() << query.lastError().text();
 
-    query.prepare("INSERT INTO groups(name, id_lib, blocked) values(:name, :id_lib, :blocked);");
+    // К прочтению
+    QPixmap toReadPixmap(":/icons/img/icons/toRead.png");
+    QByteArray toReadByteArray;
+    QBuffer toReadBuffer(&toReadByteArray);
+    toReadBuffer.open(QIODevice::WriteOnly);
+    toReadPixmap.save(&toReadBuffer, "PNG");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked, icon) values(:name, :id_lib, :blocked, :icon);");
     query.bindValue(":name", tr("To read"));
     query.bindValue(":id_lib", libID);
+    query.bindValue(":blocked", true);
+    query.bindValue(":icon", toReadByteArray);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+   
+    // Читаю
+    QPixmap readPixmap(":/icons/img/icons/read.png");
+    QByteArray readByteArray;
+    QBuffer readBuffer(&readByteArray);
+    readBuffer.open(QIODevice::WriteOnly);
+    readPixmap.save(&readBuffer, "PNG");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked, icon) values(:name, :id_lib, :blocked, :icon);");
+    query.bindValue(":name", tr("I read"));
+    query.bindValue(":id_lib", libID);
+    query.bindValue(":icon", readByteArray);
     query.bindValue(":blocked", true);
     if (!query.exec())
         qDebug() << query.lastError().text();

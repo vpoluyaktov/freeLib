@@ -2414,22 +2414,33 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
     ui->GroupList->clear();
     SLib& currentLib = mLibs[idLibrary];
 
+    QSqlQuery query(QSqlDatabase::database("libdb"));
     QListWidgetItem* item = nullptr;
     QListWidgetItem* selectedItem = nullptr;
     QList<QListWidgetItem*> blockedItemList;
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();
     while (iGroup != currentLib.mGroups.constEnd()) {
+        QPixmap pixmap = QPixmap();
         uint idGroup = iGroup.key();
         QString GroupName = iGroup->getName();
         int booksCountInGroup = currentLib.mGroupBooksLink.values(idGroup).count();
+        // иконки Групп из базы
+        query.prepare("SELECT icon FROM groups WHERE id_lib=:id_lib AND id = :idGroup;");
+        query.bindValue(":idGroup", idGroup);
+        query.bindValue(":id_lib", idLibrary);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        query.first();
+        pixmap.loadFromData(query.value(0).toByteArray());
         
         if (booksCountInGroup > 0)
             item = new QListWidgetItem(QString("%1 (%2)").arg(GroupName).arg(booksCountInGroup));
         else
             item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, idGroup);
+        item->setIcon(QIcon(pixmap));
         
-        if (iGroup->getBlocked())
+        if (iGroup->isBlocked())
             blockedItemList << item;
         else
             ui->GroupList->addItem(item);
@@ -2442,8 +2453,10 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
     }
 
     // добавление заблокированных групп в начало списка
-    for (int i = 0; i != blockedItemList.count(); ++i)
+    for (int i = 0; i != blockedItemList.count(); ++i) {
+        blockedItemList[i]->setBackgroundColor(QColor(200, 162, 200, 127));
         ui->GroupList->insertItem(0, blockedItemList[i]);
+    }
 
     // скроллинг до Группы, выделенной по uIdCurrentGroup
     if (selectedItem != nullptr) {
@@ -3274,14 +3287,16 @@ void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QI
 {
     if (ui->GroupList->selectedItems().count() > 0) {
         QModelIndex index = selected.indexes()[0];
-        int i = index.row();
-        if (index.row() > 1) {
-            ui->btnGroupRemove->setEnabled(true);
-            ui->btnGroupRename->setEnabled(true);
-        }
-        else {
+        uint idGroup = ui->GroupList->item(index.row())->data(Qt::UserRole).toUInt();
+        if (mLibs[g_idCurrentLib].mGroups[idGroup].isBlocked()) {
+            // для 3-х заблокированных от удаления/переименования Групп
             ui->btnGroupRemove->setDisabled(true);
             ui->btnGroupRename->setDisabled(true);
+        }
+        else {
+            // для всех остальных, незаблокированных групп
+            ui->btnGroupRemove->setEnabled(true);
+            ui->btnGroupRename->setEnabled(true);
         }
     }
 }
@@ -3410,10 +3425,13 @@ void MainWindow::RenameGroup()
                     ++GroupIterator;
                 }
                 // изменение названия группы в контроле списка групп
+                uint bookCount = GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
+                QString itemName;
+                itemName = bookCount > 0
+                    ? QString("%1 (%2)").arg(newGroupName).arg(GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup))
+                    : newGroupName;
                 QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
-                selectedItem->setText(
-                    QString("%1 (%2)").arg(newGroupName).arg(GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup))
-                );
+                selectedItem->setText(itemName);
             }
         }
     }
@@ -3601,9 +3619,11 @@ void MainWindow::CreateReadedMenu()
 */
 void MainWindow::DatabaseOptimization()
 {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QSqlQuery query(QSqlDatabase::database("libdb"));
-    if (query.exec("VACUUM"))
-        QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
+    query.exec("VACUUM");
+    QApplication::restoreOverrideCursor();
+    QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
 }
 
 /*
@@ -3641,5 +3661,5 @@ int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
 */
 QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
 {
-    return mLibs[g_idCurrentLib].mGroups.find(mLibs[g_idCurrentLib].uIdCurrentGroup).value().getName();;
+    return mLibs[idLibrary].mGroups.find(idGroup).value().getName();
 }

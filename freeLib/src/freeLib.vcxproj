@@ -445,6 +445,11 @@
   <ItemGroup>
     <ResourceCompile Include=".\win.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\icons\favorites.png" />
+    <Image Include="img\icons\read.png" />
+    <Image Include="img\icons\toRead.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

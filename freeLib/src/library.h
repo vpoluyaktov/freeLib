@@ -98,7 +98,7 @@ public:
     void setBlocked(bool blocked) { Blocked_ = blocked; };
     QString getName() const { return Name_; };
     QString getId() const { return Id_; };
-    bool getBlocked() const { return Blocked_; };
+    bool isBlocked() const { return Blocked_; };
 };
 
 struct SLib
