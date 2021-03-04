@@ -3757,6 +3757,61 @@ void MainWindow::SetGroupDefaultIconsAction()
     if (QMessageBox::question(
         this, tr("Default icons"),
         tr("Are you sure you want to set default icons for blocked Groups?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
-        
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        QHash<uint, Group> hGroups = mLibs[g_idCurrentLib].mGroups;
+        for (int i = 0; i < ui->GroupList->count(); ++i) {
+            QListWidgetItem* item = ui->GroupList->item(i);
+            uint idGroup = item->data(Qt::UserRole).toUInt();
+            QHash<uint, Group>::const_iterator ciGroup = hGroups.find(idGroup);
+            QString blockedName = ciGroup.value().getBlockedName();
+            if (blockedName == "favorites") {
+                // Избранное
+                QPixmap favoritesPixmap(":/icons/img/icons/favorites.png");
+                QByteArray favoritesByteArray;
+                QBuffer favoritesBuffer(&favoritesByteArray);
+                favoritesBuffer.open(QIODevice::WriteOnly);
+                favoritesPixmap.save(&favoritesBuffer, "PNG");
+                query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+                query.bindValue(":id_lib", g_idCurrentLib);
+                query.bindValue(":id_group", idGroup);
+                query.bindValue(":icon", favoritesByteArray);
+                if (!query.exec())
+                    qDebug() << query.lastError().text();
+                else
+                    item->setIcon(QIcon(favoritesPixmap));
+            }
+            else if (blockedName == "toRead") {
+                // К прочтению
+                QPixmap toReadPixmap(":/icons/img/icons/toRead.png");
+                QByteArray toReadByteArray;
+                QBuffer toReadBuffer(&toReadByteArray);
+                toReadBuffer.open(QIODevice::WriteOnly);
+                toReadPixmap.save(&toReadBuffer, "PNG");
+                query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+                query.bindValue(":id_lib", g_idCurrentLib);
+                query.bindValue(":id_group", idGroup);
+                query.bindValue(":icon", toReadByteArray);
+                if (!query.exec())
+                    qDebug() << query.lastError().text();
+                else
+                    item->setIcon(QIcon(toReadPixmap));
+            }
+            else if (blockedName == "read") {
+                // Читаю
+                QPixmap readPixmap(":/icons/img/icons/read.png");
+                QByteArray readByteArray;
+                QBuffer readBuffer(&readByteArray);
+                readBuffer.open(QIODevice::WriteOnly);
+                readPixmap.save(&readBuffer, "PNG");
+                query.prepare("UPDATE groups SET icon = :icon WHERE id_lib = :id_lib AND id = :id_group;");
+                query.bindValue(":id_lib", g_idCurrentLib);
+                query.bindValue(":id_group", idGroup);
+                query.bindValue(":icon", readByteArray);
+                if (!query.exec())
+                    qDebug() << query.lastError().text();
+                else
+                    item->setIcon(QIcon(readPixmap));
+            }
+        }
     }
 }
