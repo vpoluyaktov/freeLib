@@ -590,10 +590,11 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
     QBuffer favoritesBuffer(&favoritesByteArray);
     favoritesBuffer.open(QIODevice::WriteOnly);
     favoritesPixmap.save(&favoritesBuffer, "PNG");
-    query.prepare("INSERT INTO groups(name, id_lib, blocked, icon) values(:name, :id_lib, :blocked, :icon);");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
     query.bindValue(":name", tr("Favorites"));
     query.bindValue(":id_lib", libID);
     query.bindValue(":blocked", true);
+    query.bindValue(":blocked_name", "favorites");
     query.bindValue(":icon", favoritesByteArray);
     if (!query.exec())
         qDebug() << query.lastError().text();
@@ -604,10 +605,11 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
     QBuffer toReadBuffer(&toReadByteArray);
     toReadBuffer.open(QIODevice::WriteOnly);
     toReadPixmap.save(&toReadBuffer, "PNG");
-    query.prepare("INSERT INTO groups(name, id_lib, blocked, icon) values(:name, :id_lib, :blocked, :icon);");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
     query.bindValue(":name", tr("To read"));
     query.bindValue(":id_lib", libID);
     query.bindValue(":blocked", true);
+    query.bindValue(":blocked_name", "toRead");
     query.bindValue(":icon", toReadByteArray);
     if (!query.exec())
         qDebug() << query.lastError().text();
@@ -618,11 +620,12 @@ void AddLibrary::AddGroupToSQLite(qlonglong libID)
     QBuffer readBuffer(&readByteArray);
     readBuffer.open(QIODevice::WriteOnly);
     readPixmap.save(&readBuffer, "PNG");
-    query.prepare("INSERT INTO groups(name, id_lib, blocked, icon) values(:name, :id_lib, :blocked, :icon);");
+    query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
     query.bindValue(":name", tr("I read"));
     query.bindValue(":id_lib", libID);
-    query.bindValue(":icon", readByteArray);
     query.bindValue(":blocked", true);
+    query.bindValue(":blocked_name", "read");
+    query.bindValue(":icon", readByteArray);
     if (!query.exec())
         qDebug() << query.lastError().text();
 }
