@@ -2442,8 +2442,10 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
     }
 
     // добавление заблокированных групп в начало списка
-    for (int i = 0; i != blockedItemList.count(); ++i)
+    for (int i = 0; i != blockedItemList.count(); ++i) {
+        blockedItemList[i]->setBackgroundColor(QColor(200, 162, 200, 127));
         ui->GroupList->insertItem(0, blockedItemList[i]);
+    }
 
     // скроллинг до Группы, выделенной по uIdCurrentGroup
     if (selectedItem != nullptr) {
