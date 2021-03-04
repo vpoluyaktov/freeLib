@@ -3274,14 +3274,16 @@ void MainWindow::SetEnabledOrDisabledControllsOfSelectedStateItemGroups(const QI
 {
     if (ui->GroupList->selectedItems().count() > 0) {
         QModelIndex index = selected.indexes()[0];
-        int i = index.row();
-        if (index.row() > 1) {
-            ui->btnGroupRemove->setEnabled(true);
-            ui->btnGroupRename->setEnabled(true);
-        }
-        else {
+        uint idGroup = ui->GroupList->item(index.row())->data(Qt::UserRole).toUInt();
+        if (mLibs[g_idCurrentLib].mGroups[idGroup].getBlocked()) {
+            // для 3-х заблокированных от удаления/переименования Групп
             ui->btnGroupRemove->setDisabled(true);
             ui->btnGroupRename->setDisabled(true);
+        }
+        else {
+            // для всех остальных, незаблокированных групп
+            ui->btnGroupRemove->setEnabled(true);
+            ui->btnGroupRename->setEnabled(true);
         }
     }
 }
