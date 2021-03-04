@@ -2414,20 +2414,31 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
     ui->GroupList->clear();
     SLib& currentLib = mLibs[idLibrary];
 
+    QSqlQuery query(QSqlDatabase::database("libdb"));
     QListWidgetItem* item = nullptr;
     QListWidgetItem* selectedItem = nullptr;
     QList<QListWidgetItem*> blockedItemList;
     QHash<uint, Group>::const_iterator iGroup = currentLib.mGroups.constBegin();
     while (iGroup != currentLib.mGroups.constEnd()) {
+        QPixmap pixmap = QPixmap();
         uint idGroup = iGroup.key();
         QString GroupName = iGroup->getName();
         int booksCountInGroup = currentLib.mGroupBooksLink.values(idGroup).count();
+        // иконки Групп из базы
+        query.prepare("SELECT icon FROM groups WHERE id_lib=:id_lib AND id = :idGroup;");
+        query.bindValue(":idGroup", idGroup);
+        query.bindValue(":id_lib", idLibrary);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        query.first();
+        pixmap.loadFromData(query.value(0).toByteArray());
         
         if (booksCountInGroup > 0)
             item = new QListWidgetItem(QString("%1 (%2)").arg(GroupName).arg(booksCountInGroup));
         else
             item = new QListWidgetItem(GroupName);
         item->setData(Qt::UserRole, idGroup);
+        item->setIcon(QIcon(pixmap));
         
         if (iGroup->isBlocked())
             blockedItemList << item;
