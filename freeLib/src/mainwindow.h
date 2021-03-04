@@ -251,6 +251,8 @@ private slots:
     void DeleteGroupIconAction();
     // обработчик контекстного меню Групп по присвоению иконки выделенной Группы
     void SetGroupIconAction();
+    // обработчик контекстного меню Групп по заданию иконок заблокированных Групп по умолчанию
+    void SetGroupDefaultIconsAction();
 
     void About();
     void HelpDlg();

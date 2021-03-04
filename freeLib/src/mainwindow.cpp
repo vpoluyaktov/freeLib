@@ -3687,6 +3687,12 @@ void MainWindow::GroupContextMenu(QPoint point)
         actionSetIcon->setData(QString::number(idGroup).toUInt());
         connect(actionSetIcon, &QAction::triggered, this, &MainWindow::SetGroupIconAction);
         menu.addAction(actionSetIcon);
+        menu.addSeparator();
+
+        QAction* actionSetDefaultIcon = new QAction(tr("Default icons..."), this);
+        actionSetDefaultIcon->setData(QString::number(idGroup).toUInt());
+        connect(actionSetDefaultIcon, &QAction::triggered, this, &MainWindow::SetGroupDefaultIconsAction);
+        menu.addAction(actionSetDefaultIcon);
 
         if (menu.actions().count() > 0)
             menu.exec(QCursor::pos());
@@ -3740,5 +3746,17 @@ void MainWindow::SetGroupIconAction()
             qDebug() << query.lastError().text();
         else
             item->setIcon(QIcon(pixmap));
+    }
+}
+
+/*
+    обработчик контекстного меню Групп по заданию иконок заблокированных Групп по умолчанию
+*/
+void MainWindow::SetGroupDefaultIconsAction()
+{
+    if (QMessageBox::question(
+        this, tr("Default icons"),
+        tr("Are you sure you want to set default icons for blocked Groups?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+        
     }
 }

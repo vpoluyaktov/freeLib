@@ -1598,14 +1598,39 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3704"/>
+        <location filename="mainwindow.cpp" line="3692"/>
+        <source>Default icons...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3710"/>
         <source>Remove the Group icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3705"/>
+        <location filename="mainwindow.cpp" line="3711"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3730"/>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3730"/>
+        <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3758"/>
+        <source>Default icons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3759"/>
+        <source>Are you sure you want to set default icons for blocked Groups?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

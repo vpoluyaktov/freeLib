@@ -1537,15 +1537,40 @@
         <translation>Задать иконку Группы...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3704"/>
+        <location filename="mainwindow.cpp" line="3692"/>
+        <source>Default icons...</source>
+        <translation>Установить иконки по умолчанию...</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3710"/>
         <source>Remove the Group icon</source>
         <translation>Удалить иконку Группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3705"/>
+        <location filename="mainwindow.cpp" line="3711"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
         <translation>Вы действительно хотите удалить иконку для выделенной группы?</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3730"/>
+        <source>Open Image</source>
+        <translation>Выбрать иконку</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3730"/>
+        <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3758"/>
+        <source>Default icons</source>
+        <translation>Иконки по умолчанию</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="3759"/>
+        <source>Are you sure you want to set default icons for blocked Groups?</source>
+        <translation>Вы действительно хотите установить иконки по умолчанию для заблокированных Групп?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete all books of the selected group?</source>
