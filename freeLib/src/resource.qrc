@@ -59,5 +59,8 @@
         <file>img/icons/save@2x.png</file>
         <file>img/icons/pen_alt_fill.png</file>
         <file>img/icons/pen_alt_fill@2x.png</file>
+		<file>img/icons/favorites.png</file>
+		<file>img/icons/read.png</file>
+		<file>img/icons/toRead.png</file>
     </qresource>
 </RCC>
