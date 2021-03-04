@@ -3410,10 +3410,13 @@ void MainWindow::RenameGroup()
                     ++GroupIterator;
                 }
                 // изменение названия группы в контроле списка групп
+                uint bookCount = GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup);
+                QString itemName;
+                itemName = bookCount > 0
+                    ? QString("%1 (%2)").arg(newGroupName).arg(GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup))
+                    : newGroupName;
                 QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
-                selectedItem->setText(
-                    QString("%1 (%2)").arg(newGroupName).arg(GetBookCountFromGroup(g_idCurrentLib, mLibs[g_idCurrentLib].uIdCurrentGroup))
-                );
+                selectedItem->setText(itemName);
             }
         }
     }
