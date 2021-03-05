@@ -117,6 +117,18 @@ void AddLibrary::EditLibraryName()
         );
         newLibraryName = newLibraryName.trimmed();
         if (ok && !newLibraryName.isEmpty()) {
+            QMap<int, SLib>::const_iterator iter = mLibs.constBegin();
+            while (iter != mLibs.constEnd()) {
+                if (iter.key() != -1)
+                    if (ui->comboBoxExistingLibs->findText(newLibraryName) != -1) {
+                        QMessageBox::critical(this, tr("Edit the name of the library"),
+                            tr("The entered name of the library:") + " '" + newLibraryName + "'.\n" +
+                            tr("A library with this name already exists!") + "\n" +
+                            tr("Enter another name for the library."));
+                        return;
+                    }
+                ++iter;
+            }
             ui->comboBoxExistingLibs->blockSignals(true);
             ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
             ui->comboBoxExistingLibs->blockSignals(false);
