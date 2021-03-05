@@ -80,11 +80,6 @@ void AddLibrary::Add_Library()
     ui->Log->clear();
     idCurrentLib_ = -1;
     QString newLibraryName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
-    ui->comboBoxExistingLibs->blockSignals(true);
-    ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
-    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
-    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
-    SetControllsToDefaultState();
     bool ok;
     QString editedLibraryName = QInputDialog::getText(
         this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
@@ -92,17 +87,33 @@ void AddLibrary::Add_Library()
     editedLibraryName = editedLibraryName.trimmed();
     if (ok && !editedLibraryName.isEmpty()) {
         newLibraryName = editedLibraryName;
-        ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
+        QMap<int, SLib>::const_iterator iter = mLibs.constBegin();
+        while (iter != mLibs.constEnd()) {
+            if (iter.key() != -1)
+                if (ui->comboBoxExistingLibs->findText(newLibraryName) != -1) {
+                    QMessageBox::critical(this, tr("New library"),
+                        tr("The entered name of the library:") + " '" + newLibraryName + "'.\n\n" +
+                        tr("A library with this name already exists!") + "\n" +
+                        tr("Enter another name for the library."));
+                    return;
+                }
+            ++iter;
+        }
+        ui->comboBoxExistingLibs->blockSignals(true);
+        ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
+        ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
+        // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+        SetControllsToDefaultState();
+        SLib lib;
+        lib.name = newLibraryName;
+        lib.bFirstAuthor = false;
+        lib.bWoDeleted = false;
+        SaveLibrary(idCurrentLib_, lib);
+        ui->comboBoxExistingLibs->blockSignals(false);
+        // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+        SetEnabledOrDisabledControllsOfBooksDirs();
+        ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     }
-    SLib lib;
-    lib.name = newLibraryName;
-    lib.bFirstAuthor = false;
-    lib.bWoDeleted = false;
-    SaveLibrary(idCurrentLib_, lib);
-    ui->comboBoxExistingLibs->blockSignals(false);
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
-    ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
 }
 
 /*
