@@ -153,7 +153,7 @@ protected:
     void FillCheckedItemsBookList(QList<book_info>& list, QTreeWidgetItem* item, bool send_all, bool count_only);
 
     void ProcPath(QString path, QStringList* book_list);
-    void ShowHeaderCoulmn(int nColumn, QString sSetting, bool bHide);
+    void ShowHeaderCoulmn(int nColumn, const QString& sSetting, bool bHide);
 
 private slots:
     // панель кнопок-букв, символов

@@ -2066,12 +2066,12 @@ void MainWindow::HeaderContextMenu(QPoint /*point*/)
     menu.exec(QCursor::pos());
 }
 
-void MainWindow::ShowHeaderCoulmn(int nColumn,QString sSetting,bool bHide)
+void MainWindow::ShowHeaderCoulmn(int nColumn, const QString& sSetting, bool bHide)
 {
-    ui->Books->setColumnHidden(nColumn,bHide);
+    ui->Books->setColumnHidden(nColumn, bHide);
     QSettings settings;
     settings.beginGroup("Columns");
-    settings.setValue(sSetting,!bHide);
+    settings.setValue(sSetting, !bHide);
 }
 
 /*
