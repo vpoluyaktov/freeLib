@@ -87,18 +87,9 @@ void AddLibrary::Add_Library()
     editedLibraryName = editedLibraryName.trimmed();
     if (ok && !editedLibraryName.isEmpty()) {
         newLibraryName = editedLibraryName;
-        QMap<int, SLib>::const_iterator iter = mLibs.constBegin();
-        while (iter != mLibs.constEnd()) {
-            if (iter.key() != -1)
-                if (ui->comboBoxExistingLibs->findText(newLibraryName) != -1) {
-                    QMessageBox::critical(this, tr("New library"),
-                        tr("The entered name of the library:") + " '" + newLibraryName + "'.\n\n" +
-                        tr("A library with this name already exists!") + "\n" +
-                        tr("Enter another name for the library."));
-                    return;
-                }
-            ++iter;
-        }
+        // ≈сть ли провер€ема€ библиотека в списке библиотек?
+        if (IsLibraryWithNameExists(newLibraryName, tr("New library")))
+            return;
         ui->comboBoxExistingLibs->blockSignals(true);
         ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
         ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
@@ -128,18 +119,9 @@ void AddLibrary::EditLibraryName()
         );
         newLibraryName = newLibraryName.trimmed();
         if (ok && !newLibraryName.isEmpty()) {
-            QMap<int, SLib>::const_iterator iter = mLibs.constBegin();
-            while (iter != mLibs.constEnd()) {
-                if (iter.key() != -1)
-                    if (ui->comboBoxExistingLibs->findText(newLibraryName) != -1) {
-                        QMessageBox::critical(this, tr("Edit the name of the library"),
-                            tr("The entered name of the library:") + " '" + newLibraryName + "'.\n" +
-                            tr("A library with this name already exists!") + "\n" +
-                            tr("Enter another name for the library."));
-                        return;
-                    }
-                ++iter;
-            }
+            // ≈сть ли провер€ема€ библиотека в списке библиотек?
+            if (IsLibraryWithNameExists(newLibraryName, tr("Edit the name of the library")))
+                return;
             ui->comboBoxExistingLibs->blockSignals(true);
             ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
             ui->comboBoxExistingLibs->blockSignals(false);
@@ -694,3 +676,22 @@ void AddLibrary::ExpandLog()
     ui->checkBoxShowLog->isChecked() ? ui->widgetBaseControlls->hide() : ui->widgetBaseControlls->show();
 }
 
+/*
+    ≈сть ли провер€ема€ библиотека в списке библиотек?
+*/
+bool AddLibrary::IsLibraryWithNameExists(const QString & libraryName, const QString& messageTitle)
+{
+    QMap<int, SLib>::const_iterator iter = mLibs.constBegin();
+    while (iter != mLibs.constEnd()) {
+        if (iter.key() != -1)
+            if (ui->comboBoxExistingLibs->findText(libraryName) != -1) {
+                QMessageBox::critical(this, messageTitle,
+                    tr("The entered name of the library:") + " '" + libraryName + "'.\n" +
+                    tr("A library with this name already exists!") + "\n" +
+                    tr("Enter another name for the library."));
+                return true;
+            }
+        ++iter;
+    }
+    return false;
+}

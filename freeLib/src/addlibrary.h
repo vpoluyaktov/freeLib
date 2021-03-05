@@ -45,6 +45,8 @@ private:
     void AddGroupToSQLite(qlonglong libID);
     // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
     void SetControllsToDefaultState();
+    // Есть ли проверяемая библиотека в списке библиотек?
+    bool IsLibraryWithNameExists(const QString& libraryName, const QString& messageTitle);
 
 private slots:
     void LogMessage(QString msg);
