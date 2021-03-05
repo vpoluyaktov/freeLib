@@ -20,7 +20,7 @@ public:
     explicit AddLibrary(QWidget *parent = 0);
     ~AddLibrary();
     //int exec();
-    void AddNewLibrary(SLib &lib);
+    void ImportNewLibrary(SLib &lib);
     void StartImport(SLib &Lib);
     void SelectLibrary(int idLib);
     bool IsLibraryChanged() const;

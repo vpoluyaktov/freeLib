@@ -248,7 +248,7 @@ void AddLibrary::StartImport(SLib &Lib)
     thread_->start();
 }
 
-void AddLibrary::AddNewLibrary(SLib &lib)
+void AddLibrary::ImportNewLibrary(SLib &lib)
 {
     if(!db_is_open)
     {
