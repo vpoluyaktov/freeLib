@@ -89,7 +89,7 @@
     <message>
         <location filename="addlibrary.ui" line="261"/>
         <source>Delete current library</source>
-        <translation>Удалить текущую библиотеку</translation>
+        <translation>Удалить выбранную библиотеку</translation>
     </message>
     <message>
         <location filename="addlibrary.ui" line="275"/>
