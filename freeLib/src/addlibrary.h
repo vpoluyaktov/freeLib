@@ -19,10 +19,7 @@ class AddLibrary : public QDialog
 public:
     explicit AddLibrary(QWidget *parent = 0);
     ~AddLibrary();
-    //int exec();
-    void ImportNewLibrary(SLib &lib);
-    void StartImport(SLib &Lib);
-    void SelectLibrary(int idLib);
+
     bool IsLibraryChanged() const;
     
 private:
@@ -33,7 +30,11 @@ private:
     bool bLibChanged_;
     QStringList LogList_;
 
+    void ImportNewLibrary(SLib& lib);
+    void StartImport(SLib& Lib);
+    void SelectLibrary(int idLib);
     void UpdateLibList();
+
     void SaveLibrary(int idLib, SLib& Lib);
     // формирования списка каталогов с книгами для текущей библиотеки
     void MakeDirsList();
