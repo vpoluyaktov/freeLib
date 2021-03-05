@@ -82,7 +82,7 @@ void AddLibrary::AddNewLibrary()
     QString newLibraryName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
     bool ok;
     QString editedLibraryName = QInputDialog::getText(
-        this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
+        this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, newLibraryName, &ok
     );
     editedLibraryName = editedLibraryName.trimmed();
     if (ok && !editedLibraryName.isEmpty()) {
