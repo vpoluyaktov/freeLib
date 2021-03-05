@@ -26,8 +26,8 @@
     </message>
     <message>
         <location filename="addlibrary.ui" line="152"/>
-        <location filename="addlibrary.cpp" line="90"/>
-        <location filename="addlibrary.cpp" line="116"/>
+        <location filename="addlibrary.cpp" line="85"/>
+        <location filename="addlibrary.cpp" line="128"/>
         <source>Library name:</source>
         <oldsource>Library name</oldsource>
         <translation>Назва бібліотеки:</translation>
@@ -40,7 +40,7 @@
     </message>
     <message>
         <location filename="addlibrary.ui" line="248"/>
-        <location filename="addlibrary.cpp" line="470"/>
+        <location filename="addlibrary.cpp" line="494"/>
         <source>Books dir:</source>
         <oldsource>Books dir</oldsource>
         <translation>Тека з книгами:</translation>
@@ -161,24 +161,24 @@
     </message>
     <message>
         <location filename="addlibrary.ui" line="442"/>
-        <location filename="addlibrary.cpp" line="403"/>
-        <location filename="addlibrary.cpp" line="433"/>
+        <location filename="addlibrary.cpp" line="427"/>
+        <location filename="addlibrary.cpp" line="457"/>
         <source>Close</source>
         <translation>Закрити</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="140"/>
-        <location filename="addlibrary.cpp" line="343"/>
+        <location filename="addlibrary.cpp" line="164"/>
+        <location filename="addlibrary.cpp" line="367"/>
         <source>Add library</source>
         <translation>Додати бібліотеку</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="140"/>
+        <location filename="addlibrary.cpp" line="164"/>
         <source>Library</source>
         <translation>Бібліотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="166"/>
+        <location filename="addlibrary.cpp" line="190"/>
         <source>Select books directory</source>
         <translation>Тека з книгами</translation>
     </message>
@@ -187,19 +187,19 @@
         <translation type="vanished">нова</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="494"/>
+        <location filename="addlibrary.cpp" line="518"/>
         <source>Specify the correct path to the books folder.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="494"/>
-        <location filename="addlibrary.cpp" line="501"/>
-        <location filename="addlibrary.cpp" line="517"/>
+        <location filename="addlibrary.cpp" line="518"/>
+        <location filename="addlibrary.cpp" line="525"/>
+        <location filename="addlibrary.cpp" line="541"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="227"/>
+        <location filename="addlibrary.cpp" line="251"/>
         <source>Break</source>
         <translation>Перервати</translation>
     </message>
@@ -209,89 +209,118 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="90"/>
-        <location filename="addlibrary.cpp" line="116"/>
+        <location filename="addlibrary.cpp" line="85"/>
+        <location filename="addlibrary.cpp" line="128"/>
         <source>Input name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="354"/>
+        <location filename="addlibrary.cpp" line="136"/>
+        <source>Edit the name of the library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="95"/>
+        <location filename="addlibrary.cpp" line="137"/>
+        <source>The entered name of the library:</source>
+        <oldsource>Input library name</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="94"/>
+        <source>New library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="96"/>
+        <location filename="addlibrary.cpp" line="138"/>
+        <source>A library with this name already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="97"/>
+        <location filename="addlibrary.cpp" line="139"/>
+        <source>Enter another name for the library.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="378"/>
         <source>Update library</source>
         <translation>Оновлення бібліотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="373"/>
-        <location filename="addlibrary.cpp" line="374"/>
+        <location filename="addlibrary.cpp" line="397"/>
+        <location filename="addlibrary.cpp" line="398"/>
         <source>Delete library</source>
         <translation>Вилучення бібліотеки</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="400"/>
+        <location filename="addlibrary.cpp" line="424"/>
         <source>Ending</source>
         <translation>Кінець</translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="455"/>
+        <location filename="addlibrary.cpp" line="479"/>
         <source>Select destination directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="467"/>
+        <location filename="addlibrary.cpp" line="491"/>
         <source>Save Log to file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="469"/>
+        <location filename="addlibrary.cpp" line="493"/>
         <source>Library:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="481"/>
+        <location filename="addlibrary.cpp" line="505"/>
         <source>Log saved to file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="481"/>
+        <location filename="addlibrary.cpp" line="505"/>
         <source>Save Log to File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="501"/>
+        <location filename="addlibrary.cpp" line="525"/>
         <source>This directory is already in the directory listing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="517"/>
+        <location filename="addlibrary.cpp" line="541"/>
         <source>This directory is a sub-directory of one of the directories in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="537"/>
+        <location filename="addlibrary.cpp" line="561"/>
         <source>Delete dir from Dirs List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="538"/>
+        <location filename="addlibrary.cpp" line="562"/>
         <source>Books Dir:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="539"/>
+        <location filename="addlibrary.cpp" line="563"/>
         <source>Are you sure you want to remove the selected folder from the list of catalogs of books of the library?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="594"/>
+        <location filename="addlibrary.cpp" line="618"/>
         <source>Favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="608"/>
+        <location filename="addlibrary.cpp" line="633"/>
         <source>To read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="622"/>
+        <location filename="addlibrary.cpp" line="648"/>
         <source>I read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1588,48 +1617,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3680"/>
+        <location filename="mainwindow.cpp" line="3683"/>
         <source>Remove the Group icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3686"/>
+        <location filename="mainwindow.cpp" line="3689"/>
         <source>Set the Group icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3692"/>
+        <location filename="mainwindow.cpp" line="3695"/>
         <source>Default icons...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3710"/>
+        <location filename="mainwindow.cpp" line="3713"/>
         <source>Remove the Group icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3711"/>
+        <location filename="mainwindow.cpp" line="3714"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3730"/>
+        <location filename="mainwindow.cpp" line="3733"/>
         <source>Open Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3730"/>
+        <location filename="mainwindow.cpp" line="3733"/>
         <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3758"/>
+        <location filename="mainwindow.cpp" line="3761"/>
         <source>Default icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3759"/>
+        <location filename="mainwindow.cpp" line="3762"/>
         <source>Are you sure you want to set default icons for blocked Groups?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1650,7 +1679,7 @@
         <translation>Файли книг</translation>
     </message>
     <message>
-        <location filename="library.cpp" line="217"/>
+        <location filename="library.cpp" line="219"/>
         <source>Unknown Author</source>
         <translation type="unfinished"></translation>
     </message>

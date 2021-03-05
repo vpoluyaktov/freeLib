@@ -19,10 +19,7 @@ class AddLibrary : public QDialog
 public:
     explicit AddLibrary(QWidget *parent = 0);
     ~AddLibrary();
-    //int exec();
-    void AddNewLibrary(SLib &lib);
-    void StartImport(SLib &Lib);
-    void SelectLibrary(int idLib);
+
     bool IsLibraryChanged() const;
     
 private:
@@ -33,7 +30,11 @@ private:
     bool bLibChanged_;
     QStringList LogList_;
 
+    void ImportNewLibrary(SLib& lib);
+    void StartImport(SLib& Lib);
+    void SelectLibrary(int idLib);
     void UpdateLibList();
+
     void SaveLibrary(int idLib, SLib& Lib);
     // формирования списка каталогов с книгами для текущей библиотеки
     void MakeDirsList();
@@ -45,6 +46,8 @@ private:
     void AddGroupToSQLite(qlonglong libID);
     // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
     void SetControllsToDefaultState();
+    // Есть ли проверяемая библиотека в списке библиотек?
+    bool IsLibraryWithNameExists(const QString& libraryName, const QString& messageTitle);
 
 private slots:
     void LogMessage(QString msg);
@@ -52,7 +55,7 @@ private slots:
     void SelectBooksDir();
     void StartImport();
     void SelectLibrary();
-    void Add_Library();
+    void AddNewLibrary();
     // правка названия библиотеки
     void EditLibraryName();
     void DeleteLibrary();

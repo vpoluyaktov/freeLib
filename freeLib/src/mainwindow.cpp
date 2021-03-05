@@ -2066,12 +2066,12 @@ void MainWindow::HeaderContextMenu(QPoint /*point*/)
     menu.exec(QCursor::pos());
 }
 
-void MainWindow::ShowHeaderCoulmn(int nColumn,QString sSetting,bool bHide)
+void MainWindow::ShowHeaderCoulmn(int nColumn, const QString& sSetting, bool bHide)
 {
-    ui->Books->setColumnHidden(nColumn,bHide);
+    ui->Books->setColumnHidden(nColumn, bHide);
     QSettings settings;
     settings.beginGroup("Columns");
-    settings.setValue(sSetting,!bHide);
+    settings.setValue(sSetting, !bHide);
 }
 
 /*
@@ -3671,6 +3671,9 @@ QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
 */
 void MainWindow::GroupContextMenu(QPoint point)
 {
+    if (QObject::sender() == qobject_cast<QObject*>(ui->GroupList) && !ui->GroupList->itemAt(point))
+        return;
+
     currentListForTag_ = QObject::sender();
     QMenu menu;
     if (ui->GroupList->selectedItems().count() > 0) {
