@@ -44,7 +44,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnUpdateLibrary,SIGNAL(clicked()),this,SLOT(StartImport()));
     connect(ui->btnExportLibrary,SIGNAL(clicked()),this,SLOT(ExportLib()));
     connect(ui->comboBoxExistingLibs,SIGNAL(currentIndexChanged(int)),this,SLOT(SelectLibrary()));
-    connect(ui->btnLibraryAdd, SIGNAL(clicked()), this, SLOT(Add_Library()));
+    connect(ui->btnLibraryAdd, SIGNAL(clicked()), this, SLOT(AddNewLibrary()));
     connect(ui->btnLibraryEdit, &QToolButton::clicked, this, &AddLibrary::EditLibraryName);
     connect(ui->btnLibraryDelete, SIGNAL(clicked()), this, SLOT(DeleteLibrary()));
     connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
@@ -75,34 +75,36 @@ bool AddLibrary::IsLibraryChanged() const
     return bLibChanged_;
 }
 
-void AddLibrary::Add_Library()
+void AddLibrary::AddNewLibrary()
 {
     ui->Log->clear();
     idCurrentLib_ = -1;
     QString newLibraryName = tr("New Library") + " ("+ QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss") + ")";
-    ui->comboBoxExistingLibs->blockSignals(true);
-    ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
-    ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
-    // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
-    SetControllsToDefaultState();
     bool ok;
     QString editedLibraryName = QInputDialog::getText(
-        this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, ui->comboBoxExistingLibs->currentText(), &ok
+        this, tr("Input name"), tr("Library name:"), QLineEdit::Normal, newLibraryName, &ok
     );
     editedLibraryName = editedLibraryName.trimmed();
     if (ok && !editedLibraryName.isEmpty()) {
         newLibraryName = editedLibraryName;
-        ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
+        // Есть ли проверяемая библиотека в списке библиотек?
+        if (IsLibraryWithNameExists(newLibraryName, tr("New library")))
+            return;
+        ui->comboBoxExistingLibs->blockSignals(true);
+        ui->comboBoxExistingLibs->addItem(newLibraryName, -1);
+        ui->comboBoxExistingLibs->setCurrentIndex(ui->comboBoxExistingLibs->count() - 1);
+        // установка контролов в состояние по-умолчанию, когда нет ни одной библиотеки
+        SetControllsToDefaultState();
+        SLib lib;
+        lib.name = newLibraryName;
+        lib.bFirstAuthor = false;
+        lib.bWoDeleted = false;
+        SaveLibrary(idCurrentLib_, lib);
+        ui->comboBoxExistingLibs->blockSignals(false);
+        // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
+        SetEnabledOrDisabledControllsOfBooksDirs();
+        ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
     }
-    SLib lib;
-    lib.name = newLibraryName;
-    lib.bFirstAuthor = false;
-    lib.bWoDeleted = false;
-    SaveLibrary(idCurrentLib_, lib);
-    ui->comboBoxExistingLibs->blockSignals(false);
-    // установка доступности/недоступности контролов, в зависимости от числа итемов виджета списка папок
-    SetEnabledOrDisabledControllsOfBooksDirs();
-    ui->btnSaveLog->setEnabled(ui->Log->count() > 1);
 }
 
 /*
@@ -117,6 +119,9 @@ void AddLibrary::EditLibraryName()
         );
         newLibraryName = newLibraryName.trimmed();
         if (ok && !newLibraryName.isEmpty()) {
+            // Есть ли проверяемая библиотека в списке библиотек?
+            if (IsLibraryWithNameExists(newLibraryName, tr("Edit the name of the library")))
+                return;
             ui->comboBoxExistingLibs->blockSignals(true);
             ui->comboBoxExistingLibs->setItemText(ui->comboBoxExistingLibs->currentIndex(), newLibraryName);
             ui->comboBoxExistingLibs->blockSignals(false);
@@ -243,7 +248,7 @@ void AddLibrary::StartImport(SLib &Lib)
     thread_->start();
 }
 
-void AddLibrary::AddNewLibrary(SLib &lib)
+void AddLibrary::ImportNewLibrary(SLib &lib)
 {
     if(!db_is_open)
     {
@@ -671,3 +676,22 @@ void AddLibrary::ExpandLog()
     ui->checkBoxShowLog->isChecked() ? ui->widgetBaseControlls->hide() : ui->widgetBaseControlls->show();
 }
 
+/*
+    Есть ли проверяемая библиотека в списке библиотек?
+*/
+bool AddLibrary::IsLibraryWithNameExists(const QString & libraryName, const QString& messageTitle)
+{
+    QMap<int, SLib>::const_iterator iter = mLibs.constBegin();
+    while (iter != mLibs.constEnd()) {
+        if (iter.key() != -1)
+            if (ui->comboBoxExistingLibs->findText(libraryName) != -1) {
+                QMessageBox::critical(this, messageTitle,
+                    tr("The entered name of the library:") + " '" + libraryName + "'.\n" +
+                    tr("A library with this name already exists!") + "\n" +
+                    tr("Enter another name for the library."));
+                return true;
+            }
+        ++iter;
+    }
+    return false;
+}
