@@ -55,7 +55,7 @@ private slots:
     void SelectBooksDir();
     void StartImport();
     void SelectLibrary();
-    void Add_Library();
+    void AddNewLibrary();
     // правка названия библиотеки
     void EditLibraryName();
     void DeleteLibrary();

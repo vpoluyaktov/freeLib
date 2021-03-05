@@ -44,7 +44,7 @@ AddLibrary::AddLibrary(QWidget *parent) :
     connect(ui->btnUpdateLibrary,SIGNAL(clicked()),this,SLOT(StartImport()));
     connect(ui->btnExportLibrary,SIGNAL(clicked()),this,SLOT(ExportLib()));
     connect(ui->comboBoxExistingLibs,SIGNAL(currentIndexChanged(int)),this,SLOT(SelectLibrary()));
-    connect(ui->btnLibraryAdd, SIGNAL(clicked()), this, SLOT(Add_Library()));
+    connect(ui->btnLibraryAdd, SIGNAL(clicked()), this, SLOT(AddNewLibrary()));
     connect(ui->btnLibraryEdit, &QToolButton::clicked, this, &AddLibrary::EditLibraryName);
     connect(ui->btnLibraryDelete, SIGNAL(clicked()), this, SLOT(DeleteLibrary()));
     connect(ui->comboBoxExistingLibs->lineEdit(),SIGNAL(editingFinished()),this,SLOT(ExistingLibsChanged()));
@@ -75,7 +75,7 @@ bool AddLibrary::IsLibraryChanged() const
     return bLibChanged_;
 }
 
-void AddLibrary::Add_Library()
+void AddLibrary::AddNewLibrary()
 {
     ui->Log->clear();
     idCurrentLib_ = -1;
