@@ -1552,6 +1552,7 @@
     <addaction name="actionAbout"/>
     <addaction name="actionHelp"/>
     <addaction name="separator"/>
+    <addaction name="actionAboutQtFramework"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -1686,6 +1687,11 @@
   <action name="actionDatabaseOptimization">
    <property name="text">
     <string>Database optimization</string>
+   </property>
+  </action>
+  <action name="actionAboutQtFramework">
+   <property name="text">
+    <string>About Qt framework</string>
    </property>
   </action>
  </widget>

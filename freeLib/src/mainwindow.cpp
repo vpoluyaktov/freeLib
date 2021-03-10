@@ -311,6 +311,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
     connect(ui->btnExpandTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::expandAll);
     connect(ui->btnCollapseTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::collapseAll);
+    connect(ui->actionAboutQtFramework, &QAction::triggered, this, &MainWindow::actionAboutQt);
 
     // назначение кнопкам быстрых клавиш
     BindAnyButtonShortcut(ui->btnAuthor, QKeySequence("CTRL+A"));
@@ -3817,4 +3818,9 @@ void MainWindow::SetGroupDefaultIconsAction()
             }
         }
     }
+}
+
+void MainWindow::actionAboutQt()
+{
+    QMessageBox::aboutQt(this);
 }

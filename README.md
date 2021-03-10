@@ -1,5 +1,5 @@
 # freeLib
-freeLib - каталогизатор для библиотек LibRusEc и Flibusta
+freeLib - каталогизатор для библиотек LibRusEc, Flibusta, CoolLib...
 
 petrovvlad: Это форк общедоступного freeLib 5.0 , разработка которого прекращена. 
 Сборка протестирована в Qt 5.11.0 (Linux).
