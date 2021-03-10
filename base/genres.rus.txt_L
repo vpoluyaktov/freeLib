@@ -1,0 +1,479 @@
+UTF8 // codepage
+Военное дело	  Military
+ military_arts Боевые искусства	  Military Arts
+ nonf_military Военная документалистика и аналитика	  Military Documentaries And Analytics
+ military_history Военная история	  Military History
+ military_weapon Военная техника и вооружение	  Weapon
+ military Военное дело: прочее	  Military Other
+ military_memoirs Военные мемуары	  Military Memoirs
+ military_special Спецслужбы	  Military Special
+Деловая литература	  Economy, Business
+ banking Банковское дело	  Banking
+ accounting Бухучет и аудит	  Accounting
+ global_economy Внешняя торговля	  Global Economy
+ sci_business Деловая литература: прочее	  Business Literature
+ paper_work Делопроизводство	  Paper Work
+ org_behavior Корпоративная культура	  Corporate Culture
+ personal_finance Личные финансы	  Personal Finance
+ small_business Малый бизнес	  Small Business
+ marketing Маркетинг, PR, реклама	  Marketing, PR, Adv
+ real_estate Недвижимость	  Real Estate
+ popular_business О бизнесе популярно	  Popular Business
+ industries Отраслевые издания	  Industries
+ job_hunting Поиск работы, карьера	  Job Hunting
+ economics Практическая экономика	  Economics
+ economics_ref Справочная деловая литература	  economics_ref
+ trade Торговля	  Trade
+ management Управление, подбор персонала	  Management
+ stock Ценные бумаги, инвестиции	  Stock
+Детективы и триллеры	  Detectives & Thrillers
+ thriller_archaeological Археологический триллер	  Archaeological Thriller
+ det_action Боевик	  Action
+ det_cozy Дамский детектив	  Cozy Mysteries
+ detective Детективы: прочее	  Detectives
+ foreign_detective Зарубежный детектив	  Foreign Detectives
+ det_irony Иронический детектив	  Ironical Detectives
+ det_history Исторический детектив	  Historical Detectives
+ det_classic Классический детектив	  Classical Detectives
+ det_crime Криминальный детектив	  Crime Detectives
+ det_hard Крутой детектив	  Hard-boiled
+ det_maniac Маньяки	  Maniacs
+ thriller_medical Медицинский триллер	  Medical Thriller
+ det_political Политический детектив	  Political Detectives
+ det_police Полицейский детектив	  Police Stories
+ det_rus Российский детектив	  Russian Detectives
+ det_su Советский детектив	  Soviet Detectives
+ thriller_techno Техно триллер	  Techno Thriller
+ thriller Триллер	  Thrillers
+ det_espionage Шпионский детектив	  Espionage Detectives
+ thriller_legal Юридический триллер	  Legal Thriller
+Детская литература	  Children's
+ children Детская литература: прочее	  Children's Other
+ child_education Детская образовательная литература	  Children's Educational
+ child_det Детская остросюжетная литература	  Children's Detectives & Thrillers
+ child_prose Детская проза	  Children's Prose
+ child_adv Детские приключения	  Children's Adventures
+ child_verse Детские стихи	  Children's Verses
+ child_horror Детские ужастики	  Children's Horror
+ child_sf Детская фантастика	  Children's Science Fiction
+ child_fantasy Детское фэнтези	  Children's Fantasy
+ child_folklore Детский фольклор	  Child Folklore
+ foreign_children Зарубежная детская литература	  Foreign Literature For Children
+ child_classical Классическая детская литература	  Classical Children's Literature
+ ya Подростковая литература	  Young-adult Fiction
+ child_rus Русская детская литература	  Russian Children's Literature
+ child_tale_rus Русские сказки для детей	  Russian Fairy Tales
+ child_tale Сказки для детей	  Fairy Tales
+ child_su Советская детская литература	  Soviet Children's Literature
+Документальная литература	  Nonfiction
+ interview Беседы и интервью	  Interview
+ nonf_biography Биографии и мемуары	  Biography & Memoirs
+ nonfiction Документальная литература	  Nonfiction Other
+ naturalist_notes Заметки натуралиста	  Naturalist Notes
+ travel_notes Записки путешественника	  Travel Notes
+ sci_popular Научпоп	  Science Popular
+ nonf_publicism Публицистика	  Publicism
+Домоводство (Дом и семья)	  Home & Family
+ home_child Дети. Книги для родителей	  Child
+ home Дом и семья: прочее	  Home Other
+ home_pets Домашние животные	  Pets
+ home_housekeeping Домоводство	  Housekeeping
+ home_health Здоровье	  Health
+ home_beauty Красота	  Beauty
+ home_cooking Кулинария	  Cooking
+ home_entertain Развлечения	  Entertaining
+ family Семейные отношения	  Family
+ home_sex Эротика и секс	  Erotica & Sex
+Драматургия	  Dramaturgy
+ drama_antique Античная драма	  Antique Drama
+ vaudeville Водевиль, буффонада	  Vaudeville
+ drama Драма	  Drama
+ dramaturgy Драматургия	  Dramaturgy
+ dramaturgy_for_classic Зарубежная классическая драматургия	  Foreign Dramaturgy
+ foreign_dramaturgy Зарубежная современная драматургия	  Contemporary Foreign Dramaturgy
+ screenplays Киносценарий	  Screenplays
+ comedy Комедия	  Comedy
+ mystery Мистерия	  Mystery
+ dramaturgy_rus_classic Русская классическая драматургия	  Russian Dramaturgy
+ dramaturgy_rus Русская современная драматургия	  Contemporary Russian Dramaturgy
+ dramaturgy_su Советская драматургия	  Soviet Dramaturgy
+ scenarios Сценарий	  Scenarios
+ tragedy Трагедия	  Tragedy
+История	  History
+ sci_history История	  History
+ sci_history_0 История первобытного общества	  History of Primitive Society
+ sci_history_4 История древнего мира	  Ancient World History
+ sci_history_15 История средних веков	  Medieval History
+ sci_history_18 История нового времени	  History of Modern Times
+ sci_history_20 Новейшая история	  Newest History
+ sci_history_21 Современная история	  Contemporary History
+Компьютеры и Интернет	  Computers & Internet
+ comp_soft_cad CAD, CAM и CAE системы	  CAD, CAM and CAE
+ comp_www_design Web-дизайн	  Web Design
+ comp_db Базы данных	  Databases
+ comp_design Графика. Дизайн. Мультимедиа	  Design
+ comp_www Интернет	  Internet
+ comp_security Компьютерная безопасность	  Security
+ comp_hard Компьютерное железо	  Hardware
+ computers Околокомпьютерная литература	  Computers Other
+ comp_soft_office Офисные приложения	  Office Software
+ comp_soft Программы	  Software
+ comp_osnet Сети	  Networking
+ tbg_computers Учебники и самоучители по компьютеру	  Computers Textbook
+ comp_hacking Хакерство	  Hacking
+ comp_dsp Цифровая обработка сигналов	  Digital Signal Processing
+Компьютеры: Операционные системы	  OS
+ comp_os_android Android	  Android
+ comp_os_freedos FreeDOS	  FreeDOS
+ comp_os_linux Linux	  Linux
+ comp_os_macos MacOS	  MacOS
+ comp_os_msdos MS-DOS	  MS-DOS
+ comp_os_os2 OS/2	  OS/2
+ comp_os_unix Unix	  Unix
+ comp_os_windows Windows	  Windows
+ comp_os Прочие ОС	  Other OS
+Компьютеры: Разработка ПО	  Soft Development
+ comp_soft_dev_alg Алгоритмы	  Algorithms
+ comp_dv_ai Искусственный интеллект	  Artifical Intellegence
+ comp_soft_dev_craking Крэкинг и реверсинжиниринг	  Craking And Reverse Engineering
+ comp_soft_dev_man Менеджмент ПО	  Management
+ comp_soft_dev_oop Объектно-ориентированное программирование	  OOP
+ comp_soft_dev_debug Отладка и тестирование ПО	  Debuging
+ comp_soft_dev_graphic Программирование графики	  Graphic Programming
+ comp_soft_dev_games Программирование игр	  Games Programming
+ comp_soft_dev Разработка ПО: прочее	  Soft Development Other
+ comp_soft_dev_system Системное программирование	  System Programming
+ comp_db_exp Экспертные системы	  Expert Systems
+Компьютеры: Языки и системы программирования	  Programming Languages
+ comp_prog_dotnet .NET Framework	  .NET Framework
+ comp_prog_assembler Assembler	  Assembler
+ comp_prog_basic Basic, Visual Basic, VB Script, VBA и т.п.	  Basic, Visual Basic, VB Script, VBA
+ comp_prog_c C, C++, C#	  C, C++, C#
+ comp_prog_forth Forth	  Forth
+ comp_prog_java Java, Java Script	  Java, Java Script
+ comp_prog_lisp Lisp	  Lisp
+ comp_prog_lua Lua	  Lua
+ comp_prog_mfc MFC	  MFC
+ comp_prog_pascal Pascal, Delphi, Lazarus и т.п.	  Pascal, Delphi, Lazarus
+ comp_prog_php PHP	  PHP
+ comp_prog_prolog Prolog	  Prolog
+ comp_prog_python Python	  Python
+ comp_prog_qt Qt	  Qt
+ comp_prog_ror Ruby	  Ruby
+ comp_prog_winapi Windows API	  Windows API
+ comp_programming Другие языки и системы программирования	  Other Programming Languages
+Культура и искусство	  Art, Art History, Design
+ architecture_book Архитектура и скульптура	  Architecture
+ painting Живопись, альбомы, иллюстрированные каталоги	  Painting
+ visual_arts Изобразительное искусство, фотография	  Visual Arts
+ design Искусство и дизайн	  Art, Design
+ art_criticism Искусствоведение	  Art Criticism
+ art_history История искусства	  Art History
+ cine Кино	  Cine
+ nonf_criticism Критика	  Criticism
+ sci_culture Культурология	  Cultural Science
+ art_world_culture Мировая художественная культура	  Art World Culture
+ fashion_style Мода и стиль	  Fashion Style
+ music Музыка	  Music
+ notes Партитуры	  Notes
+ radio_tv Радио и телевидение	  Radio and TV
+ art_dance Танцы и хореография	  Dance and Choreography
+ theatre Театр	  Theatre
+Литература по изданиям	  Publications
+ old_foreign_publication Дореволюционные зарубежные издания	  Pre-revolutionary Foreign Publications
+ old_rus_publication Дореволюционные российские издания	  Pre-revolutionary Russian Publications
+ foreign_su_publication Зарубежные издания советского периода	  Foreign publications of the Soviet period
+ rarity Раритетные издания	  Rare Editions
+ network_literature Самиздат, сетевая литература	  Network Literature
+ su_publication Советские издания	  Soviet Publications
+ foreign_publication Современные зарубежные издания	  Modern Foreign Publications
+ ex_su_publication Современные издания стран бывшего СССР	  Publications Of The Former USSR
+ rus_publication Современные российские издания	  Modern Russian Publications
+Литература по эпохам	  Literature Ages
+ literature_4 Литература IV века и ранее (эпоха Древнего мира)	  Literature Before The V Century
+ foreign_antique Литература V-XIII веков (эпоха Средневековья)	  Literature Of V-XIII Centuries
+ literature_16 Литература XIV-XVI веков (эпоха Возрождения)	  Literature Of XIV-XVI Centuries
+ literature_18 Литература XVII-XVIII веков (эпоха Просвящения)	  Literature Of XVII-XVIII Centuries
+ literature_19 Литература ХIX века (эпоха Промышленной революции)	  Literature Of The XIX Century
+ literature_20 Литература ХX века (эпоха Социальных революций)	  Literature Of The ХX Century
+ literature_21 Литература ХXI века (эпоха Глобализации экономики)	  Literature Of The ХXI Century
+Любовные романы	  Romance
+ love_history Исторические любовные романы	  Historical Romance
+ love_short Короткие любовные романы	  Short Romance
+ love_sf Любовная фантастика	  Love SF
+ love_fantasy Любовное фэнтези	  Love Fantasy
+ love_detective Любовные детективы	  Detective Romance
+ love О любви	  Love Romance
+ love_hard Порно	  Porno
+ sexual_perversion Сексуальные извращения	  Sexual Perversion
+ love_slash Слэш	  Love Slash
+ love_contemporary Современные любовные романы	  Contemporary Romance
+ love_femslash Фемслеш	  Love Femslash
+ love_erotica Эротика	  Erotica
+Наука, образование	  Scientific-educational
+ sci_medicine_alternative Альтернативная медицина	  Alternative Medicine
+ sci_theories Альтернативные науки и научные теории	  Theories
+ sci_anachem Аналитическая химия	  Analitic Chemistry
+ sci_cosmos Астрономия и Космос	  Cosmos
+ sci_veterinary Ветеринария	  Veterinary
+ sci_oriental Востоковедение	  Science Oriental
+ sci_geography География	  Geography
+ sci_geo Геология и геофизика	  Geology and Geophysics
+ sci_state Государство и право	  State Science
+ foreign_language Иностранные языки	  Foreign Languages
+ science_history История науки	  Science History
+ local_lore_study Краеведение	  Study of Local Lore
+ sci_philology Литературоведение	  Philology
+ sci_math Математика	  Mathematics
+ sci_medicine Медицина	  Medicine
+ science Научная литература	  Science Other
+ sci_social_studies Обществознание	  Social Studies
+ sci_orgchem Органическая химия	  Органическая химия
+ sci_pedagogy Педагогика	  Pedagogy
+ sci_politics Политика и дипломатия	  Politics and Diplomacy
+ sci_religion Религиоведение	  Religious Studies
+ sci_phys Физика	  Physics
+ sci_physchem Физическая химия	  Physical Chemistry
+ sci_philosophy Философия	  Philosophy
+ sci_chem Химия	  Chemistry
+ sci_economy Экономика	  Economic
+ sci_juris Юриспруденция	  Jurisprudence
+ sci_linguistic Языкознание	  Linguistics
+Науки о живой природе	  Biology
+ sci_biology Биология	  Biology
+ sci_biophys Биофизика	  Biophysics
+ sci_biochem Биохимия	  Biochemistry
+ sci_botany Ботаника	  Botany
+ sci_zoo Зоология	  Zoology
+ sci_evolutionism Эволюционизм	  Evolutionism
+ sci_ecology Экология	  Ecology
+Поэзия	  Poetry
+ fable Басни	  Fable
+ in_verse В стихах	  In Verse
+ vers_libre Верлибры	  Vers Libre
+ visual_poetry Визуальная поэзия	  Visual Poetry
+ poetry_for_classical Классическая зарубежная поэзия	  Classical Foreign Poetry
+ poetry_classical Классическая поэзия	  Classical Poetry
+ poetry_rus_classical Классическая русская поэзия	  Classical Russian Poetry
+ lyrics Лирика	  Lyrics
+ palindromes Палиндромы	  Palindromes
+ song_poetry Песенная поэзия	  Song Poetry
+ poetry Поэзия	  Poetry
+ poetry_east Поэзия Востока	  Poetry Of The East
+ poem Поэма	  Poem
+ poetry_su Советская поэзия	  Soviet Poetry
+ poetry_for_modern Современная зарубежная поэзия	  Modern Foreign Poetry
+ poetry_modern Современная поэзия	  Modern Poetry
+ poetry_rus_modern Современная русская поэзия	  Modern Russian Poetry
+ poetry_military Стихи о войне	  Military Poetry
+ experimental_poetry Экспериментальная поэзия	  Experimental Poetry
+ epic_poetry Эпическая поэзия	  Epic Poetry
+Приключения	  Adventure
+ adv_story Авантюрный роман	  Adventure story
+ adv_western Вестерны	  Western
+ adv_military Военные приключения	  Military Adventure
+ adv_history Исторические приключения	  History Fiction
+ adv_maritime Морские приключения	  Maritime Fiction
+ adv_modern Приключения в современном мире	  Adventure Modern
+ adv_indian Приключения про индейцев	  Indians
+ adventure Приключения	  Adventure Other
+ adv_animal Природа и животные	  Nature & Animals
+ adv_geo Путешествия и география	  Travel & Geography
+ tale_chivalry Рыцарский роман	  Tale Chivalry
+ adv_su Советская приключенческая литература	  Soviet Adventure
+Проза	  Prose
+ aphorisms Афоризмы и цитаты	  Aphorisms
+ in_prose В прозе	  In Prose
+ prose_military Военная проза	  Military Prose
+ foreign_prose Зарубежная классическая проза	  Foreign Classical Prose
+ foreign_contemporary Зарубежная современная проза	  Foreign Contemporary Prose
+ prose_history Историческая проза	  Historical Prose
+ prose_classic Классическая проза	  Classics Prose
+ prose_counter Контркультура	  Counterculture
+ prose_magic Магический реализм	  Magic Realism
+ story Новелла	  Story
+ great_story Повесть	  Great Story
+ prose Проза	  Prose
+ short_story Рассказ	  Short Story
+ roman Роман	  Roman
+ prose_rus_classic Русская классическая проза	  Russian Classics
+ russian_contemporary Русская современная проза	  Russian Contemporary Prose
+ sagas Семейная сага	  Saga
+ prose_sentimental Сентиментальная проза	  Sentimental Prose
+ prose_su_classics Советская проза	  Soviet Classics
+ prose_contemporary Современная проза	  Contemporary Prose
+ prose_abs Фантасмагория, абсурдистская проза	  Phantasmagoria, Absurdist Prose
+ extravaganza Феерия	  Extravaganza
+ prose_neformatny Экспериментальная, неформатная проза	  Experimental, Informal Prose
+ epistolary_fiction Эпистолярная проза	  Epistolary Fiction
+ prose_epic Эпопея	  Epic
+ essay Эссе, очерк, этюд, набросок	  Essay
+Прочее	  Other
+ autor_collection Авторские сборники, собрания сочинений	  Autor Collections
+ dissident Антисоветская литература	  Anti-Soviet Literature
+ bestseller Бестселлеры	  Bestsellers
+ in_retelling В пересказе, в лит. обработке	  In retelling
+ in_reduction В сокращении	  In reduction
+ periodic Газеты и журналы	  Periodic
+ diafilm Диафильмы	  Diafilm
+ adult Для взрослых	  For Adults
+ prose_game Книга-игра	  Book-game
+ comics Комиксы	  Comics
+ compilation Компиляции	  Compilation
+ cats Кошки	  Cats
+ literary_fairy_tale Литературные сказки	  Literary Fairy Tales
+ fan_translation Любительские переводы	  Fan Translations
+ postcards Наборы открыток	  Postcards
+ beginning_authors Начинающие авторы	  Beginning Authors
+ unfinished Недописанное	  Unfinished
+ other Неотсортированное	  Not Sorting
+ novelization Новеллизации	  Novelization
+ fragment Отрывок, ознакомительный фрагмент	  Fragment
+ collection Сборники, альманахи, антологии	  Collections
+ fanfiction Фанфики	  Fan Fictions
+Психология и психиатрия	  Psychology and Psychiatry
+ sci_hypnosis Гипноз, внушение и самовнушение	  Hypnosis
+ psy_childs Детская психология	  Child Psychology
+ sci_psychiatry Психиатрия и наркология	  Psychiatry and Narcology
+ sci_psychology Психология	  Psychology
+ psy_theraphy Психотерапия и консультирование	  Psychotherapy
+ psy_sex_and_family Секс и семейная психология	  Sex and Family
+Религия и духовность	  Religion & Inspiration
+ astrology Астрология	  Astrology
+ religion_budda Буддизм	  Buddhism
+ religion_hinduism Индуизм	  Hinduism
+ religion_islam Ислам	  Islam
+ religion_judaism Иудаизм	  Judaism
+ religion_catholicism Католицизм	  Catholicism
+ religion_orthodoxy Православие	  Orthodoxy
+ religion_protestantism Протестантизм	  Protestantism
+ religion Религиозная литература	  Religion Other
+ religion_rel Религия	  Religion
+ religion_self Самосовершенствование	  Self-improvement
+ palmistry Хиромантия	  Palmistry
+ religion_christianity Христианство	  Christianity
+ religion_esoterics Эзотерика	  Esoterics
+ religion_paganism Язычество	  Paganism
+Справочная литература	  Reference
+ geo_guides Путеводители	  Guides
+ ref_guide Руководства	  Guidebooks
+ ref_self_tutor Самоучители	  Self-tutors
+ ref_dict Словари	  Dictionaries
+ reference Справочная литература	  Reference Other
+ ref_ref Справочники	  Reference
+ ref_encyc Энциклопедии	  Encyclopedias
+Старинное	  Antique Literature
+ antique_ant Античная литература	  Antique
+ antique_east Древневосточная литература	  Old East
+ antique_russian Древнерусская литература	  Old Russian
+ antique_european Древнеевропейская литература	  European
+ antique Старинная литература	  Other
+Техника	  Technics
+ auto_business Автодело	  Auto Business
+ equ_history История техники	  Equ History
+ sci_engineering Конструирование	  Engineering
+ sci_tech_materials Материаловедение, конструкционные материалы	  Materials
+ sci_tech_machinery Машиностроение	  Machinery
+ sci_metal Металлургия	  Metallurgy
+ sci_tech_standards Нормативная техническая документация	  Tech Standards
+ sci_radio Радиоэлектроника	  Radio
+ sci_tech_rockets Ракетостроение и космическая техника	  Rockets
+ sci_tech_sopromat Строительная механика и сопромат	  Strength Of Materials
+ sci_build Строительство	  Building
+ sci_tech Технические науки	  Technical
+ sci_transport Транспорт и авиация	  Transport
+Учебники и пособия	  Textbook
+ sci_abstract Рефераты	  Abstract
+ sci_textbook_su Советские учебники и пособия	  Soviet Textbook
+ sci_textbook Учебники и пособия	  Textbook
+ tbg_higher Учебники и пособия ВУЗов	  Textbook Higher
+ tbg_secondary Учебники и пособия для среднего и специального образования	  Textbook Secondary
+ tbg_school Школьные учебники и пособия	  Textbook School
+ sci_crib Шпаргалки	  Cribs
+Фантастика	  Science Fiction
+ sf_history Альтернативная история	  Alternative History
+ sf_action Боевая фантастика	  Action Science Fiction
+ sf_heroic Героическая фантастика	  Heroic Science Fiction
+ sf_detective Детективная фантастика	  Detective Science Fiction
+ foreign_sf Зарубежная фантастика	  Foreign Science Fiction
+ sf_irony Ироническая фантастика	  Ironical Science Fiction
+ sf_cyberpunk Киберпанк	  Cyberpunk
+ sf_space_opera Космическая опера	  Space Opera
+ sf_space Космическая фантастика	  Space Science Fiction
+ sf_litrpg ЛитРПГ	  LitRPG
+ sf_mystic Мистика	  Mystic
+ sf Научная фантастика	  Science Fiction
+ nsf Ненаучная фантастика	  Non Science Fiction
+ sf_paleontological Палеонтологическая фантастика	  Paleontological Science Fiction
+ popadanec Попаданцы	  Popadanec
+ sf_postapocalyptic Постапокалипсис	  Postapocalyptic
+ sf_rus Российская фантастика	  Russian Science Fiction
+ sf_su Советская фантастика	  Soviet Science Fiction
+ sf_social Социально-философская фантастика	  Social-philosophical
+ sf_stimpank Стимпанк	  Stimpank
+ sf_horror Ужасы	  Horror
+ sf_etc Фантастика	  Other Science Fiction
+ hronoopera Хроноопера	  Hronoopera
+ sf_epic Эпическая фантастика	  Epic Science Fiction
+ sf_humor Юмористическая фантастика	  Humor Science Fiction
+Фольклор	  Folklore
+ epic Былины	  Epic
+ riddles Загадки	  Riddles
+ antique_myths Мифы, легенды, эпос	  Myths, Legends, Epos
+ folk_songs Народные песни	  Folk Songs
+ folk_traditions Народные приметы, обряды, традиции	  Folk Traditions
+ folk_tale Народные сказки	  Folk Tales
+ proverbs Пословицы и поговорки	  Proverbs
+ folklore_rus Русский фольклор	  Russian Folklore
+ folklore Фольклор: прочее	  Folklore
+ limerick Частушки, прибаутки, потешки	  Limerick
+Фэнтези	  Fantasy
+ fantasy_fight Боевое фэнтези	  Fight Fantasy
+ sf_fantasy_city Городское фэнтези	  Fantasy City
+ gothic_novel Готический роман	  Gothic Novel
+ foreign_fantasy Зарубежное фэнтези	  Foreign Fantasy
+ sf_fantasy_irony Ироническое фэнтези	  Ironyc Female Fantasy
+ historical_fantasy Историческое фэнтези	  Historical Fantasy
+ magician_book Магическое фэнтези	  Magical Fantasy
+ vampire_book О вампирах	  Vampire Fantasy
+ dragon_fantasy О драконах	  Dragon Fantasy
+ fairy_fantasy Сказочная фантастика	  Fairy Fantasy
+ russian_fantasy Славянское фэнтези	  Slavic Fantasy
+ modern_tale Современная сказка	  Modern Tale
+ sf_technofantasy Технофэнтези	  Technofantasy
+ sf_fantasy Фэнтези: прочее	  Fantasy
+ humor_fantasy Юмористическое фэнтези	  Humor Fantasy
+Хобби и ремесла	  Hobbies & Crafts
+ auto_regulations Авто- и мототранспорт, ПДД	  Auto Regulations
+ home_aquarium Аквариумистика	  Aquarium
+ home_mountain Альпинизм и скалолазание	  Mountaineering
+ home_winemaking Виноделие, спиртные напитки	  Winemaking
+ home_livestock Животноводство и птицеводство	  Livestock Farming
+ home_furniture Изготовление и ремонт мебели	  Furniture
+ home_inventory Инвентарь, инструменты	   Inventory, Instruments
+ home_building Индивидуальное строительство и ремонт	  Building and Renovation
+ home_bookmaking Книгоделие	  Bookmaking
+ home_collecting Коллекционирование	  Collecting
+ home_marine Морское дело, парусный спорт	  Maritime Affairs
+ home_hunt Охота и охотоведение	  Hunt
+ home_writing_art Писательское искусство	  Writing Art
+ home_beekeeping Пчеловодство	  Beekeeping
+ home_woodwork Работа по дереву	  Woodwork
+ home_metalwork Работа по металлу	  Metal Work
+ home_handiwork Рукоделие	  Handiwork
+ home_fishing Рыболовство и рыбоводство	  Fishing
+ home_garden Сад и огород	  Garden
+ home_mushrooms Сбор и выращивание грибов	  Mushrooms
+ home_diy Сделай сам	  Do It Yourself
+ home_sport Спорт	  Sports
+ home_tourism Туризм	  Tourism
+ home_crafts Хобби и ремесла: прочее	  Hobbies & Crafts Other
+ home_floriculture Цветоводство	  Floriculture
+Юмор	  Humor
+ humor_anecdote Анекдоты	  Anecdote
+ humor_tales Байки	  Tales
+ humor_parody Пародии, шаржи, эпиграммы	  Parodies, Cartoons, Epigrams
+ humor_satire Сатира	  Satire
+ humor Юмор	  Humor Other
+ humor_prose Юмористическая проза	  Humor Prose
+ humor_verse Юмористические стихи	  Humor Verses

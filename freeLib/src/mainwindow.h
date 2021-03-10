@@ -261,6 +261,7 @@ private slots:
     void TrayMenuAction(QSystemTrayIcon::ActivationReason reson);
     void dockClicked();
     void MinimizeWindow();
+    void actionAboutQt();
 
     // обработчик переключения в режим конвертера из меню
     void on_actionSwitch_to_convert_mode_triggered();
