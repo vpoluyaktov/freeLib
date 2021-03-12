@@ -265,7 +265,8 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                 ti.firstname=author.at(i).toElement().elementsByTagName("first-name").at(0).toElement().text();
                 ti.lastname=author.at(i).toElement().elementsByTagName("last-name").at(0).toElement().text();
                 ti.middlename=author.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
-                ti.author=ti.lastname+","+ti.firstname+","+ti.middlename;
+                ti.nickname = author.at(i).toElement().elementsByTagName("nickname").at(0).toElement().text();
+                ti.author = ti.lastname + "," + ti.firstname + "," + ti.middlename + "," + ti.nickname;
                 bi.authors<<ti;
             }
             QDomNodeList genre=title_info.elementsByTagName("genre");
@@ -362,52 +363,53 @@ qlonglong ImportThread::AddSeriaToSQLite(QString str, qlonglong libID, int tag)
 
 qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglong id_book, bool first_author, QString language, int tag)
 {
-    if(str.trimmed().isEmpty())
+    if (str.trimmed().isEmpty())
         return -1;
     QStringList names=str.split(',');
     QString LastName;
-    if(names.count()>0)
+    if (names.count() > 0)
         LastName=names[0].trimmed();
     QString FirstName;
-    if(names.count()>1)
+    if (names.count() > 1)
         FirstName=names[1].trimmed();
     QString MiddleName;
-    if(names.count()>2)
+    if (names.count() > 2)
         MiddleName=names[2].trimmed();
-    if(LastName.isEmpty() && FirstName.isEmpty() && MiddleName.isEmpty())
+    QString NickName;
+    if (names.count() > 3)
+        NickName = names[3].trimmed();
+    if (LastName.isEmpty() && FirstName.isEmpty() && MiddleName.isEmpty() && NickName.isEmpty())
         return -1;
 
-    Query_->prepare("SELECT id,tag FROM author WHERE id_lib=:id_lib and LastName=:LastName and FirstName=:FirstName and MiddleName=:MiddleName");
-    Query_->bindValue(":id_lib",libID);
-    Query_->bindValue(":LastName",LastName);
-    Query_->bindValue(":FirstName",FirstName);
-    Query_->bindValue(":MiddleName",MiddleName);
+    Query_->prepare("SELECT id, tag FROM author WHERE id_lib=:id_lib AND LastName=:LastName AND FirstName=:FirstName AND MiddleName=:MiddleName AND NickName=:NickName");
+    Query_->bindValue(":id_lib", libID);
+    Query_->bindValue(":LastName", LastName);
+    Query_->bindValue(":FirstName", FirstName);
+    Query_->bindValue(":MiddleName", MiddleName);
+    Query_->bindValue(":NickName", NickName);
     Query_->exec();
-    qlonglong id=0;
-    if(Query_->next())
-    {
-        id=Query_->value(0).toLongLong();
-    }
-    if(id==0)
-    {
-        Query_->prepare("INSERT INTO author(LastName,FirstName,MiddleName,id_lib,tag) values(:LastName,:FirstName,:MiddleName,:id_lib,:tag)");
-        Query_->bindValue(":LastName",LastName);
-        Query_->bindValue(":FirstName",FirstName);
-        Query_->bindValue(":MiddleName",MiddleName);
-        Query_->bindValue(":id_lib",libID);
-        Query_->bindValue(":tag",tag);
+    qlonglong id = 0;
+    if (Query_->next())
+        id = Query_->value(0).toLongLong();
+    if (id == 0) {
+        Query_->prepare("INSERT INTO author(LastName,FirstName,MiddleName,NickName,id_lib,tag) VALUES(:LastName,:FirstName,:MiddleName,:NickName,:id_lib,:tag)");
+        Query_->bindValue(":LastName", LastName);
+        Query_->bindValue(":FirstName", FirstName);
+        Query_->bindValue(":MiddleName", MiddleName);
+        Query_->bindValue(":NickName", NickName);
+        Query_->bindValue(":id_lib", libID);
+        Query_->bindValue(":tag", tag);
         if(!Query_->exec())
             qDebug() << Query_->lastError().text();
         id = Query_->lastInsertId().toLongLong();
     }
-    else
-    {
-        if(Query_->value(1).toInt()!=tag && tag>0)
-            Query_->exec("UPDATE author SET tag="+QString::number(tag) +" WHERE id="+QString::number(id));
+    else {
+        if (Query_->value(1).toInt() != tag && tag > 0)
+            Query_->exec("UPDATE author SET tag=" + QString::number(tag) + " WHERE id=" + QString::number(id));
     }
     if(first_author)
-        Query_->exec("UPDATE book SET first_author_id="+QString::number(id)+" WHERE id="+QString::number(id_book));
-    Query_->exec("INSERT INTO book_author(id_book,id_author,id_lib,language) values("+QString::number(id_book)+","+QString::number(id)+","+QString::number(libID)+",'"+language+"')");
+        Query_->exec("UPDATE book SET first_author_id=" + QString::number(id) + " WHERE id=" + QString::number(id_book));
+    Query_->exec("INSERT INTO book_author(id_book,id_author,id_lib,language) VALUES("+QString::number(id_book)+","+QString::number(id)+","+QString::number(libID)+",'"+language+"')");
     return id;
 }
 
@@ -1107,10 +1109,11 @@ void ImportThread::process()
                             QString firstname=listAuthor.at(i).toElement().elementsByTagName("first-name").at(0).toElement().text();
                             QString lastname=listAuthor.at(i).toElement().elementsByTagName("last-name").at(0).toElement().text();
                             QString middlename=listAuthor.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
-                            QString sAuthor = author=lastname+","+firstname+","+middlename;
+                            QString nickname = listAuthor.at(i).toElement().elementsByTagName("nickname").at(0).toElement().text();
+                            QString sAuthor = author = lastname + "," + firstname + "," + middlename + "," + nickname;
                             sAuthorLow = sAuthor.toLower();
                             if(!sAuthorLow.contains("неизвестен") && !sAuthorLow.contains("неизвестный")){
-                                QString sAuthor = QString("%1,%2,%3").arg(lastname,firstname,middlename);
+                                QString sAuthor = QString("%1,%2,%3,%4").arg(lastname, firstname, middlename, nickname);
                                 AddAuthorToSQLite(sAuthor,ExistingLibID_,id_book,author_count==0,language,tag_auth);
                                 author_count++;
                             }
