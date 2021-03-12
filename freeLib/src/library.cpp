@@ -34,8 +34,8 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
 
     t_start = QDateTime::currentMSecsSinceEpoch();
     lib.mAuthors.insert(0, SAuthor());
-    query.prepare("SELECT author.id, LastName, FirstName, MiddleName, author.tag FROM author WHERE id_lib=:id_lib;");
-    //                          0       1          2           3            4
+    query.prepare("SELECT author.id, LastName, FirstName, MiddleName, NickName, author.tag FROM author WHERE id_lib=:id_lib;");
+    //                          0       1          2           3          4          5
     query.bindValue(":id_lib", idLibrary);
     query.exec();
     while (query.next()) {
@@ -44,7 +44,8 @@ void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
         author.sLastName = query.value(1).toString().trimmed();
         author.sFirstName = query.value(2).toString().trimmed();
         author.sMiddleName = query.value(3).toString().trimmed();
-        int nTag = query.value(4).toInt();
+        author.sNickName = query.value(4).toString().trimmed();
+        int nTag = query.value(5).toInt();
         lib.mAuthors[idAuthor].nTag = nTag;
     }
     t_end = QDateTime::currentMSecsSinceEpoch();
@@ -214,8 +215,11 @@ void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
 
 QString SAuthor::getName() const
 {
-    QString sAuthorName = QString("%1 %2 %3").arg(sLastName,sFirstName,sMiddleName).trimmed();
-    if(sAuthorName.isEmpty())
-        sAuthorName = QCoreApplication::translate("MainWindow","Unknown Author");
+    QString sAuthorName = QString("%1 %2 %3").arg(sLastName, sFirstName, sMiddleName).trimmed();
+    if (sAuthorName.isEmpty()) {
+        sAuthorName = QString("%1").arg(sNickName).trimmed();
+        if (sAuthorName.isEmpty())
+            sAuthorName = QCoreApplication::translate("MainWindow", "Unknown Author");
+    }
     return sAuthorName;
 }

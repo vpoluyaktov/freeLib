@@ -53,21 +53,24 @@ struct genre_info
 };
 struct author_info
 {
-    author_info(QString author,qlonglong id):author(author),id(id)
+    author_info(QString author, qlonglong id) : author(author), id(id)
     {
-        QStringList sl=author.split(",");
-        if(sl.count()>0)
-            lastname=sl[0].trimmed();
-        if(sl.count()>1)
-            firstname=sl[0].trimmed();
-        if(sl.count()>2)
-            middlename=sl[0].trimmed();
+        QStringList sl = author.split(",");
+        if (sl.count() > 0)
+            lastname = sl[0].trimmed();
+        if (sl.count() > 1)
+            firstname = sl[0].trimmed();
+        if (sl.count() > 2)
+            middlename = sl[0].trimmed();
+        if (sl.count() > 3)
+            nickname = sl[0].trimmed();
     }
     QString author;
     qlonglong id;
     QString firstname;
     QString middlename;
     QString lastname;
+    QString nickname;
 };
 
 struct book_info

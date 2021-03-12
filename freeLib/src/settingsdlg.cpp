@@ -248,6 +248,10 @@ void SettingsDlg::btnDirPath()
         ui->dirForBrowsing->setText(dir);
     }
 }
+
+/*
+    ïåğåíîñ áàçû äàííûõ â óêàçàííóş ïîëüçîâàòåëåì ïàïêó
+*/
 void SettingsDlg::btnDBPath()
 {
     QString oldDatabasePath = ui->database_path->text().trimmed();
@@ -258,6 +262,8 @@ void SettingsDlg::btnDBPath()
         QSqlDatabase dbase = QSqlDatabase::database("libdb", false);
         if (dbase.isOpen())
             dbase.close();
+        if (QFile::exists(newÂatabasePath))
+            QFile().remove(newÂatabasePath);
         if (QFile().rename(RelativeToAbsolutePath(oldDatabasePath), newÂatabasePath)) {
             settings.setValue("database_path", newÂatabasePath);
             settings.sync();
