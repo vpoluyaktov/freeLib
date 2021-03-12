@@ -50,10 +50,11 @@ DROP TABLE IF EXISTS [main].[author];
 /* Table structure [author] */
 CREATE TABLE [main].[author](
   [id] INTEGER PRIMARY KEY, 
-  [LastName] TEXT, 
-  [FirstName] TEXT, 
-  [MiddleName] TEXT, 
-  [id_lib] INTEGER REFERENCES [lib]([id]), 
+  [LastName] TEXT,
+  [FirstName] TEXT,
+  [MiddleName] TEXT,
+  [NickName] TEXT,
+  [id_lib] INTEGER REFERENCES [lib]([id]),
   [tag] INTEGER REFERENCES [tag]([id])
 );
 CREATE INDEX [main].[author_sort]
@@ -68,7 +69,7 @@ DROP TABLE IF EXISTS [main].[seria];
 
 /* Table structure [seria] */
 CREATE TABLE [main].[seria](
-  [id] INTEGER PRIMARY KEY, 
+  [id] INTEGER PRIMARY KEY,
   [name] TEXT, 
   [id_lib] INTEGER REFERENCES [lib]([id]), 
   [tag] INTEGER REFERENCES [tag]([id])
@@ -76,7 +77,7 @@ CREATE TABLE [main].[seria](
 CREATE INDEX [main].[seria_id] ON [seria]([id] ASC);
 CREATE INDEX [main].[seria_name]
 ON [seria](
-  [name] ASC, 
+  [name] ASC,
   [id_lib] ASC
 );
 
