@@ -6,20 +6,32 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freeLib", "src\freeLib.vcxp
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Debug|Win32.Build.0 = Debug|Win32
 		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Debug|x64.ActiveCfg = Debug|x64
 		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Debug|x64.Build.0 = Debug|x64
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Debug|x86.ActiveCfg = Debug|Win32
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Debug|x86.Build.0 = Debug|Win32
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Release|Win32.ActiveCfg = Release|Win32
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Release|Win32.Build.0 = Release|Win32
 		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Release|x64.ActiveCfg = Release|x64
 		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Release|x64.Build.0 = Release|x64
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Release|x86.ActiveCfg = Release|Win32
+		{EDFA4B1D-C608-3106-BC61-AAD36726C1C7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = msvc2019_64
 		SolutionGuid = {89FE0E07-439F-4E62-AD42-5D417617CC14}
+		Qt5Version = msvc2019_64
 	EndGlobalSection
 EndGlobal
