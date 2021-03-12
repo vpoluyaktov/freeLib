@@ -14,6 +14,7 @@ public:
     QString sFirstName;
     QString sLastName;
     QString sMiddleName;
+    QString sNickName;
 };
 
 struct SBook
