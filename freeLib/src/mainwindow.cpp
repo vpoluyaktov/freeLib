@@ -167,7 +167,8 @@ MainWindow::MainWindow(QWidget* parent) :
         {
             version = query.value(0).toInt();
         }
-        if (version < 7) {
+        // версия базы данных. Если меньше, то старую удаляем и создаем новую
+        if (version < 8) {
             splash->hide();
             if (QMessageBox::question(nullptr, tr("Database"), tr("This version needs new database version. All your old books data will be lost. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
             {
