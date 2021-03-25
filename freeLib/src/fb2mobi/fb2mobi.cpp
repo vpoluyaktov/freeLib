@@ -7,7 +7,7 @@
 #include <QFileInfo>
 #include <QUuid>
 #include <QPainter>
-#include <QWebEnginePage>
+//#include <QWebEnginePage>
 
 #include "../quazip/quazip/quazip.h"
 #include "../quazip/quazip/quazipfile.h"
@@ -2014,7 +2014,7 @@ QString fb2mobi::convert(QStringList files, bool remove, QString format, book_in
     else if(format=="PDF")
     {
 
-        QWebEnginePage* pdf=new QWebEnginePage();
+        /*QWebEnginePage* pdf=new QWebEnginePage();
          QEventLoop loop;
         connect(pdf,SIGNAL(loadFinished(bool)),&loop,SLOT(quit()));
         qDebug()<<QUrl::fromLocalFile(tmp_dir+"/OEBPS/"+html_files[0].file_name);
@@ -2030,7 +2030,7 @@ QString fb2mobi::convert(QStringList files, bool remove, QString format, book_in
         //pdf->print(&printer);
         pdf->printToPdf(out_file);
         qDebug()<<out_file<<html_files[0].file_name;
-        delete pdf;
+        delete pdf;*/
     }
     return out_file;
 }
