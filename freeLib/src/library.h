@@ -67,8 +67,8 @@ struct SSerial
 
 struct SGenre
 {
-    QString sName; // русское название Жанра
-    QString sNameEn; // английское название Жанра
+    QString sName; // СЂСѓСЃСЃРєРѕРµ РЅР°Р·РІР°РЅРёРµ в€†Р°РЅСЂР°
+    QString sNameEn; // Р°РЅРіР»РёР№СЃРєРѕРµ РЅР°Р·РІР°РЅРёРµ в€†Р°РЅСЂР°
     ushort idParrentGenre;
     ushort nSort;
     QString sCode;
@@ -94,13 +94,13 @@ public:
         Name_ = ""; Id_ = 0; Blocked_ = false; BlockedName_ = "";
     };
     Group(const QString& Name, uint id, bool blocked, const QString& blockedName = "") :
-        Name_(Name), Id_(id), Blocked_(blocked), BlockedName_(blockedName) { };
+        Name_(Name), Id_(id), BlockedName_(blockedName), Blocked_(blocked) { };
 
     void setName(QString Name) { Name_ = Name; };
     void setId(uint Id) { Id_ = Id; };
     void setBlocked(bool blocked) { Blocked_ = blocked; };
     QString getName() const { return Name_; };
-    QString getId() const { return Id_; };
+    uint getId() const { return Id_; };
     bool isBlocked() const { return Blocked_; };
     void setBlockedName(QString BlockedName) {
         if (isBlocked())
