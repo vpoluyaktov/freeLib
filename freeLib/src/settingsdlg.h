@@ -113,7 +113,7 @@ private slots:
     void on_ChangeExportFrameTab(int tab_id,int page_id);
 
     void on_DefaultExport_clicked();
-    // перенос базы данных в указанную пользователем папку
+    // РїРµСЂРµРЅРѕСЃ Р±Р°Р·С‹ РґР°РЅРЅС‹С… РІ СѓРєР°Р·Р°РЅРЅСѓСЋ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РїР°РїРєСѓ
     void btnDBPath();
     void btnDirPath();
     void on_btnDefaultSettings_clicked();

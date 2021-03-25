@@ -229,3 +229,4 @@ src/core/iTextSharp.xml
 
 #Linux files
 .directory
+build-Lib_linux*
