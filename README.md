@@ -26,7 +26,9 @@ https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioT
 - Если у Вас основная сборка будет под x86, то в поле Default поставьте галочку для msvc2019.
 
 4. Загрузите код библиотекаря:
+```
 git clone --recurse-submodules https://github.com/petrovvlad/freeLib.git
+```
 
 5. Произведите сборку кода в MS Visual Studio 2019, открыв файл Lib_win.sln.
 
