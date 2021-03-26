@@ -20,8 +20,8 @@ https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioT
 
 - В MS Visual Studio 2019 в меню Расширения > Qt VS Tools выберите Qt Versions.
 - В диалоге, в таблице версий Qt:
--- Для x64 в поле Path укажите путь к Qt: C:\Qt\5.15.2\msvc2019_64. В поле Version измените название версии на msvc2019_64.
--- Для x86 в поле Path укажите путь к Qt: C:\Qt\5.15.2\msvc2019. В поле Version измените название версии на msvc2019.
+  -- Для x64 в поле Path укажите путь к Qt: C:\Qt\5.15.2\msvc2019_64. В поле Version измените название версии на msvc2019_64.
+  -- Для x86 в поле Path укажите путь к Qt: C:\Qt\5.15.2\msvc2019. В поле Version измените название версии на msvc2019.
 - Если у Вас основная сборка будет под x64, то в поле Default поставьте галочку для msvc2019_64.
 - Если у Вас основная сборка будет под x86, то в поле Default поставьте галочку для msvc2019.
 
