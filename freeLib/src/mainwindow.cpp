@@ -87,13 +87,19 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
         if (!zip_file.open(QIODevice::ReadOnly)) {
             qDebug() << "Error open file: " << file;
         }
-        if(caption)
+        if (caption)
             buffer.setData(zip_file.read(16*1024));
         else
             buffer.setData(zip_file.readAll());
         zip_file.close();
         fi.setFile(file);
-        QString fbd = fi.path() + "/" + fi.completeBaseName() + ".fbd";
+
+        QString fbd;
+        if (fi.completeBaseName().left(1) != "." && !fi.completeBaseName().isEmpty()) {
+            fbd = fi.path() != "."
+                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке*/
+                : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки*/
+        }
 
         if (SetCurrentZipFileName(&uz, fbd)) {
             zip_file.open(QIODevice::ReadOnly);
