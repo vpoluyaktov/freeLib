@@ -1624,6 +1624,8 @@ void MainWindow::SelectBook()
             GetBookInfo(bi, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2", false, idBook);
         else if (fi.fileName().right(4).toLower() == "epub")
             GetBookInfo(bi, outbuff.data(), "epub", false, idBook);
+        else if (fi.fileName().right(4).toLower() == "djvu")
+            GetBookInfo(bi, outbuff.data(), "fb2", false, idBook);
         else
             GetBookInfo(bi, outbuff.data(), fi.suffix(), false, idBook);
     }
