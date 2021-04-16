@@ -207,7 +207,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             buf.close();
             info.close();
         }
-        else if(type=="fb2")
+        else if(type=="fb2" || type == "fbd")
         {
             QDomDocument doc;
             doc.setContent(data);
