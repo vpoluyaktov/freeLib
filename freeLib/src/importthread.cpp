@@ -730,9 +730,10 @@ void ImportThread::importBooks(QString path, int &count)
                         if(fi.completeBaseName().left(1)!="." && !fi.completeBaseName().isEmpty())
                         {
                             QString fbd = fi.path() != "."
-                                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке*/
-                                : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки*/
-                            if(SetCurrentZipFileName(&uz,fbd))
+                                ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке */
+                                : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки */
+                            // чтение данных описания книги из fbd файла
+                            if(SetCurrentZipFileName(&uz, fbd))
                             {
                                 zip_file.open(QIODevice::ReadOnly);
                                 buffer.setData(zip_file.readAll());
