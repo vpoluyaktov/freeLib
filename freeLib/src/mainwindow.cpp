@@ -111,7 +111,7 @@ QFileInfo GetBookFile(QBuffer &buffer_book, QBuffer &buffer_info, uint id_book, 
                     ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке */
                     : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки */
                 // чтение данных описания книги из fbd файла
-                if (SetCurrentZipFileName(&uz, fbdPathInZip)) {
+                if (SetCurrentZipFileName(&uz, book.sFormat == "fb2" ? bookPathInZip : fbdPathInZip)) {
                     zip_file.open(QIODevice::ReadOnly);
                     buffer_info.setData(zip_file.readAll());
                     zip_file.close();
