@@ -38,7 +38,7 @@ extern QSplashScreen *splash;
 
 bool db_is_open;
 
-QFileInfo GetBookFile(QBuffer &buffer, QBuffer &buffer_info, uint id_book, bool caption, QDateTime *file_data)
+QFileInfo GetBookFile(QBuffer &buffer_book, QBuffer &buffer_info, uint id_book, bool caption, QDateTime *file_data)
 {
     QFileInfo fi;
     SBook &book = mLibs[g_idCurrentLib].mBooks[id_book];
@@ -56,7 +56,7 @@ QFileInfo GetBookFile(QBuffer &buffer, QBuffer &buffer_info, uint id_book, bool 
             qDebug() << ("Error open file!") << " " << file;
             return fi;
         }
-        buffer.setData(book_file.readAll());
+        buffer_book.setData(book_file.readAll());
         fi.setFile(book_file);
         if (file_data)
             *file_data = fi.created();
@@ -101,9 +101,9 @@ QFileInfo GetBookFile(QBuffer &buffer, QBuffer &buffer_info, uint id_book, bool 
             if (!zip_file.open(QIODevice::ReadOnly))
                 qDebug() << "Error open file: " << file;
             if (caption)
-                buffer.setData(zip_file.read(16 * 1024));
+                buffer_book.setData(zip_file.read(16 * 1024));
             else
-                buffer.setData(zip_file.readAll());
+                buffer_book.setData(zip_file.readAll());
             zip_file.close();
 
             if (fi.completeBaseName().left(1) != "." && !fi.completeBaseName().isEmpty()) {
@@ -1021,9 +1021,9 @@ void MainWindow::BookDblClick()
     if(ui->Books->selectedItems().count()==0)
         return;
     QTreeWidgetItem* item=ui->Books->selectedItems()[0];
-    QBuffer outbuff;
-    QBuffer infobuff;
-    QFileInfo fi=GetBookFile(outbuff,infobuff,item->data(0,Qt::UserRole).toUInt());
+    QBuffer buffer_book;
+    QBuffer buffer_info;
+    QFileInfo fi = GetBookFile(buffer_book, buffer_info, item->data(0, Qt::UserRole).toUInt());
     if(fi.fileName().isEmpty())
         return;
     QString TempDir="";
@@ -1033,7 +1033,7 @@ void MainWindow::BookDblClick()
     dir.mkpath(dir.path());
     QFile file(dir.path()+"/"+fi.fileName());
     file.open(QFile::WriteOnly);
-    file.write(outbuff.data());
+    file.write(buffer_book.data());
     file.close();
 
     QSettings settings;
@@ -1620,10 +1620,10 @@ void MainWindow::SelectBook()
     SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
     ui->btnOpenBook->setEnabled(true);
     //if (ui->splitter->sizes()[1] > 0) { // только, если панель данных книги видна.
-    QBuffer outbuff;
-    QBuffer infobuff;
+    QBuffer buffer_book;
+    QBuffer buffer_info;
     QDateTime book_date;
-    QFileInfo fi = GetBookFile(outbuff, infobuff, idBook, false, &book_date);
+    QFileInfo fi = GetBookFile(buffer_book, buffer_info, idBook, false, &book_date);
 
     book_info bi;
     if (fi.fileName().isEmpty()) {
@@ -1633,12 +1633,12 @@ void MainWindow::SelectBook()
         bi.annotation = "<font color=\"red\">" + tr("Can't find file: %1").arg(file) + "</font>";
     }
     else {
-        if (fi.fileName().right(3).toLower() == "fb2" || infobuff.size() > 0)
-            GetBookInfo(bi, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2", false, idBook);
+        if (fi.fileName().right(3).toLower() == "fb2")
+            GetBookInfo(bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fb2", false, idBook);
         else if (fi.fileName().right(4).toLower() == "epub")
-            GetBookInfo(bi, outbuff.data(), "epub", false, idBook);
+            GetBookInfo(bi, buffer_book.data(), "epub", false, idBook);
         else
-            GetBookInfo(bi, outbuff.data(), "fbd", false, idBook);
+            GetBookInfo(bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fbd", false, idBook);
     }
 
     QString sSeria;
