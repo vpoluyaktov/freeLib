@@ -134,16 +134,17 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                 else if(meta.childNodes().at(m).nodeName().right(7)=="creator")
                                 {
                                     QStringList names=meta.childNodes().at(m).toElement().text().trimmed().split(" ");
-                                    names.move(names.count()-1,0);
-                                    QString author;
+                                    names.move(names.count()-1, 0);
+                                    if (names.count() == 3)
+                                        names.append(""); // NickName
+                                    /*QString author;
                                     int i=0;
-                                    foreach(QString str,names)
-                                    {
+                                    foreach(QString str,names) {
                                         author+=str+(i>1?" ":",");
                                         i++;
                                     }
-
-                                    bi.authors<<author_info(author,0);
+                                    bi.authors << author_info(author, 0);*/
+                                    bi.authors << author_info(names, 0);
                                 }
                                 else if(meta.childNodes().at(m).nodeName().right(7)=="subject")
                                 {
