@@ -154,12 +154,17 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                     meta.childNodes().at(m).save(ts,0,QDomNode::EncodingFromTextStream);
                                     bi.annotation=QString::fromUtf8(buff.data().data());
                                 }
-                                else if(meta.childNodes().at(m).nodeName().right(4)=="meta" && !info_only)
+                                else if (meta.childNodes().at(m).nodeName().right(4) == "meta" && info_only)
                                 {
-                                    if(meta.childNodes().at(m).attributes().namedItem("name").toAttr().value()=="cover")
-                                    {
-
-                                        QString cover=meta.childNodes().at(m).attributes().namedItem("content").toAttr().value();
+                                    QString metaName = meta.childNodes().at(m).attributes().namedItem("name").toAttr().value();
+                                    if (metaName == "calibre:title_sort")
+                                        if (bi.title == "")
+                                            bi.title = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value();
+                                }
+                                else if (meta.childNodes().at(m).nodeName().right(4)=="meta" && !info_only)
+                                {
+                                    if (meta.childNodes().at(m).attributes().namedItem("name").toAttr().value() == "cover") {
+                                        QString cover = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value();
                                         QDomNode manifest=opf.documentElement().namedItem("manifest");
                                         for(int man=0;man<manifest.childNodes().count();man++)
                                         {
