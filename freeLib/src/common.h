@@ -59,11 +59,28 @@ struct author_info
         if (sl.count() > 0)
             lastname = sl[0].trimmed();
         if (sl.count() > 1)
-            firstname = sl[0].trimmed();
+            firstname = sl[1].trimmed();
         if (sl.count() > 2)
-            middlename = sl[0].trimmed();
+            middlename = sl[2].trimmed();
         if (sl.count() > 3)
-            nickname = sl[0].trimmed();
+            nickname = sl[3].trimmed();
+    }
+    author_info(QStringList authorInfo, qlonglong id) : id(id)
+    {
+        if (authorInfo.count() > 0)
+            lastname = authorInfo[0].trimmed();
+        if (authorInfo.count() > 1)
+            firstname = authorInfo[1].trimmed();
+        if (authorInfo.count() > 2)
+            middlename = authorInfo[2].trimmed();
+        if (authorInfo.count() > 3)
+            nickname = authorInfo[3].trimmed();
+        int i = 0;
+        foreach(QString str, authorInfo) {
+            author += str + ",";
+            i++;
+        }
+        author = author.remove(author.length() - 1, 1);
     }
     QString author;
     qlonglong id;

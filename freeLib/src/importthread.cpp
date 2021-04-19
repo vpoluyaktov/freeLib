@@ -134,16 +134,10 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                 else if(meta.childNodes().at(m).nodeName().right(7)=="creator")
                                 {
                                     QStringList names=meta.childNodes().at(m).toElement().text().trimmed().split(" ");
-                                    names.move(names.count()-1,0);
-                                    QString author;
-                                    int i=0;
-                                    foreach(QString str,names)
-                                    {
-                                        author+=str+(i>1?" ":",");
-                                        i++;
-                                    }
-
-                                    bi.authors<<author_info(author,0);
+                                    names.move(names.count()-1, 0);
+                                    if (names.count() == 3)
+                                        names.append(""); // NickName
+                                    bi.authors << author_info(names, 0);
                                 }
                                 else if(meta.childNodes().at(m).nodeName().right(7)=="subject")
                                 {
@@ -160,12 +154,22 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                     meta.childNodes().at(m).save(ts,0,QDomNode::EncodingFromTextStream);
                                     bi.annotation=QString::fromUtf8(buff.data().data());
                                 }
-                                else if(meta.childNodes().at(m).nodeName().right(4)=="meta" && !info_only)
+                                else if (meta.childNodes().at(m).nodeName().right(4) == "meta" && info_only)
                                 {
-                                    if(meta.childNodes().at(m).attributes().namedItem("name").toAttr().value()=="cover")
-                                    {
-
-                                        QString cover=meta.childNodes().at(m).attributes().namedItem("content").toAttr().value();
+                                    QString metaName = meta.childNodes().at(m).attributes().namedItem("name").toAttr().value();
+                                    if (metaName == "calibre:title_sort") {
+                                        if (bi.title == "")
+                                            bi.title = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value().trimmed();
+                                    }
+                                    else if (metaName == "calibre:series")
+                                        bi.seria = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value().trimmed();
+                                    else if (metaName == "calibre:series_index")
+                                        bi.num_in_seria = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value().trimmed().toInt();
+                                }
+                                else if (meta.childNodes().at(m).nodeName().right(4)=="meta" && !info_only)
+                                {
+                                    if (meta.childNodes().at(m).attributes().namedItem("name").toAttr().value() == "cover") {
+                                        QString cover = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value();
                                         QDomNode manifest=opf.documentElement().namedItem("manifest");
                                         for(int man=0;man<manifest.childNodes().count();man++)
                                         {
@@ -387,7 +391,8 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
     Query_->bindValue(":FirstName", FirstName);
     Query_->bindValue(":MiddleName", MiddleName);
     Query_->bindValue(":NickName", NickName);
-    Query_->exec();
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
     qlonglong id = 0;
     if (Query_->next())
         id = Query_->value(0).toLongLong();
