@@ -77,9 +77,10 @@ struct author_info
             nickname = authorInfo[3].trimmed();
         int i = 0;
         foreach(QString str, authorInfo) {
-            author += str + (i > 1 ? " " : ",");
+            author += str + ",";
             i++;
         }
+        author = author.remove(author.length() - 1, 1);
     }
     QString author;
     qlonglong id;
