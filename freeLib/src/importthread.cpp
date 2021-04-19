@@ -387,7 +387,8 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
     Query_->bindValue(":FirstName", FirstName);
     Query_->bindValue(":MiddleName", MiddleName);
     Query_->bindValue(":NickName", NickName);
-    Query_->exec();
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
     qlonglong id = 0;
     if (Query_->next())
         id = Query_->value(0).toLongLong();
