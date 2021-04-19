@@ -4,7 +4,7 @@
 #include <QDialog>
 
 #define MAJOR_VERSION 7
-#define MINOR_VERSION 3
+#define MINOR_VERSION 4
 #define PROG_VERSION QString("v %1.%2.%3").arg(MAJOR_VERSION).arg(MINOR_VERSION).arg(BUILD)
 
 #ifdef Q_OS_WIN

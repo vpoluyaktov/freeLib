@@ -38,7 +38,7 @@ extern QSplashScreen *splash;
 
 bool db_is_open;
 
-QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool caption, QDateTime *file_data)
+QFileInfo GetBookFile(QBuffer &buffer_book, QBuffer &buffer_info, uint id_book, bool caption, QDateTime *file_data)
 {
     QFileInfo fi;
     SBook &book = mLibs[g_idCurrentLib].mBooks[id_book];
@@ -56,7 +56,7 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
             qDebug() << ("Error open file!") << " " << file;
             return fi;
         }
-        buffer.setData(book_file.readAll());
+        buffer_book.setData(book_file.readAll());
         fi.setFile(book_file);
         if (file_data)
             *file_data = fi.created();
@@ -69,39 +69,57 @@ QFileInfo GetBookFile(QBuffer &buffer,QBuffer &buffer_info, uint id_book, bool c
         }
     }
     else {
-        // zip: только fb2.zip и zip файлы, в которых находятся не fb2 книги с fbd файлом рядом с ними (в zip в папке или вне папки).
+        // zip: только fb2.zip и zip файлы, в которых находятся НЕ fb2 книги с fbd файлом рядом с ними (в zip в папке или вне папки).
         QuaZip uz(archive);
+        uz.setFileNameCodec(QTextCodec::codecForName("IBM 866"));
         if (!uz.open(QuaZip::mdUnzip)) {
             qDebug() << ("Error open archive!") << " " << archive;
             return fi;
         }
 
-        if (file_data) {
-            SetCurrentZipFileName(&uz, file);
-            QuaZipFileInfo64 zip_fi;
-            if(uz.getCurrentFileInfo(&zip_fi))
-                *file_data = zip_fi.dateTime;
-        }
+        QString bookPathInZip = "";
         QuaZipFile zip_file(&uz);
-        SetCurrentZipFileName(&uz, file);
-        if (!zip_file.open(QIODevice::ReadOnly)) {
-            qDebug() << "Error open file: " << file;
-        }
-        if(caption)
-            buffer.setData(zip_file.read(16*1024));
-        else
-            buffer.setData(zip_file.readAll());
-        zip_file.close();
-        fi.setFile(file);
-        QString fbd = fi.path() + "/" + fi.completeBaseName() + ".fbd";
+        QList<QuaZipFileInfo64> list = uz.getFileInfoList64();
+        foreach (QuaZipFileInfo64 str, list) {
+            app->processEvents();
+            QFileInfo fi(str.name);
 
-        if (SetCurrentZipFileName(&uz, fbd)) {
-            zip_file.open(QIODevice::ReadOnly);
-            buffer.setData(zip_file.readAll());
+            if (fi.suffix() != book.sFormat) // чтение только книги
+                continue;
+
+            bookPathInZip = str.name;
+            // получение даты создания файла
+            if (file_data) {
+                SetCurrentZipFileName(&uz, bookPathInZip);
+                QuaZipFileInfo64 zip_fi;
+                if (uz.getCurrentFileInfo(&zip_fi))
+                    *file_data = zip_fi.dateTime;
+            }
+
+            // чтение содержимого файла в буффер
+            SetCurrentZipFileName(&uz, bookPathInZip);
+            if (!zip_file.open(QIODevice::ReadOnly))
+                qDebug() << "Error open file: " << file;
+            if (caption)
+                buffer_book.setData(zip_file.read(16 * 1024));
+            else
+                buffer_book.setData(zip_file.readAll());
             zip_file.close();
+
+            if (fi.completeBaseName().left(1) != "." && !fi.completeBaseName().isEmpty()) {
+                QString fbdPathInZip = fi.path() != "."
+                    ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке */
+                    : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки */
+                // чтение данных описания книги из fbd файла
+                if (SetCurrentZipFileName(&uz, book.sFormat == "fb2" ? bookPathInZip : fbdPathInZip)) {
+                    zip_file.open(QIODevice::ReadOnly);
+                    buffer_info.setData(zip_file.readAll());
+                    zip_file.close();
+                }
+            }
         }
 
-        fi.setFile(archive + "/" + file);
+        fi.setFile(archive + "/" + bookPathInZip/*file*/);
     }
     return fi;
 }
@@ -1003,9 +1021,9 @@ void MainWindow::BookDblClick()
     if(ui->Books->selectedItems().count()==0)
         return;
     QTreeWidgetItem* item=ui->Books->selectedItems()[0];
-    QBuffer outbuff;
-    QBuffer infobuff;
-    QFileInfo fi=GetBookFile(outbuff,infobuff,item->data(0,Qt::UserRole).toUInt());
+    QBuffer buffer_book;
+    QBuffer buffer_info;
+    QFileInfo fi = GetBookFile(buffer_book, buffer_info, item->data(0, Qt::UserRole).toUInt());
     if(fi.fileName().isEmpty())
         return;
     QString TempDir="";
@@ -1015,7 +1033,7 @@ void MainWindow::BookDblClick()
     dir.mkpath(dir.path());
     QFile file(dir.path()+"/"+fi.fileName());
     file.open(QFile::WriteOnly);
-    file.write(outbuff.data());
+    file.write(buffer_book.data());
     file.close();
 
     QSettings settings;
@@ -1602,10 +1620,11 @@ void MainWindow::SelectBook()
     SBook &book = mLibs[g_idCurrentLib].mBooks[idBook];
     ui->btnOpenBook->setEnabled(true);
     //if (ui->splitter->sizes()[1] > 0) { // только, если панель данных книги видна.
-    QBuffer outbuff;
-    QBuffer infobuff;
+    QBuffer buffer_book;
+    QBuffer buffer_info;
     QDateTime book_date;
-    QFileInfo fi = GetBookFile(outbuff, infobuff, idBook, false, &book_date);
+    QFileInfo fi = GetBookFile(buffer_book, buffer_info, idBook, false, &book_date);
+
     book_info bi;
     if (fi.fileName().isEmpty()) {
         GetBookInfo(bi, QByteArray(), "", true, idBook);
@@ -1614,12 +1633,12 @@ void MainWindow::SelectBook()
         bi.annotation = "<font color=\"red\">" + tr("Can't find file: %1").arg(file) + "</font>";
     }
     else {
-        if (fi.fileName().right(3).toLower() == "fb2" || infobuff.size() > 0)
-            GetBookInfo(bi, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2", false, idBook);
+        if (fi.fileName().right(3).toLower() == "fb2")
+            GetBookInfo(bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fb2", false, idBook);
         else if (fi.fileName().right(4).toLower() == "epub")
-            GetBookInfo(bi, outbuff.data(), "epub", false, idBook);
+            GetBookInfo(bi, buffer_book.data(), "epub", false, idBook);
         else
-            GetBookInfo(bi, outbuff.data(), fi.suffix(), false, idBook);
+            GetBookInfo(bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fbd", false, idBook);
     }
 
     QString sSeria;

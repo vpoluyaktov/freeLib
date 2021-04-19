@@ -32,7 +32,7 @@ git clone --recurse-submodules https://github.com/petrovvlad/freeLib.git
 
 5. Произведите сборку кода в MS Visual Studio 2019, открыв файл Lib_win.sln.
 
-## Сбока кода под Linux
+## Сборка кода под Linux
 1. Предварительная установка в систему необходимых библиотек:
 
 ```
