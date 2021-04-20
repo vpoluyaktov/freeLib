@@ -2784,59 +2784,51 @@ void MainWindow::dragLeaveEvent(QDragLeaveEvent *)
 void MainWindow::UpdateExportMenu()
 {
     QSettings settings;
-    int defaultID=-1;
-    if(ui->btnExport->defaultAction())
-        defaultID=ui->btnExport->defaultAction()->data().toInt();
+    int defaultID = -1;
+    if (ui->btnExport->defaultAction())
+        defaultID = ui->btnExport->defaultAction()->data().toInt();
     else
-        defaultID=settings.value("DefaultExport",-1).toInt();
+        defaultID = settings.value("DefaultExport", -1).toInt();
     QMenu* menu=ui->btnExport->menu();
-    if(menu)
-    {
+    if (menu) {
         ui->btnExport->menu()->clear();
     }
-    else
-    {
-        menu=new QMenu(this);
+    else {
+        menu = new QMenu(this);
         ui->btnExport->setMenu(menu);
     }
     ui->btnExport->setDefaultAction(nullptr);
-    int count=settings.beginReadArray("export");
-    for(int i=0;i<count;i++)
-    {
+    int count = settings.beginReadArray("export");
+    for (int i = 0; i < count; i++) {
         settings.setArrayIndex(i);
-        QAction *action=new QAction(settings.value("ExportName").toString(),this);
+        QAction *action = new QAction(settings.value("ExportName").toString(), this);
         action->setData(i);
         menu->addAction(action);
-        if(settings.value("Default").toBool() || (i==defaultID && !ui->btnExport->defaultAction()))
-        {
+        if (settings.value("Default").toBool() || (i == defaultID && !ui->btnExport->defaultAction())) {
             ui->btnExport->setDefaultAction(action);
         }
     }
     settings.endArray();
-    if(count==0)
-    {
-       QAction *action=new QAction(tr("Send to ..."),this);
+    if (count == 0) {
+       QAction *action=new QAction(tr("Send to ..."), this);
        action->setData(-1);
        menu->addAction(action);
        ui->btnExport->setDefaultAction(action);
     }
-    if(menu->actions().count()==0)
-    {
+    if (menu->actions().count() == 0) {
         return;
     }
-    if(!ui->btnExport->defaultAction())
-    {
+    if (!ui->btnExport->defaultAction()) {
         ui->btnExport->setDefaultAction(menu->actions()[0]);
     }
-    foreach (QAction *action, menu->actions())
-    {
-        connect(action,SIGNAL(triggered()),this,SLOT(ExportAction()));
+    foreach (QAction *action, menu->actions()) {
+        connect(action, SIGNAL(triggered()), this, SLOT(ExportAction()));
     }
     QFont font(ui->btnExport->defaultAction()->font());
     font.setBold(true);
     ui->btnExport->defaultAction()->setFont(font);
     ui->btnExport->setIcon(QIcon(":/icons/img/icons/Streamline.png"));
-    ui->btnExport->setEnabled(ui->Books->selectedItems().count()>0);
+    ui->btnExport->setEnabled(ui->Books->selectedItems().count() > 0);
 }
 
 /*
