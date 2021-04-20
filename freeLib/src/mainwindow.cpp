@@ -178,26 +178,25 @@ MainWindow::MainWindow(QWidget* parent) :
     errorQuit_ = false;
     QSettings settings;
 
-    if (db_is_open)
-    {
+    if (db_is_open) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         //query.exec("CREATE TABLE IF NOT EXISTS params (id INTEGER PRIMARY KEY, name TEXT, value TEXT)");
         query.exec(QString("SELECT value FROM params WHERE name='%1'").arg("version"));
         int version = 0;
-        if (query.next())
-        {
+        if (query.next()) {
             version = query.value(0).toInt();
         }
         // версия базы данных. Если меньше, то старую удаляем и создаем новую
         if (version < 8) {
             splash->hide();
-            if (QMessageBox::question(nullptr, tr("Database"), tr("This version needs new database version. All your old books data will be lost. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
-            {
+            if (QMessageBox::question(
+                nullptr, tr("Database"),
+                tr("This version needs new database version. All your old books data will be lost. Continue?"),
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
                 if (!openDB(false, true))
                     errorQuit_ = true;
             }
-            else
-            {
+            else {
                 errorQuit_ = true;
             }
         }
@@ -226,7 +225,10 @@ MainWindow::MainWindow(QWidget* parent) :
         this, &MainWindow::onAnchorClicked
     );
 
-    setWindowTitle(AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name));
+    setWindowTitle(
+        AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty()
+            ? "" : " - " + mLibs[g_idCurrentLib].name)
+    );
 
     tbClear_ = new QToolButton(this);
     tbClear_->setFocusPolicy(Qt::NoFocus);
@@ -244,13 +246,11 @@ MainWindow::MainWindow(QWidget* parent) :
     bShowDeleted_ = settings.value("ShowDeleted").toBool();
     int nCurrentTab;
 
-    if (settings.value("store_position", true).toBool())
-    {
+    if (settings.value("store_position", true).toBool()) {
         // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
         nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
     }
-    else
-    {
+    else {
         mLibs[g_idCurrentLib].uIdCurrentAuthor = 0;
         mLibs[g_idCurrentLib].uIdCurrentSeria = 0;
         mLibs[g_idCurrentLib].uIdCurrentGenre = 0;
@@ -282,20 +282,20 @@ MainWindow::MainWindow(QWidget* parent) :
     FillTreeWidgetGenres(g_idCurrentLib);
     FillListWidgetGroups(g_idCurrentLib);
 
-    connect(ui->lineEditSearchString,SIGNAL(/*textEdited*/textChanged(QString)),this,SLOT(searchChanged(QString)));
-    connect(tbClear_,SIGNAL(clicked()),this,SLOT(searchClear()));
-    connect(ui->actionAddLibrary,SIGNAL(triggered()),this,SLOT(ManageLibrary()));
-    connect(ui->btnLibrary,SIGNAL(clicked()),this,SLOT(ManageLibrary()));
-    connect(ui->btnOpenBook,SIGNAL(clicked()),this,SLOT(BookDblClick()));
-    connect(ui->btnOption,SIGNAL(clicked()),this,SLOT(Settings()));
-    connect(ui->actionPreference,SIGNAL(triggered()),this,SLOT(Settings()));
+    connect(ui->lineEditSearchString, SIGNAL(/*textEdited*/textChanged(QString)), this, SLOT(searchChanged(QString)));
+    connect(tbClear_, SIGNAL(clicked()), this, SLOT(searchClear()));
+    connect(ui->actionAddLibrary, SIGNAL(triggered()), this, SLOT(ManageLibrary()));
+    connect(ui->btnLibrary, SIGNAL(clicked()), this, SLOT(ManageLibrary()));
+    connect(ui->btnOpenBook, SIGNAL(clicked()), this, SLOT(BookDblClick()));
+    connect(ui->btnOption, SIGNAL(clicked()), this, SLOT(Settings()));
+    connect(ui->actionPreference, SIGNAL(triggered()), this, SLOT(Settings()));
     connect(ui->actionMarkDeletedBooks, SIGNAL(triggered()), this, SLOT(MarkDeletedBooks()));
     connect(ui->actionDatabaseOptimization, &QAction::triggered, this, &MainWindow::DatabaseOptimization);
 
-    connect(ui->actionCheck_uncheck,SIGNAL(triggered()),this,SLOT(CheckBooks()));
-    connect(ui->btnCheck,SIGNAL(clicked()),this,SLOT(CheckBooks()));
-    connect(ui->btnEdit,SIGNAL(clicked()),this,SLOT(EditBooks()));
-    connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
+    connect(ui->actionCheck_uncheck, SIGNAL(triggered()), this, SLOT(CheckBooks()));
+    connect(ui->btnCheck, SIGNAL(clicked()), this, SLOT(CheckBooks()));
+    connect(ui->btnEdit, SIGNAL(clicked()), this, SLOT(EditBooks()));
+    connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close()));
     #ifdef Q_OS_MACX
         ui->actionExit->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_Q));
     #endif
@@ -311,26 +311,26 @@ MainWindow::MainWindow(QWidget* parent) :
     #endif
     connect(ui->AuthorList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectAuthor()));
     connect(ui->SeriaList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectSeria()));
-    connect(ui->GenreList,SIGNAL(itemSelectionChanged()),this,SLOT(SelectGenre()));
+    connect(ui->GenreList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectGenre()));
     connect(ui->GroupList, SIGNAL(itemSelectionChanged()), this, SLOT(SelectGroup()));
     connect(ui->GroupList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::SelectionChangedGroupsList);
     connect(ui->Books, SIGNAL(itemSelectionChanged()), this, SLOT(SelectBook()));
     connect(ui->Books, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(BookDblClick()));
     connect(ui->Books, SIGNAL(BookItemChanged(QTreeWidgetItem*, int)), this, SLOT(BookItemChanged(QTreeWidgetItem*, int)));
-    connect(ui->btnAuthor,SIGNAL(clicked()),this,SLOT(btnAuthorClick()));
+    connect(ui->btnAuthor, SIGNAL(clicked()), this, SLOT(btnAuthorClick()));
     connect(ui->btnSeries, SIGNAL(clicked()), this, SLOT(btnSeriesClick()));
-    connect(ui->btnGenre,SIGNAL(clicked()),this,SLOT(btnGenresClick()));
+    connect(ui->btnGenre, SIGNAL(clicked()), this, SLOT(btnGenresClick()));
     connect(ui->btnGroups, SIGNAL(clicked()), this, SLOT(btnPageGroupsClick()));
-    connect(ui->btnSearch,SIGNAL(clicked()),this,SLOT(btnPageSearchClick()));
-    connect(ui->btnFind,SIGNAL(clicked()),this,SLOT(StartSearch()));
-    connect(ui->lineEditFindAuthor,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
-    connect(ui->lineEditFindSeria,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
-    connect(ui->lineEditFindBookTitle,SIGNAL(returnPressed()),this,SLOT(StartSearch()));
+    connect(ui->btnSearch, SIGNAL(clicked()), this, SLOT(btnPageSearchClick()));
+    connect(ui->btnFind, SIGNAL(clicked()), this, SLOT(StartSearch()));
+    connect(ui->lineEditFindAuthor, SIGNAL(returnPressed()), this, SLOT(StartSearch()));
+    connect(ui->lineEditFindSeria, SIGNAL(returnPressed()), this, SLOT(StartSearch()));
+    connect(ui->lineEditFindBookTitle, SIGNAL(returnPressed()), this, SLOT(StartSearch()));
     connect(ui->btnGroupCreate, &QPushButton::clicked, this, &MainWindow::AddGroupToList);
     connect(ui->btnGroupRename, &QPushButton::clicked, this, &MainWindow::RenameGroup);
     connect(ui->btnGroupRemove, &QPushButton::clicked, this, &MainWindow::RemoveGroupFromList);
     connect(ui->btnGroupClear, &QPushButton::clicked, this, &MainWindow::DeleteAllBooksFromGroup);
-    connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(About()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(About()));
     connect(ui->btnExpandTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::expandAll);
     connect(ui->btnCollapseTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::collapseAll);
     connect(ui->actionAboutQtFramework, &QAction::triggered, this, &MainWindow::actionAboutQt);
@@ -347,9 +347,8 @@ MainWindow::MainWindow(QWidget* parent) :
     searchChanged(ui->lineEditSearchString->text());
     ExportBookListBtnEnabled(false);
 
-    mode=static_cast<APP_MODE>(settings.value("ApplicationMode",0).toInt());
-    switch(mode)
-    {
+    mode = static_cast<APP_MODE>(settings.value("ApplicationMode", 0).toInt());
+    switch (mode)     {
     case MODE_LIBRARY:
         on_actionSwitch_to_library_mode_triggered();
         break;
@@ -363,8 +362,7 @@ MainWindow::MainWindow(QWidget* parent) :
     }
 
 
-    switch(nCurrentTab)
-    {
+    switch(nCurrentTab) {
     case 0:
         //FillListBooks();
         ui->btnAuthor->click();
@@ -383,22 +381,22 @@ MainWindow::MainWindow(QWidget* parent) :
         break;
     }
 
-    if(ui->lineEditSearchString->text().trimmed().isEmpty())
+    if (ui->lineEditSearchString->text().trimmed().isEmpty())
         FirstButton_->click();
 
     ui->dateEditFindDateTo->setDate(QDate::currentDate());
 
-    pHelpDlg_=nullptr;
-    connect(ui->actionHelp,SIGNAL(triggered()),this,SLOT(HelpDlg()));
+    pHelpDlg_ = nullptr;
+    connect(ui->actionHelp, SIGNAL(triggered()), this, SLOT(HelpDlg()));
     ui->Books->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->Books,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
+    connect(ui->Books, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ContextMenu(QPoint)));
     ui->AuthorList->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->AuthorList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
+    connect(ui->AuthorList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ContextMenu(QPoint)));
     ui->SeriaList->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->SeriaList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(ContextMenu(QPoint)));
-    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(FilterTagSelect(int)));
+    connect(ui->SeriaList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ContextMenu(QPoint)));
+    connect(ui->comboBoxTagFilter,SIGNAL(currentIndexChanged(int)), this, SLOT(FilterTagSelect(int)));
     ui->Books->header()->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->Books->header(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(HeaderContextMenu(QPoint)));
+    connect(ui->Books->header(), SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(HeaderContextMenu(QPoint)));
     ui->GroupList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->GroupList, &QListWidget::customContextMenuRequested, this, &MainWindow::GroupContextMenu);
 
@@ -418,20 +416,20 @@ MainWindow::MainWindow(QWidget* parent) :
 #ifdef Q_OS_OSX
     connect(MyPrivate::instance(), SIGNAL(dockClicked()), SLOT(dockClicked()));
 #endif
-    connect(ui->actionMinimize_window,SIGNAL(triggered(bool)),SLOT(MinimizeWindow()));
+    connect(ui->actionMinimize_window, SIGNAL(triggered(bool)), SLOT(MinimizeWindow()));
 
     settings.beginGroup("Columns");
-    ui->Books->setColumnHidden(0, !settings.value("ShowName",true).toBool());
-    ui->Books->setColumnHidden(1, !settings.value("ShowNumber",true).toBool());
-    ui->Books->setColumnHidden(2, !settings.value("ShowSize",true).toBool());
-    ui->Books->setColumnHidden(3, !settings.value("ShowMark",true).toBool());
-    ui->Books->setColumnHidden(4, !settings.value("ShowImportDate",true).toBool());
-    ui->Books->setColumnHidden(5, !settings.value("ShowGenre",true).toBool());
-    ui->Books->setColumnHidden(6, !settings.value("ShowLanguage",false).toBool());
+    ui->Books->setColumnHidden(0, !settings.value("ShowName", true).toBool());
+    ui->Books->setColumnHidden(1, !settings.value("ShowNumber", true).toBool());
+    ui->Books->setColumnHidden(2, !settings.value("ShowSize", true).toBool());
+    ui->Books->setColumnHidden(3, !settings.value("ShowMark", true).toBool());
+    ui->Books->setColumnHidden(4, !settings.value("ShowImportDate", true).toBool());
+    ui->Books->setColumnHidden(5, !settings.value("ShowGenre", true).toBool());
+    ui->Books->setColumnHidden(6, !settings.value("ShowLanguage", false).toBool());
     ui->Books->setColumnHidden(7, !settings.value("ShowFormat", true).toBool());
     ui->Books->setColumnHidden(8, !settings.value("ShowReaded", true).toBool());
     QVariant varHeaders = settings.value("headers");
-    if(varHeaders.type() == QVariant::ByteArray){
+    if (varHeaders.type() == QVariant::ByteArray){
         ui->Books->header()->restoreState(varHeaders.toByteArray());
     }
 
