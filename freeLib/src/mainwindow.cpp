@@ -2929,14 +2929,13 @@ void MainWindow::ReadedAction()
 void MainWindow::on_actionSwitch_to_convert_mode_triggered()
 {
     QSettings settings;
-    if(mode==MODE_LIBRARY)
-    {
+    if (mode == MODE_LIBRARY) {
         settings.setValue("MainWnd/geometry", saveGeometry());
         settings.setValue("MainWnd/windowState", saveState());
-        settings.setValue("MainWnd/tab/geometry",ui->tabWidget->saveGeometry());
-        settings.setValue("MainWnd/tab/geometry",ui->splitter->saveState());
-        settings.setValue("MainWnd/books/geometry",ui->splitter_2->saveState());
-        settings.setValue("MainWnd/books_head/geometry",ui->Books->header()->saveState());
+        settings.setValue("MainWnd/tab/geometry", ui->tabWidget->saveGeometry());
+        settings.setValue("MainWnd/tab/geometry", ui->splitter->saveState());
+        settings.setValue("MainWnd/books/geometry", ui->splitter_2->saveState());
+        settings.setValue("MainWnd/books_head/geometry", ui->Books->header()->saveState());
     }
     ui->stackedWidget->setCurrentWidget(ui->pageConvert);
     ui->actionSwitch_to_library_mode->setVisible(true);
@@ -2951,15 +2950,14 @@ void MainWindow::on_actionSwitch_to_convert_mode_triggered()
     ui->actionDatabaseOptimization->setVisible(false);
 
     setWindowTitle(AppName);
-    mode=MODE_CONVERTER;
+    mode = MODE_CONVERTER;
 
-    setMinimumSize(200,200);
-    if(settings.contains("MainWndConvertMode/geometry"))
+    setMinimumSize(200, 200);
+    if (settings.contains("MainWndConvertMode/geometry"))
         restoreGeometry(settings.value("MainWndConvertMode/geometry").toByteArray());
 
     settings.setValue("ApplicationMode", mode);
-    if(pDropForm_!=nullptr)
-    {
+    if (pDropForm_ != nullptr) {
         pDropForm_->hide();
         DeleteDropForm();
     }
@@ -2996,7 +2994,7 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
         AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name)
     );
 
-    setMinimumSize(800,400);
+    setMinimumSize(800, 400);
     if (settings.contains("MainWnd/geometry"))
         restoreGeometry(settings.value("MainWnd/geometry").toByteArray());
     if (settings.contains("MainWnd/windowState"))
