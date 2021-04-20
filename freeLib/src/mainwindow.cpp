@@ -1091,31 +1091,29 @@ void MainWindow::CheckBooks()
 
 void MainWindow::CheckParent(QTreeWidgetItem *parent)
 {
-    bool checked=false;
-    bool unchecked=false;
-    bool partially=false;
-    for(int i=0;i<parent->childCount();i++)
-    {
-        switch(parent->child(i)->checkState(0))
-        {
+    bool checked = false;
+    bool unchecked = false;
+    bool partially = false;
+    for (int i = 0; i < parent->childCount(); i++) {
+        switch (parent->child(i)->checkState(0)) {
         case Qt::Checked:
-            checked=true;
+            checked = true;
             break;
         case Qt::Unchecked:
-            unchecked=true;
+            unchecked = true;
             break;
         case Qt::PartiallyChecked:
-            partially=true;
+            partially = true;
             break;
         }
     }
-    if(partially || (checked && unchecked))
-        parent->setCheckState(0,Qt::PartiallyChecked);
+    if (partially || (checked && unchecked))
+        parent->setCheckState(0, Qt::PartiallyChecked);
     else if(checked)
-        parent->setCheckState(0,Qt::Checked);
+        parent->setCheckState(0, Qt::Checked);
     else
-        parent->setCheckState(0,Qt::Unchecked);
-    if(parent->parent())
+        parent->setCheckState(0, Qt::Unchecked);
+    if (parent->parent())
         CheckParent(parent->parent());
 
 }
