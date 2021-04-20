@@ -1706,8 +1706,7 @@ void MainWindow::ManageLibrary()
         ui->Books->clear();
         QSettings settings;
         int nCurrentTab;
-        if (settings.value("store_position", true).toBool())
-        {
+        if (settings.value("store_position", true).toBool()) {
             // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
             nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
         }
@@ -1726,10 +1725,8 @@ void MainWindow::ManageLibrary()
         setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
         FillLibrariesMenu(g_idCurrentLib);
 
-        if (settings.value("store_position", true).toBool())
-        {
-            switch (nCurrentTab)
-            {
+        if (settings.value("store_position", true).toBool()) {
+            switch (nCurrentTab) {
             case 0:
                 ui->btnAuthor->click();
                 break;
@@ -1747,8 +1744,7 @@ void MainWindow::ManageLibrary()
                 break;
             }
         }
-        else
-        {
+        else {
             SelectFirstItemList(); // Выделение 1-го элемента списка Авторов или Серии
             FillListBooks();
         }
