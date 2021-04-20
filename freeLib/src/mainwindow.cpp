@@ -2114,22 +2114,21 @@ void MainWindow::MoveToGenre(qlonglong id)
 void MainWindow::ProcPath(QString path,QStringList *book_list)
 {
 #ifdef Q_OS_WIN
-    while(path.left(1)=="/")
-        path=path.right(path.length()-1);
+    while(path.left(1) == "/")
+        path = path.right(path.length() - 1);
 #endif
     QFileInfo fi(path);
-    if(fi.isFile())
-    {
+    if (fi.isFile()) {
         *book_list<<path;
     }
-    else if(fi.isDir())
-    {
+    else if (fi.isDir()) {
         QDir dir(path);
-        QFileInfoList info_list = dir.entryInfoList(QDir::NoSymLinks|QDir::NoDotAndDotDot|QDir::Readable|QDir::Files|QDir::Dirs|QDir::Readable);
-        QList<QFileInfo>::iterator iter=info_list.begin();
-        for(iter=info_list.begin();iter != info_list.end();iter++)
-        {
-            ProcPath(iter->absoluteFilePath(),book_list);
+        QFileInfoList info_list = dir.entryInfoList(
+            QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable | QDir::Files | QDir::Dirs | QDir::Readable
+        );
+        QList<QFileInfo>::iterator iter = info_list.begin();
+        for (iter = info_list.begin();iter != info_list.end(); iter++) {
+            ProcPath(iter->absoluteFilePath(), book_list);
         }
     }
 }
