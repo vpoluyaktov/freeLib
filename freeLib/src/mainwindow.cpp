@@ -2081,10 +2081,8 @@ void MainWindow::MoveToSeria(qlonglong id,QString FirstLetter)
     ui->btnSeries->setChecked(true);
     btnSeriesClick();
     ui->SeriaList->clearSelection();
-    for (int i=0;i<ui->SeriaList->count();i++)
-    {
-        if(ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong()==id)
-        {
+    for (int i = 0; i < ui->SeriaList->count(); i++) {
+        if (ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong() == id) {
             ui->SeriaList->item(i)->setSelected(true);
             ui->SeriaList->scrollToItem(ui->SeriaList->item(i));
             SelectSeria();
