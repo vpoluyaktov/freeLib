@@ -1136,11 +1136,11 @@ void MainWindow::BookItemChanged(QTreeWidgetItem *item, int)
     const bool wasBlocked = ui->Books->blockSignals(true);
     CheckChild(item);
     QTreeWidgetItem* parent=item->parent();
-    if(parent)
+    if (parent)
         CheckParent(parent);
     QList<book_info> book_list;
-    FillCheckedBookList(book_list,nullptr,false,true);
-    ExportBookListBtnEnabled(book_list.count()!=0);
+    FillCheckedBookList(book_list, nullptr, false, true);
+    ExportBookListBtnEnabled(book_list.count() != 0);
 
     ui->Books->blockSignals(wasBlocked);
 }
