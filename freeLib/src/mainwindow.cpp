@@ -480,7 +480,7 @@ QPixmap MainWindow::GetTagFromTagsPicList(int id) const
 */
 void MainWindow::UpdateTagsMenu()
 {
-    if(!db_is_open)
+    if (!db_is_open)
         return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -515,7 +515,7 @@ void MainWindow::UpdateTagsMenu()
     ui->comboBoxFindTag->setVisible(bUseTag_);
     ui->tag_label->setVisible(bUseTag_);
 
-    while(query.next()) {
+    while (query.next()) {
         ui->comboBoxTagFilter->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
         ui->comboBoxFindTag->addItem(query.value(1).toString().trimmed(), query.value(2).toInt());
         if (mLibs[g_idCurrentLib].uIdCurrentTag == ui->comboBoxTagFilter->count() - 1 && bUseTag_)
@@ -528,7 +528,7 @@ void MainWindow::UpdateTagsMenu()
         con++;
         QAction *ac = new QAction(pix, query.value(1).toString().trimmed(), &menuTag_);
         ac->setData(query.value(2).toString());
-        ac->setShortcut("Ctrl+"+QString::number(query.value(2).toInt()));
+        ac->setShortcut("Ctrl+" + QString::number(query.value(2).toInt()));
         this->addAction(ac); // для срабатывания шортката
         connect(ac, SIGNAL(triggered()), this, SLOT(SetTag()));
         menuTag_.addAction(ac);
