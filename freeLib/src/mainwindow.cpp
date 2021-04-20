@@ -881,10 +881,10 @@ void MainWindow::FillCheckedBookList(QList<book_info> &list, QTreeWidgetItem* it
                 FillCheckedItemsBookList(list, ui->Books->selectedItems()[0], true, count_only);
             else {
                 if (ui->Books->selectedItems()[0]->parent()) {
-                    qlonglong id_book=ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toLongLong();
+                    qlonglong id_book = ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toLongLong();
                     book_info bi;
                     if (!count_only)
-                        bi.id=id_book;
+                        bi.id = id_book;
                     list << bi;
                 }
             }
