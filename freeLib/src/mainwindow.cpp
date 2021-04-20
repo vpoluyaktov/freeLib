@@ -1902,28 +1902,25 @@ void MainWindow::HelpDlg()
 */
 void MainWindow::ContextMenu(QPoint point)
 {
-    if(QObject::sender()==qobject_cast<QObject*>(ui->Books) && !ui->Books->itemAt(point))
+    if (QObject::sender() == qobject_cast<QObject*>(ui->Books) && !ui->Books->itemAt(point))
         return;
-    if(QObject::sender()==qobject_cast<QObject*>(ui->AuthorList) && !ui->AuthorList->itemAt(point))
+    if (QObject::sender() == qobject_cast<QObject*>(ui->AuthorList) && !ui->AuthorList->itemAt(point))
         return;
-    if(QObject::sender()==qobject_cast<QObject*>(ui->SeriaList) && !ui->SeriaList->itemAt(point))
+    if (QObject::sender() == qobject_cast<QObject*>(ui->SeriaList) && !ui->SeriaList->itemAt(point))
         return;
     QMenu menu;
-    currentListForTag_=QObject::sender();
-    if(QObject::sender()==qobject_cast<QObject*>(ui->Books))
-    {
+    currentListForTag_ = QObject::sender();
+    if (QObject::sender() == qobject_cast<QObject*>(ui->Books)) {
         QMenu *save=menu.addMenu(tr("Save as"));
-        foreach (QAction* i, ui->btnExport->menu()->actions())
-        {
-            QAction *action=new QAction(i->text(), this);
+        foreach (QAction* i, ui->btnExport->menu()->actions()) {
+            QAction *action = new QAction(i->text(), this);
             action->setData(i->data().toInt());
-            connect(action,SIGNAL(triggered()),this,SLOT(ExportAction()));
+            connect(action, SIGNAL(triggered()), this, SLOT(ExportAction()));
             save->addAction(action);
         }
         
         QTreeWidgetItem* bookItem = (ui->Books->selectedItems()[0]);
-        if (bookItem->type() == ITEM_TYPE_BOOK)
-        {
+        if (bookItem->type() == ITEM_TYPE_BOOK) {
             // меню Оценки
             if (menu.actions().count() > 0)
                 menu.addSeparator();
@@ -1957,11 +1954,11 @@ void MainWindow::ContextMenu(QPoint point)
             }
         }
     }
-    if(menu.actions().count()>0)
+    if(menu.actions().count() > 0)
         menu.addSeparator();
     if(bUseTag_)
         menu.addActions(menuTag_.actions());
-    if(menu.actions().count()>0)
+    if(menu.actions().count() > 0)
         menu.exec(QCursor::pos());
 }
 
