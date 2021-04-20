@@ -845,21 +845,19 @@ void MainWindow::ChangingPort(int i)
 void MainWindow::Settings()
 {
     QSettings settings;
-    if(ui->btnExport->defaultAction())
-    {
-        settings.setValue("DefaultExport",ui->btnExport->defaultAction()->data().toInt());
+    if (ui->btnExport->defaultAction()) {
+        settings.setValue("DefaultExport", ui->btnExport->defaultAction()->data().toInt());
     }
     SettingsDlg dlg(this);
-    connect(&dlg,SIGNAL(ChangingPort(int)),this,SLOT(ChangingPort(int)));
-    connect(&dlg,SIGNAL(ChangingLanguage()),this,SLOT(ChangingLanguage()));
-    connect(&dlg,SIGNAL(ChangingTrayIcon(int,int)),this,SLOT(ChangingTrayIcon(int,int)));
+    connect(&dlg, SIGNAL(ChangingPort(int)), this, SLOT(ChangingPort(int)));
+    connect(&dlg, SIGNAL(ChangingLanguage()), this, SLOT(ChangingLanguage()));
+    connect(&dlg, SIGNAL(ChangingTrayIcon(int,int)), this, SLOT(ChangingTrayIcon(int, int)));
     dlg.exec();
-    settings.setValue("LibID",g_idCurrentLib);
+    settings.setValue("LibID", g_idCurrentLib);
 
     bool bShowDeleted = settings.value("ShowDeleted").toBool();
     bool bUseTag = settings.value("use_tag").toBool();
-    if(bShowDeleted_ != bShowDeleted || bUseTag_ != bUseTag)
-    {
+    if (bShowDeleted_ != bShowDeleted || bUseTag_ != bUseTag) {
         bUseTag_ = bUseTag;
         bShowDeleted_ = bShowDeleted;
         UpdateTagsMenu();
