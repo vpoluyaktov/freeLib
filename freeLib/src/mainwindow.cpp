@@ -979,20 +979,20 @@ void MainWindow::SendMail()
 */
 void MainWindow::BookDblClick()
 {
-    if(ui->Books->selectedItems().count()==0)
+    if (ui->Books->selectedItems().count() == 0)
         return;
-    QTreeWidgetItem* item=ui->Books->selectedItems()[0];
+    QTreeWidgetItem* item = ui->Books->selectedItems()[0];
     QBuffer buffer_book;
     QBuffer buffer_info;
     QFileInfo fi = GetBookFile(buffer_book, buffer_info, item->data(0, Qt::UserRole).toUInt());
-    if(fi.fileName().isEmpty())
+    if (fi.fileName().isEmpty())
         return;
-    QString TempDir="";
-    if(QStandardPaths::standardLocations(QStandardPaths::TempLocation).count()>0)
-        TempDir=QStandardPaths::standardLocations(QStandardPaths::TempLocation).at(0);
-    QDir dir(TempDir+"/freeLib");
+    QString TempDir = "";
+    if (QStandardPaths::standardLocations(QStandardPaths::TempLocation).count() > 0)
+        TempDir = QStandardPaths::standardLocations(QStandardPaths::TempLocation).at(0);
+    QDir dir(TempDir + "/freeLib");
     dir.mkpath(dir.path());
-    QFile file(dir.path()+"/"+fi.fileName());
+    QFile file(dir.path() + "/" + fi.fileName());
     file.open(QFile::WriteOnly);
     file.write(buffer_book.data());
     file.close();
@@ -1000,17 +1000,15 @@ void MainWindow::BookDblClick()
     QSettings settings;
     int count=settings.beginReadArray("application");
     // проверить цикл
-    for(int i=0;i<count;i++)
-    {
+    for (int i=0; i < count; i++) {
         settings.setArrayIndex(i);
-        if((settings.value("ext").toString()+";").toLower().contains(fi.suffix().toLower()+";"))
-        {
+        if ((settings.value("ext").toString() + ";").toLower().contains(fi.suffix().toLower() + ";")) {
             if(
 #ifdef Q_OS_MACX
-            QProcess::startDetached("open",QStringList()<<settings.value("app").toString()<<"--args"<<file.fileName())&&
+            QProcess::startDetached("open", QStringList()<<settings.value("app").toString() << "--args" << file.fileName()) &&
                     QFileInfo(settings.value("app").toString()).exists()
 #else
-            QProcess::startDetached(settings.value("app").toString(),QStringList()<<file.fileName())
+            QProcess::startDetached(settings.value("app").toString(),QStringList() << file.fileName())
 #endif
             )
                 settings.endArray();
