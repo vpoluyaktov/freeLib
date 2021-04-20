@@ -809,30 +809,28 @@ void MainWindow::SaveLibPosition(uint idLibrary)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if(pHelpDlg_!=nullptr)
+    if (pHelpDlg_ != nullptr)
         delete pHelpDlg_;
     SaveLibPosition(g_idCurrentLib);
     QSettings settings;
     settings.setValue("ApplicationMode", mode);
-    if(mode==MODE_LIBRARY)
-    {
+    if (mode == MODE_LIBRARY) {
         settings.setValue("MainWnd/geometry", saveGeometry());
         settings.setValue("MainWnd/windowState", saveState());
-        settings.setValue("MainWnd/tab/geometry",ui->tabWidget->saveGeometry());
-        settings.setValue("MainWnd/tab/geometry",ui->splitter->saveState());
-        settings.setValue("MainWnd/books/geometry",ui->splitter_2->saveState());
-        settings.setValue("MainWnd/books_head/geometry",ui->Books->header()->saveState());
+        settings.setValue("MainWnd/tab/geometry", ui->tabWidget->saveGeometry());
+        settings.setValue("MainWnd/tab/geometry", ui->splitter->saveState());
+        settings.setValue("MainWnd/books/geometry", ui->splitter_2->saveState());
+        settings.setValue("MainWnd/books_head/geometry", ui->Books->header()->saveState());
     }
-    else
-    {
+    else {
         settings.setValue("MainWndConvertMode/geometry", saveGeometry());
     }
-    if(ui->btnExport->defaultAction())
-        settings.setValue("DefaultExport",ui->btnExport->defaultAction()->data().toInt());
+    if (ui->btnExport->defaultAction())
+        settings.setValue("DefaultExport", ui->btnExport->defaultAction()->data().toInt());
     QString TempDir="";
-    if(QStandardPaths::standardLocations(QStandardPaths::TempLocation).count()>0)
+    if (QStandardPaths::standardLocations(QStandardPaths::TempLocation).count()>0)
         TempDir=QStandardPaths::standardLocations(QStandardPaths::TempLocation).at(0);
-    QDir(TempDir+"/freeLib/").removeRecursively();
+    QDir(TempDir + "/freeLib/").removeRecursively();
     QMainWindow::closeEvent(event);
 }
 
