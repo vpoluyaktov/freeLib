@@ -171,6 +171,11 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                         bi.seria = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value().trimmed();
                                     else if (metaName == "calibre:series_index")
                                         bi.num_in_seria = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value().trimmed().toInt();
+                                    else if (metaName == "keywords" || metaName == "keyword" || metaName == "keys") {
+                                        QString keywords = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value().trimmed();
+                                        if (!keywords.isEmpty())
+                                            bi.keywords += !bi.keywords.isEmpty() ? (" , " + keywords) : keywords;
+                                    }
                                 }
                                 else if (meta.childNodes().at(m).nodeName().right(4)=="meta" && !info_only)
                                 {
