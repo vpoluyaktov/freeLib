@@ -892,27 +892,22 @@ void MainWindow::FillCheckedBookList(QList<book_info> &list, QTreeWidgetItem* it
     }
 }
 
-void MainWindow::FillCheckedItemsBookList(QList<book_info> &list,QTreeWidgetItem* item,bool send_all,bool count_only)
+void MainWindow::FillCheckedItemsBookList(QList<book_info> &list, QTreeWidgetItem* item, bool send_all, bool count_only)
 {
     QTreeWidgetItem* current;
-    for(int i=0;i<(item?item->childCount():ui->Books->topLevelItemCount());i++)
-    {
+    for (int i = 0; i < (item?item->childCount():ui->Books->topLevelItemCount()); i++) {
         current=item?item->child(i):ui->Books->topLevelItem(i);
-        if(current->childCount()>0)
-        {
-            FillCheckedItemsBookList(list,current,send_all,count_only);
+        if (current->childCount() > 0) {
+            FillCheckedItemsBookList(list, current, send_all, count_only);
         }
-        else
-        {
-            if(current->checkState(0)==Qt::Checked || send_all)
-            {
-                if(current->parent())
-                {
-                    qlonglong id_book=current->data(0,Qt::UserRole).toLongLong();
+        else {
+            if (current->checkState(0) == Qt::Checked || send_all) {
+                if (current->parent()) {
+                    qlonglong id_book = current->data(0, Qt::UserRole).toLongLong();
                     book_info bi;
-                    if(!count_only)
-                        bi.id=id_book;
-                    list<<bi;
+                    if (!count_only)
+                        bi.id = id_book;
+                    list << bi;
                 }
             }
         }
