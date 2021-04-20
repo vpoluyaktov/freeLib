@@ -1892,8 +1892,8 @@ void MainWindow::searchClear()
 
 void MainWindow::HelpDlg()
 {
-    if(pHelpDlg_==nullptr)
-        pHelpDlg_=new HelpDialog();
+    if(pHelpDlg_ == nullptr)
+        pHelpDlg_ = new HelpDialog();
     pHelpDlg_->show();
 }
 
