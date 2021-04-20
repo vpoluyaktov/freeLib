@@ -918,39 +918,30 @@ void MainWindow::FillCheckedItemsBookList(QList<book_info> &list, QTreeWidgetIte
 void MainWindow::UncheckBooks(QList<qlonglong> list)
 {
     QSettings settings;
-    if(!settings.value("uncheck_export",true).toBool())
-    {
+    if (!settings.value("uncheck_export", true).toBool()) {
         return;
     }
     QList<QTreeWidgetItem*> items;
-    if(ui->Books->topLevelItemCount()==0)
-    {
+    if (ui->Books->topLevelItemCount() == 0) {
         return;
     }
-    foreach (qlonglong id, list)
-    {
-        for(int i=0;i<ui->Books->topLevelItemCount();i++)
-        {
+    foreach (qlonglong id, list) {
+        for (int i = 0; i < ui->Books->topLevelItemCount(); i++) {
             items<<ui->Books->topLevelItem(i);
         }
-        do
-        {
-            if(items[0]->childCount()>0)
-            {
-                for(int j=0;j<items[0]->childCount();j++)
-                {
+        do {
+            if (items[0]->childCount() > 0) {
+                for (int j = 0; j < items[0]->childCount(); j++) {
                     items<<items[0]->child(j);
                 }
             }
-            else
-            {
-                if(items[0]->data(0,Qt::UserRole).toLongLong()==id && items[0]->checkState(0)==Qt::Checked)
-                {
-                    items[0]->setCheckState(0,Qt::Unchecked);
+            else {
+                if (items[0]->data(0, Qt::UserRole).toLongLong() == id && items[0]->checkState(0) == Qt::Checked) {
+                    items[0]->setCheckState(0, Qt::Unchecked);
                 }
             }
             items.removeAt(0);
-        }while(items.count()>0);
+        } while(items.count() > 0);
         items.clear();
     }
 }
