@@ -2684,26 +2684,23 @@ bool MainWindow::IsMatchingFilterConditions(uint idLibrary, const SBook &book) c
 
 void MainWindow::dropEvent(QDropEvent *ev)
 {
-    if(mode==MODE_LIBRARY)
+    if (mode == MODE_LIBRARY)
         pDropForm_->hide();
     QList<QUrl> urls = ev->mimeData()->urls();
     QStringList book_list;
-    foreach(QUrl url, urls)
-    {
-        ProcPath(url.path(),&book_list);
+    foreach (QUrl url, urls) {
+        ProcPath(url.path(), &book_list);
     }
-    if(book_list.count())
-    {
+    if (book_list.count()) {
         ExportDlg dlg(this);
-        int id=pDropForm_->get_command(ev->pos());
-        if(id<0)
-        {
-            pDropForm_->get_command(QPoint(-1,-1));
+        int id = pDropForm_->get_command(ev->pos());
+        if (id < 0) {
+            pDropForm_->get_command(QPoint(-1, -1));
             return;
         }
-        dlg.exec(book_list,SetCurrentExportSettings(id));
+        dlg.exec(book_list, SetCurrentExportSettings(id));
     }
-    pDropForm_->get_command(QPoint(-1,-1));
+    pDropForm_->get_command(QPoint(-1, -1));
 }
 
 void MainWindow::DeleteDropForm()
