@@ -154,6 +154,12 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                     meta.childNodes().at(m).save(ts,0,QDomNode::EncodingFromTextStream);
                                     bi.annotation=QString::fromUtf8(buff.data().data());
                                 }
+                                else if (meta.childNodes().at(m).nodeName().right(8) == "coverage")
+                                {
+                                    QString coverage = meta.childNodes().at(m).toElement().text().trimmed();
+                                    if (!coverage.isEmpty())
+                                        bi.keywords += !bi.keywords.isEmpty() ? (" , " + coverage) : coverage;
+                                }
                                 else if (meta.childNodes().at(m).nodeName().right(4) == "meta" && info_only)
                                 {
                                     QString metaName = meta.childNodes().at(m).attributes().namedItem("name").toAttr().value();
@@ -568,8 +574,8 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
     qlonglong id_seria = AddSeriaToSQLite(bi.seria,ExistingLibID_,0);
     qlonglong id_book = AddBookToSQLite(
         bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
-        (file_size == 0 ? ba.size() : file_size), 0, false, "epub",
-        QDate::currentDate(), bi.language, "", ExistingLibID_, arh_name, 0, bi.readed
+        (file_size == 0 ? ba.size() : file_size), 0, false, "epub", QDate::currentDate(),
+        bi.language, bi.keywords, ExistingLibID_, arh_name, 0, bi.readed
     );
 
     bool first_author=true;
