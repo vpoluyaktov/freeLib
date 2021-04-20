@@ -2708,12 +2708,10 @@ void MainWindow::dropEvent(QDropEvent *ev)
 
 void MainWindow::DeleteDropForm()
 {
-    if(pDropForm_!=nullptr)
-    {
-        if(pDropForm_->isHidden())
-        {
+    if (pDropForm_ != nullptr) {
+        if (pDropForm_->isHidden()) {
             delete pDropForm_;
-            pDropForm_=nullptr;
+            pDropForm_ = nullptr;
         }
     }
 }
