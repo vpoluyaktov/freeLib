@@ -467,9 +467,8 @@ void MainWindow::showEvent(QShowEvent *ev)
 
 QPixmap MainWindow::GetTagFromTagsPicList(int id) const
 {
-    foreach(Stag tag,tagsPicList_)
-    {
-        if(tag.id==id)
+    foreach(Stag tag,tagsPicList_) {
+        if (tag.id == id)
             return tag.pm;
     }
 
