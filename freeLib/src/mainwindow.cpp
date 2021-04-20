@@ -2844,20 +2844,17 @@ void MainWindow::UpdateExportMenu()
 */
 void MainWindow::ExportAction()
 {
-    int id=qobject_cast<QAction*>(sender())->data().toInt();
+    int id = qobject_cast<QAction*>(sender())->data().toInt();
     QSettings settings;
-    int count=settings.beginReadArray("export");
-    if(count>1 && ui->btnExport->defaultAction())
-    {
+    int count = settings.beginReadArray("export");
+    if(count > 1 && ui->btnExport->defaultAction()) {
         settings.setArrayIndex(ui->btnExport->defaultAction()->data().toInt());
-        if(!settings.value("Default").toBool())
-        {
+        if(!settings.value("Default").toBool()) {
             ui->btnExport->setDefaultAction(qobject_cast<QAction*>(sender()));
-            QList<QAction*> actions=ui->btnExport->menu()->actions();
-            foreach (QAction* action, actions)
-            {
+            QList<QAction*> actions = ui->btnExport->menu()->actions();
+            foreach (QAction* action, actions) {
                 QFont font(action->font());
-                font.setBold(action==ui->btnExport->defaultAction());
+                font.setBold(action == ui->btnExport->defaultAction());
                 action->setFont(font);
             }
             ui->btnExport->setIcon(QIcon(":/icons/img/icons/Streamline.png"));
@@ -2865,7 +2862,7 @@ void MainWindow::ExportAction()
     }
     settings.endArray();
     SendType type=SetCurrentExportSettings(id);
-    if(type==ST_Device)
+    if(type == ST_Device)
         SendToDevice();
     else
         SendMail();
