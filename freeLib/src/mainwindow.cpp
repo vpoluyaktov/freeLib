@@ -2218,11 +2218,13 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
 
     QMap<uint,uint> mCounts;
     auto iBook = mLibs[idLibrary].mBooks.constBegin();
-    while(iBook!=mLibs[idLibrary].mBooks.constEnd()){
-        if(IsMatchingFilterConditions(idLibrary , *iBook) &&
-            (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]"))) || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch, Qt::CaseInsensitive)))
+    while (iBook != mLibs[idLibrary].mBooks.constEnd()){
+        if (IsMatchingFilterConditions(idLibrary , *iBook) &&
+            (sSearch == "*" || (sSearch=="#" && !mLibs[idLibrary].mSerials[iBook->idSerial].sName.left(1).contains(QRegExp("[A-Za-zа-яА-ЯЁё]")))
+                || mLibs[g_idCurrentLib].mSerials[iBook->idSerial].sName.startsWith(sSearch, Qt::CaseInsensitive))
+            )
         {
-            if(mCounts.contains(iBook->idSerial))
+            if (mCounts.contains(iBook->idSerial))
                 mCounts[iBook->idSerial]++;
             else
                 mCounts[iBook->idSerial] = 1;
