@@ -964,10 +964,13 @@ void MainWindow::SendMail()
 {
     QList<book_info> book_list;
     FillCheckedBookList(book_list);
-    if(book_list.count()==0)
+    if (book_list.count() == 0)
         return;
     ExportDlg dlg(this);
-    dlg.exec(book_list,ST_Mail,(ui->btnAuthor->isChecked()?ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong():0));
+    dlg.exec(
+        book_list,ST_Mail, (ui->btnAuthor->isChecked()
+            ? ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong() : 0)
+    );
     UncheckBooks(dlg.succesfull_export_books);
 }
 
