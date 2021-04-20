@@ -2099,12 +2099,9 @@ void MainWindow::MoveToGenre(qlonglong id)
     ui->btnGenre->setChecked(true);
     btnGenresClick();
     ui->GenreList->clearSelection();
-    for (int i=0;i<ui->GenreList->topLevelItemCount();i++)
-    {
-        for (int j=0;j<ui->GenreList->topLevelItem(i)->childCount();j++)
-        {
-            if(ui->GenreList->topLevelItem(i)->child(j)->data(0,Qt::UserRole).toLongLong()==id)
-            {
+    for (int i = 0; i < ui->GenreList->topLevelItemCount(); i++) {
+        for (int j = 0; j < ui->GenreList->topLevelItem(i)->childCount(); j++) {
+            if (ui->GenreList->topLevelItem(i)->child(j)->data(0, Qt::UserRole).toLongLong() == id) {
                 ui->GenreList->topLevelItem(i)->child(j)->setSelected(true);
                 ui->GenreList->scrollToItem(ui->GenreList->topLevelItem(i)->child(j));
                 SelectGenre();
