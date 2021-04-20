@@ -1857,34 +1857,30 @@ void MainWindow::About()
 */
 void MainWindow::searchChanged(QString str)
 {
-    if(str.length()==0)
-    {
+    if (str.length() == 0) {
         ui->lineEditSearchString->setText(lastSearchSymbol_);
         ui->lineEditSearchString->selectAll();
     }
-    else
-    {
-        lastSearchSymbol_=ui->lineEditSearchString->text().left(1);
-        if((ui->lineEditSearchString->text().left(1)=="*" || ui->lineEditSearchString->text().left(1)=="#" ) && ui->lineEditSearchString->text().length()>1)
-        {
-            ui->lineEditSearchString->setText(ui->lineEditSearchString->text().right(ui->lineEditSearchString->text().length()-1));
+    else {
+        lastSearchSymbol_ = ui->lineEditSearchString->text().left(1);
+        if ((ui->lineEditSearchString->text().left(1) == "*" || ui->lineEditSearchString->text().left(1) == "#" )
+            && ui->lineEditSearchString->text().length() > 1) {
+            ui->lineEditSearchString->setText(ui->lineEditSearchString->text().right(ui->lineEditSearchString->text().length() - 1));
         }
         QList<QToolButton *> allButtons = findChildren<QToolButton *>();
-        bool find=false;
-        foreach(QToolButton *tb,allButtons)
-        {
-            if(tb->text()==ui->lineEditSearchString->text().left(1).toUpper())
-            {
-                find=true;
+        bool find = false;
+        foreach(QToolButton *tb, allButtons) {
+            if (tb->text() == ui->lineEditSearchString->text().left(1).toUpper()) {
+                find = true;
                 tb->setChecked(true);
             }
         }
-        if(!find)
+        if (!find)
             langBtnHash_->setChecked(true);
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
     }
-    tbClear_->setVisible(ui->lineEditSearchString->text().length()>1);
+    tbClear_->setVisible(ui->lineEditSearchString->text().length() > 1);
 }
 
 void MainWindow::searchClear()
