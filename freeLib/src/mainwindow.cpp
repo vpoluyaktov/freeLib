@@ -2972,15 +2972,13 @@ void MainWindow::on_actionSwitch_to_convert_mode_triggered()
 void MainWindow::on_actionSwitch_to_library_mode_triggered()
 {
     QSettings settings;
-    if(mode==MODE_CONVERTER)
-    {
+    if (mode == MODE_CONVERTER) {
         settings.setValue("MainWndConvertMode/geometry", saveGeometry());
     }
-    mode=MODE_LIBRARY;
-    if(pDropForm_!=nullptr)
-    {
+    mode = MODE_LIBRARY;
+    if (pDropForm_ != nullptr) {
         delete pDropForm_;
-        pDropForm_=nullptr;
+        pDropForm_ = nullptr;
     }
     ui->stackedWidget->setCurrentWidget(ui->pageLabrary);
     ui->actionSwitch_to_library_mode->setVisible(false);
@@ -2994,17 +2992,19 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
     ui->actionMarkDeletedBooks->setVisible(true);
     ui->actionDatabaseOptimization->setVisible(true);
 
-    setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
+    setWindowTitle(
+        AppName + (g_idCurrentLib < 0 || mLibs[g_idCurrentLib].name.isEmpty() ? "" : " - " + mLibs[g_idCurrentLib].name)
+    );
 
     setMinimumSize(800,400);
-    if(settings.contains("MainWnd/geometry"))
+    if (settings.contains("MainWnd/geometry"))
         restoreGeometry(settings.value("MainWnd/geometry").toByteArray());
-    if(settings.contains("MainWnd/windowState"))
+    if (settings.contains("MainWnd/windowState"))
         restoreState(settings.value("MainWnd/windowState").toByteArray());
-    if(settings.contains("MainWnd/tab/geometry"))
+    if (settings.contains("MainWnd/tab/geometry"))
         ui->splitter->restoreState(settings.value("MainWnd/tab/geometry").toByteArray());
     //on_splitter_splitterMoved(0,0);
-    if(settings.contains("MainWnd/books/geometry"))
+    if (settings.contains("MainWnd/books/geometry"))
         ui->splitter_2->restoreState(settings.value("MainWnd/books/geometry").toByteArray());
     settings.setValue("ApplicationMode", mode);
 }
