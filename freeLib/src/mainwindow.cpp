@@ -2485,7 +2485,7 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
                 item_author->setFont(0, bold_font);
                 item_author->setCheckState(0, Qt::Unchecked);
                 item_author->setData(0, Qt::UserRole,idAuthor);
-                if(bUseTag_)
+                if (bUseTag_)
                     item_author->setIcon(0, GetTagFromTagsPicList(mLibs[g_idCurrentLib].mAuthors[idAuthor].nTag));
                 mAuthors[idAuthor] = item_author;
             } else
@@ -2563,8 +2563,7 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
             }
 
             uInt idCurrentBook = 0;
-            switch (ui->tabWidget->currentIndex())
-            {
+            switch (ui->tabWidget->currentIndex()) {
             case 0: // Авторы
                 idCurrentBook = mLibs[g_idCurrentLib].uIdCurrentBookForAuthor;
                 break;
