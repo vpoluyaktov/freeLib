@@ -885,7 +885,7 @@ void MainWindow::FillCheckedBookList(QList<book_info> &list, QTreeWidgetItem* it
                     book_info bi;
                     if (!count_only)
                         bi.id=id_book;
-                    list<<bi;
+                    list << bi;
                 }
             }
         }
