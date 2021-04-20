@@ -757,8 +757,7 @@ void MainWindow::FilterTagSelect(int index)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.setForwardOnly(true);
-    if (ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt() == -1)
-    {
+    if (ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt() == -1) {
         const bool wasBlocked = ui->comboBoxTagFilter->blockSignals(true);
         // id тега фильтрации текущей библиотеки
         ui->comboBoxTagFilter->setCurrentIndex(mLibs[g_idCurrentLib].uIdCurrentTag);
@@ -767,8 +766,7 @@ void MainWindow::FilterTagSelect(int index)
         if (td.exec())
             UpdateTagsMenu();
     }
-    else if (index >= 0)
-    {
+    else if (index >= 0) {
         // сохранение тега фильтрации текущей библиотеки
         query.prepare("UPDATE lib SET currentTag = :currentTag WHERE id = :id_lib;");
         query.bindValue(":currentTag", index);
