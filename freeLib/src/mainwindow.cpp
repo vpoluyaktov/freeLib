@@ -1079,13 +1079,12 @@ void MainWindow::MarkDeletedBooks()
 void MainWindow::CheckBooks()
 {
     QList<book_info> book_list;
-    FillCheckedBookList(book_list,nullptr,false,true,true);
+    FillCheckedBookList(book_list, nullptr, false, true, true);
 
     const QSignalBlocker blocker( ui->Books);
-    Qt::CheckState cs=book_list.count()>0?Qt::Unchecked:Qt::Checked;
-    for(int i=0;i<ui->Books->topLevelItemCount();i++)
-    {
-        ui->Books->topLevelItem(i)->setCheckState(0,cs);
+    Qt::CheckState cs = book_list.count() > 0 ? Qt::Unchecked : Qt::Checked;
+    for (int i = 0; i < ui->Books->topLevelItemCount(); i++) {
+        ui->Books->topLevelItem(i)->setCheckState(0, cs);
         CheckChild(ui->Books->topLevelItem(i));
     }
 }
