@@ -147,23 +147,26 @@ QPixmap CreateTag(QColor color, int size)
 QString sizeToString(uint size)
 {
     QStringList mem;
-    mem <<QCoreApplication::translate("MainWindow","B")<<QCoreApplication::translate("MainWindow","kB")<<QCoreApplication::translate("MainWindow","MB")<<QCoreApplication::translate("MainWindow","GB")<<QCoreApplication::translate("MainWindow","TB")<<QCoreApplication::translate("MainWindow","PB");
-    uint rest=0;
-    int mem_i=0;
+    mem << QCoreApplication::translate("MainWindow", "B")
+        << QCoreApplication::translate("MainWindow", "kB")
+        << QCoreApplication::translate("MainWindow", "MB")
+        << QCoreApplication::translate("MainWindow", "GB")
+        << QCoreApplication::translate("MainWindow", "TB")
+        << QCoreApplication::translate("MainWindow", "PB");
+    uint rest = 0;
+    int mem_i = 0;
 
-    while(size>1024)
-    {
+    while (size > 1024) {
         mem_i++;
-        if(mem_i==mem.count())
-        {
+        if (mem_i == mem.count()) {
             mem_i--;
             break;
         }
-        rest=size%1024;
-        size=size/1024;
+        rest = size % 1024;
+        size = size / 1024;
      }
     double size_d = (float)size + (float)rest / 1024.0;
-    return QString("%L1 %2").arg(size_d,0,'f',mem_i>0?1:0).arg(mem[mem_i]);
+    return QString("%L1 %2").arg(size_d, 0, 'f', mem_i > 0 ? 1 : 0).arg(mem[mem_i]);
 }
 
 MainWindow::MainWindow(QWidget* parent) :
