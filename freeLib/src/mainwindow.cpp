@@ -563,41 +563,32 @@ void MainWindow::EditBooks()
 */
 void MainWindow::UpdateListPix(qlonglong id, int list,int tag_id)
 {
-    switch(list)
-    {
+    switch (list) {
     case 1: //авторы
-        for(int i=0;i<ui->AuthorList->count();i++)
-        {
-            if(ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong()==id)
-            {
+        for (int i = 0; i < ui->AuthorList->count(); i++) {
+            if (ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong() == id) {
                 ui->AuthorList->item(i)->setIcon(GetTagFromTagsPicList(tag_id));
             }
         }
         break;
     case 2: //серии
-        for(int i=0;i<ui->SeriaList->count();i++)
-        {
-            if(ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong()==id)
-            {
+        for (int i = 0; i < ui->SeriaList->count(); i++) {
+            if (ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong() == id) {
                 ui->SeriaList->item(i)->setIcon(GetTagFromTagsPicList(tag_id));
             }
         }
 
         break;
     }
-    for(int i=0;i<ui->Books->topLevelItemCount();i++)
-    {
-        if(list==1)
-        {
-            if(ui->Books->topLevelItem(i)->data(0,Qt::UserRole).toLongLong()==id)
-                ui->Books->topLevelItem(i)->setIcon(0,GetTagFromTagsPicList(tag_id));
+    for (int i = 0; i < ui->Books->topLevelItemCount(); i++) {
+        if (list == 1) {
+            if(ui->Books->topLevelItem(i)->data(0, Qt::UserRole).toLongLong()==id)
+                ui->Books->topLevelItem(i)->setIcon(0, GetTagFromTagsPicList(tag_id));
         }
-        else
-        {
-            for(int j=0;j<ui->Books->topLevelItem(i)->childCount();j++)
-            {
-                if(ui->Books->topLevelItem(i)->child(j)->data(0,Qt::UserRole).toLongLong()==id)
-                    ui->Books->topLevelItem(i)->child(j)->setIcon(0,GetTagFromTagsPicList(tag_id));
+        else {
+            for (int j = 0; j < ui->Books->topLevelItem(i)->childCount(); j++) {
+                if (ui->Books->topLevelItem(i)->child(j)->data(0, Qt::UserRole).toLongLong() == id)
+                    ui->Books->topLevelItem(i)->child(j)->setIcon(0, GetTagFromTagsPicList(tag_id));
             }
         }
     }
