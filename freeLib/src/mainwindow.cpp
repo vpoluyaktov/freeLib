@@ -1036,8 +1036,7 @@ void MainWindow::MarkDeletedBooks()
     LibPath = RelativeToAbsolutePath(LibPath);*/
 
     QHash<uint, SBook>::const_iterator iBook = mLibs[g_idCurrentLib].mBooks.constBegin();
-    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd())
-    {
+    while (iBook != mLibs[g_idCurrentLib].mBooks.constEnd()) {
         uint BookId = iBook.key();
         SBook& book = mLibs[g_idCurrentLib].mBooks[BookId];
         // проверка, есть ли эта книга на жестком диске. Если нет, то в базу Deleted = true
