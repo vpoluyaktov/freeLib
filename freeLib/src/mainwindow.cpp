@@ -1119,12 +1119,10 @@ void MainWindow::CheckParent(QTreeWidgetItem *parent)
 }
 void MainWindow::CheckChild(QTreeWidgetItem *parent)
 {
-    if(parent->childCount()>0)
-    {
-        for(int i=0;i<parent->childCount();i++)
-        {
-            parent->child(i)->setCheckState(0,parent->checkState(0));
-            if(parent->child(i)->childCount()>0)
+    if (parent->childCount() > 0) {
+        for (int i = 0; i < parent->childCount(); i++) {
+            parent->child(i)->setCheckState(0, parent->checkState(0));
+            if (parent->child(i)->childCount() > 0)
                 CheckChild(parent->child(i));
         }
     }
