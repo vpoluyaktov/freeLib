@@ -1847,7 +1847,7 @@ void MainWindow::LangBtnSearch()
 
 void MainWindow::About()
 {
-    AboutDialog* dlg=new AboutDialog(this);
+    AboutDialog* dlg = new AboutDialog(this);
     dlg->exec();
     delete dlg;
 }
