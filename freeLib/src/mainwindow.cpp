@@ -1374,8 +1374,7 @@ void MainWindow::SelectAuthor()
     // Выделение жирным выбранного Автора
     QListWidgetItem* item = nullptr;
     QFont font = ui->AuthorList->font();
-    for (int i = 0; i < ui->AuthorList->count(); ++i)
-    {
+    for (int i = 0; i < ui->AuthorList->count(); ++i) {
         item = ui->AuthorList->item(i);
         if (item != selectedItem)
             font.setBold(false);
