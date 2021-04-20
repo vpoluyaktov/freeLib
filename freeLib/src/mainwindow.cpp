@@ -601,52 +601,44 @@ void MainWindow::UpdateListPix(qlonglong id, int list,int tag_id)
 void MainWindow::ChangingLanguage(bool change_language)
 {
     QSettings settings;
-    QFile file(FindLocaleFile(settings.value("localeABC",QLocale::system().name()).toString(),"abc","txt"));
-    QString abc_local="ABC";
-    if(!file.fileName().isEmpty() && file.open(QFile::ReadOnly))
-    {
+    QFile file(FindLocaleFile(settings.value("localeABC", QLocale::system().name()).toString(), "abc", "txt"));
+    QString abc_local = "ABC";
+    if (!file.fileName().isEmpty() && file.open(QFile::ReadOnly)) {
         abc_local=QString::fromUtf8(file.readLine()).toUpper();
     }
-    QVBoxLayout *layout_abc_all=new QVBoxLayout();
+    QVBoxLayout *layout_abc_all = new QVBoxLayout();
 
-    if(ui->abc->layout())
-    {
+    if (ui->abc->layout()) {
 
-        while(!(qobject_cast<QBoxLayout*>(ui->abc->layout())->itemAt(0))->isEmpty())
-        {
+        while (!(qobject_cast<QBoxLayout*>(ui->abc->layout())->itemAt(0))->isEmpty()) {
             delete dynamic_cast<QBoxLayout*>(ui->abc->layout()->itemAt(0))->itemAt(0)->widget();
         }
-        if(!qobject_cast<QBoxLayout*>(ui->abc->layout())->isEmpty())
-        {
-            while(!(dynamic_cast<QBoxLayout*>(ui->abc->layout()->itemAt(1)))->isEmpty())
-            {
+        if (!qobject_cast<QBoxLayout*>(ui->abc->layout())->isEmpty()) {
+            while (!(dynamic_cast<QBoxLayout*>(ui->abc->layout()->itemAt(1)))->isEmpty()) {
                 delete dynamic_cast<QBoxLayout*>(ui->abc->layout()->itemAt(1))->itemAt(0)->widget();
             }
         }
 
-        while(!ui->abc->layout()->isEmpty())
-        {
+        while (!ui->abc->layout()->isEmpty()) {
             delete ui->abc->layout()->itemAt(0);
         }
         delete ui->abc->layout();
     }
 
-    FirstButton_=nullptr;
-    if(abc_local!="ABC")
-    {
-        QHBoxLayout *layout_abc=new QHBoxLayout();
-        for(int i=0;i<abc_local.length();i++)
-        {
-            QToolButton *btn=new QToolButton(this);
+    FirstButton_ = nullptr;
+    if (abc_local != "ABC") {
+        QHBoxLayout *layout_abc = new QHBoxLayout();
+        for (int i = 0; i < abc_local.length(); i++) {
+            QToolButton *btn = new QToolButton(this);
             btn->setText(abc_local.at(i));
-            btn->setMaximumSize(QSize(22,22));
-            btn->setMinimumSize(QSize(22,22));
+            btn->setMaximumSize(QSize(22, 22));
+            btn->setMinimumSize(QSize(22, 22));
             btn->setCheckable(true);
             btn->setAutoExclusive(true);
-            btn->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+            btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             layout_abc->addWidget(btn);
-            connect(btn,SIGNAL(clicked()),this,SLOT(LangBtnSearch()));
-            if(!FirstButton_)
+            connect(btn ,SIGNAL(clicked()), this, SLOT(LangBtnSearch()));
+            if (!FirstButton_)
                 FirstButton_=btn;
         }
         layout_abc->addStretch();
@@ -654,32 +646,31 @@ void MainWindow::ChangingLanguage(bool change_language)
         layout_abc->setMargin(0);
         layout_abc_all->addItem(layout_abc);
     }
-        QString abc="*#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        QString abc = "*#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         {
             QHBoxLayout *layout_abc=new QHBoxLayout();
-            for(int i=0;i<abc.length();i++)
-            {
-                QToolButton *btn=new QToolButton(this);
+            for (int i = 0;i < abc.length(); i++) {
+                QToolButton *btn = new QToolButton(this);
                 btn->setText(abc.at(i));
-                btn->setMaximumSize(QSize(22,22));
-                btn->setMinimumSize(QSize(22,22));
+                btn->setMaximumSize(QSize(22, 22));
+                btn->setMinimumSize(QSize(22, 22));
                 btn->setCheckable(true);
                 btn->setAutoExclusive(true);
-                btn->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+                btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
                 layout_abc->addWidget(btn);
-                connect(btn,SIGNAL(clicked()),this,SLOT(LangBtnSearch()));
-                if(!FirstButton_ && abc.at(i)=='A')
-                    FirstButton_=btn;
-                if(abc.at(i)=='#')
-                    langBtnHash_=btn;
+                connect(btn, SIGNAL(clicked()), this, SLOT(LangBtnSearch()));
+                if (!FirstButton_ && abc.at(i) == 'A')
+                    FirstButton_ = btn;
+                if (abc.at(i) == '#')
+                    langBtnHash_ = btn;
             }
             layout_abc->addStretch();
             layout_abc->setSpacing(1);
             layout_abc->setMargin(0);
 #ifdef Q_OS_WIN
-            layout_abc->setContentsMargins(0,abc_local!="ABC"?4:0,0,0);
+            layout_abc->setContentsMargins(0,abc_local != "ABC" ? 4 : 0, 0, 0);
 #else
-            layout_abc->setContentsMargins(0,abc_local!="ABC"?5:0,0,5);
+            layout_abc->setContentsMargins(0,abc_local != "ABC" ? 5 : 0, 0, 5);
 #endif
             layout_abc_all->addItem(layout_abc);
         }
@@ -688,10 +679,10 @@ void MainWindow::ChangingLanguage(bool change_language)
     ui->abc->layout()->setSpacing(1);
     ui->abc->layout()->setMargin(0);
 #ifdef Q_OS_WIN
-    ui->abc->layout()->setContentsMargins(0,4,0,5);
+    ui->abc->layout()->setContentsMargins(0, 4, 0, 5);
 #endif
     ui->retranslateUi(this);
-    if(change_language)
+    if (change_language)
         FirstButton_->click();
 }
 
