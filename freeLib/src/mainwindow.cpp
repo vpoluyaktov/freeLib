@@ -872,22 +872,18 @@ void MainWindow::Settings()
     resizeEvent(nullptr);
 }
 
-void MainWindow::FillCheckedBookList(QList<book_info> &list,QTreeWidgetItem* item,bool send_all,bool count_only,bool checked_only)
+void MainWindow::FillCheckedBookList(QList<book_info> &list, QTreeWidgetItem* item, bool send_all, bool count_only, bool checked_only)
 {
-    FillCheckedItemsBookList(list,item,send_all,count_only);
-    if(list.count()==0 && !checked_only)
-    {
-        if(ui->Books->selectedItems().count()>0)
-        {
-            if(ui->Books->selectedItems()[0]->childCount()>0)
-                FillCheckedItemsBookList(list,ui->Books->selectedItems()[0],true,count_only);
-            else
-            {
-                if(ui->Books->selectedItems()[0]->parent())
-                {
-                    qlonglong id_book=ui->Books->selectedItems()[0]->data(0,Qt::UserRole).toLongLong();
+    FillCheckedItemsBookList(list, item, send_all, count_only);
+    if (list.count() == 0 && !checked_only) {
+        if (ui->Books->selectedItems().count() > 0) {
+            if (ui->Books->selectedItems()[0]->childCount() > 0)
+                FillCheckedItemsBookList(list, ui->Books->selectedItems()[0], true, count_only);
+            else {
+                if (ui->Books->selectedItems()[0]->parent()) {
+                    qlonglong id_book=ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toLongLong();
                     book_info bi;
-                    if(!count_only)
+                    if (!count_only)
                         bi.id=id_book;
                     list<<bi;
                 }
