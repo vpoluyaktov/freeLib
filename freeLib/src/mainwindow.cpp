@@ -2947,6 +2947,9 @@ void MainWindow::on_actionSwitch_to_convert_mode_triggered()
     ui->actionAddLibrary->setVisible(false);
     ui->actionNew_library_wizard->setVisible(false);
 
+    ui->actionMarkDeletedBooks->setVisible(false);
+    ui->actionDatabaseOptimization->setVisible(false);
+
     setWindowTitle(AppName);
     mode=MODE_CONVERTER;
 
@@ -2987,6 +2990,9 @@ void MainWindow::on_actionSwitch_to_library_mode_triggered()
     ui->actionLibraries->setVisible(true);
     ui->actionAddLibrary->setVisible(true);
     ui->actionNew_library_wizard->setVisible(true);
+
+    ui->actionMarkDeletedBooks->setVisible(true);
+    ui->actionDatabaseOptimization->setVisible(true);
 
     setWindowTitle(AppName+(g_idCurrentLib<0||mLibs[g_idCurrentLib].name.isEmpty()?"":" - "+mLibs[g_idCurrentLib].name));
 
