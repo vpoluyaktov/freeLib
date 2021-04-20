@@ -1428,8 +1428,7 @@ void MainWindow::SelectSeria()
     // Выделение жирным выбранной Серии
     QListWidgetItem* item = nullptr;
     QFont font = ui->SeriaList->font();
-    for (int i = 0; i < ui->SeriaList->count(); ++i)
-    {
+    for (int i = 0; i < ui->SeriaList->count(); ++i) {
         item = ui->SeriaList->item(i);
         if (item != selectedItem)
             font.setBold(false);
