@@ -2720,23 +2720,20 @@ void MainWindow::DeleteDropForm()
 
 void MainWindow::ShowDropForm()
 {
-    if(pDropForm_==nullptr)
-        pDropForm_=new DropForm(this);
-    if(mode==MODE_CONVERTER)
-    {
+    if (pDropForm_ == nullptr)
+        pDropForm_ = new DropForm(this);
+    if (mode == MODE_CONVERTER) {
         pDropForm_->setFixedWidth(ui->drop_buttons->rect().width());
         pDropForm_->setFixedHeight(ui->drop_buttons->rect().height());
-        pDropForm_->move(ui->drop_buttons->mapToGlobal(ui->drop_buttons->pos())-this->mapToGlobal(QPoint(0,0)));
+        pDropForm_->move(ui->drop_buttons->mapToGlobal(ui->drop_buttons->pos()) - this->mapToGlobal(QPoint(0, 0)));
     }
-    else
-    {
-        pDropForm_->setFixedWidth(rect().width()/10*9);
-        pDropForm_->setFixedHeight(rect().height()/10*9);
-        pDropForm_->move(QPoint(rect().width()/20,rect().height()/20));
+    else {
+        pDropForm_->setFixedWidth(rect().width() / 10 * 9);
+        pDropForm_->setFixedHeight(rect().height() / 10 * 9);
+        pDropForm_->move(QPoint(rect().width() / 20, rect().height() / 20));
     }
     QStringList cmd;
-    foreach (QAction* action, ui->btnExport->menu()->actions())
-    {
+    foreach (QAction* action, ui->btnExport->menu()->actions()) {
         cmd<<action->text();
     }
     pDropForm_->AddCommand(cmd);
