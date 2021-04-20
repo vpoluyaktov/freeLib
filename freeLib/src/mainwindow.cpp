@@ -1973,43 +1973,43 @@ void MainWindow::HeaderContextMenu(QPoint /*point*/)
     action=new QAction(tr("Name"), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(0));
-    connect(action,&QAction::triggered,this, [action, this]{ui->Books->setColumnHidden(0,!action->isChecked());});
+    connect(action, &QAction::triggered, this, [action, this]{ui->Books->setColumnHidden(0, !action->isChecked());});
     menu.addAction(action);
 
     action=new QAction(tr("No."), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(1));
-    connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(1,"ShowName",!action->isChecked());});
+    connect(action, &QAction::triggered, this, [action, this]{ShowHeaderCoulmn(1, "ShowName", !action->isChecked());});
     menu.addAction(action);
 
     action=new QAction(tr("Size"), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(2));
-    connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(2,"ShowSize",!action->isChecked());});
+    connect(action, &QAction::triggered, this, [action, this]{ShowHeaderCoulmn(2, "ShowSize", !action->isChecked());});
     menu.addAction(action);
 
     action=new QAction(tr("Mark"), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(3));
-    connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(3,"ShowMark",!action->isChecked());});
+    connect(action, &QAction::triggered, this, [action, this]{ShowHeaderCoulmn(3, "ShowMark", !action->isChecked());});
     menu.addAction(action);
 
     action=new QAction(tr("Import date"), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(4));
-    connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(4,"ShowImportDate",!action->isChecked());});
+    connect(action, &QAction::triggered, this, [action, this]{ShowHeaderCoulmn(4, "ShowImportDate", !action->isChecked());});
     menu.addAction(action);
 
     action=new QAction(tr("Genre"), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(5));
-    connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(5,"ShowGenre",!action->isChecked());});
+    connect(action, &QAction::triggered,this, [action, this]{ShowHeaderCoulmn(5, "ShowGenre", !action->isChecked());});
     menu.addAction(action);
 
     action=new QAction(tr("Language"), this);
     action->setCheckable(true);
     action->setChecked(!ui->Books->isColumnHidden(6));
-    connect(action,&QAction::triggered,this, [action, this]{ShowHeaderCoulmn(6,"ShowLanguage",!action->isChecked());});
+    connect(action, &QAction::triggered, this, [action, this]{ShowHeaderCoulmn(6, "ShowLanguage", !action->isChecked());});
     menu.addAction(action);
 
     action = new QAction(tr("Format"), this);
