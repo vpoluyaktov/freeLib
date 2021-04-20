@@ -2062,10 +2062,8 @@ void MainWindow::MoveToAuthor(qlonglong id, QString FirstLetter)
     searchChanged(FirstLetter);
     btnAuthorClick();
     ui->AuthorList->clearSelection();
-    for (int i = 0; i < ui->AuthorList->count(); i++)
-    {
-        if (ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong() == id)
-        {
+    for (int i = 0; i < ui->AuthorList->count(); i++) {
+        if (ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong() == id) {
             ui->AuthorList->item(i)->setSelected(true);
             ui->AuthorList->scrollToItem(ui->AuthorList->item(i));
             SelectAuthor();
