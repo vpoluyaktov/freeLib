@@ -695,34 +695,33 @@ void MainWindow::SetTag()
     uint id;
     QSqlQuery query(QSqlDatabase::database("libdb"));
 
-    if(currentListForTag_==qobject_cast<QObject*>(ui->Books))
-    {
+    if (currentListForTag_ == qobject_cast<QObject*>(ui->Books)) {
         QTreeWidgetItem* item=ui->Books->selectedItems()[0];
         id=item->data(0,Qt::UserRole).toUInt();
         switch (item->type()) {
         case ITEM_TYPE_BOOK:
-            item->setIcon(0,GetTagFromTagsPicList(tag_id));
+            item->setIcon(0, GetTagFromTagsPicList(tag_id));
             query.prepare("UPDATE book set tag=:tag where id=:id");
-            query.bindValue(":tag",tag_id);
-            query.bindValue(":id",id);
+            query.bindValue(":tag", tag_id);
+            query.bindValue(":id", id);
             query.exec();
             mLibs[g_idCurrentLib].mBooks[id].nTag = tag_id;
             break;
 
         case ITEM_TYPE_SERIA:
-            UpdateListPix(id,2,tag_id);
+            UpdateListPix(id, 2, tag_id);
             query.prepare("UPDATE seria set tag=:tag where id=:id");
-            query.bindValue(":tag",tag_id);
-            query.bindValue(":id",id);
+            query.bindValue(":tag", tag_id);
+            query.bindValue(":id", id);
             query.exec();
             mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
             break;
 
         case ITEM_TYPE_AUTHOR:
-            UpdateListPix(id,1,tag_id);
+            UpdateListPix(id, 1, tag_id);
             query.prepare("UPDATE author set tag=:tag where id=:id");
-            query.bindValue(":tag",tag_id);
-            query.bindValue(":id",id);
+            query.bindValue(":tag", tag_id);
+            query.bindValue(":id", id);
             query.exec();
             mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
             break;
@@ -731,23 +730,21 @@ void MainWindow::SetTag()
             break;
         }
     }
-    else if(currentListForTag_==qobject_cast<QObject*>(ui->AuthorList))
-    {
+    else if(currentListForTag_==qobject_cast<QObject*>(ui->AuthorList)) {
         id=ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toUInt();
-        UpdateListPix(id,1,tag_id);
+        UpdateListPix(id, 1, tag_id);
         query.prepare("UPDATE author set tag=:tag where id=:id");
-        query.bindValue(":tag",tag_id);
-        query.bindValue(":id",id);
+        query.bindValue(":tag", tag_id);
+        query.bindValue(":id", id);
         query.exec();
         mLibs[g_idCurrentLib].mAuthors[id].nTag = tag_id;
     }
-    else if(currentListForTag_==qobject_cast<QObject*>(ui->SeriaList))
-    {
+    else if(currentListForTag_ == qobject_cast<QObject*>(ui->SeriaList)) {
         id=ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toUInt();
-        UpdateListPix(id,2 ,tag_id);
+        UpdateListPix(id, 2, tag_id);
         query.prepare("UPDATE seria set tag=:tag where id=:id");
-        query.bindValue(":tag",tag_id);
-        query.bindValue(":id",id);
+        query.bindValue(":tag", tag_id);
+        query.bindValue(":id", id);
         query.exec();
         mLibs[g_idCurrentLib].mSerials[id].nTag = tag_id;
     }
