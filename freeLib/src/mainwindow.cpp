@@ -2429,7 +2429,7 @@ void MainWindow::FillListWidgetGroups(uint idLibrary)
 void MainWindow::FillListBooks()
 {
     ui->Books->clear();
-    switch(ui->tabWidget->currentIndex()){
+    switch (ui->tabWidget->currentIndex()) {
         case 0:
             SelectAuthor();
             break;
@@ -2445,7 +2445,6 @@ void MainWindow::FillListBooks()
         case 4:
             SelectGroup();
             break;
-
     }
 }
 
