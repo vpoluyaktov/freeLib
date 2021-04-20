@@ -2041,16 +2041,13 @@ void MainWindow::ShowHeaderCoulmn(int nColumn, const QString& sSetting, bool bHi
 void MainWindow::onAnchorClicked(const QUrl& url)
 {
     QString sPath = url.path();
-    if (sPath.startsWith("author_"))
-    {
+    if (sPath.startsWith("author_")) {
         MoveToAuthor(sPath.right(sPath.length() - 8).toLongLong(), sPath.mid(7, 1).toUpper());
     }
-    else if (sPath.startsWith("genre_"))
-    {
+    else if (sPath.startsWith("genre_")) {
         MoveToGenre(sPath.right(sPath.length() - 7).toLongLong());
     }
-    else if (sPath.startsWith("seria_"))
-    {
+    else if (sPath.startsWith("seria_")) {
         MoveToSeria(sPath.right(sPath.length() - 7).toLongLong(), sPath.mid(6, 1).toUpper());
     }
 }
