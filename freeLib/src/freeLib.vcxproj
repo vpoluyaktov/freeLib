@@ -391,6 +391,7 @@
     <ClCompile Include="fontframe.cpp" />
     <ClCompile Include="genresortfilterproxymodel.cpp" />
     <ClCompile Include="helpdialog.cpp" />
+    <ClCompile Include="statisticsdialog.cpp" />
     <ClCompile Include="fb2mobi\hyphenations.cpp" />
     <ClCompile Include="importthread.cpp" />
     <ClCompile Include="library.cpp" />
@@ -454,6 +455,8 @@
     <QtMoc Include="genresortfilterproxymodel.h">
     </QtMoc>
     <QtMoc Include="helpdialog.h">
+    </QtMoc>
+    <QtMoc Include="statisticsdialog.h">
     </QtMoc>
     <ClInclude Include="fb2mobi\hyphenations.h" />
     <QtMoc Include="importthread.h">
@@ -555,6 +558,8 @@
     <QtUic Include="fontframe.ui">
     </QtUic>
     <QtUic Include="helpdialog.ui">
+    </QtUic>
+    <QtUic Include="statisticsdialog.ui">
     </QtUic>
     <QtUic Include="mainwindow.ui">
     </QtUic>
