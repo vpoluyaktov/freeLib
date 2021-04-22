@@ -17,6 +17,8 @@ public:
     
 private:
     Ui::StatisticsDialog *ui;
+
+    QString GetLibraryInfo(uint idLibrary);
 };
 
 #endif // STATISTICSDIALOG_H
