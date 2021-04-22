@@ -22,6 +22,7 @@ StatisticsDialog::StatisticsDialog(QWidget *parent) :
         GetGenresInfo(g_idCurrentLib) +
         GetSeriasInfo(g_idCurrentLib) +
         GetBooksInfo(g_idCurrentLib) +
+        GetGroupsInfo(g_idCurrentLib) +
         html_end;
     ui->textBrowserStatistics->append(info);
 }
@@ -130,4 +131,23 @@ QString StatisticsDialog::GetBooksInfo(uint idLibrary)
     }
 
     return booksInfo;
+}
+
+QString StatisticsDialog::GetGroupsInfo(uint idLibrary)
+{
+    QString groupsInfo = "";
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT COUNT(id) FROM groups WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next()) {
+        groupsInfo += "<h2><font color=\"blue\">" + tr("Groups Info") + ":</font></h2>";
+        groupsInfo += "<table border=0>";
+        groupsInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Group count") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
+        groupsInfo += "</table>";
+        groupsInfo += "<hr/>";
+    }
+
+    return groupsInfo;
 }

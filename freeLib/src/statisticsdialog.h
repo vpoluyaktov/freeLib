@@ -23,6 +23,7 @@ private:
     QString GetGenresInfo(uint idLibrary);
     QString GetSeriasInfo(uint idLibrary);
     QString GetBooksInfo(uint idLibrary);
+    QString GetGroupsInfo(uint idLibrary);
 };
 
 #endif // STATISTICSDIALOG_H
