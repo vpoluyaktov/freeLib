@@ -2292,32 +2292,38 @@
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="45"/>
+        <location filename="statisticsdialog.cpp" line="46"/>
         <source>Library Info</source>
         <translation>Информация по библиотеке</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="47"/>
+        <location filename="statisticsdialog.cpp" line="48"/>
         <source>Library name</source>
         <translation>Название библиотеки</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="48"/>
+        <location filename="statisticsdialog.cpp" line="49"/>
         <source>Book dirs</source>
         <translation>Расположение книг</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="49"/>
+        <location filename="statisticsdialog.cpp" line="50"/>
         <source>file</source>
         <translation>файл</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="65"/>
+        <location filename="statisticsdialog.cpp" line="66"/>
+        <source>Authors Info</source>
+        <translation>Информация по авторам</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="85"/>
         <source>Books Info</source>
         <translation>Информация по книгам</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="67"/>
+        <location filename="statisticsdialog.cpp" line="68"/>
+        <location filename="statisticsdialog.cpp" line="87"/>
         <source>Book couint</source>
         <translation>Число книг в библиотеке</translation>
     </message>

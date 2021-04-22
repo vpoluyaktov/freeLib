@@ -2466,32 +2466,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="45"/>
+        <location filename="statisticsdialog.cpp" line="46"/>
         <source>Library Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="47"/>
+        <location filename="statisticsdialog.cpp" line="48"/>
         <source>Library name</source>
         <translation type="unfinished">Назва бібліотеки</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="48"/>
+        <location filename="statisticsdialog.cpp" line="49"/>
         <source>Book dirs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="49"/>
+        <location filename="statisticsdialog.cpp" line="50"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="65"/>
+        <location filename="statisticsdialog.cpp" line="66"/>
+        <source>Authors Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="85"/>
         <source>Books Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="67"/>
+        <location filename="statisticsdialog.cpp" line="68"/>
+        <location filename="statisticsdialog.cpp" line="87"/>
         <source>Book couint</source>
         <translation type="unfinished"></translation>
     </message>
