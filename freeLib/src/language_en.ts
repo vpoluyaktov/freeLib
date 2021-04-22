@@ -2126,9 +2126,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="68"/>
         <location filename="statisticsdialog.cpp" line="87"/>
-        <source>Book couint</source>
+        <source>Book count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="68"/>
+        <source>Author count</source>
+        <oldsource>Book couint</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

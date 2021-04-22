@@ -65,7 +65,7 @@ QString StatisticsDialog::GetAuthorsInfo(uint idLibrary)
     if (query.next()) {
         authorsInfo += "<h2><font color=\"blue\">" + tr("Authors Info") + ":</font></h2>";
         authorsInfo += "<table border=0>";
-        authorsInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book couint") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
+        authorsInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Author count") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
         authorsInfo += "</table>";
         authorsInfo += "<hr/>";
     }
@@ -84,7 +84,7 @@ QString StatisticsDialog::GetBooksInfo(uint idLibrary)
     if (query.next()) {
         booksInfo += "<h2><font color=\"blue\">" + tr("Books Info") + ":</font></h2>";
         booksInfo += "<table border=0>";
-        booksInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book couint") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
+        booksInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book count") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
         booksInfo += "</table>";
         booksInfo += "<hr/>";
     }

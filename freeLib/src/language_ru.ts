@@ -2322,10 +2322,15 @@
         <translation>Информация по книгам</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="68"/>
         <location filename="statisticsdialog.cpp" line="87"/>
-        <source>Book couint</source>
+        <source>Book count</source>
         <translation>Число книг в библиотеке</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="68"/>
+        <source>Author count</source>
+        <oldsource>Book couint</oldsource>
+        <translation>Число авторов в библиотеке</translation>
     </message>
 </context>
 <context>
