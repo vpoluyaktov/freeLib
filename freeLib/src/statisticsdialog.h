@@ -19,6 +19,7 @@ private:
     Ui::StatisticsDialog *ui;
 
     QString GetLibraryInfo(uint idLibrary);
+    QString GetAllDataInfo(uint idLibrary);
     QString GetAuthorsInfo(uint idLibrary);
     QString GetGenresInfo(uint idLibrary);
     QString GetSeriasInfo(uint idLibrary);

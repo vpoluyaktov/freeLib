@@ -18,11 +18,12 @@ StatisticsDialog::StatisticsDialog(QWidget *parent) :
     QString html_end = "</body></html>";
     QString info = html_start +
         GetLibraryInfo(g_idCurrentLib) +
-        GetAuthorsInfo(g_idCurrentLib) +
+        GetAllDataInfo(g_idCurrentLib) +
+        /*GetAuthorsInfo(g_idCurrentLib) +
         GetGenresInfo(g_idCurrentLib) +
         GetSeriasInfo(g_idCurrentLib) +
         GetBooksInfo(g_idCurrentLib) +
-        GetGroupsInfo(g_idCurrentLib) +
+        GetGroupsInfo(g_idCurrentLib) +*/
         html_end;
     ui->textBrowserStatistics->append(info);
 }
@@ -55,6 +56,63 @@ QString StatisticsDialog::GetLibraryInfo(uint idLibrary)
         libraryInfo += "<hr/>";
     }
     return libraryInfo;
+}
+
+QString StatisticsDialog::GetAllDataInfo(uint idLibrary)
+{
+    QString allDataInfo = "";
+    QString authors = "";
+    QString genres = "";
+    QString serias = "";
+    QString books = "";
+    QString groups = "";
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT COUNT(id) FROM author WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next())
+        authors = query.value(0).toString().trimmed();
+
+    query.prepare("SELECT COUNT(DISTINCT book_genre.id_genre) FROM book_genre WHERE book_genre.id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next())
+        genres = query.value(0).toString().trimmed();
+
+    query.prepare("SELECT COUNT(id) FROM seria WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next())
+        serias = query.value(0).toString().trimmed();
+
+    query.prepare("SELECT COUNT(id) FROM book WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next())
+        books = query.value(0).toString().trimmed();
+
+    query.prepare("SELECT COUNT(id) FROM groups WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next())
+        groups = query.value(0).toString().trimmed();
+
+    allDataInfo += "<h2><font color=\"blue\">" + tr("Library Elements Info") + ":</font></h2>";
+    allDataInfo += "<table border=0>";
+    allDataInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Author count") + ": </font></b></td><td>" + authors + "</td></tr>";
+    allDataInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Genre count") + ": </font></b></td><td>" + genres + "</td></tr>";
+    allDataInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Seria count") + ": </font></b></td><td>" + serias + "</td></tr>";
+    allDataInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book count") + ": </font></b></td><td>" + books + "</td></tr>";
+    allDataInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Group count") + ": </font></b></td><td>" + groups + "</td></tr>";
+    allDataInfo += "</table>";
+    allDataInfo += "<hr/>";
+
+    return allDataInfo;
 }
 
 QString StatisticsDialog::GetAuthorsInfo(uint idLibrary)

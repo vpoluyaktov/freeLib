@@ -2292,75 +2292,85 @@
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="49"/>
+        <location filename="statisticsdialog.cpp" line="50"/>
         <source>Library Info</source>
         <translation>Информация по библиотеке</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="51"/>
+        <location filename="statisticsdialog.cpp" line="52"/>
         <source>Library name</source>
         <translation>Название библиотеки</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="52"/>
+        <location filename="statisticsdialog.cpp" line="53"/>
         <source>Book dirs</source>
         <translation>Расположение книг</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="53"/>
+        <location filename="statisticsdialog.cpp" line="54"/>
         <source>file</source>
         <translation>файл</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="69"/>
+        <location filename="statisticsdialog.cpp" line="105"/>
+        <source>Library Elements Info</source>
+        <translation>Основные данные библиотеки</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="127"/>
         <source>Authors Info</source>
         <translation>Информация по авторам</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="88"/>
+        <location filename="statisticsdialog.cpp" line="146"/>
         <source>Genres Info</source>
         <translation>Информация по жанрам</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="90"/>
+        <location filename="statisticsdialog.cpp" line="108"/>
+        <location filename="statisticsdialog.cpp" line="148"/>
         <source>Genre count</source>
-        <translation>Число жанров в библиотеке</translation>
+        <translation>Число жанров</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="107"/>
+        <location filename="statisticsdialog.cpp" line="165"/>
         <source>Serias Info</source>
         <translation>Информация по сериям</translation>
     </message>
     <message>
         <location filename="statisticsdialog.cpp" line="109"/>
+        <location filename="statisticsdialog.cpp" line="167"/>
         <source>Seria count</source>
-        <translation>Число серий в библиотеке</translation>
+        <translation>Число серий</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="126"/>
+        <location filename="statisticsdialog.cpp" line="184"/>
         <source>Books Info</source>
         <translation>Информация по книгам</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="128"/>
+        <location filename="statisticsdialog.cpp" line="110"/>
+        <location filename="statisticsdialog.cpp" line="186"/>
         <source>Book count</source>
-        <translation>Число книг в библиотеке</translation>
+        <translation>Число книг</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="145"/>
+        <location filename="statisticsdialog.cpp" line="203"/>
         <source>Groups Info</source>
         <translation>Информация по группам книг</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="147"/>
+        <location filename="statisticsdialog.cpp" line="111"/>
+        <location filename="statisticsdialog.cpp" line="205"/>
         <source>Group count</source>
-        <translation>Число групп книг в библиотеке</translation>
+        <translation>Число групп книг</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="71"/>
+        <location filename="statisticsdialog.cpp" line="107"/>
+        <location filename="statisticsdialog.cpp" line="129"/>
         <source>Author count</source>
         <oldsource>Book couint</oldsource>
-        <translation>Число авторов в библиотеке</translation>
+        <translation>Число авторов</translation>
     </message>
 </context>
 <context>
