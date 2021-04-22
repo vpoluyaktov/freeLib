@@ -106,6 +106,9 @@
     <ClCompile Include="helpdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="statisticsdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="fb2mobi\hyphenations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -258,6 +261,9 @@
     <QtMoc Include="helpdialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="statisticsdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <ClInclude Include="fb2mobi\hyphenations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -400,6 +406,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="helpdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="statisticsdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="mainwindow.ui">

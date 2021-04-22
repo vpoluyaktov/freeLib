@@ -334,6 +334,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->btnExpandTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::expandAll);
     connect(ui->btnCollapseTreeGenre, &QToolButton::clicked, ui->GenreList, &QTreeWidget::collapseAll);
     connect(ui->actionAboutQtFramework, &QAction::triggered, this, &MainWindow::actionAboutQt);
+    connect(ui->actionStatistics, &QAction::triggered, this, &MainWindow::ShowStatisticsDialog);
 
     // назначение кнопкам быстрых клавиш
     BindAnyButtonShortcut(ui->btnAuthor, QKeySequence("CTRL+A"));
@@ -811,6 +812,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (pHelpDlg_ != nullptr)
         delete pHelpDlg_;
+
     SaveLibPosition(g_idCurrentLib);
     QSettings settings;
     settings.setValue("ApplicationMode", mode);
@@ -3557,6 +3559,16 @@ void MainWindow::DatabaseOptimization()
     query.exec("VACUUM");
     QApplication::restoreOverrideCursor();
     QMessageBox::information(this, tr("Database optimization"), tr("Database optimization completed."));
+}
+
+/*
+    Показать диалог статистики библиотек
+*/
+void MainWindow::ShowStatisticsDialog()
+{
+    StatisticsDialog* dlg = new StatisticsDialog(this);
+    dlg->exec();
+    delete dlg;
 }
 
 /*

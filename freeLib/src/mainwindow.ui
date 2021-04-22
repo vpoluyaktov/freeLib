@@ -1579,6 +1579,8 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionStatistics"/>
+    <addaction name="separator"/>
     <addaction name="actionMarkDeletedBooks"/>
     <addaction name="actionDatabaseOptimization"/>
    </widget>
@@ -1692,6 +1694,16 @@
   <action name="actionAboutQtFramework">
    <property name="text">
     <string>About Qt framework</string>
+   </property>
+  </action>
+  <action name="actionStatistics">
+   <property name="text">
+    <string>Statistics</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>-</string>
    </property>
   </action>
  </widget>

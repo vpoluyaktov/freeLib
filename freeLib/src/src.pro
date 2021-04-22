@@ -91,6 +91,7 @@ SOURCES += main.cpp\
     exportdlg.cpp \
     aboutdialog.cpp \
     helpdialog.cpp \
+    statisticsdialog.cpp \
     fb2mobi/hyphenations.cpp \
     tagdialog.cpp \
     fb2mobi/fb2mobi.cpp \
@@ -139,6 +140,7 @@ HEADERS  += mainwindow.h \
     exportdlg.h \
     aboutdialog.h \
     helpdialog.h \
+    statisticsdialog.h \
     fb2mobi/fb2mobi.h \
     fb2mobi/hyphenations.h \
     tagdialog.h \
@@ -173,6 +175,7 @@ FORMS    += mainwindow.ui \
     exportdlg.ui \
     aboutdialog.ui \
     helpdialog.ui \
+    statisticsdialog.ui \
     tagdialog.ui \
     dropform.ui \
     fontframe.ui \

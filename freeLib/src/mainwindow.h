@@ -14,6 +14,7 @@
 #include <QSystemTrayIcon>
 
 #include "helpdialog.h"
+#include "statisticsdialog.h"
 #include "dropform.h"
 #include "opds_server.h"
 #include "common.h"
@@ -213,6 +214,8 @@ private slots:
     void MarkDeletedBooks();
     // Оптимизация базы данных
     void DatabaseOptimization();
+    // Показать диалог статистики библиотек
+    void ShowStatisticsDialog();
 
     // выбор библиотеки для ее загрузки
     void SelectLibrary();
