@@ -18,6 +18,7 @@ StatisticsDialog::StatisticsDialog(QWidget *parent) :
     QString html_end = "</body></html>";
     QString info = html_start +
         GetLibraryInfo(g_idCurrentLib) +
+        GetAuthorsInfo(g_idCurrentLib) +
         GetBooksInfo(g_idCurrentLib) +
         html_end;
     ui->textBrowserStatistics->append(info);
@@ -51,6 +52,25 @@ QString StatisticsDialog::GetLibraryInfo(uint idLibrary)
         libraryInfo += "<hr/>";
     }
     return libraryInfo;
+}
+
+QString StatisticsDialog::GetAuthorsInfo(uint idLibrary)
+{
+    QString authorsInfo = "";
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT COUNT(id) FROM author WHERE id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next()) {
+        authorsInfo += "<h2><font color=\"blue\">" + tr("Authors Info") + ":</font></h2>";
+        authorsInfo += "<table border=0>";
+        authorsInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book couint") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
+        authorsInfo += "</table>";
+        authorsInfo += "<hr/>";
+    }
+
+    return authorsInfo;
 }
 
 QString StatisticsDialog::GetBooksInfo(uint idLibrary)
