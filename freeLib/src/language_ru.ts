@@ -2292,24 +2292,34 @@
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="42"/>
+        <location filename="statisticsdialog.cpp" line="45"/>
         <source>Library Info</source>
         <translation>Информация по библиотеке</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="44"/>
+        <location filename="statisticsdialog.cpp" line="47"/>
         <source>Library name</source>
         <translation>Название библиотеки</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="45"/>
+        <location filename="statisticsdialog.cpp" line="48"/>
         <source>Book dirs</source>
         <translation>Расположение книг</translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="46"/>
+        <location filename="statisticsdialog.cpp" line="49"/>
         <source>file</source>
         <translation>файл</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="65"/>
+        <source>Books Info</source>
+        <translation>Информация по книгам</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="67"/>
+        <source>Book couint</source>
+        <translation>Число книг в библиотеке</translation>
     </message>
 </context>
 <context>

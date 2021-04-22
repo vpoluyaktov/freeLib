@@ -2096,23 +2096,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="42"/>
+        <location filename="statisticsdialog.cpp" line="45"/>
         <source>Library Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="44"/>
+        <location filename="statisticsdialog.cpp" line="47"/>
         <source>Library name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="45"/>
+        <location filename="statisticsdialog.cpp" line="48"/>
         <source>Book dirs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="46"/>
+        <location filename="statisticsdialog.cpp" line="49"/>
         <source>file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="65"/>
+        <source>Books Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="67"/>
+        <source>Book couint</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
