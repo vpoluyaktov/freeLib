@@ -19,6 +19,7 @@ StatisticsDialog::StatisticsDialog(QWidget *parent) :
     QString info = html_start +
         GetLibraryInfo(g_idCurrentLib) +
         GetAuthorsInfo(g_idCurrentLib) +
+        GetGenresInfo(g_idCurrentLib) +
         GetSeriasInfo(g_idCurrentLib) +
         GetBooksInfo(g_idCurrentLib) +
         html_end;
@@ -72,6 +73,25 @@ QString StatisticsDialog::GetAuthorsInfo(uint idLibrary)
     }
 
     return authorsInfo;
+}
+
+QString StatisticsDialog::GetGenresInfo(uint idLibrary)
+{
+    QString genresInfo = "";
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT COUNT(DISTINCT book_genre.id_genre) FROM book_genre WHERE book_genre.id_lib=:id_lib;");
+    query.bindValue(":id_lib", idLibrary);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next()) {
+        genresInfo += "<h2><font color=\"blue\">" + tr("Genres Info") + ":</font></h2>";
+        genresInfo += "<table border=0>";
+        genresInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Genre count") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
+        genresInfo += "</table>";
+        genresInfo += "<hr/>";
+    }
+
+    return genresInfo;
 }
 
 QString StatisticsDialog::GetSeriasInfo(uint idLibrary)

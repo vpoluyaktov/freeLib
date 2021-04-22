@@ -2096,42 +2096,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="46"/>
+        <location filename="statisticsdialog.cpp" line="48"/>
         <source>Library Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="48"/>
+        <location filename="statisticsdialog.cpp" line="50"/>
         <source>Library name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="49"/>
+        <location filename="statisticsdialog.cpp" line="51"/>
         <source>Book dirs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="50"/>
+        <location filename="statisticsdialog.cpp" line="52"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="66"/>
+        <location filename="statisticsdialog.cpp" line="68"/>
         <source>Authors Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="85"/>
+        <location filename="statisticsdialog.cpp" line="87"/>
+        <source>Genres Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="89"/>
+        <source>Genre count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="106"/>
+        <source>Serias Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="108"/>
+        <source>Seria count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="125"/>
         <source>Books Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="87"/>
+        <location filename="statisticsdialog.cpp" line="127"/>
         <source>Book count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="statisticsdialog.cpp" line="68"/>
+        <location filename="statisticsdialog.cpp" line="70"/>
         <source>Author count</source>
         <oldsource>Book couint</oldsource>
         <translation type="unfinished"></translation>

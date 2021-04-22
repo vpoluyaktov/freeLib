@@ -20,6 +20,7 @@ private:
 
     QString GetLibraryInfo(uint idLibrary);
     QString GetAuthorsInfo(uint idLibrary);
+    QString GetGenresInfo(uint idLibrary);
     QString GetSeriasInfo(uint idLibrary);
     QString GetBooksInfo(uint idLibrary);
 };
