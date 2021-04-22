@@ -19,6 +19,7 @@ private:
     Ui::StatisticsDialog *ui;
 
     QString GetLibraryInfo(uint idLibrary);
+    QString GetBooksInfo(uint idLibrary);
 };
 
 #endif // STATISTICSDIALOG_H
