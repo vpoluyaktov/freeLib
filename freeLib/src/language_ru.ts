@@ -2287,8 +2287,29 @@
     <name>StatisticsDialog</name>
     <message>
         <location filename="statisticsdialog.ui" line="14"/>
+        <location filename="statisticsdialog.cpp" line="17"/>
         <source>Statistic</source>
         <translation>Статистика</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="42"/>
+        <source>Library Info</source>
+        <translation>Информация по библиотеке</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="44"/>
+        <source>Library name</source>
+        <translation>Название библиотеки</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="45"/>
+        <source>Book dirs</source>
+        <translation>Расположение книг</translation>
+    </message>
+    <message>
+        <location filename="statisticsdialog.cpp" line="46"/>
+        <source>file</source>
+        <translation>файл</translation>
     </message>
 </context>
 <context>
