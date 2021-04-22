@@ -41,9 +41,9 @@ QString StatisticsDialog::GetLibraryInfo(uint idLibrary)
         path = path.remove(path.length()-4, 4);
         libraryInfo += "<h2><font color=\"blue\">" + tr("Library Info") + ":</font></h2>";
         libraryInfo += "<table border=0>";
-        libraryInfo += "<tr><td style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Library name") + ":</font></b> </td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
-        libraryInfo += "<tr><td style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book dirs") + ":</font></b></td><td>" + path + "</td></tr>";
-        libraryInfo += "<tr><td style=\"vertical-align: top\"><b><font color=\"navy\"> inpx " + tr("file") + ":</font></b></td><td>" + query.value(2).toString().trimmed() + "</td></tr>";
+        libraryInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Library name") + ": </font></b></td><td>" + query.value(0).toString().trimmed() + "</td></tr>";
+        libraryInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\">" + tr("Book dirs") + ": </font></b></td><td>" + path + "</td></tr>";
+        libraryInfo += "<tr><td align=\"right\" style=\"vertical-align: top\"><b><font color=\"navy\"> inpx " + tr("file") + ": </font></b></td><td>" + query.value(2).toString().trimmed() + "</td></tr>";
         libraryInfo += "</table>";
         libraryInfo += "<hr/>";
     }
