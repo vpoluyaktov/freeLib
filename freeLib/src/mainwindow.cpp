@@ -3620,9 +3620,9 @@ void MainWindow::GroupContextMenu(QPoint point)
     currentListForTag_ = QObject::sender();
     QMenu menu;
     if (ui->GroupList->selectedItems().count() > 0) {
-        QListWidgetItem* item = ui->GroupList->selectedItems()[0];
-        uint idGroup = item->data(Qt::UserRole).toUInt();
-        if (!item->icon().isNull()) {
+        QListWidgetItem* selectedItem = ui->GroupList->selectedItems()[0];
+        uint idGroup = selectedItem->data(Qt::UserRole).toUInt();
+        if (!selectedItem->icon().isNull()) {
             QAction* actionDeleteIcon = new QAction(tr("Remove the Group icon..."), this);
             actionDeleteIcon->setData(QString::number(idGroup).toUInt());
             connect(actionDeleteIcon, &QAction::triggered, this, &MainWindow::DeleteGroupIconAction);
@@ -3633,12 +3633,14 @@ void MainWindow::GroupContextMenu(QPoint point)
         actionSetIcon->setData(QString::number(idGroup).toUInt());
         connect(actionSetIcon, &QAction::triggered, this, &MainWindow::SetGroupIconAction);
         menu.addAction(actionSetIcon);
-        menu.addSeparator();
 
-        QAction* actionSetDefaultIcon = new QAction(tr("Default icons..."), this);
-        actionSetDefaultIcon->setData(QString::number(idGroup).toUInt());
-        connect(actionSetDefaultIcon, &QAction::triggered, this, &MainWindow::SetGroupDefaultIconsAction);
-        menu.addAction(actionSetDefaultIcon);
+        if (mLibs[g_idCurrentLib].mGroups[idGroup].isBlocked()) {
+            menu.addSeparator();
+            QAction* actionSetDefaultIcon = new QAction(tr("Default icons..."), this);
+            actionSetDefaultIcon->setData(QString::number(idGroup).toUInt());
+            connect(actionSetDefaultIcon, &QAction::triggered, this, &MainWindow::SetGroupDefaultIconsAction);
+            menu.addAction(actionSetDefaultIcon);
+        }
 
         if (menu.actions().count() > 0)
             menu.exec(QCursor::pos());
