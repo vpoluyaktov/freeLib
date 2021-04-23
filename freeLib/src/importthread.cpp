@@ -537,7 +537,7 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
         if (index != -1)
             file_name = file_name.mid(index+1, file_name.length());
     }
-    QString message = QString(tr("Book add (%1):  %2")).arg(fi.suffix(), file_name);
+    QString message = QString(tr("add (%1):  %2")).arg(fi.suffix(), file_name);
     if (!arh_name.isEmpty()) // zip
         message += "  " + QString(tr("from zip:  %1")).arg(arh_name);
     emit Message(message);
@@ -571,7 +571,7 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
         Query_->exec("update book set deleted=0 where id="+Query_->value(0).toString());
         return;
     }
-    emit Message(tr("Book add (epub):") + " " + file_name);
+    emit Message(tr("add (epub):") + " " + file_name);
 
     book_info bi;
     GetBookInfo(bi,ba,"epub",true);
