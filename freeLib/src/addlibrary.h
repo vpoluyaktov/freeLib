@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QItemSelectionModel>
+#include <QElapsedTimer>
 
 #include "importthread.h"
 #include "common.h"
@@ -29,6 +30,7 @@ private:
     int idCurrentLib_;
     bool bLibChanged_;
     QStringList LogList_;
+    QElapsedTimer timer_;
 
     void ImportNewLibrary(SLib& lib);
     void StartImport(SLib& Lib);
