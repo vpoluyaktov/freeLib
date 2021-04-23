@@ -37,7 +37,7 @@
     </message>
     <message>
         <location filename="addlibrary.ui" line="248"/>
-        <location filename="addlibrary.cpp" line="475"/>
+        <location filename="addlibrary.cpp" line="483"/>
         <source>Books dir:</source>
         <oldsource>Books dir</oldsource>
         <translation type="unfinished"></translation>
@@ -146,8 +146,8 @@
     </message>
     <message>
         <location filename="addlibrary.ui" line="442"/>
-        <location filename="addlibrary.cpp" line="408"/>
-        <location filename="addlibrary.cpp" line="438"/>
+        <location filename="addlibrary.cpp" line="416"/>
+        <location filename="addlibrary.cpp" line="446"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -168,20 +168,105 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="499"/>
-        <source>Specify the correct path to the books folder.</source>
+        <location filename="addlibrary.cpp" line="230"/>
+        <source>Break</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="499"/>
-        <location filename="addlibrary.cpp" line="506"/>
-        <location filename="addlibrary.cpp" line="522"/>
+        <location filename="addlibrary.cpp" line="408"/>
+        <source>(hour:min:sec)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="468"/>
+        <source>Select destination directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="480"/>
+        <source>Save Log to file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="482"/>
+        <source>Library:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="494"/>
+        <source>Save Log to File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="494"/>
+        <source>Log saved to file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="507"/>
+        <location filename="addlibrary.cpp" line="514"/>
+        <location filename="addlibrary.cpp" line="530"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="232"/>
-        <source>Break</source>
+        <location filename="addlibrary.cpp" line="507"/>
+        <source>Specify the correct path to the books folder.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="514"/>
+        <source>This directory is already in the directory listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="530"/>
+        <source>This directory is a sub-directory of one of the directories in the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="550"/>
+        <source>Delete dir from Dirs List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="551"/>
+        <source>Books Dir:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="552"/>
+        <source>Are you sure you want to remove the selected folder from the list of catalogs of books of the library?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="612"/>
+        <source>Favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="627"/>
+        <source>To read</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="642"/>
+        <source>I read</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="703"/>
+        <source>The entered name of the library:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="704"/>
+        <source>A library with this name already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="705"/>
+        <source>Enter another name for the library.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -201,24 +286,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="689"/>
-        <source>The entered name of the library:</source>
-        <oldsource>Input library name</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="addlibrary.cpp" line="91"/>
         <source>New library</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="690"/>
-        <source>A library with this name already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="691"/>
-        <source>Enter another name for the library.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -233,73 +302,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="addlibrary.cpp" line="405"/>
+        <location filename="addlibrary.cpp" line="408"/>
+        <source>The time taken to process books</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="addlibrary.cpp" line="413"/>
         <source>Ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="460"/>
-        <source>Select destination directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="472"/>
-        <source>Save Log to file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="474"/>
-        <source>Library:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="486"/>
-        <source>Log saved to file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="486"/>
-        <source>Save Log to File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="506"/>
-        <source>This directory is already in the directory listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="522"/>
-        <source>This directory is a sub-directory of one of the directories in the list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="542"/>
-        <source>Delete dir from Dirs List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="543"/>
-        <source>Books Dir:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="544"/>
-        <source>Are you sure you want to remove the selected folder from the list of catalogs of books of the library?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="599"/>
-        <source>Favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="614"/>
-        <source>To read</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="addlibrary.cpp" line="629"/>
-        <source>I read</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -856,7 +865,8 @@
     <name>ImportThread</name>
     <message>
         <location filename="importthread.cpp" line="540"/>
-        <source>Book add (%1):  %2</source>
+        <source>add (%1):  %2</source>
+        <oldsource>Book add (%1):  %2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -866,7 +876,8 @@
     </message>
     <message>
         <location filename="importthread.cpp" line="574"/>
-        <source>Book add (epub):</source>
+        <source>add (epub):</source>
+        <oldsource>Book add (epub):</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1530,7 +1541,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="library.cpp" line="222"/>
+        <location filename="library.cpp" line="224"/>
         <source>Unknown Author</source>
         <translation type="unfinished"></translation>
     </message>

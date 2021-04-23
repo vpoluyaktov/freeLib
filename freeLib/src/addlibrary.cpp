@@ -231,6 +231,8 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->checkBoxShowLog->setChecked(true);
     ExpandLog();
 
+    timer_.start(); // запуска отсчета времени импорта книг в библиотеку
+
     thread_ = new QThread;
     imp_tr_=new ImportThread();
     imp_tr_->start(Lib.sInpx,Lib.name,Lib.path,idCurrentLib_,update_type,false,
@@ -400,6 +402,11 @@ void AddLibrary::DeleteLibrary()
 }
 void AddLibrary::EndUpdate()
 {
+    // завершение импорта книг в библиотеку
+    QTime time(0, 0);
+    time = time.addMSecs(timer_.elapsed());
+    LogList_.append(tr("The time taken to process books") + " : " + time.toString() + " " + tr("(hour:min:sec)"));
+
     // занесение в таблицу groups три заблокированные от удаления Группы
     AddGroupToSQLite(idCurrentLib_);
     
