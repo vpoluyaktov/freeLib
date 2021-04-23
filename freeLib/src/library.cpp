@@ -215,11 +215,12 @@ void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
 
 QString SAuthor::getName() const
 {
-    QString sAuthorName = QString("%1 %2 %3").arg(sLastName, sFirstName, sMiddleName).trimmed();
-    if (sAuthorName.isEmpty()) {
-        sAuthorName = QString("%1").arg(sNickName).trimmed();
-        if (sAuthorName.isEmpty())
-            sAuthorName = QCoreApplication::translate("MainWindow", "Unknown Author");
-    }
+    QString sAuthorName = QString("%1 %2 %3 (%4)").arg(sLastName, sFirstName, sMiddleName, sNickName.trimmed()).trimmed();
+    if (sAuthorName.indexOf("()") > 1) // только ФИО без nickname
+        sAuthorName = sAuthorName.remove(sAuthorName.length() - 3, 3);
+    else if (sAuthorName.length() > 3) // только nickname
+        return sAuthorName;
+    else // неизвестный автор - вообще без данных
+        sAuthorName = QCoreApplication::translate("MainWindow", "Unknown Author");
     return sAuthorName;
 }
