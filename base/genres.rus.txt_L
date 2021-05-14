@@ -30,7 +30,7 @@ UTF8 // codepage
  thriller_archaeological Археологический триллер	  Archaeological Thriller
  det_action Боевик	  Action
  det_cozy Дамский детектив	  Cozy Mysteries
- detective Детективы: прочее	  Detectives
+ detective Детектив	  Detectives
  foreign_detective Зарубежный детектив	  Foreign Detectives
  det_irony Иронический детектив	  Ironical Detectives
  det_history Исторический детектив	  Historical Detectives
@@ -74,6 +74,7 @@ UTF8 // codepage
  sci_popular Научпоп	  Science Popular
  nonf_publicism Публицистика	  Publicism
 Домоводство (Дом и семья)	  Home & Family
+ home_survival Выживание и личная безопасность	  Survival
  home_child Дети. Книги для родителей	  Child
  home Дом и семья: прочее	  Home Other
  home_pets Домашние животные	  Pets
@@ -113,6 +114,7 @@ UTF8 // codepage
  comp_db Базы данных	  Databases
  comp_design Графика. Дизайн. Мультимедиа	  Design
  comp_www Интернет	  Internet
+ comp_history История информатики и вычислительной техники	  Computers History
  comp_security Компьютерная безопасность	  Security
  comp_hard Компьютерное железо	  Hardware
  computers Околокомпьютерная литература	  Computers Other
@@ -131,29 +133,34 @@ UTF8 // codepage
  comp_os_os2 OS/2	  OS/2
  comp_os_unix Unix	  Unix
  comp_os_windows Windows	  Windows
+ comp_os_theory ОС: теоретические вопросы	  OS Theory
  comp_os Прочие ОС	  Other OS
 Компьютеры: Разработка ПО	  Soft Development
- comp_soft_dev_alg Алгоритмы	  Algorithms
+ comp_soft_dev_alg Алгоритмы и структуры данных	  Algorithms
+ comp_db_exp Базы знаний и экспертные системы	  Expert Systems
  comp_dv_ai Искусственный интеллект	  Artifical Intellegence
  comp_soft_dev_craking Крэкинг и реверсинжиниринг	  Craking And Reverse Engineering
  comp_soft_dev_man Менеджмент ПО	  Management
  comp_soft_dev_oop Объектно-ориентированное программирование	  OOP
  comp_soft_dev_debug Отладка и тестирование ПО	  Debuging
+ comp_soft_dev_parallel Параллельное и распределенное программирование	  Parallel Programming
  comp_soft_dev_graphic Программирование графики	  Graphic Programming
  comp_soft_dev_games Программирование игр	  Games Programming
- comp_soft_dev Разработка ПО: прочее	  Soft Development Other
+ comp_soft_dev Программирование: прочее	  Programming Other
  comp_soft_dev_system Системное программирование	  System Programming
- comp_db_exp Экспертные системы	  Expert Systems
 Компьютеры: Языки и системы программирования	  Programming Languages
  comp_prog_dotnet .NET Framework	  .NET Framework
+ comp_prog_ada Ada	  Ada
  comp_prog_assembler Assembler	  Assembler
  comp_prog_basic Basic, Visual Basic, VB Script, VBA и т.п.	  Basic, Visual Basic, VB Script, VBA
  comp_prog_c C, C++, C#	  C, C++, C#
  comp_prog_forth Forth	  Forth
+ comp_prog_fortran Fortran	  Fortran
  comp_prog_java Java, Java Script	  Java, Java Script
  comp_prog_lisp Lisp	  Lisp
  comp_prog_lua Lua	  Lua
  comp_prog_mfc MFC	  MFC
+ comp_prog_oberon Modula-2, Modula-3, Oberon, Oberon-2	  Modula-2, Modula-3, Oberon, Oberon-2
  comp_prog_pascal Pascal, Delphi, Lazarus и т.п.	  Pascal, Delphi, Lazarus
  comp_prog_php PHP	  PHP
  comp_prog_prolog Prolog	  Prolog
@@ -198,6 +205,7 @@ UTF8 // codepage
  literature_20 Литература ХX века (эпоха Социальных революций)	  Literature Of The ХX Century
  literature_21 Литература ХXI века (эпоха Глобализации экономики)	  Literature Of The ХXI Century
 Любовные романы	  Romance
+ foreign_love Зарубежная литература о любви	  Foreign Love Romance
  love_history Исторические любовные романы	  Historical Romance
  love_short Короткие любовные романы	  Short Romance
  love_sf Любовная фантастика	  Love SF
@@ -205,8 +213,10 @@ UTF8 // codepage
  love_detective Любовные детективы	  Detective Romance
  love О любви	  Love Romance
  love_hard Порно	  Porno
+ love_rus Русская литература о любви	  Russian Love Romance
  sexual_perversion Сексуальные извращения	  Sexual Perversion
  love_slash Слэш	  Love Slash
+ love_su Советская литература о любви	  Soviet Love Romance
  love_contemporary Современные любовные романы	  Contemporary Romance
  love_femslash Фемслеш	  Love Femslash
  love_erotica Эротика	  Erotica
@@ -214,6 +224,7 @@ UTF8 // codepage
  sci_medicine_alternative Альтернативная медицина	  Alternative Medicine
  sci_theories Альтернативные науки и научные теории	  Theories
  sci_anachem Аналитическая химия	  Analitic Chemistry
+ sci_archeology Археология	  Archeology
  sci_cosmos Астрономия и Космос	  Cosmos
  sci_veterinary Ветеринария	  Veterinary
  sci_oriental Востоковедение	  Science Oriental
@@ -245,6 +256,7 @@ UTF8 // codepage
  sci_biochem Биохимия	  Biochemistry
  sci_botany Ботаника	  Botany
  sci_zoo Зоология	  Zoology
+ sci_paleontology Палеонтология	  Paleontology
  sci_evolutionism Эволюционизм	  Evolutionism
  sci_ecology Экология	  Ecology
 Поэзия	  Poetry
@@ -340,6 +352,7 @@ UTF8 // codepage
  psy_sex_and_family Секс и семейная психология	  Sex and Family
 Религия и духовность	  Religion & Inspiration
  astrology Астрология	  Astrology
+ atheism Атеизм	  Atheism
  religion_budda Буддизм	  Buddhism
  religion_hinduism Индуизм	  Hinduism
  religion_islam Ислам	  Islam
@@ -347,7 +360,7 @@ UTF8 // codepage
  religion_catholicism Католицизм	  Catholicism
  religion_orthodoxy Православие	  Orthodoxy
  religion_protestantism Протестантизм	  Protestantism
- religion Религиозная литература	  Religion Other
+ religion Религия и духовность: прочее	  Religion Other
  religion_rel Религия	  Religion
  religion_self Самосовершенствование	  Self-improvement
  palmistry Хиромантия	  Palmistry
@@ -359,7 +372,7 @@ UTF8 // codepage
  ref_guide Руководства	  Guidebooks
  ref_self_tutor Самоучители	  Self-tutors
  ref_dict Словари	  Dictionaries
- reference Справочная литература	  Reference Other
+ reference Справочная литература: прочее	  Reference Other
  ref_ref Справочники	  Reference
  ref_encyc Энциклопедии	  Encyclopedias
 Старинное	  Antique Literature
@@ -370,22 +383,34 @@ UTF8 // codepage
  antique Старинная литература	  Other
 Техника	  Technics
  auto_business Автодело	  Auto Business
+ sci_aerodynamics Аэро-, газо- и гидродинамика	  Aerodynamics
+ sci_tech_hydraulics Гидравлика	  Hydraulics
  equ_history История техники	  Equ History
  sci_engineering Конструирование	  Engineering
  sci_tech_materials Материаловедение, конструкционные материалы	  Materials
  sci_tech_machinery Машиностроение	  Machinery
  sci_metal Металлургия	  Metallurgy
+ sci_tech_metrology Метрология, стандартизация и сертификация	  Metrology
+ sci_tech_oil Нефтегазовая промышленность	  Oil Industry
  sci_tech_standards Нормативная техническая документация	  Tech Standards
- sci_radio Радиоэлектроника	  Radio
+ sci_instrumentation Приборостроение	  Instrument-Making Industry
+ sci_radio Радиоэлектроника, радиотехника, связь	  Radio
  sci_tech_rockets Ракетостроение и космическая техника	  Rockets
  sci_tech_sopromat Строительная механика и сопромат	  Strength Of Materials
  sci_build Строительство	  Building
+ sci_tech_theormech Теория механизмов и машин	  TMM
+ sci_thermodynamics Термодинамика и теплотехника	  Thermodynamics
+ sci_tech_mech Техническая механика	  Technical Mechanics
  sci_tech Технические науки	  Technical
  sci_transport Транспорт и авиация	  Transport
+ sci_tech_chem Химическая промышленность	  Chemical Industry
+ sci_electronics Электроника, микроэлектроника, схемотехника	  Electronics
+ sci_energy Энергетика. Электротехника	  Energy
 Учебники и пособия	  Textbook
+ sci_thesis Диссертации, дипломные, курсовые и прочие работы	  Thesis
  sci_abstract Рефераты	  Abstract
  sci_textbook_su Советские учебники и пособия	  Soviet Textbook
- sci_textbook Учебники и пособия	  Textbook
+ sci_textbook Учебники и пособия: прочее	  Textbook
  tbg_higher Учебники и пособия ВУЗов	  Textbook Higher
  tbg_secondary Учебники и пособия для среднего и специального образования	  Textbook Secondary
  tbg_school Школьные учебники и пособия	  Textbook School
@@ -412,7 +437,7 @@ UTF8 // codepage
  sf_social Социально-философская фантастика	  Social-philosophical
  sf_stimpank Стимпанк	  Stimpank
  sf_horror Ужасы	  Horror
- sf_etc Фантастика	  Other Science Fiction
+ sf_etc Фантастика: прочее	  Other Science Fiction
  hronoopera Хроноопера	  Hronoopera
  sf_epic Эпическая фантастика	  Epic Science Fiction
  sf_humor Юмористическая фантастика	  Humor Science Fiction
@@ -437,6 +462,7 @@ UTF8 // codepage
  magician_book Магическое фэнтези	  Magical Fantasy
  vampire_book О вампирах	  Vampire Fantasy
  dragon_fantasy О драконах	  Dragon Fantasy
+ adventure_fantasy Приключенческое фэнтези	  Adventure Fantasy
  fairy_fantasy Сказочная фантастика	  Fairy Fantasy
  russian_fantasy Славянское фэнтези	  Slavic Fantasy
  modern_tale Современная сказка	  Modern Tale
@@ -454,6 +480,7 @@ UTF8 // codepage
  home_building Индивидуальное строительство и ремонт	  Building and Renovation
  home_bookmaking Книгоделие	  Bookmaking
  home_collecting Коллекционирование	  Collecting
+ home_modelling Моделирование	  Modelling
  home_marine Морское дело, парусный спорт	  Maritime Affairs
  home_hunt Охота и охотоведение	  Hunt
  home_writing_art Писательское искусство	  Writing Art
@@ -474,6 +501,6 @@ UTF8 // codepage
  humor_tales Байки	  Tales
  humor_parody Пародии, шаржи, эпиграммы	  Parodies, Cartoons, Epigrams
  humor_satire Сатира	  Satire
- humor Юмор	  Humor Other
+ humor Юмор: прочее	  Humor Other
  humor_prose Юмористическая проза	  Humor Prose
  humor_verse Юмористические стихи	  Humor Verses
