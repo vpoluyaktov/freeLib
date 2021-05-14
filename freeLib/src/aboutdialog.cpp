@@ -22,6 +22,13 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QFont f(ui->version->font());
     f.setPointSize(VERSION_FONT);
     ui->version->setFont(f);
+
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.exec(QString("SELECT value FROM params WHERE name='%1'").arg("version"));
+    int dbVersion = 0;
+    if (query.next())
+        dbVersion = query.value(0).toInt();
+    ui->dbVersion->setText(QString::number(dbVersion));
   //  QIcon icon(pix);
    // pix.setDevicePixelRatio(app->devicePixelRatio());
    // QIcon icon;
