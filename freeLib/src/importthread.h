@@ -33,11 +33,11 @@ public slots:
     void break_import();
 
 protected:
-    void importBooks(QString path,int &count);
-    void importBooksToLibrary(QString path);
+    ulong importBooks(QString path,int &count);
+    ulong importBooksToLibrary(QString path);
 
-    void readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
-    void readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
+    bool readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
+    bool readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
     void readFB2_test(const QByteArray& ba,QString file_name,QString arh_name);
 
 private:
