@@ -11,17 +11,15 @@
 void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
 {
     QSqlQuery query(dbase);
-    if(delete_only)
-    {
-        query.exec("update book set deleted=1 where id_lib="+QString::number(id_lib));
+    if(delete_only) {
+        query.exec("UPDATE book SET deleted=1 WHERE id_lib=" + QString::number(id_lib));
     }
-    else
-    {
-        query.exec("DELETE FROM book WHERE id_lib="+QString::number(id_lib));
-        query.exec("DELETE FROM author WHERE id_lib="+QString::number(id_lib));
-        query.exec("DELETE FROM seria WHERE id_lib="+QString::number(id_lib));
+    else {
+        query.exec("DELETE FROM book WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM author WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM seria WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM groups WHERE id_lib=" + QString::number(id_lib));
-        query.exec("DELETE FROM book_author WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM book_author WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_genre WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_group WHERE id_lib="+QString::number(id_lib));
         query.exec("VACUUM");
