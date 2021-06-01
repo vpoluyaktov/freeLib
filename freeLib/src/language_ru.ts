@@ -345,62 +345,84 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="65"/>
-        <source>Caption</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="bookeditdlg.ui" line="99"/>
         <source>Language</source>
         <translation type="unfinished">Язык</translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="120"/>
-        <source>Seria</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="bookeditdlg.ui" line="141"/>
+        <location filename="bookeditdlg.ui" line="134"/>
         <source>Authors</source>
         <translation type="unfinished">Авторы</translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="163"/>
-        <source>Secondname</source>
+        <location filename="bookeditdlg.ui" line="65"/>
+        <source>Book Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="168"/>
+        <location filename="bookeditdlg.ui" line="120"/>
+        <source>Keywords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bookeditdlg.ui" line="156"/>
+        <source>Lastname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bookeditdlg.ui" line="161"/>
         <source>Firstname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="173"/>
+        <location filename="bookeditdlg.ui" line="166"/>
         <source>Middlename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="183"/>
-        <location filename="bookeditdlg.ui" line="190"/>
-        <location filename="bookeditdlg.ui" line="197"/>
-        <location filename="bookeditdlg.ui" line="248"/>
-        <location filename="bookeditdlg.ui" line="255"/>
-        <location filename="bookeditdlg.ui" line="262"/>
+        <location filename="bookeditdlg.ui" line="171"/>
+        <source>Nickname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bookeditdlg.ui" line="181"/>
+        <location filename="bookeditdlg.ui" line="188"/>
+        <location filename="bookeditdlg.ui" line="195"/>
+        <location filename="bookeditdlg.ui" line="215"/>
+        <location filename="bookeditdlg.ui" line="222"/>
+        <location filename="bookeditdlg.ui" line="260"/>
+        <location filename="bookeditdlg.ui" line="267"/>
+        <location filename="bookeditdlg.ui" line="274"/>
+        <location filename="bookeditdlg.ui" line="294"/>
+        <location filename="bookeditdlg.ui" line="301"/>
+        <location filename="bookeditdlg.ui" line="339"/>
+        <location filename="bookeditdlg.ui" line="346"/>
+        <location filename="bookeditdlg.ui" line="353"/>
+        <location filename="bookeditdlg.ui" line="373"/>
+        <location filename="bookeditdlg.ui" line="380"/>
+        <location filename="bookeditdlg.ui" line="440"/>
+        <location filename="bookeditdlg.ui" line="447"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="222"/>
+        <location filename="bookeditdlg.ui" line="234"/>
         <source>Ganres</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="310"/>
+        <location filename="bookeditdlg.ui" line="313"/>
+        <source>Serias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bookeditdlg.ui" line="415"/>
         <source>Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookeditdlg.ui" line="325"/>
+        <location filename="bookeditdlg.ui" line="456"/>
+        <location filename="bookeditdlg.ui" line="485"/>
         <source>Annotation</source>
         <translation type="unfinished">Аннотация</translation>
     </message>
@@ -899,7 +921,7 @@
 <context>
     <name>ImportThread</name>
     <message>
-        <location filename="importthread.cpp" line="805"/>
+        <location filename="importthread.cpp" line="766"/>
         <source>Empty library name</source>
         <translation>Не задано название библиотеки</translation>
     </message>
@@ -912,29 +934,34 @@
         <translation type="vanished">Добавлена книга: </translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="540"/>
+        <location filename="importthread.cpp" line="521"/>
         <source>add (%1):  %2</source>
         <oldsource>Book add (%1):  %2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="542"/>
+        <location filename="importthread.cpp" line="523"/>
         <source>from zip:  %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="574"/>
+        <location filename="importthread.cpp" line="553"/>
         <source>add (epub):</source>
         <oldsource>Book add (epub):</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1166"/>
+        <location filename="importthread.cpp" line="801"/>
+        <source>Books count:</source>
+        <translation>Число импортированных книг:</translation>
+    </message>
+    <message>
+        <location filename="importthread.cpp" line="1092"/>
         <source>Books adds:</source>
         <translation>Добавлено книг:</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1178"/>
+        <location filename="importthread.cpp" line="1102"/>
         <source>Books adds: </source>
         <translation>Добавлено книг: </translation>
     </message>
@@ -1590,38 +1617,38 @@
         <translation>Задать иконку Группы...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3638"/>
+        <location filename="mainwindow.cpp" line="3639"/>
         <source>Default icons...</source>
         <translation>Установить иконки по умолчанию...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3656"/>
+        <location filename="mainwindow.cpp" line="3658"/>
         <source>Remove the Group icon</source>
         <translation>Удалить иконку Группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3657"/>
+        <location filename="mainwindow.cpp" line="3659"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
         <translation>Вы действительно хотите удалить иконку для выделенной группы?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3676"/>
+        <location filename="mainwindow.cpp" line="3678"/>
         <source>Open Image</source>
         <translation>Выбрать иконку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3676"/>
+        <location filename="mainwindow.cpp" line="3678"/>
         <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3704"/>
+        <location filename="mainwindow.cpp" line="3706"/>
         <source>Default icons</source>
         <translation>Иконки по умолчанию</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3705"/>
+        <location filename="mainwindow.cpp" line="3707"/>
         <source>Are you sure you want to set default icons for blocked Groups?</source>
         <translation>Вы действительно хотите установить иконки по умолчанию для заблокированных Групп?</translation>
     </message>
@@ -1725,12 +1752,12 @@
         <translation type="vanished">[ Книга без Названия ]</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="324"/>
+        <location filename="importthread.cpp" line="309"/>
         <source>Without Title</source>
         <translation>Книга без названия</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="332"/>
+        <location filename="importthread.cpp" line="317"/>
         <source>Without Series</source>
         <translation>Книга без серии</translation>
     </message>

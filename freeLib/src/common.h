@@ -90,6 +90,16 @@ struct author_info
     QString nickname;
 };
 
+struct seria_info
+{
+    seria_info(qlonglong id, QString seria, qlonglong number) : id(id), seria(seria), number(number)
+    {
+    }
+    qlonglong id;
+    QString seria;
+    qlonglong number;
+};
+
 struct book_info
 {
     qlonglong id;
@@ -97,6 +107,7 @@ struct book_info
     QString annotation;
     QList<author_info> authors;
     QList<genre_info> genres;
+    QList<seria_info> serias;
     QString language;
     QString seria;
     QString isbn;
