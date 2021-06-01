@@ -364,16 +364,16 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
 {
     if (str.trimmed().isEmpty())
         return -1;
-    QStringList names=str.split(',');
+    QStringList names = str.split(',');
     QString LastName;
     if (names.count() > 0)
-        LastName=names[0].trimmed();
+        LastName = names[0].trimmed();
     QString FirstName;
     if (names.count() > 1)
-        FirstName=names[1].trimmed();
+        FirstName = names[1].trimmed();
     QString MiddleName;
     if (names.count() > 2)
-        MiddleName=names[2].trimmed();
+        MiddleName = names[2].trimmed();
     QString NickName;
     if (names.count() > 3)
         NickName = names[3].trimmed();
@@ -409,7 +409,7 @@ qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglon
     }
     if(first_author)
         Query_->exec("UPDATE book SET first_author_id=" + QString::number(id) + " WHERE id=" + QString::number(id_book));
-    Query_->exec("INSERT INTO book_author(id_book,id_author,id_lib,language) VALUES("+QString::number(id_book)+","+QString::number(id)+","+QString::number(libID)+",'"+language+"')");
+    Query_->exec("INSERT INTO book_author(id_book,id_author,id_lib,language) VALUES(" + QString::number(id_book) + "," + QString::number(id) + "," + QString::number(libID) + ",'" + language + "')");
     return id;
 }
 
