@@ -422,21 +422,21 @@ qlonglong ImportThread::AddBookToSQLite(
     Query_->prepare("INSERT INTO book(name,star,id_seria,num_in_seria,language,file,size,'deleted',date,keys,id_inlib,id_lib,format,archive,tag,readed) "
                    "values(:name,:star,:id_seria,:num_in_seria,:language,:file,:size,:deleted,:date,:keys,:id_inlib,:id_lib,:format,:archive,:tag,:readed)");
 
-    Query_->bindValue(":name",name);
-    Query_->bindValue(":star",star);
-    Query_->bindValue(":id_seria",id_seria);
-    Query_->bindValue(":num_in_seria",num_in_seria);
-    Query_->bindValue(":language",language);
-    Query_->bindValue(":file",file);
-    Query_->bindValue(":size",size);
-    Query_->bindValue(":deleted",deleted);
-    Query_->bindValue(":date",date);
-    Query_->bindValue(":keys",keys);
-    Query_->bindValue(":id_inlib",IDinLib);
-    Query_->bindValue(":id_lib",id_lib);
-    Query_->bindValue(":format",format);
-    Query_->bindValue(":archive",archive);
-    Query_->bindValue(":tag",tag);
+    Query_->bindValue(":name", name);
+    Query_->bindValue(":star", star);
+    Query_->bindValue(":id_seria", id_seria);
+    Query_->bindValue(":num_in_seria", num_in_seria);
+    Query_->bindValue(":language", language);
+    Query_->bindValue(":file", file);
+    Query_->bindValue(":size", size);
+    Query_->bindValue(":deleted", deleted);
+    Query_->bindValue(":date", date);
+    Query_->bindValue(":keys", keys);
+    Query_->bindValue(":id_inlib", IDinLib);
+    Query_->bindValue(":id_lib", id_lib);
+    Query_->bindValue(":format", format);
+    Query_->bindValue(":archive", archive);
+    Query_->bindValue(":tag", tag);
     Query_->bindValue(":readed", readed);
     if(!Query_->exec())
         qDebug() << Query_->lastError().text();
