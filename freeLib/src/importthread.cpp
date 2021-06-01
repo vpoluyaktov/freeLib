@@ -482,8 +482,7 @@ qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QStr
     qlonglong groupID = 0;
     if (Query_->next())
         groupID = Query_->value(0).toLongLong();
-    if (groupID == 0)
-    {
+    if (groupID == 0) {
         // если группы group нет в таблице groups текущей библиотеки, то создаем запись
         Query_->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
         Query_->bindValue(":name", group);
