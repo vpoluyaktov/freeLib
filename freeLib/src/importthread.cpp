@@ -697,6 +697,7 @@ ulong ImportThread::importBooks(QString path, int &count)
                         buffer.setData(zip_file.read(16*1024));
                         zip_file.close();
                         readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
+                        booksCount++;
                     }
                     else if(zip_fi.name.right(3).toLower() == "epub") {
                         SetCurrentZipFileName(&uz,zip_fi.name);
@@ -704,6 +705,7 @@ ulong ImportThread::importBooks(QString path, int &count)
                         buffer.setData(zip_file.readAll());
                         zip_file.close();
                         readEPUB(buffer.data(), str.name, file_name, str.uncompressedSize);
+                        booksCount++;
                     }
                     else if(zip_fi.name.right(3).toLower() != "fbd") {
                         QFileInfo fi(str.name);
@@ -717,12 +719,12 @@ ulong ImportThread::importBooks(QString path, int &count)
                                 buffer.setData(zip_file.readAll());
                                 zip_file.close();
                                 readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
+                                booksCount++;
                             }
                         }
                     }
 
                     count++;
-                    booksCount++;
                     if(count == 1000) {
                         Query_->exec("COMMIT;");
                         count = 0;
@@ -787,7 +789,7 @@ void ImportThread::process()
     }
 
     if(InpxFileName_.isEmpty()) {
-        importBooksToLibrary(LibPath_);
+        ulong booksCount = importBooksToLibrary(LibPath_);
         Query_->exec("DROP TABLE IF EXISTS tmp;");
         Query_->exec(QString("CREATE TABLE tmp AS SELECT id FROM book WHERE id_lib=%1 AND deleted=1;").arg(QString::number(ExistingLibID_)));
         Query_->exec(QString("DELETE FROM book WHERE id_lib=%1 AND id IN (SELECT IN FROM tmp);").arg(QString::number(ExistingLibID_)));
@@ -796,6 +798,7 @@ void ImportThread::process()
         Query_->exec(QString("DELETE FROM book_group WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec("DROP TABLE IF EXISTS tmp;");
         Query_->exec("VACUUM");
+        emit Message(tr("Books count:") + " " + QString::number(booksCount));
         emit End();
         return;
     }
