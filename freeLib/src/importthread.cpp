@@ -76,43 +76,37 @@ QSize GetCoverSize()
     return picSize;
 }
 
-void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_only,uint id_book)
+void GetBookInfo(book_info &bi, const QByteArray &data, QString type, bool info_only, uint id_book)
 {
     QSettings settings;
-    bi.id=id_book;
-    if(id_book==0 || !info_only)
-    {
-        if(type=="epub")
-        {
+    bi.id = id_book;
+    if(id_book == 0 || !info_only) {
+        if(type == "epub") {
             QBuffer buf;
             buf.setData(data);
             QuaZip zip(&buf);
             zip.open(QuaZip::mdUnzip);
             QBuffer info;
-            SetCurrentZipFileName(&zip,"META-INF/container.xml");
+            SetCurrentZipFileName(&zip, "META-INF/container.xml");
             QuaZipFile zip_file(&zip);
             zip_file.open(QIODevice::ReadOnly);
             info.setData(zip_file.readAll());
             zip_file.close();
             QDomDocument doc;
             doc.setContent(info.data());
-            QDomNode root=doc.documentElement();
-            bool need_loop=true;
+            QDomNode root = doc.documentElement();
+            bool need_loop = true;
             QString rel_path;
-            bi.num_in_seria=0;
-            for(int i=0;i<root.childNodes().count() && need_loop;i++)
-            {
-                if(root.childNodes().at(i).nodeName().toLower()=="rootfiles")
-                {
+            bi.num_in_seria = 0;
+            for(int i = 0; i < root.childNodes().count() && need_loop; i++) {
+                if(root.childNodes().at(i).nodeName().toLower() == "rootfiles") {
                     QDomNode roots=root.childNodes().at(i);
-                    for(int j=0;j<roots.childNodes().count() && need_loop;j++)
-                    {
-                        if(roots.childNodes().at(j).nodeName().toLower()=="rootfile")
-                        {
-                            QString path=roots.childNodes().at(j).attributes().namedItem("full-path").toAttr().value();
+                    for(int j = 0; j < roots.childNodes().count() && need_loop; j++) {
+                        if(roots.childNodes().at(j).nodeName().toLower() == "rootfile") {
+                            QString path = roots.childNodes().at(j).attributes().namedItem("full-path").toAttr().value();
                             QBuffer opf_buf;
                             QFileInfo fi(path);
-                            rel_path=fi.path();
+                            rel_path = fi.path();
                             SetCurrentZipFileName(&zip,path);
                             zip_file.open(QIODevice::ReadOnly);
                             opf_buf.setData(zip_file.readAll());
@@ -120,48 +114,40 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
 
                             QDomDocument opf;
                             opf.setContent(opf_buf.data());
-                            QDomNode meta=opf.documentElement().namedItem("metadata");
-                            for(int m=0;m<meta.childNodes().count();m++)
-                            {
-                                if(meta.childNodes().at(m).nodeName().right(5)=="title")
-                                {
-                                    bi.title=meta.childNodes().at(m).toElement().text().trimmed();
+                            QDomNode meta = opf.documentElement().namedItem("metadata");
+                            for(int m = 0; m < meta.childNodes().count(); m++) {
+                                if(meta.childNodes().at(m).nodeName().right(5) == "title") {
+                                    bi.title = meta.childNodes().at(m).toElement().text().trimmed();
                                 }
-                                else if(meta.childNodes().at(m).nodeName().right(8)=="language")
-                                {
-                                    bi.language=meta.childNodes().at(m).toElement().text().trimmed();
+                                else if(meta.childNodes().at(m).nodeName().right(8) == "language") {
+                                    bi.language = meta.childNodes().at(m).toElement().text().trimmed();
                                 }
-                                else if(meta.childNodes().at(m).nodeName().right(7)=="creator")
-                                {
+                                else if(meta.childNodes().at(m).nodeName().right(7) == "creator") {
                                     QStringList names=meta.childNodes().at(m).toElement().text().trimmed().split(" ");
                                     names.move(names.count()-1, 0);
                                     if (names.count() == 3)
                                         names.append(""); // NickName
                                     bi.authors << author_info(names, 0);
                                 }
-                                else if(meta.childNodes().at(m).nodeName().right(7)=="subject")
-                                {
+                                else if(meta.childNodes().at(m).nodeName().right(7) == "subject") {
                                     QString  genre = meta.childNodes().at(m).toElement().text().trimmed();
                                     if(!genre.isEmpty())
-                                        bi.genres<<genre_info(meta.childNodes().at(m).toElement().text().trimmed(),0);
+                                        bi.genres<<genre_info(meta.childNodes().at(m).toElement().text().trimmed(), 0);
                                 }
-                                else if(meta.childNodes().at(m).nodeName().right(11)=="description")
-                                {
+                                else if(meta.childNodes().at(m).nodeName().right(11) == "description") {
                                     QBuffer buff;
                                     buff.open(QIODevice::WriteOnly);
                                     QTextStream ts(&buff);
                                     ts.setCodec("UTF-8");
-                                    meta.childNodes().at(m).save(ts,0,QDomNode::EncodingFromTextStream);
-                                    bi.annotation=QString::fromUtf8(buff.data().data());
+                                    meta.childNodes().at(m).save(ts, 0, QDomNode::EncodingFromTextStream);
+                                    bi.annotation = QString::fromUtf8(buff.data().data());
                                 }
-                                else if (meta.childNodes().at(m).nodeName().right(8) == "coverage")
-                                {
+                                else if (meta.childNodes().at(m).nodeName().right(8) == "coverage") {
                                     QString coverage = meta.childNodes().at(m).toElement().text().trimmed();
                                     if (!coverage.isEmpty())
                                         bi.keywords += !bi.keywords.isEmpty() ? (" , " + coverage) : coverage;
                                 }
-                                else if (meta.childNodes().at(m).nodeName().right(4) == "meta" && info_only)
-                                {
+                                else if (meta.childNodes().at(m).nodeName().right(4) == "meta" && info_only) {
                                     QString metaName = meta.childNodes().at(m).attributes().namedItem("name").toAttr().value();
                                     if (metaName == "calibre:title_sort") {
                                         if (bi.title == "")
@@ -177,19 +163,16 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                             bi.keywords += !bi.keywords.isEmpty() ? (" , " + keywords) : keywords;
                                     }
                                 }
-                                else if (meta.childNodes().at(m).nodeName().right(4)=="meta" && !info_only)
-                                {
+                                else if (meta.childNodes().at(m).nodeName().right(4) == "meta" && !info_only) {
                                     if (meta.childNodes().at(m).attributes().namedItem("name").toAttr().value() == "cover") {
                                         QString cover = meta.childNodes().at(m).attributes().namedItem("content").toAttr().value();
-                                        QDomNode manifest=opf.documentElement().namedItem("manifest");
-                                        for(int man=0;man<manifest.childNodes().count();man++)
-                                        {
-                                            if(manifest.childNodes().at(man).attributes().namedItem("id").toAttr().value()==cover)
-                                            {
+                                        QDomNode manifest = opf.documentElement().namedItem("manifest");
+                                        for(int man = 0; man < manifest.childNodes().count(); man++) {
+                                            if(manifest.childNodes().at(man).attributes().namedItem("id").toAttr().value() == cover) {
                                                 QBuffer img;
-                                                cover=rel_path+"/"+manifest.childNodes().at(man).attributes().namedItem("href").toAttr().value();
+                                                cover = rel_path + "/" + manifest.childNodes().at(man).attributes().namedItem("href").toAttr().value();
 
-                                                SetCurrentZipFileName(&zip,cover);
+                                                SetCurrentZipFileName(&zip, cover);
                                                 zip_file.open(QIODevice::ReadOnly);
                                                 img.setData(zip_file.readAll());
                                                 zip_file.close();
@@ -206,14 +189,14 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
 
                                                 //bi.img=("<td valign=top style=\"width:%1px\"><center><img src=\"data:"+manifest.childNodes().at(man).attributes().namedItem("media-type").toAttr().value()+
                                                 //        ";base64,"+img.data().toBase64()+"\"></center></td>");
-                                                bi.img=QString("<td valign=top style=\"width:1px\"><center><img src=\"file:%1\"></center></td>").arg(sImgFile);
+                                                bi.img = QString("<td valign=top style=\"width:1px\"><center><img src=\"file:%1\"></center></td>").arg(sImgFile);
                                                 break;
                                             }
                                         }
                                     }
                                 }
                             }
-                            need_loop=false;
+                            need_loop = false;
                         }
                     }
                 }
@@ -222,23 +205,18 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             buf.close();
             info.close();
         }
-        else if(type=="fb2" || type == "fbd")
-        {
+        else if(type=="fb2" || type == "fbd") {
             QDomDocument doc;
             doc.setContent(data);
             QDomElement title_info=doc.elementsByTagName("title-info").at(0).toElement();
-            if(!info_only)
-            {
-                QString cover=QString::fromStdString( title_info.elementsByTagName("coverpage").at(0).toElement().elementsByTagName("image").at(0).attributes().namedItem("l:href").toAttr().value().toStdString());
+            if(!info_only) {
+                QString cover = QString::fromStdString( title_info.elementsByTagName("coverpage").at(0).toElement().elementsByTagName("image").at(0).attributes().namedItem("l:href").toAttr().value().toStdString());
                 if (cover == "")
                     cover = QString::fromStdString(title_info.elementsByTagName("coverpage").at(0).toElement().elementsByTagName("image").at(0).attributes().namedItem("xlink:href").toAttr().value().toStdString());
-                if(cover.left(1)=="#")
-                {
-                    QDomNodeList binarys=doc.elementsByTagName("binary");
-                    for(int i=0;i<binarys.count();i++)
-                    {
-                        if(binarys.at(i).attributes().namedItem("id").toAttr().value()==cover.right(cover.length()-1))
-                        {
+                if(cover.left(1) == "#") {
+                    QDomNodeList binarys = doc.elementsByTagName("binary");
+                    for(int i = 0; i < binarys.count(); i++) {
+                        if(binarys.at(i).attributes().namedItem("id").toAttr().value() == cover.right(cover.length()-1)) {
                             QString sImgFile = QString("%1/freeLib/cover.jpg").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).first());
                             QPixmap image;
                             QByteArray ba;
@@ -252,7 +230,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                                 image = image.scaled(picSize, Qt::KeepAspectRatio);
 
                             image.save(sImgFile);
-                            bi.img=QString("<td valign=top><center><img src=\"file:%1\"></center></td>").arg(sImgFile);
+                            bi.img = QString("<td valign=top><center><img src=\"file:%1\"></center></td>").arg(sImgFile);
                             break;
                         }
                     }
@@ -261,16 +239,16 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                 buff.open(QIODevice::WriteOnly);
                 QTextStream ts(&buff);
                 ts.setCodec("UTF-8");
-                title_info.elementsByTagName("annotation").at(0).save(ts,0,QDomNode::EncodingFromTextStream);
+                title_info.elementsByTagName("annotation").at(0).save(ts, 0, QDomNode::EncodingFromTextStream);
                 bi.annotation=QString::fromUtf8(buff.data().data());
-                bi.annotation.replace("<annotation>","",Qt::CaseInsensitive);
-                bi.annotation.replace("</annotation>","",Qt::CaseInsensitive);
+                bi.annotation.replace("<annotation>", "", Qt::CaseInsensitive);
+                bi.annotation.replace("</annotation>", "", Qt::CaseInsensitive);
             }
-            bi.title=title_info.elementsByTagName("book-title").at(0).toElement().text().trimmed();
+            bi.title = title_info.elementsByTagName("book-title").at(0).toElement().text().trimmed();
             bi.keywords = title_info.elementsByTagName("keywords").at(0).toElement().text().trimmed();
-            bi.language=title_info.elementsByTagName("lang").at(0).toElement().text();
-            bi.seria=title_info.elementsByTagName("sequence").at(0).attributes().namedItem("name").toAttr().value().trimmed();
-            bi.num_in_seria=title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed().toInt();
+            bi.language = title_info.elementsByTagName("lang").at(0).toElement().text();
+            bi.seria = title_info.elementsByTagName("sequence").at(0).attributes().namedItem("name").toAttr().value().trimmed();
+            bi.num_in_seria = title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed().toInt();
 
             QDomNodeList serias = title_info.elementsByTagName("sequence");
             for (int i = 0; i < serias.count(); i++) {
@@ -280,22 +258,20 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                     bi.serias << seria_info(0, s, n);
             }
 
-            QDomNodeList author=title_info.elementsByTagName("author");
-            for(int i=0;i<author.count();i++)
-            {
-                author_info ti("",0);
-                ti.id=0;
-                ti.firstname=author.at(i).toElement().elementsByTagName("first-name").at(0).toElement().text();
-                ti.lastname=author.at(i).toElement().elementsByTagName("last-name").at(0).toElement().text();
-                ti.middlename=author.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
+            QDomNodeList author = title_info.elementsByTagName("author");
+            for(int i = 0; i < author.count(); i++) {
+                author_info ti("", 0);
+                ti.id = 0;
+                ti.firstname = author.at(i).toElement().elementsByTagName("first-name").at(0).toElement().text();
+                ti.lastname = author.at(i).toElement().elementsByTagName("last-name").at(0).toElement().text();
+                ti.middlename = author.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
                 ti.nickname = author.at(i).toElement().elementsByTagName("nickname").at(0).toElement().text();
                 ti.author = ti.lastname + "," + ti.firstname + "," + ti.middlename + "," + ti.nickname;
                 bi.authors<<ti;
             }
 
-            QDomNodeList genre=title_info.elementsByTagName("genre");
-            for(int i=0;i<genre.count();i++)
-            {
+            QDomNodeList genre = title_info.elementsByTagName("genre");
+            for(int i = 0; i < genre.count(); i++) {
                 QString g = genre.at(i).toElement().text().trimmed();
                 if(!g.isEmpty())
                     bi.genres<<genre_info(genre.at(i).toElement().text().trimmed(),0);
@@ -305,8 +281,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             bi.isbn=publish_info.elementsByTagName("isbn").at(0).toElement().text();
         }
     }
-    if(id_book > 0)
-    {
+    if(id_book > 0) {
         bi.authors.clear();
         bi.title = mLibs[g_idCurrentLib].mBooks[id_book].sName;
         bi.num_in_seria = mLibs[g_idCurrentLib].mBooks[id_book].numInSerial;
@@ -317,7 +292,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
         bi.keywords = mLibs[g_idCurrentLib].mBooks[id_book].sKeywords;
 
         foreach (uint idAuthor,  mLibs[g_idCurrentLib].mBooks[id_book].listIdAuthors) {
-            author_info ti("",0);
+            author_info ti("", 0);
             ti.id = idAuthor;
             ti.author = mLibs[g_idCurrentLib].mAuthors[idAuthor].getName();
             bi.authors<<ti;
