@@ -762,8 +762,7 @@ void ImportThread::importBooks(QString path, int &count)
 void ImportThread::start(QString InpxFileName, QString LibName, QString LibPath, long LibID, int UpdateType, bool SaveOnly, bool FirstAuthorOnly, bool bWoDeleted)
 {
     InpxFileName_ = RelativeToAbsolutePath(InpxFileName);
-    if (!QFileInfo(InpxFileName_).exists() || !QFileInfo(InpxFileName_).isFile())
-    {
+    if (!QFileInfo(InpxFileName_).exists() || !QFileInfo(InpxFileName_).isFile()) {
         InpxFileName_ = InpxFileName;
     }
     LibName_ = LibName;
