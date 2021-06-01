@@ -603,21 +603,18 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
 void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString arh_name)
 {
     return;
-    if (arh_name.isEmpty())
-    {
+    if (arh_name.isEmpty()) {
         file_name = file_name.right(file_name.length() - LibPath_.length());
         if (file_name.left(1) == "/" || file_name.left(1) == "\\")
             file_name = file_name.right(file_name.length() - 1);
     }
-    else
-    {
+    else {
         arh_name = arh_name.right(arh_name.length() - LibPath_.length());
         if (arh_name.left(1) == "/" || arh_name.left(1) == "\\")
             arh_name = arh_name.right(arh_name.length() - 1);
     }
     file_name = file_name.left(file_name.length() - 4);
-    if (Query_->next()) //если книга найдена, то просто снимаем пометку удаления
-    {
+    if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
         Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
         return;
     }
