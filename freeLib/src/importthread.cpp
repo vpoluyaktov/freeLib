@@ -21,7 +21,7 @@ void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
         query.exec("DELETE FROM groups WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_author WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_genre WHERE id_lib=" + QString::number(id_lib));
-        query.exec("DELETE FROM book_group WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM book_group WHERE id_lib=" + QString::number(id_lib));
         query.exec("VACUUM");
     }
 }
