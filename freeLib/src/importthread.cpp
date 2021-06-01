@@ -639,8 +639,7 @@ void ImportThread::importBooks(QString path, int &count)
             if(iter->suffix().toLower() != "fbd" &&
                     !(iter->suffix().toLower() == "zip" ||
                      iter->suffix().toLower() == "fb2" ||
-                     iter->suffix().toLower() == "epub"))
-            {
+                     iter->suffix().toLower() == "epub")) {
                 QString fbd=iter->absolutePath() + "/" + iter->completeBaseName() + ".fbd";
                 QFile file(fbd);
                 if(file.exists()) {
