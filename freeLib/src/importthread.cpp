@@ -272,6 +272,14 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
             bi.seria=title_info.elementsByTagName("sequence").at(0).attributes().namedItem("name").toAttr().value().trimmed();
             bi.num_in_seria=title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed().toInt();
 
+            QDomNodeList serias = title_info.elementsByTagName("sequence");
+            for (int i = 0; i < serias.count(); i++) {
+                QString s = serias.at(i).attributes().namedItem("name").toAttr().value().trimmed();
+                int n = serias.at(i).attributes().namedItem("number").toAttr().value().trimmed().toInt();
+                if (!s.isEmpty())
+                    bi.serias << seria_info(s, n);
+            }
+
             QDomNodeList author=title_info.elementsByTagName("author");
             for(int i=0;i<author.count();i++)
             {
@@ -284,6 +292,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                 ti.author = ti.lastname + "," + ti.firstname + "," + ti.middlename + "," + ti.nickname;
                 bi.authors<<ti;
             }
+
             QDomNodeList genre=title_info.elementsByTagName("genre");
             for(int i=0;i<genre.count();i++)
             {
@@ -291,6 +300,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                 if(!g.isEmpty())
                     bi.genres<<genre_info(genre.at(i).toElement().text().trimmed(),0);
             }
+
             QDomElement publish_info=doc.elementsByTagName("publish-info").at(0).toElement();
             bi.isbn=publish_info.elementsByTagName("isbn").at(0).toElement().text();
         }
