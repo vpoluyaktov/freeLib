@@ -345,11 +345,16 @@ qlonglong ImportThread::AddSeriaToSQLite(QString str, qlonglong libID, int tag)
     if(str.trimmed().isEmpty())
         return -1;
     QString name = str.trimmed();
-    Query_->exec("SELECT id FROM seria WHERE name='" + name + "' and id_lib=" + QString::number(libID));
-    if(Query_->next()) {
+    Query_->prepare("SELECT id FROM seria WHERE name=:name AND id_lib=:libID;");
+    Query_->bindValue(":name", name);
+    Query_->bindValue(":id_lib", libID);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
+    if (Query_->next()) {
         qlonglong id = Query_->value(0).toLongLong();
         return id;
     }
+
     Query_->prepare("INSERT INTO seria(name,id_lib,tag) values(:name,:id_lib,:tag)");
     Query_->bindValue(":name", name);
     Query_->bindValue(":id_lib", libID);
