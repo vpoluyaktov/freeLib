@@ -502,23 +502,17 @@ qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QStr
     return id;
 }
 
-void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
+bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
     QFileInfo fi(file_name);
-    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_), file_name, arh_name));
+    QString fileName = (arh_name.isEmpty() || arh_name == nullptr) ? file_name : fi.fileName();
+    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_), fileName, arh_name));
     if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
         Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
-        return;
+        return false;
     }
 
-    if (!arh_name.isEmpty()) { // zip
-        int index = file_name.indexOf("/");
-        if (index == -1)
-            index = file_name.indexOf("\\");
-        if (index != -1)
-            file_name = file_name.mid(index+1, file_name.length());
-    }
-    QString message = QString(tr("add (%1):  %2")).arg(fi.suffix(), file_name);
+    QString message = QString(tr("add (%1):  %2")).arg(fi.suffix(), fileName);
     if (!arh_name.isEmpty()) // zip
         message += "  " + QString(tr("from zip:  %1")).arg(arh_name);
     emit Message(message);
@@ -527,7 +521,7 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
     GetBookInfo(bi, ba, "fb2", true);
     qlonglong id_seria = AddSeriaToSQLite(bi.seria, ExistingLibID_, 0);
     qlonglong id_book = AddBookToSQLite(
-        bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
+        bi.star, bi.title, id_seria, bi.num_in_seria, fileName,
         (file_size == 0 ? ba.size() : file_size), 0, false, fi.suffix(), QDate::currentDate(),
         bi.language, bi.keywords, ExistingLibID_, arh_name, 0, bi.readed
     );
@@ -541,14 +535,16 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
     }
     foreach(genre_info genre, bi.genres)
         AddGenreToSQLite(id_book, genre.genre, ExistingLibID_, bi.language);
+
+    return true;
 }
 
-void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
+bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
 {
     Query_->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(ExistingLibID_), file_name, arh_name));
     if(Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
         Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
-        return;
+        return false;;
     }
     emit Message(tr("add (epub):") + " " + file_name);
 
@@ -571,6 +567,8 @@ void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
     }
     foreach(genre_info genre, bi.genres)
         AddGenreToSQLite(id_book, genre.genre, ExistingLibID_, bi.language);
+
+    return true;
 }
 
 void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString arh_name)
@@ -643,13 +641,13 @@ ulong ImportThread::importBooks(QString path, int &count)
                     !(iter->suffix().toLower() == "zip" ||
                      iter->suffix().toLower() == "fb2" ||
                      iter->suffix().toLower() == "epub")) {
-                QString fbd=iter->absolutePath() + "/" + iter->completeBaseName() + ".fbd";
+                QString fbd = iter->absolutePath() + "/" + iter->completeBaseName() + ".fbd";
                 QFile file(fbd);
                 if(file.exists()) {
                     file.open(QFile::ReadOnly);
-                    readFB2_FBD(file.readAll(), file_name, "", iter->size());
+                    if (readFB2_FBD(file.readAll(), file_name, "", iter->size()))
+                        booksCount++;
                     count++;
-                    booksCount++;
                 }
             }
             else if(iter->suffix().toLower() == "fb2" || iter->suffix().toLower() == "epub") {
@@ -658,12 +656,15 @@ ulong ImportThread::importBooks(QString path, int &count)
                 QFile file(file_name);
                 file.open(QFile::ReadOnly);
                 QByteArray ba=file.readAll();
-                if(iter->suffix().toLower() == "fb2")
-                    readFB2_FBD(ba, file_name, "");
-                else
-                    readEPUB(ba, file_name, "");
+                if (iter->suffix().toLower() == "fb2") {
+                    if (readFB2_FBD(ba, file_name, ""))
+                        booksCount++;
+                }
+                else {
+                    if (readEPUB(ba, file_name, ""))
+                        booksCount++;
+                }
                 count++;
-                booksCount++;
             }
             else if(iter->suffix().toLower() == "zip") {
                 if(UpdateType_ == UT_NEW) { // Добавить новые книги
@@ -696,16 +697,16 @@ ulong ImportThread::importBooks(QString path, int &count)
                         zip_file.open(QIODevice::ReadOnly);
                         buffer.setData(zip_file.read(16*1024));
                         zip_file.close();
-                        readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
-                        booksCount++;
+                        if (readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize))
+                            booksCount++;
                     }
                     else if(zip_fi.name.right(3).toLower() == "epub") {
                         SetCurrentZipFileName(&uz,zip_fi.name);
                         zip_file.open(QIODevice::ReadOnly);
                         buffer.setData(zip_file.readAll());
                         zip_file.close();
-                        readEPUB(buffer.data(), str.name, file_name, str.uncompressedSize);
-                        booksCount++;
+                        if (readEPUB(buffer.data(), str.name, file_name, str.uncompressedSize))
+                            booksCount++;
                     }
                     else if(zip_fi.name.right(3).toLower() != "fbd") {
                         QFileInfo fi(str.name);
@@ -718,8 +719,8 @@ ulong ImportThread::importBooks(QString path, int &count)
                                 zip_file.open(QIODevice::ReadOnly);
                                 buffer.setData(zip_file.readAll());
                                 zip_file.close();
-                                readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
-                                booksCount++;
+                                if (readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize))
+                                    booksCount++;
                             }
                         }
                     }
