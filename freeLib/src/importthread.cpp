@@ -277,7 +277,7 @@ void GetBookInfo(book_info &bi,const QByteArray &data,QString type,bool info_onl
                 QString s = serias.at(i).attributes().namedItem("name").toAttr().value().trimmed();
                 int n = serias.at(i).attributes().namedItem("number").toAttr().value().trimmed().toInt();
                 if (!s.isEmpty())
-                    bi.serias << seria_info(s, n);
+                    bi.serias << seria_info(0, s, n);
             }
 
             QDomNodeList author=title_info.elementsByTagName("author");

@@ -92,11 +92,12 @@ struct author_info
 
 struct seria_info
 {
-    seria_info(QString seria, qlonglong id) : seria(seria), id(id)
+    seria_info(qlonglong id, QString seria, qlonglong number) : id(id), seria(seria), number(number)
     {
     }
-    QString seria;
     qlonglong id;
+    QString seria;
+    qlonglong number;
 };
 
 struct book_info
