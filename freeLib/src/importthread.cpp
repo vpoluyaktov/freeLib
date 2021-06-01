@@ -546,11 +546,17 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 
 bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
 {
-    Query_->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(ExistingLibID_), file_name, arh_name));
-    if(Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
-        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
-        return false;;
+    Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
+    Query_->bindValue(":id_lib", ExistingLibID_);
+    Query_->bindValue(":fileName", file_name);
+    Query_->bindValue(":archive", arh_name);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
+    if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
+        Query_->exec("UPDATE book SET deleted=0 WHERE id=" + Query_->value(0).toString());
+        return false;
     }
+
     emit Message(tr("add (epub):") + " " + file_name);
 
     book_info bi;
