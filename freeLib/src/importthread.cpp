@@ -642,11 +642,9 @@ void ImportThread::importBooksToLibrary(QString path)
 {
     int count=0;
     QStringList DirList = path.split("|");
-    for (QString dirPath : DirList)
-    {
+    for (QString dirPath : DirList) {
         importBooks(dirPath, count);
-        if (count > 0)
-        {
+        if (count > 0) {
             Query_->exec("COMMIT;");
             count = 0;
         }
