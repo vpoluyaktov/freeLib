@@ -572,34 +572,32 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 
 void ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
 {
-    Query_->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(ExistingLibID_),file_name,arh_name));
-    if(Query_->next()) //если книга найдена, то просто снимаем пометку удаления
-    {
-        Query_->exec("update book set deleted=0 where id="+Query_->value(0).toString());
+    Query_->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(ExistingLibID_), file_name, arh_name));
+    if(Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
+        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
         return;
     }
     emit Message(tr("add (epub):") + " " + file_name);
 
     book_info bi;
-    GetBookInfo(bi,ba,"epub",true);
+    GetBookInfo(bi, ba, "epub", true);
 
-    qlonglong id_seria = AddSeriaToSQLite(bi.seria,ExistingLibID_,0);
+    qlonglong id_seria = AddSeriaToSQLite(bi.seria, ExistingLibID_, 0);
     qlonglong id_book = AddBookToSQLite(
         bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
         (file_size == 0 ? ba.size() : file_size), 0, false, "epub", QDate::currentDate(),
         bi.language, bi.keywords, ExistingLibID_, arh_name, 0, bi.readed
     );
 
-    bool first_author=true;
-    foreach(author_info author,bi.authors)
-    {
-        AddAuthorToSQLite(author.author, ExistingLibID_,id_book,first_author,bi.language,0);
-        first_author=false;
+    bool first_author = true;
+    foreach(author_info author, bi.authors) {
+        AddAuthorToSQLite(author.author, ExistingLibID_, id_book, first_author, bi.language, 0);
+        first_author = false;
         if (FirstAuthorOnly_)
             break;
     }
-    foreach(genre_info genre,bi.genres)
-        AddGenreToSQLite(id_book,genre.genre,ExistingLibID_,bi.language);
+    foreach(genre_info genre, bi.genres)
+        AddGenreToSQLite(id_book, genre.genre, ExistingLibID_, bi.language);
 }
 
 void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString arh_name)
