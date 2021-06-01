@@ -613,7 +613,7 @@ void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString
 
 ulong ImportThread::importBooksToLibrary(QString path)
 {
-    uint booksCount = 0;
+    ulong booksCount = 0;
     int count = 0;
     QStringList DirList = path.split("|");
     for (QString dirPath : DirList) {
