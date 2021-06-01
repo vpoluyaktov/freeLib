@@ -654,50 +654,42 @@ void ImportThread::importBooksToLibrary(QString path)
 void ImportThread::importBooks(QString path, int &count)
 {
     QDir dir(path);
-    QFileInfoList info_list = dir.entryInfoList(QDir::NoSymLinks|QDir::NoDotAndDotDot|QDir::Readable|QDir::Files|QDir::Dirs);
-    QList<QFileInfo>::iterator iter=info_list.begin();
+    QFileInfoList info_list = dir.entryInfoList(QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable | QDir::Files | QDir::Dirs);
+    QList<QFileInfo>::iterator iter = info_list.begin();
     QString file_name;
-    for(iter=info_list.begin();iter != info_list.end() && loop_;iter++)
-    {
+    for(iter = info_list.begin(); iter != info_list.end() && loop_; iter++) {
         app->processEvents();
         file_name = iter->absoluteFilePath();
         if(iter->isDir())
-        {
             importBooks(file_name,count);
-        }
-        else
-        {
-            if(iter->suffix().toLower()!="fbd" &&
-                    !(iter->suffix().toLower()=="zip" ||
-                     iter->suffix().toLower()=="fb2" ||
-                     iter->suffix().toLower()=="epub"))
+        else {
+            if(iter->suffix().toLower() != "fbd" &&
+                    !(iter->suffix().toLower() == "zip" ||
+                     iter->suffix().toLower() == "fb2" ||
+                     iter->suffix().toLower() == "epub"))
             {
-                QString fbd=iter->absolutePath()+"/"+iter->completeBaseName()+".fbd";
+                QString fbd=iter->absolutePath() + "/" + iter->completeBaseName() + ".fbd";
                 QFile file(fbd);
-                if(file.exists())
-                {
+                if(file.exists()) {
                     file.open(QFile::ReadOnly);
                     readFB2_FBD(file.readAll(), file_name, "", iter->size());
                     count++;
                 }
             }
-            else if(iter->suffix().toLower()=="fb2" || iter->suffix().toLower()=="epub")
-            {
-                if(count==0)
+            else if(iter->suffix().toLower() == "fb2" || iter->suffix().toLower() == "epub") {
+                if(count == 0)
                     Query_->exec("BEGIN;");
                 QFile file(file_name);
                 file.open(QFile::ReadOnly);
                 QByteArray ba=file.readAll();
-                if(iter->suffix().toLower()=="fb2")
+                if(iter->suffix().toLower() == "fb2")
                     readFB2_FBD(ba, file_name, "");
                 else
-                    readEPUB(ba,file_name,"");
+                    readEPUB(ba, file_name, "");
                 count++;
             }
-            else if(iter->suffix().toLower()=="zip")
-            {
-                if(UpdateType_==UT_NEW) // Добавить новые книги
-                {
+            else if(iter->suffix().toLower() == "zip") {
+                if(UpdateType_ == UT_NEW) { // Добавить новые книги
                     //emit Message(tr("Read archive:") + " " + iter->fileName());
                     Query_->exec(QString("SELECT * FROM book where id_lib=%1 and archive='%2' LIMIT 1").arg(QString::number(ExistingLibID_), file_name/*arh_name*/));
                     if(Query_->next())
@@ -705,26 +697,23 @@ void ImportThread::importBooks(QString path, int &count)
                 }
                 QuaZip uz(file_name);
                 uz.setFileNameCodec(QTextCodec::codecForName("IBM 866"));
-                if (!uz.open(QuaZip::mdUnzip))
-                {
-                    qDebug()<<("Error open archive!")<<" "<<file_name;
+                if (!uz.open(QuaZip::mdUnzip)) {
+                    qDebug() << ("Error open archive!") << " " << file_name;
                     continue;
                 }
 
                 QuaZipFile zip_file(&uz);
-                QList<QuaZipFileInfo64> list=uz.getFileInfoList64();
-                foreach( QuaZipFileInfo64 str , list  )
-                {
+                QList<QuaZipFileInfo64> list = uz.getFileInfoList64();
+                foreach(QuaZipFileInfo64 str, list) {
                     app->processEvents();
                     if(!loop_)
                         break;
                     QBuffer buffer;
-                    if(count==0)
+                    if(count == 0)
                         Query_->exec("BEGIN;");
                     QuaZipFileInfo zip_fi;
                     str.toQuaZipFileInfo(zip_fi);
-                    if(zip_fi.name.right(3).toLower()=="fb2")
-                    {
+                    if(zip_fi.name.right(3).toLower() == "fb2") {
                         //uz.extractFile(str.filename,&buffer,UnZip::SkipPaths,16*1024);
                         SetCurrentZipFileName(&uz,zip_fi.name);
                         zip_file.open(QIODevice::ReadOnly);
@@ -732,25 +721,21 @@ void ImportThread::importBooks(QString path, int &count)
                         zip_file.close();
                         readFB2_FBD(buffer.data(), str.name, file_name, str.uncompressedSize);
                     }
-                    else if(zip_fi.name.right(3).toLower()=="epub")
-                    {
+                    else if(zip_fi.name.right(3).toLower() == "epub") {
                         SetCurrentZipFileName(&uz,zip_fi.name);
                         zip_file.open(QIODevice::ReadOnly);
                         buffer.setData(zip_file.readAll());
                         zip_file.close();
-                        readEPUB(buffer.data(),str.name,file_name, str.uncompressedSize);
+                        readEPUB(buffer.data(), str.name, file_name, str.uncompressedSize);
                     }
-                    else if(zip_fi.name.right(3).toLower()!="fbd")
-                    {
+                    else if(zip_fi.name.right(3).toLower() != "fbd") {
                         QFileInfo fi(str.name);
-                        if(fi.completeBaseName().left(1)!="." && !fi.completeBaseName().isEmpty())
-                        {
+                        if(fi.completeBaseName().left(1) != "." && !fi.completeBaseName().isEmpty()) {
                             QString fbd = fi.path() != "."
                                 ? fi.path() + "/" + fi.completeBaseName() + ".fbd"  /* файлы в zip в папке */
                                 : fi.completeBaseName() + ".fbd";                   /* файлы в zip без папки */
                             // чтение данных описания книги из fbd файла
-                            if(SetCurrentZipFileName(&uz, fbd))
-                            {
+                            if(SetCurrentZipFileName(&uz, fbd)) {
                                 zip_file.open(QIODevice::ReadOnly);
                                 buffer.setData(zip_file.readAll());
                                 zip_file.close();
@@ -760,17 +745,15 @@ void ImportThread::importBooks(QString path, int &count)
                     }
 
                     count++;
-                    if(count==1000)
-                    {
+                    if(count == 1000) {
                         Query_->exec("COMMIT;");
-                        count=0;
+                        count = 0;
                     }
                 }
             }
-            if(count==1000)
-            {
+            if(count == 1000) {
                 Query_->exec("COMMIT;");
-                count=0;
+                count = 0;
             }
         }
     }
