@@ -509,7 +509,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
     QFileInfo fi(file_name);
     QString fileName = (arh_name.isEmpty() || arh_name == nullptr) ? file_name : fi.fileName();
     Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
-    Query_->bindValue(":id_lib", ExistingLibID_);
+    Query_->bindValue(":id_lib", QVariant::fromValue(ExistingLibID_));
     Query_->bindValue(":fileName", fileName);
     Query_->bindValue(":archive", arh_name);
     if (!Query_->exec())
@@ -549,7 +549,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
 {
     Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
-    Query_->bindValue(":id_lib", ExistingLibID_);
+    Query_->bindValue(":id_lib", QVariant::fromValue(ExistingLibID_));
     Query_->bindValue(":fileName", file_name);
     Query_->bindValue(":archive", arh_name);
     if (!Query_->exec())
