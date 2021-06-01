@@ -532,15 +532,13 @@ qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QStr
 void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
     QFileInfo fi(file_name);
-    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_),file_name,arh_name));
-    if(Query_->next()) //если книга найдена, то просто снимаем пометку удаления
-    {
-        Query_->exec("update book set deleted=0 where id="+Query_->value(0).toString());
+    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_), file_name, arh_name));
+    if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
+        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
         return;
     }
 
-    if (!arh_name.isEmpty()) // zip
-    {
+    if (!arh_name.isEmpty()) { // zip
         int index = file_name.indexOf("/");
         if (index == -1)
             index = file_name.indexOf("\\");
@@ -553,19 +551,18 @@ void ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
     emit Message(message);
 
     book_info bi;
-    GetBookInfo(bi,ba,"fb2",true);
-    qlonglong id_seria = AddSeriaToSQLite(bi.seria,ExistingLibID_,0);
+    GetBookInfo(bi, ba, "fb2", true);
+    qlonglong id_seria = AddSeriaToSQLite(bi.seria, ExistingLibID_, 0);
     qlonglong id_book = AddBookToSQLite(
         bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
         (file_size == 0 ? ba.size() : file_size), 0, false, fi.suffix(), QDate::currentDate(),
         bi.language, bi.keywords, ExistingLibID_, arh_name, 0, bi.readed
     );
 
-    bool first_author=true;
-    foreach(author_info author,bi.authors)
-    {
-        AddAuthorToSQLite(author.author, ExistingLibID_ ,id_book,first_author,bi.language,0);
-        first_author=false;
+    bool first_author = true;
+    foreach(author_info author, bi.authors) {
+        AddAuthorToSQLite(author.author, ExistingLibID_, id_book, first_author, bi.language, 0);
+        first_author = false;
         if(FirstAuthorOnly_)
             break;
     }
