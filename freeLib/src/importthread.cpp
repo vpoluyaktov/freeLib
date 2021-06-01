@@ -624,8 +624,9 @@ void ImportThread::importBooksToLibrary(QString path)
     }
 }
 
-void ImportThread::importBooks(QString path, int &count)
+ulong ImportThread::importBooks(QString path, int &count)
 {
+    ulong booksCount = 0;
     QDir dir(path);
     QFileInfoList info_list = dir.entryInfoList(QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable | QDir::Files | QDir::Dirs);
     QList<QFileInfo>::iterator iter = info_list.begin();
@@ -634,7 +635,7 @@ void ImportThread::importBooks(QString path, int &count)
         app->processEvents();
         file_name = iter->absoluteFilePath();
         if(iter->isDir())
-            importBooks(file_name,count);
+            booksCount += importBooks(file_name, count);
         else {
             if(iter->suffix().toLower() != "fbd" &&
                     !(iter->suffix().toLower() == "zip" ||
@@ -646,6 +647,7 @@ void ImportThread::importBooks(QString path, int &count)
                     file.open(QFile::ReadOnly);
                     readFB2_FBD(file.readAll(), file_name, "", iter->size());
                     count++;
+                    booksCount++;
                 }
             }
             else if(iter->suffix().toLower() == "fb2" || iter->suffix().toLower() == "epub") {
@@ -659,6 +661,7 @@ void ImportThread::importBooks(QString path, int &count)
                 else
                     readEPUB(ba, file_name, "");
                 count++;
+                booksCount++;
             }
             else if(iter->suffix().toLower() == "zip") {
                 if(UpdateType_ == UT_NEW) { // Добавить новые книги
@@ -717,6 +720,7 @@ void ImportThread::importBooks(QString path, int &count)
                     }
 
                     count++;
+                    booksCount++;
                     if(count == 1000) {
                         Query_->exec("COMMIT;");
                         count = 0;
@@ -729,6 +733,7 @@ void ImportThread::importBooks(QString path, int &count)
             }
         }
     }
+    return booksCount;
 }
 
 void ImportThread::start(QString InpxFileName, QString LibName, QString LibPath, long LibID, int UpdateType, bool SaveOnly, bool FirstAuthorOnly, bool bWoDeleted)
