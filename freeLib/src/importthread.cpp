@@ -506,9 +506,14 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 {
     QFileInfo fi(file_name);
     QString fileName = (arh_name.isEmpty() || arh_name == nullptr) ? file_name : fi.fileName();
-    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_), fileName, arh_name));
+    Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
+    Query_->bindValue(":id_lib", ExistingLibID_);
+    Query_->bindValue(":fileName", fileName);
+    Query_->bindValue(":archive", arh_name);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
     if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
-        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
+        Query_->exec("UPDATE book SET deleted=0 WHERE id=" + Query_->value(0).toString());
         return false;
     }
 
