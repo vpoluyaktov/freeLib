@@ -33,8 +33,7 @@ QSize GetCoverSize()
 {
     QSettings settings;
     QSize picSize;
-    switch (settings.value("CoverSize", 0).toInt())
-    {
+    switch (settings.value("CoverSize", 0).toInt()) {
     case 0:
         picSize.setWidth(90);
         picSize.setHeight(120);
