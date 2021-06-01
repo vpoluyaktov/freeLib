@@ -611,17 +611,19 @@ void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString
     AddGenreToSQLite(id_book, "sf", ExistingLibID_, language);
 }
 
-void ImportThread::importBooksToLibrary(QString path)
+ulong ImportThread::importBooksToLibrary(QString path)
 {
+    uint booksCount = 0;
     int count = 0;
     QStringList DirList = path.split("|");
     for (QString dirPath : DirList) {
-        importBooks(dirPath, count);
+        booksCount += importBooks(dirPath, count);
         if (count > 0) {
             Query_->exec("COMMIT;");
             count = 0;
         }
     }
+    return booksCount;
 }
 
 ulong ImportThread::importBooks(QString path, int &count)

@@ -34,7 +34,7 @@ public slots:
 
 protected:
     ulong importBooks(QString path,int &count);
-    void importBooksToLibrary(QString path);
+    ulong importBooksToLibrary(QString path);
 
     void readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
     void readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
