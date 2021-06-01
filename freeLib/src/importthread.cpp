@@ -11,19 +11,17 @@
 void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
 {
     QSqlQuery query(dbase);
-    if(delete_only)
-    {
-        query.exec("update book set deleted=1 where id_lib="+QString::number(id_lib));
+    if(delete_only) {
+        query.exec("UPDATE book SET deleted=1 WHERE id_lib=" + QString::number(id_lib));
     }
-    else
-    {
-        query.exec("DELETE FROM book WHERE id_lib="+QString::number(id_lib));
-        query.exec("DELETE FROM author WHERE id_lib="+QString::number(id_lib));
-        query.exec("DELETE FROM seria WHERE id_lib="+QString::number(id_lib));
+    else {
+        query.exec("DELETE FROM book WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM author WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM seria WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM groups WHERE id_lib=" + QString::number(id_lib));
-        query.exec("DELETE FROM book_author WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM book_author WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_genre WHERE id_lib=" + QString::number(id_lib));
-        query.exec("DELETE FROM book_group WHERE id_lib="+QString::number(id_lib));
+        query.exec("DELETE FROM book_group WHERE id_lib=" + QString::number(id_lib));
         query.exec("VACUUM");
     }
 }
@@ -35,8 +33,7 @@ QSize GetCoverSize()
 {
     QSettings settings;
     QSize picSize;
-    switch (settings.value("CoverSize", 0).toInt())
-    {
+    switch (settings.value("CoverSize", 0).toInt()) {
     case 0:
         picSize.setWidth(90);
         picSize.setHeight(120);
@@ -345,11 +342,16 @@ qlonglong ImportThread::AddSeriaToSQLite(QString str, qlonglong libID, int tag)
     if(str.trimmed().isEmpty())
         return -1;
     QString name = str.trimmed();
-    Query_->exec("SELECT id FROM seria WHERE name='" + name + "' and id_lib=" + QString::number(libID));
-    if(Query_->next()) {
+    Query_->prepare("SELECT id FROM seria WHERE name=:name AND id_lib=:libID;");
+    Query_->bindValue(":name", name);
+    Query_->bindValue(":id_lib", libID);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
+    if (Query_->next()) {
         qlonglong id = Query_->value(0).toLongLong();
         return id;
     }
+
     Query_->prepare("INSERT INTO seria(name,id_lib,tag) values(:name,:id_lib,:tag)");
     Query_->bindValue(":name", name);
     Query_->bindValue(":id_lib", libID);
@@ -506,9 +508,14 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 {
     QFileInfo fi(file_name);
     QString fileName = (arh_name.isEmpty() || arh_name == nullptr) ? file_name : fi.fileName();
-    Query_->exec(QString("SELECT id FROM book WHERE id_lib=%1 AND file='%2' AND archive='%3'").arg(QString::number(ExistingLibID_), fileName, arh_name));
+    Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
+    Query_->bindValue(":id_lib", ExistingLibID_);
+    Query_->bindValue(":fileName", fileName);
+    Query_->bindValue(":archive", arh_name);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
     if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
-        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
+        Query_->exec("UPDATE book SET deleted=0 WHERE id=" + Query_->value(0).toString());
         return false;
     }
 
@@ -541,11 +548,17 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 
 bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
 {
-    Query_->exec(QString("SELECT id FROM book where id_lib=%1 and file='%2' and archive='%3'").arg(QString::number(ExistingLibID_), file_name, arh_name));
-    if(Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
-        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
-        return false;;
+    Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
+    Query_->bindValue(":id_lib", ExistingLibID_);
+    Query_->bindValue(":fileName", file_name);
+    Query_->bindValue(":archive", arh_name);
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
+    if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
+        Query_->exec("UPDATE book SET deleted=0 WHERE id=" + Query_->value(0).toString());
+        return false;
     }
+
     emit Message(tr("add (epub):") + " " + file_name);
 
     book_info bi;
