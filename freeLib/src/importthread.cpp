@@ -765,7 +765,7 @@ void ImportThread::process()
     }
     QSettings *settings = GetSettings();
     QFileInfo fi(RelativeToAbsolutePath(settings->value("database_path").toString()));
-    QString sDbFile=fi.canonicalFilePath();
+    QString sDbFile = fi.canonicalFilePath();
     QSqlDatabase dbase = QSqlDatabase::addDatabase("QSQLITE", "importdb");
     dbase.setDatabaseName(sDbFile);
     if (!dbase.open()) {
