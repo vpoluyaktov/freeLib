@@ -67,8 +67,9 @@ struct SSerial
 
 struct SGenre
 {
-    QString sName; // русское название ∆анра
-    QString sNameEn; // английское название ∆анра
+    ulong id; // id жанра в sqlite базе данных
+    QString sName; // русское название жанра
+    QString sNameEn; // английское название жанра
     ushort idParrentGenre;
     ushort nSort;
     QString sCode;
