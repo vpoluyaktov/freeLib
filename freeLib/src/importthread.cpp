@@ -447,7 +447,7 @@ qlonglong ImportThread::AddBookToSQLite(
     return id;
 }
 
-qlonglong ImportThread::AddGenreToSQLite(qlonglong id_book, QString genre, qlonglong id_lib, QString language)
+qlonglong ImportThread::AddGenreToSQLite(qlonglong id_lib, QString genre, qlonglong id_book, const QString& language)
 {
     qlonglong id_genre = 0;
     genre.replace(" ", "_");
