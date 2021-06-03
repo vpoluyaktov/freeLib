@@ -54,7 +54,7 @@ private:
     qlonglong AddSeriaToSQLite(qlonglong libID, const QString& str, int tag);
     qlonglong AddAuthorToSQLite(qlonglong libID, const QString& str, qlonglong id_book, bool first_author, const QString& language, int tag);
     qlonglong AddGenreToSQLite(qlonglong id_lib, QString genre, qlonglong id_book, const QString& language);
-    qlonglong AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group);
+    qlonglong AddGroupToSQLite(qlonglong libID, const QString& group, qlonglong bookID);
     qlonglong AddBookToSQLite(
         qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
         int size, int IDinLib, bool deleted, QString format, QDate date, QString language,

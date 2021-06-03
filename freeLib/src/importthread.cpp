@@ -474,7 +474,7 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_lib, QString genre, qlongl
     return id;
 }
 
-qlonglong ImportThread::AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group)
+qlonglong ImportThread::AddGroupToSQLite(qlonglong libID, const QString& group, qlonglong bookID)
 {
     // проверка, есть ли в таблице groups добавляемая группа group для текущей библиотеки libID
     Query_->prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND name = :group;");
