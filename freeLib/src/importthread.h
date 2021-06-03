@@ -20,7 +20,9 @@ class ImportThread : public QObject
     Q_OBJECT
 public:
     explicit ImportThread(QObject *parent = 0);
-    void start(QString fileName, QString name, QString path, long ID, int update_type, bool save_only=false, bool firstAuthor=false, bool bWoDeleted=false);
+    void start(
+        const QString& fileName, const QString& name, const QString& path, long ID, int update_type,
+        bool save_only = false, bool firstAuthor = false, bool bWoDeleted = false);
     //void SaveLibrary();
     bool loop_;
 

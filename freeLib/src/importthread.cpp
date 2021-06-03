@@ -716,7 +716,10 @@ ulong ImportThread::importBooks(const QString& path, int &count)
     return booksCount;
 }
 
-void ImportThread::start(QString InpxFileName, QString LibName, QString LibPath, long LibID, int UpdateType, bool SaveOnly, bool FirstAuthorOnly, bool bWoDeleted)
+void ImportThread::start(
+    const QString& InpxFileName, const QString& LibName, const QString& LibPath, long LibID, int UpdateType,
+    bool SaveOnly, bool FirstAuthorOnly, bool bWoDeleted
+)
 {
     InpxFileName_ = RelativeToAbsolutePath(InpxFileName);
     if (!QFileInfo(InpxFileName_).exists() || !QFileInfo(InpxFileName_).isFile()) {
