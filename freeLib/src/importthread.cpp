@@ -599,7 +599,7 @@ ulong ImportThread::importBooksToLibrary(QString path)
     return booksCount;
 }
 
-ulong ImportThread::importBooks(QString path, int &count)
+ulong ImportThread::importBooks(const QString& path, int &count)
 {
     ulong booksCount = 0;
     QDir dir(path);
