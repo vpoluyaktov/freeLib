@@ -337,7 +337,7 @@ ImportThread::ImportThread(QObject *parent) :
 
 
 
-qlonglong ImportThread::AddSeriaToSQLite(QString str, qlonglong libID, int tag)
+qlonglong ImportThread::AddSeriaToSQLite(qlonglong libID, const QString& str, int tag)
 {
     if(str.trimmed().isEmpty())
         return -1;
@@ -526,7 +526,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 
     book_info bi;
     GetBookInfo(bi, ba, "fb2", true);
-    qlonglong id_seria = AddSeriaToSQLite(bi.seria, ExistingLibID_, 0);
+    qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, bi.seria, 0);
     qlonglong id_book = AddBookToSQLite(
         bi.star, bi.title, id_seria, bi.num_in_seria, fileName,
         (file_size == 0 ? ba.size() : file_size), 0, false, fi.suffix(), QDate::currentDate(),
@@ -564,7 +564,7 @@ bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
     book_info bi;
     GetBookInfo(bi, ba, "epub", true);
 
-    qlonglong id_seria = AddSeriaToSQLite(bi.seria, ExistingLibID_, 0);
+    qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, bi.seria, 0);
     qlonglong id_book = AddBookToSQLite(
         bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
         (file_size == 0 ? ba.size() : file_size), 0, false, "epub", QDate::currentDate(),
@@ -609,7 +609,7 @@ void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString
     QString num_seria = "0";//title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed();
 
 
-    qlonglong id_seria = AddSeriaToSQLite(seria, ExistingLibID_, 0);
+    qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, seria, 0);
     qlonglong id_book = AddBookToSQLite(
         0, title, id_seria, num_seria.toInt(), file_name, ba.size(), 0, false, "fb2",
         QDate::currentDate(), language, "", ExistingLibID_, arh_name, 0, 0
@@ -1022,7 +1022,7 @@ void ImportThread::process()
             }
             qlonglong id_seria = 0;
             if(!Seria.isEmpty())
-                id_seria = AddSeriaToSQLite(Seria, ExistingLibID_, tag_seria);
+                id_seria = AddSeriaToSQLite(ExistingLibID_, Seria, tag_seria);
 
             qlonglong t1 = QDateTime::currentMSecsSinceEpoch();
             qlonglong id_book;

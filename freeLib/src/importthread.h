@@ -51,7 +51,7 @@ private:
     long ExistingLibID_;
     QSqlQuery *Query_;
 
-    qlonglong AddSeriaToSQLite(QString str,qlonglong libID,int tag);
+    qlonglong AddSeriaToSQLite(qlonglong libID, const QString& str, int tag);
     qlonglong AddAuthorToSQLite(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);
     qlonglong AddGenreToSQLite(qlonglong id_book, QString genre, qlonglong id_lib, QString language);
     qlonglong AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group);
