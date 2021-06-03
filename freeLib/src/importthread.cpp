@@ -584,7 +584,7 @@ bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
     return true;
 }
 
-ulong ImportThread::importBooksToLibrary(QString path)
+ulong ImportThread::importBooksToLibrary(const QString& path)
 {
     ulong booksCount = 0;
     int count = 0;
