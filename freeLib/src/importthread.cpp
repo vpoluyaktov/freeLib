@@ -474,35 +474,35 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_lib, QString genre, qlongl
     return id;
 }
 
-qlonglong ImportThread::AddGroupToSQLite(qlonglong libID, const QString& group, qlonglong bookID)
-{
-    // проверка, есть ли в таблице groups добавляемая группа group для текущей библиотеки libID
-    Query_->prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND name = :group;");
-    Query_->bindValue(":name", group);
-    Query_->bindValue(":id_lib", libID);
-    Query_->exec();
-    qlonglong groupID = 0;
-    if (Query_->next())
-        groupID = Query_->value(0).toLongLong();
-    if (groupID == 0) {
-        // если группы group нет в таблице groups текущей библиотеки, то создаем запись
-        Query_->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
-        Query_->bindValue(":name", group);
-        Query_->bindValue(":id_lib", libID);
-        if (!Query_->exec())
-            qDebug() << Query_->lastError().text();
-        groupID = Query_->lastInsertId().toLongLong();
-    }
-    // заполнение таблицы book_group данными на группу group
-    Query_->prepare("INSERT INTO book_group(id_book, id_group, id_lib) values(:id_book, :id_group, :id_lib);");
-    Query_->bindValue(":id_book", bookID);
-    Query_->bindValue(":id_group", groupID);
-    Query_->bindValue(":id_lib", libID);
-    if (!Query_->exec())
-        qDebug() << Query_->lastError().text();
-    qlonglong id = Query_->lastInsertId().toLongLong();
-    return id;
-}
+//qlonglong ImportThread::AddGroupToSQLite(qlonglong libID, const QString& group, qlonglong bookID)
+//{
+//    // проверка, есть ли в таблице groups добавляемая группа group для текущей библиотеки libID
+//    Query_->prepare("SELECT id FROM groups WHERE id_lib = :id_lib AND name = :group;");
+//    Query_->bindValue(":name", group);
+//    Query_->bindValue(":id_lib", libID);
+//    Query_->exec();
+//    qlonglong groupID = 0;
+//    if (Query_->next())
+//        groupID = Query_->value(0).toLongLong();
+//    if (groupID == 0) {
+//        // если группы group нет в таблице groups текущей библиотеки, то создаем запись
+//        Query_->prepare("INSERT INTO groups(name, id_lib) values(:name, :id_lib);");
+//        Query_->bindValue(":name", group);
+//        Query_->bindValue(":id_lib", libID);
+//        if (!Query_->exec())
+//            qDebug() << Query_->lastError().text();
+//        groupID = Query_->lastInsertId().toLongLong();
+//    }
+//    // заполнение таблицы book_group данными на группу group
+//    Query_->prepare("INSERT INTO book_group(id_book, id_group, id_lib) values(:id_book, :id_group, :id_lib);");
+//    Query_->bindValue(":id_book", bookID);
+//    Query_->bindValue(":id_group", groupID);
+//    Query_->bindValue(":id_lib", libID);
+//    if (!Query_->exec())
+//        qDebug() << Query_->lastError().text();
+//    qlonglong id = Query_->lastInsertId().toLongLong();
+//    return id;
+//}
 
 bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
 {
