@@ -27,7 +27,7 @@ public:
     bool loop_;
 
 signals:
-    void Message(QString str);
+    void Message(const QString& str);
     void End();
 
 public slots:
