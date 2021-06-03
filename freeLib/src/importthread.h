@@ -38,7 +38,6 @@ protected:
 
     bool readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
     bool readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
-    void readFB2_test(const QByteArray& ba,QString file_name,QString arh_name);
 
 private:
     QString InpxFileName_;

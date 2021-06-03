@@ -584,43 +584,6 @@ bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
     return true;
 }
 
-void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString arh_name)
-{
-    return;
-    if (arh_name.isEmpty()) {
-        file_name = file_name.right(file_name.length() - LibPath_.length());
-        if (file_name.left(1) == "/" || file_name.left(1) == "\\")
-            file_name = file_name.right(file_name.length() - 1);
-    }
-    else {
-        arh_name = arh_name.right(arh_name.length() - LibPath_.length());
-        if (arh_name.left(1) == "/" || arh_name.left(1) == "\\")
-            arh_name = arh_name.right(arh_name.length() - 1);
-    }
-    file_name = file_name.left(file_name.length() - 4);
-    if (Query_->next()) { //если книга найдена, то просто снимаем пометку удаления
-        Query_->exec("update book set deleted=0 where id=" + Query_->value(0).toString());
-        return;
-    }
-    QString title;
-    title = "test";//title_info.elementsByTagName("book-title").at(0).toElement().text().trimmed();
-    QString language = "ru";//title_info.elementsByTagName("lang").at(0).toElement().text();
-    QString seria = "";//title_info.elementsByTagName("sequence").at(0).attributes().namedItem("name").toAttr().value().trimmed();
-    QString num_seria = "0";//title_info.elementsByTagName("sequence").at(0).attributes().namedItem("number").toAttr().value().trimmed();
-
-
-    qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, seria, 0);
-    qlonglong id_book = AddBookToSQLite(
-        ExistingLibID_, 0, title, id_seria, num_seria.toInt(), file_name, ba.size(), 0, false, "fb2",
-        QDate::currentDate(), language, "", arh_name, 0, 0
-    );
-    return;
-    bool first_author = true;
-    AddAuthorToSQLite(ExistingLibID_, "Иванов, Иван,Иванович ", id_book, first_author, language, 0);
-    first_author = false;
-    AddGenreToSQLite(id_book, "sf", ExistingLibID_, language);
-}
-
 ulong ImportThread::importBooksToLibrary(QString path)
 {
     ulong booksCount = 0;
