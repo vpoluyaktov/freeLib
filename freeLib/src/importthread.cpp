@@ -546,7 +546,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, const QString& file_name, c
     return true;
 }
 
-bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size)
+bool ImportThread::readEPUB(const QByteArray &ba, const QString& file_name, const QString& arh_name, qint32 file_size)
 {
     Query_->prepare("SELECT id FROM book WHERE id_lib=:id_lib AND file=:fileName AND archive=:archive;");
     Query_->bindValue(":id_lib", QVariant::fromValue(ExistingLibID_));
