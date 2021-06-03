@@ -504,7 +504,7 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_lib, QString genre, qlongl
 //    return id;
 //}
 
-bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString arh_name, qint32 file_size)
+bool ImportThread::readFB2_FBD(const QByteArray& ba, const QString& file_name, const QString& arh_name, qint32 file_size)
 {
     QFileInfo fi(file_name);
     QString fileName = (arh_name.isEmpty() || arh_name == nullptr) ? file_name : fi.fileName();

@@ -36,7 +36,7 @@ protected:
     ulong importBooksToLibrary(const QString& path);
     ulong importBooks(const QString& path,int &count);
 
-    bool readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
+    bool readFB2_FBD(const QByteArray &ba, const QString& file_name, const QString& arh_name, qint32 file_size = 0);
     bool readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
 
 private:
