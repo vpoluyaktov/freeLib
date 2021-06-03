@@ -362,7 +362,7 @@ qlonglong ImportThread::AddSeriaToSQLite(qlonglong libID, const QString& str, in
     return id;
 }
 
-qlonglong ImportThread::AddAuthorToSQLite(QString str, qlonglong libID, qlonglong id_book, bool first_author, QString language, int tag)
+qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, qlonglong id_book, bool first_author, const QString& language, int tag)
 {
     if (str.trimmed().isEmpty())
         return -1;
@@ -535,7 +535,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, QString file_name, QString 
 
     bool first_author = true;
     foreach(author_info author, bi.authors) {
-        AddAuthorToSQLite(author.author, ExistingLibID_, id_book, first_author, bi.language, 0);
+        AddAuthorToSQLite(ExistingLibID_, author.author, id_book, first_author, bi.language, 0);
         first_author = false;
         if(FirstAuthorOnly_)
             break;
@@ -573,7 +573,7 @@ bool ImportThread::readEPUB(const QByteArray &ba, QString file_name, QString arh
 
     bool first_author = true;
     foreach(author_info author, bi.authors) {
-        AddAuthorToSQLite(author.author, ExistingLibID_, id_book, first_author, bi.language, 0);
+        AddAuthorToSQLite(ExistingLibID_, author.author, id_book, first_author, bi.language, 0);
         first_author = false;
         if (FirstAuthorOnly_)
             break;
@@ -616,8 +616,7 @@ void ImportThread::readFB2_test(const QByteArray& ba, QString file_name, QString
     );
     return;
     bool first_author = true;
-    AddAuthorToSQLite("Иванов, Иван,Иванович ",
-        ExistingLibID_, id_book, first_author, language, 0);
+    AddAuthorToSQLite(ExistingLibID_, "Иванов, Иван,Иванович ", id_book, first_author, language, 0);
     first_author = false;
     AddGenreToSQLite(id_book, "sf", ExistingLibID_, language);
 }
@@ -1074,12 +1073,12 @@ void ImportThread::process()
                             sAuthorLow = sAuthor.toLower();
                             if(!sAuthorLow.contains("неизвестен") && !sAuthorLow.contains("неизвестный")){
                                 QString sAuthor = QString("%1,%2,%3,%4").arg(lastname, firstname, middlename, nickname);
-                                AddAuthorToSQLite(sAuthor, ExistingLibID_, id_book, author_count == 0, language, tag_auth);
+                                AddAuthorToSQLite(ExistingLibID_, sAuthor, id_book, author_count == 0, language, tag_auth);
                                 author_count++;
                             }
                         }
                     } else {
-                        AddAuthorToSQLite(author, ExistingLibID_, id_book, author_count == 0, language, tag_auth);
+                        AddAuthorToSQLite(ExistingLibID_, author, id_book, author_count == 0, language, tag_auth);
                         author_count++;
                     }
                 }
