@@ -784,7 +784,7 @@ void MainWindow::FilterTagSelect(int index)
 /*
     сохранение настроек Библиотеки
 */
-void MainWindow::SaveLibPosition(uint idLibrary)
+void MainWindow::SaveLibPosition(int idLibrary)
 {
     // сохранение в базу данных 'позиции' текущей библиотеки с id = g_idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -1242,7 +1242,7 @@ void MainWindow::StartSearch()
     Поиск книг по заданным критериям
 */
 QList<uint> MainWindow::StartBooksSearch(
-    uint idLibrary, const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
+    int idLibrary, const QString& sName, const QString& sAuthor, const QString& sSeria, uint idGenre,
     int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
     bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
 )
@@ -1659,7 +1659,7 @@ void MainWindow::SelectBook()
 /*
     обновление контролов выбора языка книги панели инструментов для списка книг и вкладки поиска книг
 */
-void MainWindow::UpdateBookLanguageControls(uint idLibrary)
+void MainWindow::UpdateBookLanguageControls(int idLibrary)
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     SLib &currentLib = mLibs[idLibrary];
@@ -2138,7 +2138,7 @@ void MainWindow::ProcPath(QString path,QStringList *book_list)
 /*
     Заполнение меню списка Библиотек
 */
-void MainWindow::FillLibrariesMenu(uint idLibrary)
+void MainWindow::FillLibrariesMenu(int idLibrary)
 {
     if (!db_is_open)
         return;
@@ -2164,7 +2164,7 @@ void MainWindow::FillLibrariesMenu(uint idLibrary)
 /*
     заполнение контрола списка Авторов из базы для выбранной библиотеки
 */
-void MainWindow::FillListWidgetAuthors(uint idLibrary)
+void MainWindow::FillListWidgetAuthors(int idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -2211,7 +2211,7 @@ void MainWindow::FillListWidgetAuthors(uint idLibrary)
 /*
     заполнение контрола списка Серий из базы для выбранной библиотеки
 */
-void MainWindow::FillListWidgetSerials(uint idLibrary)
+void MainWindow::FillListWidgetSerials(int idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->SeriaList->blockSignals(true);
@@ -2261,7 +2261,7 @@ void MainWindow::FillListWidgetSerials(uint idLibrary)
 /*
     заполнение контрола дерева Жанров из базы для выбранной библиотеки
 */
-void MainWindow::FillTreeWidgetGenres(uint idLibrary)
+void MainWindow::FillTreeWidgetGenres(int idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GenreList->blockSignals(true);
@@ -2363,7 +2363,7 @@ void MainWindow::FillTreeWidgetGenres(uint idLibrary)
 /*
     заполнение контрола списка Групп из базы для выбранной библиотеки
 */
-void MainWindow::FillListWidgetGroups(uint idLibrary)
+void MainWindow::FillListWidgetGroups(int idLibrary)
 {
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     const bool wasBlocked = ui->GroupList->blockSignals(true);
@@ -2601,7 +2601,7 @@ void MainWindow::FillListBooks(QList<uint> listBook, uint idCurrentAuthor)
 /*
     выполняются ли условия, чтобы книга оказалась в списке (фильтрация Языка и Метки, отображения удаленных книг)
 */
-bool MainWindow::IsMatchingFilterConditions(uint idLibrary, const SBook &book) const
+bool MainWindow::IsMatchingFilterConditions(int idLibrary, const SBook &book) const
 {
     int current_tag=ui->comboBoxTagFilter->itemData(ui->comboBoxTagFilter->currentIndex()).toInt();
     uint idSerial=book.idSerial;
@@ -3128,7 +3128,7 @@ void MainWindow::changeEvent(QEvent *event)
 /*
     чтение из базы данные 'позиции' библиотеки
 */
-int MainWindow::LoadLibraryPosition(uint idLibrary)
+int MainWindow::LoadLibraryPosition(int idLibrary)
 {
     // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -3160,7 +3160,7 @@ int MainWindow::LoadLibraryPosition(uint idLibrary)
 /*
     сохранение языка фильтрации книг текущей библиотеки с id = idLibrary
 */
-void MainWindow::SaveCurrentBookLanguageFilter(uint idLibrary, const QString& lang)
+void MainWindow::SaveCurrentBookLanguageFilter(int idLibrary, const QString& lang)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.prepare("UPDATE lib SET currentBookLanguage = :currentBookLanguage WHERE id = :id_lib;");
@@ -3467,7 +3467,7 @@ void MainWindow::RemoveGroupFromList()
 /*
     удаление всех книг из выделенной группы
 */
-void MainWindow::RemoveAllBooksFromGroup(uint idLibrary, uint idGroup)
+void MainWindow::RemoveAllBooksFromGroup(int idLibrary, uint idGroup)
 {
     // Список книг для выделенной Группы
     QList<uint> listBooks = mLibs[idLibrary].mGroupBooksLink.values(idGroup);
@@ -3502,7 +3502,7 @@ void MainWindow::RemoveAllBooksFromGroup(uint idLibrary, uint idGroup)
 /*
     заполнение комбобокса с форматами книг на вкладке Поиск
 */
-void MainWindow::FillFormatList(uint idLibrary)
+void MainWindow::FillFormatList(int idLibrary)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.prepare("SELECT format FROM book WHERE id_lib = :id_lib GROUP BY format;");
@@ -3574,7 +3574,7 @@ void MainWindow::ShowStatisticsDialog()
 /*
     переименование названия Группы с учетом числа книг в ней
 */
-void MainWindow::SetNewGroupNameWithBookCount(uint idLibrary, uint idGroup)
+void MainWindow::SetNewGroupNameWithBookCount(int idLibrary, uint idGroup)
 {
     // название Группы без числа книг в ней
     QString GroupName = mLibs[idLibrary].mGroups.find(idGroup).value().getName();
@@ -3596,7 +3596,7 @@ void MainWindow::SetNewGroupNameWithBookCount(uint idLibrary, uint idGroup)
 /*
     число книг в группе
 */
-int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
+int MainWindow::GetBookCountFromGroup(int idLibrary, uint idGroup)
 {
     return mLibs[idLibrary].mGroupBooksLink.values(idGroup).count();
 }
@@ -3604,7 +3604,7 @@ int MainWindow::GetBookCountFromGroup(uint idLibrary, uint idGroup)
 /*
     название Группы без числа книг в ней
 */
-QString MainWindow::GetGroupNameWhitoutBookCount(uint idLibrary, uint idGroup)
+QString MainWindow::GetGroupNameWhitoutBookCount(int idLibrary, uint idGroup)
 {
     return mLibs[idLibrary].mGroups.find(idGroup).value().getName();
 }
