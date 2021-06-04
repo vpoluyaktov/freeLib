@@ -541,7 +541,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, const QString& file_name, c
             break;
     }
     foreach(genre_info genre, bi.genres)
-        AddGenreToSQLite(id_book, genre.genre, ExistingLibID_, bi.language);
+        AddGenreToSQLite(ExistingLibID_, genre.genre, id_book, bi.language);
 
     return true;
 }
@@ -579,7 +579,7 @@ bool ImportThread::readEPUB(const QByteArray &ba, const QString& file_name, cons
             break;
     }
     foreach(genre_info genre, bi.genres)
-        AddGenreToSQLite(id_book, genre.genre, ExistingLibID_, bi.language);
+        AddGenreToSQLite(ExistingLibID_, genre.genre, id_book, bi.language);
 
     return true;
 }
@@ -1056,7 +1056,7 @@ void ImportThread::process()
                     foreach(QString genre, Genres) {
                         if(!first && genre.trimmed().isEmpty())
                             continue;
-                        AddGenreToSQLite(id_book, genre.trimmed(), ExistingLibID_, language);
+                        AddGenreToSQLite(ExistingLibID_, genre.trimmed(), id_book, language);
                         first=false;
                     }
                 }
