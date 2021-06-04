@@ -5,7 +5,7 @@
 QMap<int,SLib> mLibs;
 QMap <uint,SGenre> mGenre;
 
-void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary)
+void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
 {
     if (!db_is_open)
         return;
@@ -164,7 +164,7 @@ void loadGenresFromSQLiteToLibraryStructure()
     qDebug() << "loadGenre " << t_end-t_start << "msec";
 }
 
-void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary)
+void loadGroupsFromSQLiteToLibraryStructure(int idLibrary)
 {
     if (!db_is_open)
         return;
