@@ -402,10 +402,8 @@ qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, q
     if (!Query_->exec())
         qDebug() << Query_->lastError().text();
     qlonglong id = -1;
-    if (Query_->next()) {
+    if (Query_->next())
         id = Query_->value(0).toLongLong();
-        return id;
-    }
 
     if (id == -1) {
         Query_->prepare("INSERT INTO author(LastName,FirstName,MiddleName,NickName,id_lib,tag) VALUES(:LastName,:FirstName,:MiddleName,:NickName,:id_lib,:tag)");
@@ -603,15 +601,17 @@ void ImportThread::readBook(
     foreach(genre_info genre, bi.genres)
         AddGenreToSQLite(ExistingLibID_, genre.genre, id_book, bi.language);
 
-    qlonglong id_other_genre = GetOtherGenreId();
-    Query_->prepare("INSERT INTO objects_without_data(id_lib, id_book_without_title, id_author_without_data, id_seria_without_name, id_genre_without_name) values(:id_lib, :id_book_without_title, :id_author_without_data, :id_seria_without_name, :id_genre_without_name)");
-    Query_->bindValue(":id_lib", ExistingLibID_);
-    Query_->bindValue(":id_book_without_title", isBookWithoutTitle ? id_book : -1);
-    Query_->bindValue(":id_author_without_data", isAuthorWithoutData ? id_author : -1);
-    Query_->bindValue(":id_seria_without_name", isSeriaWithoutName ? id_seria : -1);
-    Query_->bindValue(":id_genre_without_name", isGenreaWithoutName ? id_other_genre : -1);
-    if (!Query_->exec())
-        qDebug() << Query_->lastError().text();
+    if (isBookWithoutTitle || isAuthorWithoutData || isSeriaWithoutName || isGenreaWithoutName) {
+        qlonglong id_other_genre = GetOtherGenreId();
+        Query_->prepare("INSERT INTO objects_without_data(id_lib, id_book_without_title, id_author_without_data, id_seria_without_name, id_genre_without_name) values(:id_lib, :id_book_without_title, :id_author_without_data, :id_seria_without_name, :id_genre_without_name)");
+        Query_->bindValue(":id_lib", ExistingLibID_);
+        Query_->bindValue(":id_book_without_title", isBookWithoutTitle ? id_book : -1);
+        Query_->bindValue(":id_author_without_data", isAuthorWithoutData ? id_author : -1);
+        Query_->bindValue(":id_seria_without_name", isSeriaWithoutName ? id_seria : -1);
+        Query_->bindValue(":id_genre_without_name", isGenreaWithoutName ? id_other_genre : -1);
+        if (!Query_->exec())
+            qDebug() << Query_->lastError().text();
+    }
 }
 
 ulong ImportThread::importBooksToLibrary(const QString& path)
