@@ -921,7 +921,7 @@
 <context>
     <name>ImportThread</name>
     <message>
-        <location filename="importthread.cpp" line="766"/>
+        <location filename="importthread.cpp" line="776"/>
         <source>Empty library name</source>
         <translation>Не задано название библиотеки</translation>
     </message>
@@ -934,34 +934,34 @@
         <translation type="vanished">Добавлена книга: </translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="521"/>
+        <location filename="importthread.cpp" line="545"/>
         <source>add (%1):  %2</source>
         <oldsource>Book add (%1):  %2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="523"/>
+        <location filename="importthread.cpp" line="547"/>
         <source>from zip:  %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="553"/>
+        <location filename="importthread.cpp" line="568"/>
         <source>add (epub):</source>
         <oldsource>Book add (epub):</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="801"/>
+        <location filename="importthread.cpp" line="812"/>
         <source>Books count:</source>
         <translation>Число импортированных книг:</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1092"/>
+        <location filename="importthread.cpp" line="1103"/>
         <source>Books adds:</source>
         <translation>Добавлено книг:</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="1102"/>
+        <location filename="importthread.cpp" line="1113"/>
         <source>Books adds: </source>
         <translation>Добавлено книг: </translation>
     </message>
@@ -1039,7 +1039,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1362"/>
-        <location filename="mainwindow.cpp" line="2005"/>
+        <location filename="mainwindow.cpp" line="2021"/>
         <source>Genre</source>
         <oldsource>Janre</oldsource>
         <translation>Жанр</translation>
@@ -1096,13 +1096,13 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1330"/>
-        <location filename="mainwindow.cpp" line="1981"/>
+        <location filename="mainwindow.cpp" line="1997"/>
         <source>No.</source>
         <translation>№</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1375"/>
-        <location filename="mainwindow.cpp" line="2017"/>
+        <location filename="mainwindow.cpp" line="2033"/>
         <source>Format</source>
         <translation>Формат</translation>
     </message>
@@ -1216,7 +1216,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1367"/>
-        <location filename="mainwindow.cpp" line="2011"/>
+        <location filename="mainwindow.cpp" line="2027"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
@@ -1227,7 +1227,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1325"/>
-        <location filename="mainwindow.cpp" line="1975"/>
+        <location filename="mainwindow.cpp" line="1991"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
@@ -1352,28 +1352,28 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1338"/>
-        <location filename="mainwindow.cpp" line="1987"/>
+        <location filename="mainwindow.cpp" line="2003"/>
         <source>Size</source>
         <translation>Размер</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1346"/>
-        <location filename="mainwindow.cpp" line="1993"/>
+        <location filename="mainwindow.cpp" line="2009"/>
         <source>Mark</source>
         <translation>Оценка</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1354"/>
-        <location filename="mainwindow.cpp" line="1999"/>
+        <location filename="mainwindow.cpp" line="2015"/>
         <source>Import date</source>
         <oldsource>Add date</oldsource>
         <translation>Добавлена</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1383"/>
-        <location filename="mainwindow.cpp" line="2023"/>
-        <location filename="mainwindow.cpp" line="3541"/>
-        <location filename="mainwindow.cpp" line="3542"/>
+        <location filename="mainwindow.cpp" line="2039"/>
+        <location filename="mainwindow.cpp" line="3557"/>
+        <location filename="mainwindow.cpp" line="3558"/>
         <source>Readed</source>
         <translation>Прочитано</translation>
     </message>
@@ -1389,7 +1389,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="1691"/>
-        <location filename="mainwindow.cpp" line="3561"/>
+        <location filename="mainwindow.cpp" line="3577"/>
         <source>Database optimization</source>
         <oldsource>Database optimization </oldsource>
         <translation>Оптимизиция базы данных</translation>
@@ -1483,7 +1483,7 @@
         <translation>Указание в базе удаленных книг</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1586"/>
+        <location filename="mainwindow.cpp" line="1589"/>
         <source>Can&apos;t find file: %1</source>
         <translation>Файл не найден: %1</translation>
     </message>
@@ -1522,133 +1522,133 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1951"/>
+        <location filename="mainwindow.cpp" line="1967"/>
         <source>Remove from group</source>
         <oldsource>Remove from group </oldsource>
         <translation>Удалить из группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3246"/>
-        <location filename="mainwindow.cpp" line="3329"/>
+        <location filename="mainwindow.cpp" line="3262"/>
+        <location filename="mainwindow.cpp" line="3345"/>
         <source>Input Group</source>
         <translation>Добавление Группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3246"/>
+        <location filename="mainwindow.cpp" line="3262"/>
         <source>New Group:</source>
         <translation>Новая Группа:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3246"/>
+        <location filename="mainwindow.cpp" line="3262"/>
         <source>New Group</source>
         <translation>Новая Группа</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3258"/>
-        <location filename="mainwindow.cpp" line="3341"/>
+        <location filename="mainwindow.cpp" line="3274"/>
+        <location filename="mainwindow.cpp" line="3357"/>
         <source>Add new group</source>
         <oldsource>Add a new group </oldsource>
         <translation>Новая Группа</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3258"/>
-        <location filename="mainwindow.cpp" line="3341"/>
+        <location filename="mainwindow.cpp" line="3274"/>
+        <location filename="mainwindow.cpp" line="3357"/>
         <source>This group is already on the group list!</source>
         <translation>Эта группа уже есть в списке групп!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3300"/>
+        <location filename="mainwindow.cpp" line="3316"/>
         <source>Adding a book to the group</source>
         <translation>Добавление книги в группу</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3300"/>
+        <location filename="mainwindow.cpp" line="3316"/>
         <source>This book has already been previously added to the group!</source>
         <translation>Эта книга ранее уже была добавлена в группу!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3329"/>
+        <location filename="mainwindow.cpp" line="3345"/>
         <source>New name Group:</source>
         <translation>Новое название группы:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3382"/>
+        <location filename="mainwindow.cpp" line="3398"/>
         <source>Remove book from group</source>
         <translation>Удаление книги из группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3383"/>
+        <location filename="mainwindow.cpp" line="3399"/>
         <source>Are you sure you want to delete from the group of the book</source>
         <translation>Вы действительно хотите удалить из группы книгу</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3418"/>
+        <location filename="mainwindow.cpp" line="3434"/>
         <source>Clear selected group</source>
         <translation>Очмстка выделенной группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3419"/>
+        <location filename="mainwindow.cpp" line="3435"/>
         <source>Are you sure you want to delete all books of the selected group</source>
         <translation>Вы действительно хотите удалить все книги для выделенной группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3438"/>
+        <location filename="mainwindow.cpp" line="3454"/>
         <source>Remove selected group</source>
         <translation>Удаление выделенной группы из списка групп</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3439"/>
+        <location filename="mainwindow.cpp" line="3455"/>
         <source>Are you sure you want to delete the group</source>
         <translation>Вы действительно хотите удалить группу</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3561"/>
+        <location filename="mainwindow.cpp" line="3577"/>
         <source>Database optimization completed.</source>
         <translation>Оптимизиция базы данных завершена.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3626"/>
+        <location filename="mainwindow.cpp" line="3642"/>
         <source>Remove the Group icon...</source>
         <translation>Удалить иконку Группы...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3632"/>
+        <location filename="mainwindow.cpp" line="3648"/>
         <source>Set the Group icon...</source>
         <translation>Задать иконку Группы...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3639"/>
+        <location filename="mainwindow.cpp" line="3655"/>
         <source>Default icons...</source>
         <translation>Установить иконки по умолчанию...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3658"/>
+        <location filename="mainwindow.cpp" line="3674"/>
         <source>Remove the Group icon</source>
         <translation>Удалить иконку Группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3659"/>
+        <location filename="mainwindow.cpp" line="3675"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
         <translation>Вы действительно хотите удалить иконку для выделенной группы?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3678"/>
+        <location filename="mainwindow.cpp" line="3694"/>
         <source>Open Image</source>
         <translation>Выбрать иконку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3678"/>
+        <location filename="mainwindow.cpp" line="3694"/>
         <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3706"/>
+        <location filename="mainwindow.cpp" line="3722"/>
         <source>Default icons</source>
         <translation>Иконки по умолчанию</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3707"/>
+        <location filename="mainwindow.cpp" line="3723"/>
         <source>Are you sure you want to set default icons for blocked Groups?</source>
         <translation>Вы действительно хотите установить иконки по умолчанию для заблокированных Групп?</translation>
     </message>
@@ -1665,56 +1665,51 @@
         <translation type="vanished">Выберите директорию</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1916"/>
+        <location filename="mainwindow.cpp" line="1932"/>
         <source>Save as</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3525"/>
+        <location filename="mainwindow.cpp" line="3541"/>
         <source>Rating</source>
         <translation>Рейтинг</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3546"/>
+        <location filename="mainwindow.cpp" line="3562"/>
         <source>Not readed</source>
         <translation>Не прочитано</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1935"/>
+        <location filename="mainwindow.cpp" line="1951"/>
         <source>Add to Group</source>
         <oldsource>Add to Groups</oldsource>
         <translation>Добавить в группу</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2507"/>
+        <location filename="mainwindow.cpp" line="2523"/>
         <source>Sequence</source>
         <translation>Серия</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3187"/>
+        <location filename="mainwindow.cpp" line="3203"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2732"/>
+        <location filename="mainwindow.cpp" line="2748"/>
         <source>Send to ...</source>
         <translation>Отправить на ...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1574"/>
-        <location filename="mainwindow.cpp" line="2996"/>
+        <location filename="mainwindow.cpp" line="3012"/>
         <source>Books</source>
         <translation>Книги</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2997"/>
+        <location filename="mainwindow.cpp" line="3013"/>
         <source>Book`s files</source>
         <translation>Файлы книг</translation>
-    </message>
-    <message>
-        <location filename="library.cpp" line="224"/>
-        <source>Unknown Author</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1752,12 +1747,12 @@
         <translation type="vanished">[ Книга без Названия ]</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="309"/>
+        <location filename="common.h" line="175"/>
         <source>Without Title</source>
         <translation>Книга без названия</translation>
     </message>
     <message>
-        <location filename="importthread.cpp" line="317"/>
+        <location filename="common.h" line="174"/>
         <source>Without Series</source>
         <translation>Книга без серии</translation>
     </message>
@@ -2446,94 +2441,94 @@
 <context>
     <name>opds_server</name>
     <message>
-        <location filename="opds_server.cpp" line="1347"/>
-        <location filename="opds_server.cpp" line="1930"/>
+        <location filename="opds_server.cpp" line="1354"/>
+        <location filename="opds_server.cpp" line="1937"/>
         <source>Books of sequence</source>
         <translation>Книги по сериям</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1552"/>
-        <location filename="opds_server.cpp" line="1848"/>
+        <location filename="opds_server.cpp" line="1559"/>
+        <location filename="opds_server.cpp" line="1855"/>
         <source>Books by ABC</source>
         <translation>Книги по алфавиту</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1841"/>
-        <location filename="opds_server.cpp" line="1958"/>
-        <location filename="opds_server.cpp" line="1992"/>
+        <location filename="opds_server.cpp" line="1848"/>
+        <location filename="opds_server.cpp" line="1965"/>
+        <location filename="opds_server.cpp" line="1999"/>
         <source>Books without sequence</source>
         <translation>Книги вне серий</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="838"/>
-        <location filename="opds_server.cpp" line="958"/>
+        <location filename="opds_server.cpp" line="842"/>
+        <location filename="opds_server.cpp" line="965"/>
         <source>Next page</source>
         <translation>Следующая страница</translation>
     </message>
     <message>
         <location filename="opds_server.cpp" line="774"/>
-        <location filename="opds_server.cpp" line="2096"/>
+        <location filename="opds_server.cpp" line="2103"/>
         <source>Download</source>
         <translation>Скачать</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="823"/>
-        <location filename="opds_server.cpp" line="950"/>
+        <location filename="opds_server.cpp" line="827"/>
+        <location filename="opds_server.cpp" line="957"/>
         <source>Previous page</source>
         <translation>Предыдущая страница</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1168"/>
-        <location filename="opds_server.cpp" line="1655"/>
+        <location filename="opds_server.cpp" line="1175"/>
+        <location filename="opds_server.cpp" line="1662"/>
         <source>Books by authors</source>
         <translation>По авторам</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1169"/>
-        <location filename="opds_server.cpp" line="1223"/>
+        <location filename="opds_server.cpp" line="1176"/>
+        <location filename="opds_server.cpp" line="1230"/>
         <source>Finding books by authors</source>
         <translation>Поиск книг по авторам</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1180"/>
-        <location filename="opds_server.cpp" line="1227"/>
+        <location filename="opds_server.cpp" line="1187"/>
+        <location filename="opds_server.cpp" line="1234"/>
         <source>Finding books by sequences</source>
         <translation>Поиск книг по сериям</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1190"/>
-        <location filename="opds_server.cpp" line="1587"/>
+        <location filename="opds_server.cpp" line="1197"/>
+        <location filename="opds_server.cpp" line="1594"/>
         <source>Books by genre</source>
         <translation>Книги по жанру</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1191"/>
-        <location filename="opds_server.cpp" line="1231"/>
+        <location filename="opds_server.cpp" line="1198"/>
+        <location filename="opds_server.cpp" line="1238"/>
         <source>Finding books by genre</source>
         <translation>Поиск книг по жанру</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1203"/>
-        <location filename="opds_server.cpp" line="1238"/>
-        <location filename="opds_server.cpp" line="2022"/>
-        <location filename="opds_server.cpp" line="2109"/>
+        <location filename="opds_server.cpp" line="1210"/>
+        <location filename="opds_server.cpp" line="1245"/>
+        <location filename="opds_server.cpp" line="2029"/>
+        <location filename="opds_server.cpp" line="2116"/>
         <source>Browse directory</source>
         <oldsource>Browse direcrory</oldsource>
         <translation>Обзор директории</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1204"/>
+        <location filename="opds_server.cpp" line="1211"/>
         <source>Finding books by directory</source>
         <oldsource>Finding books by direcrory</oldsource>
         <translation>Обзор книг директории</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1256"/>
+        <location filename="opds_server.cpp" line="1263"/>
         <source>Finding books by name/author: </source>
         <translation>Поиск книг по названию/автору:</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1274"/>
+        <location filename="opds_server.cpp" line="1281"/>
         <source>Find</source>
         <translation>Найти</translation>
     </message>
@@ -2542,7 +2537,7 @@
         <translation type="vanished">серий начинающихся с</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1613"/>
+        <location filename="opds_server.cpp" line="1620"/>
         <source>Books of genre</source>
         <translation>Книг жанра</translation>
     </message>
@@ -2552,18 +2547,18 @@
         <translation type="vanished">авторов на</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1520"/>
-        <location filename="opds_server.cpp" line="1534"/>
-        <location filename="opds_server.cpp" line="1608"/>
-        <location filename="opds_server.cpp" line="1631"/>
-        <location filename="opds_server.cpp" line="1811"/>
-        <location filename="opds_server.cpp" line="1825"/>
+        <location filename="opds_server.cpp" line="1527"/>
+        <location filename="opds_server.cpp" line="1541"/>
+        <location filename="opds_server.cpp" line="1615"/>
+        <location filename="opds_server.cpp" line="1638"/>
+        <location filename="opds_server.cpp" line="1818"/>
+        <location filename="opds_server.cpp" line="1832"/>
         <source>books</source>
         <oldsource> books </oldsource>
         <translation>книг</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1337"/>
+        <location filename="opds_server.cpp" line="1344"/>
         <source>Books search</source>
         <translation>Поиск книг</translation>
     </message>
@@ -2576,47 +2571,47 @@
         <translation type="vanished">Отправить</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1418"/>
-        <location filename="opds_server.cpp" line="1457"/>
+        <location filename="opds_server.cpp" line="1425"/>
+        <location filename="opds_server.cpp" line="1464"/>
         <source>series beginning with</source>
         <oldsource>sequence beginning with</oldsource>
         <translation>серий начинающихся с</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1709"/>
-        <location filename="opds_server.cpp" line="1747"/>
+        <location filename="opds_server.cpp" line="1716"/>
+        <location filename="opds_server.cpp" line="1754"/>
         <source>authors beginning with</source>
         <translation>авторов начинающихся с</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1860"/>
         <location filename="opds_server.cpp" line="1867"/>
+        <location filename="opds_server.cpp" line="1874"/>
         <source>Book sequences</source>
         <translation>Книжные серии</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1895"/>
-        <location filename="opds_server.cpp" line="1909"/>
+        <location filename="opds_server.cpp" line="1902"/>
+        <location filename="opds_server.cpp" line="1916"/>
         <source>books in sequence</source>
         <translation>Книги в серии</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1941"/>
-        <location filename="opds_server.cpp" line="1981"/>
+        <location filename="opds_server.cpp" line="1948"/>
+        <location filename="opds_server.cpp" line="1988"/>
         <source>Books by</source>
         <translation>Книги автора</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1179"/>
-        <location filename="opds_server.cpp" line="1365"/>
-        <location filename="opds_server.cpp" line="1949"/>
-        <location filename="opds_server.cpp" line="1986"/>
+        <location filename="opds_server.cpp" line="1186"/>
+        <location filename="opds_server.cpp" line="1372"/>
+        <location filename="opds_server.cpp" line="1956"/>
+        <location filename="opds_server.cpp" line="1993"/>
         <source>Books by sequences</source>
         <translation>Книги по сериям</translation>
     </message>
     <message>
-        <location filename="opds_server.cpp" line="1967"/>
-        <location filename="opds_server.cpp" line="1999"/>
+        <location filename="opds_server.cpp" line="1974"/>
+        <location filename="opds_server.cpp" line="2006"/>
         <source>All books</source>
         <translation>Книги по алфавиту</translation>
     </message>
