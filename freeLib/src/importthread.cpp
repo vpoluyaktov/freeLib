@@ -548,39 +548,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, const QString& file_name, c
         message += "  " + QString(tr("from zip:  %1")).arg(arh_name);
     emit Message(message);
 
-    book_info bi;
-    bool isBookWithoutTitle = false;
-    bool isAuthorWithoutData = false;
-    bool isSeriaWithoutName = false;
-    bool isGenreaWithoutName = false;
-    GetBookInfo(bi, ba, "fb2", isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true);
-    qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, bi.seria, 0);
-    qlonglong id_book = AddBookToSQLite(
-        ExistingLibID_, bi.star, bi.title, id_seria, bi.num_in_seria, fileName,
-        (file_size == 0 ? ba.size() : file_size), 0, false, fi.suffix(), QDate::currentDate(),
-        bi.language, bi.keywords, arh_name, 0, bi.readed
-    );
-
-    qlonglong id_author = -1;
-    bool first_author = true;
-    foreach(author_info author, bi.authors) {
-        id_author = AddAuthorToSQLite(ExistingLibID_, author.author, id_book, first_author, bi.language, 0);
-        first_author = false;
-        if(FirstAuthorOnly_)
-            break;
-    }
-    foreach(genre_info genre, bi.genres)
-        AddGenreToSQLite(ExistingLibID_, genre.genre, id_book, bi.language);
-
-    qlonglong id_other_genre = GetOtherGenreId();
-    Query_->prepare("INSERT INTO objects_without_data(id_lib, id_book_without_title, id_author_without_data, id_seria_without_name, id_genre_without_name) values(:id_lib, :id_book_without_title, :id_author_without_data, :id_seria_without_name, :id_genre_without_name)");
-    Query_->bindValue(":id_lib", ExistingLibID_);
-    Query_->bindValue(":id_book_without_title", isBookWithoutTitle ? id_book : -1);
-    Query_->bindValue(":id_author_without_data", isAuthorWithoutData ? id_author : -1);
-    Query_->bindValue(":id_seria_without_name", isSeriaWithoutName ? id_seria : -1);
-    Query_->bindValue(":id_genre_without_name", isGenreaWithoutName ? id_other_genre : -1);
-    if (!Query_->exec())
-        qDebug() << Query_->lastError().text();
+    readBook("fb2", fi.suffix(), ba, fileName, arh_name, file_size);
 
     return true;
 }
@@ -600,17 +568,27 @@ bool ImportThread::readEPUB(const QByteArray &ba, const QString& file_name, cons
 
     emit Message(tr("add (epub):") + " " + file_name);
 
+    readBook("epub", "epub", ba, file_name, arh_name, file_size);
+
+    return true;
+}
+
+void ImportThread::readBook(
+    const QString& type, const QString& format, const QByteArray& ba,
+    const QString& file_name, const QString& arh_name, qint32 file_size
+)
+{
     book_info bi;
     bool isBookWithoutTitle = false;
     bool isAuthorWithoutData = false;
     bool isSeriaWithoutName = false;
     bool isGenreaWithoutName = false;
-    GetBookInfo(bi, ba, "epub", isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true);
+    GetBookInfo(bi, ba, type, isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true);
 
     qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, bi.seria, 0);
     qlonglong id_book = AddBookToSQLite(
         ExistingLibID_, bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
-        (file_size == 0 ? ba.size() : file_size), 0, false, "epub", QDate::currentDate(),
+        (file_size == 0 ? ba.size() : file_size), 0, false, format, QDate::currentDate(),
         bi.language, bi.keywords, arh_name, 0, bi.readed
     );
 
@@ -634,8 +612,6 @@ bool ImportThread::readEPUB(const QByteArray &ba, const QString& file_name, cons
     Query_->bindValue(":id_genre_without_name", isGenreaWithoutName ? id_other_genre : -1);
     if (!Query_->exec())
         qDebug() << Query_->lastError().text();
-
-    return true;
 }
 
 ulong ImportThread::importBooksToLibrary(const QString& path)
