@@ -170,5 +170,8 @@ QString sizeToString(uint size);
 extern int g_idCurrentLib;
 
 const QString UnknownAuthor = "Unknown Author";
+const QString WithoutGenre = "Without Genre";
+const QString WithoutSeries = "{ " + QObject::tr("Without Series") + " }";
+const QString WithoutTitle = "[ " + QObject::tr("Without Title") + " ]";
 
 #endif // COMMON_H

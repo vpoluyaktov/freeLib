@@ -307,11 +307,11 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
 
     if (bi.title.isEmpty()) {
         isBookWithoutTitle = true;
-        bi.title = "[ " + QObject::tr("Without Title") + " ]";
+        bi.title = WithoutTitle;
     }
     if (bi.genres.count() == 0) {
         isGenreaWithoutName = true;
-        bi.genres << genre_info("Without Genre", 0);
+        bi.genres << genre_info(WithoutGenre, 0);
     }
     if (bi.authors.count() == 0) {
         isAuthorWithoutData = true;
@@ -321,7 +321,7 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
         bi.language = "ru";
     if (bi.seria.isEmpty()) {
         isSeriaWithoutName = true;
-        bi.seria = "{ " + QObject::tr("Without Series") + " }";
+        bi.seria = WithoutSeries;
     }
 }
 
