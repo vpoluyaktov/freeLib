@@ -2284,7 +2284,7 @@ void MainWindow::FillTreeWidgetGenres(int idLibrary)
     ui->GenreList->clear();
     ui->comboBoxFindGenre->clear();
     ui->comboBoxFindGenre->addItem("*", 0);
-    QFont bold_font(ui->AuthorList->font());
+    QFont bold_font(ui->GenreList->font());
     bold_font.setBold(true);
 
     QMap<uint,uint> mCounts;
