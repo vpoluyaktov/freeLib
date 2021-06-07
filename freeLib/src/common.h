@@ -169,4 +169,6 @@ QString sizeToString(uint size);
 
 extern int g_idCurrentLib;
 
+const QString UnknownAuthor = "Unknown Author";
+
 #endif // COMMON_H

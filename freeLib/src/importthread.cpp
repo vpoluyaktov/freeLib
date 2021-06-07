@@ -315,7 +315,7 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
     }
     if (bi.authors.count() == 0) {
         isAuthorWithoutData = true;
-        bi.authors << author_info(QObject::tr("Unknown Author"), 0);
+        bi.authors << author_info(UnknownAuthor, 0);
     }
     if (bi.language.isEmpty())
         bi.language = "ru";
@@ -377,6 +377,7 @@ qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, q
 {
     if (str.trimmed().isEmpty())
         return -1;
+
     QStringList names = str.split(',');
     QString LastName;
     if (names.count() > 0)
@@ -395,10 +396,10 @@ qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, q
 
     Query_->prepare("SELECT id, tag FROM author WHERE id_lib=:id_lib AND LastName=:LastName AND FirstName=:FirstName AND MiddleName=:MiddleName AND NickName=:NickName");
     Query_->bindValue(":id_lib", libID);
-    Query_->bindValue(":LastName", LastName);
-    Query_->bindValue(":FirstName", FirstName);
-    Query_->bindValue(":MiddleName", MiddleName);
-    Query_->bindValue(":NickName", NickName);
+    Query_->bindValue(":LastName", LastName != "" ? LastName : "");
+    Query_->bindValue(":FirstName", FirstName != "" ? FirstName : "");
+    Query_->bindValue(":MiddleName", MiddleName != "" ? MiddleName : "");
+    Query_->bindValue(":NickName", NickName != "" ? NickName : "");
     if (!Query_->exec())
         qDebug() << Query_->lastError().text();
     qlonglong id = -1;
@@ -407,10 +408,10 @@ qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, q
 
     if (id == -1) {
         Query_->prepare("INSERT INTO author(LastName,FirstName,MiddleName,NickName,id_lib,tag) VALUES(:LastName,:FirstName,:MiddleName,:NickName,:id_lib,:tag)");
-        Query_->bindValue(":LastName", LastName);
-        Query_->bindValue(":FirstName", FirstName);
-        Query_->bindValue(":MiddleName", MiddleName);
-        Query_->bindValue(":NickName", NickName);
+        Query_->bindValue(":LastName", LastName != "" ? LastName : "");
+        Query_->bindValue(":FirstName", FirstName != "" ? FirstName : "");
+        Query_->bindValue(":MiddleName", MiddleName != "" ? MiddleName : "");
+        Query_->bindValue(":NickName", NickName != "" ? NickName : "");
         Query_->bindValue(":id_lib", libID);
         Query_->bindValue(":tag", tag);
         if(!Query_->exec())
