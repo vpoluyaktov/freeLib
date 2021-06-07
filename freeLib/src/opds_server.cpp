@@ -805,7 +805,11 @@ QString opds_server::FillPage(QList<uint> listBooks, SLib& lib, QString sTitle, 
                     {
                         if(book.sAnnotation.isEmpty()){
                             book_info book_inf_tmp;
-                            GetBookInfo(book_inf_tmp,infobuff.size()==0?outbuff.data():infobuff.data(),"fb2",false,idBook);
+                            bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
+                            GetBookInfo(
+                                book_inf_tmp, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2",
+                                isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+                                false,idBook);
                             book.sAnnotation = book_inf_tmp.annotation;
                         }
                         el=AddTextNode("content",book.sAnnotation,entry);
@@ -932,7 +936,10 @@ QString opds_server::FillPage(QList<uint> listBooks, SLib& lib, QString sTitle, 
                     {
                         if(book.sAnnotation.isEmpty()){
                             book_info book_inf_tmp;
-                            GetBookInfo(book_inf_tmp,infobuff.size()==0?outbuff.data():infobuff.data(),"fb2",false,idBook);
+                            bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
+                            GetBookInfo(
+                                book_inf_tmp, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2",
+                                isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, false,idBook);
                             book.sAnnotation = book_inf_tmp.annotation;
                         }
                         QDomDocument an;
@@ -2366,7 +2373,11 @@ void opds_server::convert(QString id, QString format, QString file_name, bool op
     {
         book_info bi;
         //qDebug()<<id.toLongLong();
-        GetBookInfo(bi,outbuff.data(),fi_book.suffix().toLower(),false,id.toLongLong());
+        bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
+        GetBookInfo(
+            bi, outbuff.data(), fi_book.suffix().toLower(),
+            isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+            false, id.toLongLong());
 
         QSettings *settings=GetSettings();
         QString book_file_name=settings->value("ExportFileName",default_exp_file_name).toString().trimmed();

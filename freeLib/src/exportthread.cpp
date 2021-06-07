@@ -141,13 +141,14 @@ void ExportThread::FB2export()
         file.close();
         QFileInfo fi(file);
         book_info bi;
+        bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
         if(fi.suffix().toLower()=="fb2")
         {
-            GetBookInfo(bi,ba,"fb2",true);
+            GetBookInfo(bi, ba, "fb2", isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true);
         }
         else if(fi.suffix().toLower()=="epub")
         {
-            GetBookInfo(bi,ba,"epub",true);
+            GetBookInfo(bi, ba, "epub", isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true);
         }
         else if(fi.suffix().toLower()=="zip")
         {
@@ -168,7 +169,10 @@ void ExportThread::FB2export()
                         buf.setData(zip_file.readAll());
                         FileName=fi.absolutePath()+"/"+fi.completeBaseName()+"/"+str;
                         ba=buf.data();
-                        GetBookInfo(bi,ba,arh_file.suffix().toLower(),true);
+                        GetBookInfo(
+                            bi, ba, arh_file.suffix().toLower(),
+                            isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true
+                        );
                         fi.setFile(str);
                         find=true;
                     }
@@ -404,9 +408,12 @@ void ExportThread::export_books()
             (settings->value("OutputFormat").toString()=="EPUB" || settings->value("OutputFormat").toString()=="MOBI" ||
              settings->value("OutputFormat").toString()=="AZW3" || settings->value("OutputFormat").toString()=="MOBI7") &&
             settings->value("join_series").toBool();
+    bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
     foreach(book_info i,book_list)
     {
-        GetBookInfo(i,QByteArray(),"",true,i.id);
+        GetBookInfo(i, QByteArray(), "",
+            isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+            true, i.id);
         if(current_seria_id!=i.id_seria || !need_group_series || i.id_seria==-1)
         {
             books_group<<QList<book_info>();

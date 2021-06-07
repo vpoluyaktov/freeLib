@@ -1549,7 +1549,12 @@ QString fb2mobi::convert(qlonglong id)
     if(fi_book.suffix().toLower()!="fb2")
         return "";
     book_info book_inf_tmp;
-    GetBookInfo(book_inf_tmp,infobuff.size()==0?outbuff.data():infobuff.data(),"fb2",true,id);
+    bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
+    GetBookInfo(
+        book_inf_tmp, infobuff.size() == 0 ? outbuff.data() : infobuff.data(), "fb2",
+        isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+        true, id
+    );
     book_inf=&book_inf_tmp;
 
     QFile file;

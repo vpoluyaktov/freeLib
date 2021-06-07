@@ -723,7 +723,7 @@ INSERT INTO [genre]([rowid], [id], [name], [name_en], [id_parent], [sort_index],
 /* Table data [objects_without_data] Record count: 0 */
 
 /* Table data [params] Record count: 1 */
-INSERT INTO [params]([rowid], [id], [name], [value]) VALUES(1, 1, 'version', '7');
+INSERT INTO [params]([rowid], [id], [name], [value]) VALUES(1, 1, 'version', '8');
 
 /* Commit transaction */
 COMMIT;

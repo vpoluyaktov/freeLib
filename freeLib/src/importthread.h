@@ -61,6 +61,9 @@ private:
         const QString& file, int size, int IDinLib, bool deleted, const QString& format, const QDate& date,
         const QString& language, const QString& keys, const QString& archive, int tag, bool readed
     );
+
+    // id жанра 'Неотсортированное'
+    qlonglong GetOtherGenreId() const;
 };
 
 #endif // IMPORTTHREAD_H

@@ -144,7 +144,11 @@ struct tag
 extern QList<tag> tag_list;
 
 QFileInfo GetBookFile(QBuffer &buffer, QBuffer &buffer_info, uint id_book, bool caption=false, QDateTime *file_data=nullptr);
-void GetBookInfo(book_info &bi, const QByteArray &data, QString type, bool info_only=false, uint id_book=0);
+void GetBookInfo(
+    book_info &bi, const QByteArray &data, QString type,
+    bool& isBookWithoutTitle, bool& isAuthorWithoutData, bool& isSeriaWithoutName, bool& isGenreaWithoutName,
+    bool info_only = false, uint id_book = 0
+);
 QPixmap CreateTag(QColor color,int size);
 void SetLocale();
 QString FindLocaleFile(QString locale,QString name,QString suffics);
