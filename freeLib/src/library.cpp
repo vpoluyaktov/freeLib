@@ -62,6 +62,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
         QString sName = query.value(1).toString();
         uint id = query.value(0).toUInt();
         SBook &book = lib.mBooks[id];
+        book.id = id;
         book.sName = sName;
         book.nStars = qvariant_cast<uchar>(query.value(2));
         book.idSerial = query.value(3).toUInt();
