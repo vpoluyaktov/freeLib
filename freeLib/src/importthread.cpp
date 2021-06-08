@@ -267,7 +267,7 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
                 ti.middlename = author.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
                 ti.nickname = author.at(i).toElement().elementsByTagName("nickname").at(0).toElement().text();
                 ti.author = ti.lastname + "," + ti.firstname + "," + ti.middlename + "," + ti.nickname;
-                if (ti.firstname == "" && ti.lastname == "" && ti.middlename == "" && ti.nickname == "") {
+                if (ti.firstname.isEmpty() && ti.lastname.isEmpty() && ti.middlename.isEmpty() && ti.nickname.isEmpty()) {
                     ti.lastname = ti.author = UnknownAuthor;
                     isAuthorWithoutData = true;
                 }
