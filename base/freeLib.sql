@@ -9,16 +9,6 @@ PRAGMA auto_vacuum = 0;
 PRAGMA encoding = 'UTF-8';
 PRAGMA page_size = 32768;
 
-/* Drop table [tag] */
-DROP TABLE IF EXISTS [main].[tag];
-
-/* Table structure [tag] */
-CREATE TABLE [main].[tag](
-  [id] INTEGER PRIMARY KEY NOT NULL, 
-  [color] TEXT DEFAULT (NULL), 
-  [name] TEXT
-);
-
 /* Drop table [lib] */
 DROP TABLE IF EXISTS [main].[lib];
 
@@ -29,20 +19,28 @@ CREATE TABLE [main].[lib](
   [path] TEXT, 
   [inpx] TEXT, 
   [firstAuthor] BOOL, 
-  [woDeleted] BOOL,
-  [currentTab] INTEGER,
+  [woDeleted] BOOL, 
+  [currentTab] INTEGER, 
   [currentAuthor] INTEGER, 
   [currentSeria] INTEGER, 
-  [currentGenre] INTEGER,
-  [currentGroup] INTEGER,
+  [currentGenre] INTEGER, 
+  [currentGroup] INTEGER, 
   [currentBookForAuthor] INTEGER, 
   [currentBookForSeria] INTEGER, 
-  [currentBookForGenre] INTEGER,
-  [currentBookForGroup] INTEGER,
-  [currentSearchingFilter] TEXT,
-  [currentTag] INTEGER,
-  [currentBookLanguage] TEXT NOT NULL DEFAULT '*'
-);
+  [currentBookForGenre] INTEGER, 
+  [currentBookForGroup] INTEGER, 
+  [currentSearchingFilter] TEXT, 
+  [currentTag] INTEGER, 
+  [currentBookLanguage] TEXT NOT NULL DEFAULT '*');
+
+/* Drop table [tag] */
+DROP TABLE IF EXISTS [main].[tag];
+
+/* Table structure [tag] */
+CREATE TABLE [main].[tag](
+  [id] INTEGER PRIMARY KEY NOT NULL, 
+  [color] TEXT DEFAULT (NULL), 
+  [name] TEXT);
 
 /* Drop table [author] */
 DROP TABLE IF EXISTS [main].[author];
@@ -50,50 +48,32 @@ DROP TABLE IF EXISTS [main].[author];
 /* Table structure [author] */
 CREATE TABLE [main].[author](
   [id] INTEGER PRIMARY KEY, 
-  [LastName] TEXT,
-  [FirstName] TEXT,
-  [MiddleName] TEXT,
-  [NickName] TEXT,
-  [id_lib] INTEGER REFERENCES [lib]([id]),
-  [tag] INTEGER REFERENCES [tag]([id])
-);
+  [LastName] TEXT, 
+  [FirstName] TEXT, 
+  [MiddleName] TEXT, 
+  [NickName] TEXT, 
+  [id_lib] INTEGER REFERENCES [lib]([id]), 
+  [tag] INTEGER REFERENCES [tag]([id]));
 CREATE INDEX [main].[author_sort]
 ON [author](
   [LastName] ASC, 
   [FirstName] ASC, 
-  [MiddleName] ASC
-);
+  [MiddleName] ASC);
 
 /* Drop table [seria] */
 DROP TABLE IF EXISTS [main].[seria];
 
 /* Table structure [seria] */
 CREATE TABLE [main].[seria](
-  [id] INTEGER PRIMARY KEY,
+  [id] INTEGER PRIMARY KEY, 
   [name] TEXT, 
   [id_lib] INTEGER REFERENCES [lib]([id]), 
-  [tag] INTEGER REFERENCES [tag]([id])
-);
-CREATE INDEX [main].[seria_id] ON [seria]([id] ASC);
+  [tag] INTEGER REFERENCES [tag]([id]));
 CREATE INDEX [main].[seria_name]
 ON [seria](
-  [name] ASC,
-  [id_lib] ASC
-);
-
-/* Drop table [groups] */
-DROP TABLE IF EXISTS [main].[groups];
-
-/* Table structure [groups] */
-CREATE TABLE [main].[groups](
-  [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  [name] TEXT NOT NULL,
-  [id_lib] INTEGER REFERENCES [lib]([id]),
-  [blocked] BOOL DEFAULT FALSE,
-  [blocked_name] TEXT,
-  [icon] BLOB
-);
-CREATE INDEX [main].[group_name] ON [groups]([name] ASC);
+  [name] ASC, 
+  [id_lib] ASC);
+CREATE INDEX [main].[seria_id] ON [seria]([id] ASC);
 
 /* Drop table [book] */
 DROP TABLE IF EXISTS [main].[book];
@@ -109,23 +89,21 @@ CREATE TABLE [main].[book](
   [id_lib] INTEGER REFERENCES [lib]([id]), 
   [file] TEXT, 
   [size] INTEGER, 
-  [deleted] BOOL DEFAULT FALSE, 
+  [deleted] BOOL DEFAULT False, 
   [date] DATETIME, 
   [format] TEXT, 
   [keys] TEXT, 
   [id_inlib] INTEGER, 
   [archive] TEXT, 
   [first_author_id] INTEGER, 
-  [tag] INTEGER REFERENCES [tag]([id]),
-  [readed] BOOL DEFAULT FALSE
-);
+  [tag] INTEGER REFERENCES [tag]([id]), 
+  [readed] BOOL DEFAULT False);
 CREATE INDEX [main].[book_seria] ON [book]([id_seria] ASC);
 CREATE INDEX [main].[book_file]
 ON [book](
   [id_lib], 
   [file], 
-  [archive]
-);
+  [archive]);
 CREATE INDEX [main].[book_first_author] ON [book]([first_author_id] ASC);
 
 /* Drop table [book_author] */
@@ -137,8 +115,7 @@ CREATE TABLE [main].[book_author](
   [id_author] INTEGER REFERENCES [author]([id]), 
   [id_lib] INTEGER REFERENCES [lib]([id]), 
   [language] TEXT, 
-  PRIMARY KEY([id_book], [id_author], [id_lib])
-);
+  PRIMARY KEY([id_book], [id_author], [id_lib]));
 CREATE INDEX [main].[book_author_id_book] ON [book_author]([id_book] ASC);
 CREATE INDEX [main].[book_author_id_author] ON [book_author]([id_author]);
 
@@ -151,43 +128,56 @@ CREATE TABLE [main].[book_genre](
   [id_genre] INTEGER, 
   [id_lib] INTEGER REFERENCES [lib]([id]), 
   [language] TEXT, 
-  PRIMARY KEY([id_book], [id_genre], [id_lib])
-);
-CREATE INDEX [main].[book_genre_id_book] ON [book_genre]([id_book] ASC);
+  PRIMARY KEY([id_book], [id_genre], [id_lib]));
 CREATE INDEX [main].[book_genre_id] ON [book_genre]([id_genre] ASC);
+CREATE INDEX [main].[book_genre_id_book] ON [book_genre]([id_book] ASC);
+
+/* Drop table [groups] */
+DROP TABLE IF EXISTS [main].[groups];
+
+/* Table structure [groups] */
+CREATE TABLE [main].[groups](
+  [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+  [name] TEXT NOT NULL, 
+  [id_lib] INTEGER REFERENCES [lib]([id]), 
+  [blocked] BOOL DEFAULT False, 
+  [blocked_name] TEXT, 
+  [icon] BLOB);
+CREATE INDEX [main].[group_name] ON [groups]([name] ASC);
+
+/* Drop table [book_group] */
+DROP TABLE IF EXISTS [main].[book_group];
+
+/* Table structure [book_group] */
+CREATE TABLE [main].[book_group](
+  [book_id] INTEGER NOT NULL CONSTRAINT [fk_book_group_to_books] REFERENCES [book]([id]) ON DELETE CASCADE ON UPDATE CASCADE, 
+  [group_id] INTEGER NOT NULL CONSTRAINT [fk_book_group_to_groups] REFERENCES [groups]([id]) ON DELETE CASCADE ON UPDATE CASCADE, 
+  [id_lib] INTEGER NOT NULL CONSTRAINT [fk_book_group_to_lib] REFERENCES [lib]([id]) ON DELETE CASCADE ON UPDATE CASCADE, 
+  PRIMARY KEY([book_id], [group_id], [id_lib]));
 
 /* Drop table [genre] */
 DROP TABLE IF EXISTS [main].[genre];
 
 /* Table structure [genre] */
 CREATE TABLE [main].[genre](
-  [id] INTEGER PRIMARY KEY,
-  [name] TEXT,
-  [name_en] TEXT,
-  [id_parent] INTEGER,
-  [sort_index] INTEGER,
-  [code] TEXT DEFAULT (NULL)
-);
+  [id] INTEGER PRIMARY KEY, 
+  [name] TEXT, 
+  [name_en] TEXT, 
+  [id_parent] INTEGER, 
+  [sort_index] INTEGER, 
+  [code] TEXT DEFAULT (NULL));
 
-/* Drop table [book_group] */
-DROP TABLE IF EXISTS [main].[book_group];
+/* Drop table [objects_without_data] */
+DROP TABLE IF EXISTS [main].[objects_without_data];
 
-/* Table structure [book_group] */
-CREATE TABLE IF NOT EXISTS [main].[book_group] (
-  [book_id] INTEGER NOT NULL,
-  [group_id] INTEGER NOT NULL,
-  [id_lib] INTEGER NOT NULL, 
-  PRIMARY KEY ([book_id], [group_id], [id_lib]),
-  CONSTRAINT [fk_book_group_to_books]
-     FOREIGN KEY (book_id) REFERENCES [book] (id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT [fk_book_group_to_groups]
-     FOREIGN KEY (group_id) REFERENCES [groups] (id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT [fk_book_group_to_lib]
-     FOREIGN KEY (id_lib) REFERENCES [lib] (id)
-        ON DELETE CASCADE ON UPDATE CASCADE
-);
+/* Table structure [objects_without_data] */
+CREATE TABLE [main].[objects_without_data](
+  [id] INTEGER PRIMARY KEY, 
+  [id_lib] INTEGER, 
+  [id_book_without_title] INTEGER, 
+  [id_author_without_data] INTEGER, 
+  [id_seria_without_name] INTEGER, 
+  [id_genre_without_name] INTEGER);
 
 /* Drop table [params] */
 DROP TABLE IF EXISTS [main].[params];
@@ -196,8 +186,9 @@ DROP TABLE IF EXISTS [main].[params];
 CREATE TABLE [main].[params](
   [id] INTEGER PRIMARY KEY, 
   [name] TEXT NOT NULL UNIQUE, 
-  [value] TEXT
-);
+  [value] TEXT);
+
+/* Table data [lib] Record count: 0 */
 
 /* Table data [tag] Record count: 7 */
 INSERT INTO [tag]([rowid], [id], [color], [name]) VALUES(1, 1, '#ff888b', 'Красный');
@@ -208,8 +199,6 @@ INSERT INTO [tag]([rowid], [id], [color], [name]) VALUES(5, 5, '#97d2fd', 'Си�
 INSERT INTO [tag]([rowid], [id], [color], [name]) VALUES(6, 6, '#edb2fd', 'Лиловый');
 INSERT INTO [tag]([rowid], [id], [color], [name]) VALUES(7, 7, '#c8c8c8', 'Серый');
 
-/* Table data [lib] Record count: 0 */
-
 /* Table data [author] Record count: 0 */
 
 /* Table data [seria] Record count: 0 */
@@ -219,6 +208,10 @@ INSERT INTO [tag]([rowid], [id], [color], [name]) VALUES(7, 7, '#c8c8c8', 'Се�
 /* Table data [book_author] Record count: 0 */
 
 /* Table data [book_genre] Record count: 0 */
+
+/* Table data [groups] Record count: 0 */
+
+/* Table data [book_group] Record count: 0 */
 
 /* Table data [genre] Record count: 505 */
 INSERT INTO [genre]([rowid], [id], [name], [name_en], [id_parent], [sort_index], [code]) VALUES(1, 1, 'Военное дело', 'Military', 0, null, null);
@@ -727,9 +720,10 @@ INSERT INTO [genre]([rowid], [id], [name], [name_en], [id_parent], [sort_index],
 INSERT INTO [genre]([rowid], [id], [name], [name_en], [id_parent], [sort_index], [code]) VALUES(504, 504, 'Юмористическая проза', 'Humor Prose', 498, 60, 'humor_prose');
 INSERT INTO [genre]([rowid], [id], [name], [name_en], [id_parent], [sort_index], [code]) VALUES(505, 505, 'Юмористические стихи', 'Humor Verses', 498, 70, 'humor_verse');
 
+/* Table data [objects_without_data] Record count: 0 */
 
 /* Table data [params] Record count: 1 */
-INSERT INTO [params]([rowid], [id], [name], [value]) VALUES(1, 1, 'version', '7');
+INSERT INTO [params]([rowid], [id], [name], [value]) VALUES(1, 1, 'version', '8');
 
 /* Commit transaction */
 COMMIT;
