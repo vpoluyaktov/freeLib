@@ -26,6 +26,9 @@ public:
     //void SaveLibrary();
     bool loop_;
 
+    // id жанра 'Неотсортированное'
+    qlonglong GetOtherGenreId() const;
+
 signals:
     void Message(const QString& str);
     void End();
@@ -65,8 +68,6 @@ private:
         const QString& language, const QString& keys, const QString& archive, int tag, bool readed
     );
 
-    // id жанра 'Неотсортированное'
-    qlonglong GetOtherGenreId() const;
 };
 
 #endif // IMPORTTHREAD_H
