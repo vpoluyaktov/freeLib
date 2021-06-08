@@ -43,6 +43,11 @@ SendType SetCurrentExportSettings(int index);
 
 enum APP_MODE{MODE_LIBRARY,MODE_CONVERTER,MODE_SHELF};
 
+const QString UnknownAuthor = "Unknown Author";
+const QString WithoutGenre = "Without Genre";
+const QString WithoutSeries = "{ " + QObject::tr("Without Series") + " }";
+const QString WithoutTitle = "[ " + QObject::tr("Without Title") + " ]";
+
 struct genre_info
 {
     genre_info(QString genre,qlonglong id):genre(genre),id(id)
@@ -53,7 +58,7 @@ struct genre_info
 };
 struct author_info
 {
-    author_info(QString author, qlonglong id) : author(author), id(id)
+    author_info(QString author = UnknownAuthor, qlonglong id = -1) : author(author), id(id)
     {
         QStringList sl = author.split(",");
         if (sl.count() > 0)
@@ -168,10 +173,5 @@ QString RelativeToAbsolutePath(QString path);
 QString sizeToString(uint size);
 
 extern int g_idCurrentLib;
-
-const QString UnknownAuthor = "Unknown Author";
-const QString WithoutGenre = "Without Genre";
-const QString WithoutSeries = "{ " + QObject::tr("Without Series") + " }";
-const QString WithoutTitle = "[ " + QObject::tr("Without Title") + " ]";
 
 #endif // COMMON_H

@@ -260,14 +260,18 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
 
             QDomNodeList author = title_info.elementsByTagName("author");
             for(int i = 0; i < author.count(); i++) {
-                author_info ti("", 0);
+                author_info ti(UnknownAuthor, 0);
                 ti.id = 0;
                 ti.firstname = author.at(i).toElement().elementsByTagName("first-name").at(0).toElement().text();
                 ti.lastname = author.at(i).toElement().elementsByTagName("last-name").at(0).toElement().text();
                 ti.middlename = author.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
                 ti.nickname = author.at(i).toElement().elementsByTagName("nickname").at(0).toElement().text();
                 ti.author = ti.lastname + "," + ti.firstname + "," + ti.middlename + "," + ti.nickname;
-                bi.authors<<ti;
+                if (ti.firstname == "" && ti.lastname == "" && ti.middlename == "" && ti.nickname == "") {
+                    ti.lastname = ti.author = UnknownAuthor;
+                    isAuthorWithoutData = true;
+                }
+                bi.authors << ti;
             }
 
             QDomNodeList genre = title_info.elementsByTagName("genre");
