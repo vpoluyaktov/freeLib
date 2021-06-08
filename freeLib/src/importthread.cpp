@@ -22,6 +22,7 @@ void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
         query.exec("DELETE FROM book_author WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_genre WHERE id_lib=" + QString::number(id_lib));
         query.exec("DELETE FROM book_group WHERE id_lib=" + QString::number(id_lib));
+        query.exec("DELETE FROM objects_without_data WHERE id_lib=" + QString::number(id_lib));
         query.exec("VACUUM");
     }
 }
@@ -73,7 +74,9 @@ QSize GetCoverSize()
     return picSize;
 }
 
-void GetBookInfo(book_info &bi, const QByteArray &data, QString type, bool info_only, uint id_book)
+void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
+    bool& isBookWithoutTitle, bool& isAuthorWithoutData, bool& isSeriaWithoutName, bool& isGenreaWithoutName,
+    bool info_only, uint id_book)
 {
     QSettings settings;
     bi.id = id_book;
@@ -257,14 +260,18 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type, bool info_
 
             QDomNodeList author = title_info.elementsByTagName("author");
             for(int i = 0; i < author.count(); i++) {
-                author_info ti("", 0);
+                author_info ti(UnknownAuthor, 0);
                 ti.id = 0;
                 ti.firstname = author.at(i).toElement().elementsByTagName("first-name").at(0).toElement().text();
                 ti.lastname = author.at(i).toElement().elementsByTagName("last-name").at(0).toElement().text();
                 ti.middlename = author.at(i).toElement().elementsByTagName("middle-name").at(0).toElement().text();
                 ti.nickname = author.at(i).toElement().elementsByTagName("nickname").at(0).toElement().text();
                 ti.author = ti.lastname + "," + ti.firstname + "," + ti.middlename + "," + ti.nickname;
-                bi.authors<<ti;
+                if (ti.firstname.isEmpty() && ti.lastname.isEmpty() && ti.middlename.isEmpty() && ti.nickname.isEmpty()) {
+                    ti.lastname = ti.author = UnknownAuthor;
+                    isAuthorWithoutData = true;
+                }
+                bi.authors << ti;
             }
 
             QDomNodeList genre = title_info.elementsByTagName("genre");
@@ -302,16 +309,24 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type, bool info_
 
     }
 
-    if (bi.title.isEmpty())
-        bi.title = "[ " + QObject::tr("Without Title") + " ]";
-    if (bi.genres.count() == 0)
-        bi.genres << genre_info("Without Genre", 0);
-    if (bi.authors.count() == 0)
-        bi.authors << author_info("", 0);
+    if (bi.title.isEmpty()) {
+        isBookWithoutTitle = true;
+        bi.title = WithoutTitle;
+    }
+    if (bi.genres.count() == 0) {
+        isGenreaWithoutName = true;
+        bi.genres << genre_info(WithoutGenre, 0);
+    }
+    if (bi.authors.count() == 0) {
+        isAuthorWithoutData = true;
+        bi.authors << author_info(UnknownAuthor, 0);
+    }
     if (bi.language.isEmpty())
         bi.language = "ru";
-    if (bi.seria.isEmpty())
-        bi.seria = "{ " + QObject::tr("Without Series") + " }";
+    if (bi.seria.isEmpty()) {
+        isSeriaWithoutName = true;
+        bi.seria = WithoutSeries;
+    }
 }
 
 ImportThread::ImportThread(QObject *parent) :
@@ -366,6 +381,7 @@ qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, q
 {
     if (str.trimmed().isEmpty())
         return -1;
+
     QStringList names = str.split(',');
     QString LastName;
     if (names.count() > 0)
@@ -384,21 +400,22 @@ qlonglong ImportThread::AddAuthorToSQLite(qlonglong libID, const QString& str, q
 
     Query_->prepare("SELECT id, tag FROM author WHERE id_lib=:id_lib AND LastName=:LastName AND FirstName=:FirstName AND MiddleName=:MiddleName AND NickName=:NickName");
     Query_->bindValue(":id_lib", libID);
-    Query_->bindValue(":LastName", LastName);
-    Query_->bindValue(":FirstName", FirstName);
-    Query_->bindValue(":MiddleName", MiddleName);
-    Query_->bindValue(":NickName", NickName);
+    Query_->bindValue(":LastName", LastName != "" ? LastName : "");
+    Query_->bindValue(":FirstName", FirstName != "" ? FirstName : "");
+    Query_->bindValue(":MiddleName", MiddleName != "" ? MiddleName : "");
+    Query_->bindValue(":NickName", NickName != "" ? NickName : "");
     if (!Query_->exec())
         qDebug() << Query_->lastError().text();
-    qlonglong id = 0;
+    qlonglong id = -1;
     if (Query_->next())
         id = Query_->value(0).toLongLong();
-    if (id == 0) {
+
+    if (id == -1) {
         Query_->prepare("INSERT INTO author(LastName,FirstName,MiddleName,NickName,id_lib,tag) VALUES(:LastName,:FirstName,:MiddleName,:NickName,:id_lib,:tag)");
-        Query_->bindValue(":LastName", LastName);
-        Query_->bindValue(":FirstName", FirstName);
-        Query_->bindValue(":MiddleName", MiddleName);
-        Query_->bindValue(":NickName", NickName);
+        Query_->bindValue(":LastName", LastName != "" ? LastName : "");
+        Query_->bindValue(":FirstName", FirstName != "" ? FirstName : "");
+        Query_->bindValue(":MiddleName", MiddleName != "" ? MiddleName : "");
+        Query_->bindValue(":NickName", NickName != "" ? NickName : "");
         Query_->bindValue(":id_lib", libID);
         Query_->bindValue(":tag", tag);
         if(!Query_->exec())
@@ -447,6 +464,20 @@ qlonglong ImportThread::AddBookToSQLite(
     return id;
 }
 
+/*
+    id жанра 'Неотсортированное'
+*/
+qlonglong ImportThread::GetOtherGenreId() const
+{
+    qlonglong id_other_genre = -1;
+    Query_->prepare("SELECT id FROM genre WHERE name ='Неотсортированное';");
+    if (!Query_->exec())
+        qDebug() << Query_->lastError().text();
+    Query_->next();
+    id_other_genre = Query_->value(0).toUInt();
+    return id_other_genre;
+}
+
 qlonglong ImportThread::AddGenreToSQLite(qlonglong id_lib, QString genre, qlonglong id_book, const QString& language)
 {
     qlonglong id_genre = 0;
@@ -457,11 +488,7 @@ qlonglong ImportThread::AddGenreToSQLite(qlonglong id_lib, QString genre, qlongl
     else {
         qDebug() << "Неизвестный жанр: " + genre;
         // код Жанра Прочие/Неотсортированное
-        Query_->prepare("SELECT id FROM genre WHERE name ='Неотсортированное';");
-        if (!Query_->exec())
-            qDebug() << Query_->lastError().text();
-        Query_->next();
-        id_genre = Query_->value(0).toUInt();
+        id_genre = GetOtherGenreId();
     }
     Query_->exec(
         "INSERT INTO book_genre(id_book, id_genre, id_lib, language) VALUES(" +
@@ -524,24 +551,7 @@ bool ImportThread::readFB2_FBD(const QByteArray& ba, const QString& file_name, c
         message += "  " + QString(tr("from zip:  %1")).arg(arh_name);
     emit Message(message);
 
-    book_info bi;
-    GetBookInfo(bi, ba, "fb2", true);
-    qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, bi.seria, 0);
-    qlonglong id_book = AddBookToSQLite(
-        ExistingLibID_, bi.star, bi.title, id_seria, bi.num_in_seria, fileName,
-        (file_size == 0 ? ba.size() : file_size), 0, false, fi.suffix(), QDate::currentDate(),
-        bi.language, bi.keywords, arh_name, 0, bi.readed
-    );
-
-    bool first_author = true;
-    foreach(author_info author, bi.authors) {
-        AddAuthorToSQLite(ExistingLibID_, author.author, id_book, first_author, bi.language, 0);
-        first_author = false;
-        if(FirstAuthorOnly_)
-            break;
-    }
-    foreach(genre_info genre, bi.genres)
-        AddGenreToSQLite(ExistingLibID_, genre.genre, id_book, bi.language);
+    readBook("fb2", fi.suffix(), ba, fileName, arh_name, file_size);
 
     return true;
 }
@@ -561,19 +571,34 @@ bool ImportThread::readEPUB(const QByteArray &ba, const QString& file_name, cons
 
     emit Message(tr("add (epub):") + " " + file_name);
 
+    readBook("epub", "epub", ba, file_name, arh_name, file_size);
+
+    return true;
+}
+
+void ImportThread::readBook(
+    const QString& type, const QString& format, const QByteArray& ba,
+    const QString& file_name, const QString& arh_name, qint32 file_size
+)
+{
     book_info bi;
-    GetBookInfo(bi, ba, "epub", true);
+    bool isBookWithoutTitle = false;
+    bool isAuthorWithoutData = false;
+    bool isSeriaWithoutName = false;
+    bool isGenreaWithoutName = false;
+    GetBookInfo(bi, ba, type, isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName, true);
 
     qlonglong id_seria = AddSeriaToSQLite(ExistingLibID_, bi.seria, 0);
     qlonglong id_book = AddBookToSQLite(
         ExistingLibID_, bi.star, bi.title, id_seria, bi.num_in_seria, file_name,
-        (file_size == 0 ? ba.size() : file_size), 0, false, "epub", QDate::currentDate(),
+        (file_size == 0 ? ba.size() : file_size), 0, false, format, QDate::currentDate(),
         bi.language, bi.keywords, arh_name, 0, bi.readed
     );
 
+    qlonglong id_author = -1;
     bool first_author = true;
     foreach(author_info author, bi.authors) {
-        AddAuthorToSQLite(ExistingLibID_, author.author, id_book, first_author, bi.language, 0);
+        id_author = AddAuthorToSQLite(ExistingLibID_, author.author, id_book, first_author, bi.language, 0);
         first_author = false;
         if (FirstAuthorOnly_)
             break;
@@ -581,7 +606,17 @@ bool ImportThread::readEPUB(const QByteArray &ba, const QString& file_name, cons
     foreach(genre_info genre, bi.genres)
         AddGenreToSQLite(ExistingLibID_, genre.genre, id_book, bi.language);
 
-    return true;
+    if (isBookWithoutTitle || isAuthorWithoutData || isSeriaWithoutName || isGenreaWithoutName) {
+        qlonglong id_other_genre = GetOtherGenreId();
+        Query_->prepare("INSERT INTO objects_without_data(id_lib, id_book_without_title, id_author_without_data, id_seria_without_name, id_genre_without_name) values(:id_lib, :id_book_without_title, :id_author_without_data, :id_seria_without_name, :id_genre_without_name)");
+        Query_->bindValue(":id_lib", ExistingLibID_);
+        Query_->bindValue(":id_book_without_title", isBookWithoutTitle ? id_book : -1);
+        Query_->bindValue(":id_author_without_data", isAuthorWithoutData ? id_author : -1);
+        Query_->bindValue(":id_seria_without_name", isSeriaWithoutName ? id_seria : -1);
+        Query_->bindValue(":id_genre_without_name", isGenreaWithoutName ? id_other_genre : -1);
+        if (!Query_->exec())
+            qDebug() << Query_->lastError().text();
+    }
 }
 
 ulong ImportThread::importBooksToLibrary(const QString& path)
@@ -775,6 +810,7 @@ void ImportThread::process()
         Query_->exec(QString("DELETE FROM book_genre WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec(QString("DELETE FROM book_author WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec(QString("DELETE FROM book_group WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
+        Query_->exec(QString("DELETE FROM objects_without_data WHERE id_lib=%1 AND id_book IN (SELECT id FROM tmp);").arg(QString::number(ExistingLibID_)));
         Query_->exec("DROP TABLE IF EXISTS tmp;");
         Query_->exec("VACUUM");
         emit Message(tr("Books count:") + " " + QString::number(booksCount));

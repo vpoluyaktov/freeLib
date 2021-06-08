@@ -43,6 +43,11 @@ SendType SetCurrentExportSettings(int index);
 
 enum APP_MODE{MODE_LIBRARY,MODE_CONVERTER,MODE_SHELF};
 
+const QString UnknownAuthor = "Unknown Author";
+const QString WithoutGenre = "Without Genre";
+const QString WithoutSeries = "{ " + QObject::tr("Without Series") + " }";
+const QString WithoutTitle = "[ " + QObject::tr("Without Title") + " ]";
+
 struct genre_info
 {
     genre_info(QString genre,qlonglong id):genre(genre),id(id)
@@ -53,7 +58,7 @@ struct genre_info
 };
 struct author_info
 {
-    author_info(QString author, qlonglong id) : author(author), id(id)
+    author_info(QString author = UnknownAuthor, qlonglong id = -1) : author(author), id(id)
     {
         QStringList sl = author.split(",");
         if (sl.count() > 0)
@@ -144,7 +149,11 @@ struct tag
 extern QList<tag> tag_list;
 
 QFileInfo GetBookFile(QBuffer &buffer, QBuffer &buffer_info, uint id_book, bool caption=false, QDateTime *file_data=nullptr);
-void GetBookInfo(book_info &bi, const QByteArray &data, QString type, bool info_only=false, uint id_book=0);
+void GetBookInfo(
+    book_info &bi, const QByteArray &data, QString type,
+    bool& isBookWithoutTitle, bool& isAuthorWithoutData, bool& isSeriaWithoutName, bool& isGenreaWithoutName,
+    bool info_only = false, uint id_book = 0
+);
 QPixmap CreateTag(QColor color,int size);
 void SetLocale();
 QString FindLocaleFile(QString locale,QString name,QString suffics);

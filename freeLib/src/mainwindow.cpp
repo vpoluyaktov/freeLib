@@ -1580,18 +1580,34 @@ void MainWindow::SelectBook()
 
     book_info bi;
     if (fi.fileName().isEmpty()) {
-        GetBookInfo(bi, QByteArray(), "", true, idBook);
+        bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
+        GetBookInfo(bi, QByteArray(), "",
+            isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+            true, idBook);
         QString file = book.sArchive.trimmed().isEmpty() ? book.sFile : book.sArchive;
         file = file.replace("\\", "/");
         bi.annotation = "<font color=\"red\">" + tr("Can't find file: %1").arg(file) + "</font>";
     }
     else {
+        bool isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName;
         if (fi.fileName().right(3).toLower() == "fb2")
-            GetBookInfo(bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fb2", false, idBook);
+            GetBookInfo(
+                bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fb2",
+                isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+                false, idBook
+            );
         else if (fi.fileName().right(4).toLower() == "epub")
-            GetBookInfo(bi, buffer_book.data(), "epub", false, idBook);
+            GetBookInfo(
+                bi, buffer_book.data(), "epub",
+                isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+                false, idBook
+            );
         else
-            GetBookInfo(bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fbd", false, idBook);
+            GetBookInfo(
+                bi, buffer_info.size() == 0 ? buffer_book.data() : buffer_info.data(), "fbd",
+                isBookWithoutTitle, isAuthorWithoutData, isSeriaWithoutName, isGenreaWithoutName,
+                false, idBook
+            );
     }
 
     QString sSeria;
@@ -2268,7 +2284,7 @@ void MainWindow::FillTreeWidgetGenres(int idLibrary)
     ui->GenreList->clear();
     ui->comboBoxFindGenre->clear();
     ui->comboBoxFindGenre->addItem("*", 0);
-    QFont bold_font(ui->AuthorList->font());
+    QFont bold_font(ui->GenreList->font());
     bold_font.setBold(true);
 
     QMap<uint,uint> mCounts;

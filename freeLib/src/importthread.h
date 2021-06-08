@@ -40,7 +40,10 @@ protected:
 
     bool readFB2_FBD(const QByteArray &ba, const QString& file_name, const QString& arh_name, qint32 file_size = 0);
     bool readEPUB(const QByteArray &ba, const QString& file_name, const QString& arh_name, qint32 file_size = 0);
-
+    void readBook(
+        const QString& type, const QString& format, const QByteArray& ba,
+        const QString& file_name, const QString& arh_name, qint32 file_size = 0
+    );
 private:
     QString InpxFileName_;
     QString LibName_;
@@ -61,6 +64,9 @@ private:
         const QString& file, int size, int IDinLib, bool deleted, const QString& format, const QDate& date,
         const QString& language, const QString& keys, const QString& archive, int tag, bool readed
     );
+
+    // id жанра 'Неотсортированное'
+    qlonglong GetOtherGenreId() const;
 };
 
 #endif // IMPORTTHREAD_H

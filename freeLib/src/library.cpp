@@ -221,6 +221,6 @@ QString SAuthor::getName() const
     else if (sAuthorName.length() > 3) // только nickname
         return sAuthorName;
     else // неизвестный автор - вообще без данных
-        sAuthorName = QCoreApplication::translate("MainWindow", "Unknown Author");
+        sAuthorName = UnknownAuthor;
     return sAuthorName;
 }
