@@ -19,6 +19,7 @@ public:
 
 struct SBook
 {
+    qlonglong id;
     QString sName;
     QString sAnnotation;
     QString sImg;
@@ -42,6 +43,7 @@ struct SBook
     bool bReaded;
     SBook()
     {
+        id = 0;
         idInLib = 0;
         idSerial = 0;
         idFirstAuthor = 0;
