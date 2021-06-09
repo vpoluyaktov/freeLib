@@ -98,7 +98,7 @@ private:
         int idLanguage, int idCurrentTag, const QString& sKeyword, int idCurrentRating,
         bool IsReaded, const QString& sFormat, const QDate& dateFrom, const QDate& dateTo, int nMaxCount
     );
-    // Выделение 1-го элемента списка Авторов или Серии
+    // выделение 1-го элемента списка Авторов, Жанра или Серии
     void SelectFirstItemList();
     // сохранение языка фильтрации книг текущей библиотеки с id = g_idCurrentLib
     void SaveCurrentBookLanguageFilter(int idLibrary, const QString& lang);
@@ -265,6 +265,8 @@ private slots:
     void dockClicked();
     void MinimizeWindow();
     void actionAboutQt();
+    // удаление книги
+    void DeleteBookAction();
 
     // обработчик переключения в режим конвертера из меню
     void on_actionSwitch_to_convert_mode_triggered();

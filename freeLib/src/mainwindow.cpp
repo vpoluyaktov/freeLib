@@ -12,7 +12,7 @@
 #include <QPainter>
 #include <QInputDialog>
 #include <QShortcut>
-
+#include <QStandardItemModel>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "common.h"
@@ -32,7 +32,7 @@
 #include "treebookitem.h"
 #include "genresortfilterproxymodel.h"
 #include "library.h"
-#include <QStandardItemModel>
+
 
 extern QSplashScreen *splash;
 
@@ -1770,7 +1770,7 @@ void MainWindow::ManageLibrary()
 }
 
 /*
-    Выделение 1-го элемента списка Авторов или Сери
+    выделение 1-го элемента списка Авторов, Жанра или Серии
 */
 void MainWindow::SelectFirstItemList()
 {
@@ -1970,6 +1970,13 @@ void MainWindow::ContextMenu(QPoint point)
                 connect(actionDeleteFromGroup, &QAction::triggered, this, &MainWindow::DeleteBookFromGroupAction);
                 menu.addAction(actionDeleteFromGroup);
             }
+            // меню 'Удалить книгу'
+            menu.addSeparator();
+            uint idBooks = ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toUInt();
+            QAction* actionDeleteBook = new QAction(tr("Delete selected Book..."), this);
+            actionDeleteBook->setData(QString::number(idBooks).toUInt());
+            connect(actionDeleteBook, &QAction::triggered, this, &MainWindow::DeleteBookAction);
+            menu.addAction(actionDeleteBook);
         }
     }
     if(menu.actions().count() > 0)
@@ -3783,4 +3790,12 @@ void MainWindow::SetGroupDefaultIconsAction()
 void MainWindow::actionAboutQt()
 {
     QMessageBox::aboutQt(this);
+}
+
+/*
+    удаление книги
+*/
+void MainWindow::DeleteBookAction()
+{
+    
 }
