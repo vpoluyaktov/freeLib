@@ -1800,6 +1800,11 @@ void MainWindow::btnAuthorClick()
     ui->frameLang->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
+    if (mLibs[g_idCurrentLib].uIdCurrentAuthor > 0 && ui->AuthorList->selectedItems().count() == 0) {
+        const bool wasBlocked = ui->AuthorList->blockSignals(true);
+        ui->AuthorList->item(0)->setSelected(true);
+        ui->AuthorList->blockSignals(wasBlocked);
+    }
     SelectAuthor();
     QApplication::restoreOverrideCursor();
 }
@@ -1816,6 +1821,11 @@ void MainWindow::btnSeriesClick()
     ui->frameLang->setEnabled(true);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
+    if (mLibs[g_idCurrentLib].uIdCurrentSeria > 0 && ui->SeriaList->selectedItems().count() == 0) {
+        const bool wasBlocked = ui->SeriaList->blockSignals(true);
+        ui->SeriaList->item(0)->setSelected(true);
+        ui->SeriaList->blockSignals(wasBlocked);
+    }
     SelectSeria();
     QApplication::restoreOverrideCursor();
 }
@@ -1832,6 +1842,13 @@ void MainWindow::btnGenresClick()
     ui->frameLang->setEnabled(false);
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
+    if (mLibs[g_idCurrentLib].uIdCurrentGenre > 0 && ui->GenreList->selectedItems().count() == 0) {
+        const bool wasBlocked = ui->GenreList->blockSignals(true);
+        QTreeWidgetItem* item = new QTreeWidgetItem(ui->GenreList);
+        item->setSelected(true);
+        ui->GenreList->scrollToItem(item);
+        ui->GenreList->blockSignals(wasBlocked);
+    }
     SelectGenre();
     QApplication::restoreOverrideCursor();
 }
@@ -3225,6 +3242,11 @@ void MainWindow::btnPageGroupsClick()
     ui->Books->clear();
     ui->comboBoxLanguageFilter->setEnabled(true);
     ui->comboBoxTagFilter->setEnabled(true);
+    if (mLibs[g_idCurrentLib].uIdCurrentGroup > 0 && ui->GroupList->selectedItems().count() == 0) {
+        const bool wasBlocked = ui->GroupList->blockSignals(true);
+        ui->GroupList->item(0)->setSelected(true);
+        ui->GroupList->blockSignals(wasBlocked);
+    }
     SelectGroup();
     QApplication::restoreOverrideCursor();
 }
