@@ -3825,5 +3825,195 @@ void MainWindow::actionAboutQt()
 */
 void MainWindow::DeleteBookAction()
 {
-    
+    QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
+    if (QMessageBox::question(
+        this, tr("Remove book"),
+        tr("Are you sure you want to delete the book") + "\n'" + bookItem->text(0) + "'?",
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+
+        uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+
+        /* получение id автора, серии, жанра и группы для удаляемой книги */
+        int idAuthor = -1; int idSeria = -1; int idGenre = -1; int idGroup = -1;
+        query.prepare("SELECT id_author FROM book_author WHERE id_lib = :id_lib AND id_book = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            idAuthor = query.value(0).toInt();
+
+        query.prepare("SELECT id_seria FROM book WHERE id_lib = :id_lib AND id = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            idSeria = query.value(0).toInt();
+
+        query.prepare("SELECT id_genre FROM book_genre WHERE id_lib = :id_lib AND id_book = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            idGenre = query.value(0).toInt();
+
+        query.prepare("SELECT group_id FROM book_group WHERE id_lib = :id_lib AND book_id = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            idGroup = query.value(0).toInt();
+
+        /* удаление из базы */
+        query.prepare("DELETE FROM book_author WHERE id_lib = :id_lib AND id_book = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        query.prepare("DELETE FROM book_genre WHERE id_lib = :id_lib AND id_book = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        query.prepare("DELETE FROM book_group WHERE id_lib = :id_lib AND book_id = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        query.prepare("DELETE FROM book WHERE id_lib = :id_lib AND id = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        query.prepare("DELETE FROM objects_without_data WHERE id_lib = :id_lib AND id_book_without_title = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        /* получение числа оставшихся книг для автора, серии и жанра удаленной книги */
+        int authorForBookCount = -1; int seriaForBookCount = -1; int genreForBookCount = -1;
+        query.prepare("SELECT COUNT(id_book) FROM book_author WHERE id_lib = :id_lib AND id_author = :author_id;");
+        query.bindValue(":author_id", idAuthor);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            authorForBookCount = query.value(0).toInt();
+
+        query.prepare("SELECT COUNT(id) FROM book WHERE id_lib = :id_lib AND id_seria = :seria_id;");
+        query.bindValue(":seria_id", idSeria);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            seriaForBookCount = query.value(0).toInt();
+
+        query.prepare("SELECT COUNT(id_book) FROM book_genre WHERE id_lib = :id_lib AND id_genre = :genre_id;");
+        query.bindValue(":genre_id", idGenre);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            genreForBookCount = query.value(0).toInt();
+
+        if (authorForBookCount == 0) {
+            query.prepare("DELETE FROM author WHERE id_lib = :id_lib AND id = :author_id;");
+            query.bindValue(":author_id", idAuthor);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+
+            query.prepare("DELETE FROM objects_without_data WHERE id_lib = :id_lib AND id_author_without_data = :author_id;");
+            query.bindValue(":author_id", idAuthor);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+        }
+
+        if (seriaForBookCount == 0) {
+            query.prepare("DELETE FROM seria WHERE id_lib = :id_lib AND id = :seria_id;");
+            query.bindValue(":seria_id", idSeria);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+
+            query.prepare("DELETE FROM objects_without_data WHERE id_lib = :id_lib AND id_seria_without_name = :seria_id;");
+            query.bindValue(":seria_id", idSeria);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+        }
+
+        if (genreForBookCount == 0) {
+            query.prepare("DELETE FROM objects_without_data WHERE id_lib = :id_lib AND id_genre_without_name = :genre_id;");
+            query.bindValue(":genre_id", idGenre);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+        }
+
+        // заполнение структуры библиотеки из базы данных
+        mLibs.clear();
+        query.exec(
+            "SELECT id, name, path, inpx, firstauthor, woDeleted,  currentTab, currentAuthor, currentSeria, currentGenre, currentGroup, currentBookForAuthor, currentBookForSeria, currentBookForGenre, currentBookForGroup, currentSearchingFilter, currentTag, currentBookLanguage FROM lib ORDER BY name"
+        );
+        //          0    1     2      3         4          5            6           7             8               9             10                 11                  12                       13              14                   15                  16              17
+        while (query.next())
+        {
+            int idLib = query.value(0).toUInt();
+            mLibs[idLib].name = query.value(1).toString().trimmed();
+            mLibs[idLib].path = query.value(2).toString().trimmed();
+            mLibs[idLib].sInpx = query.value(3).toString().trimmed();
+            mLibs[idLib].bFirstAuthor = query.value(4).toBool();
+            mLibs[idLib].bWoDeleted = query.value(5).toBool();
+            mLibs[idLib].nCurrentTab = query.value(6).toInt();
+            mLibs[idLib].uIdCurrentAuthor = query.value(7).toUInt();
+            mLibs[idLib].uIdCurrentSeria = query.value(8).toUInt();
+            mLibs[idLib].uIdCurrentGenre = query.value(9).toUInt();
+            mLibs[idLib].uIdCurrentGroup = query.value(10).toUInt();
+            mLibs[idLib].uIdCurrentBookForAuthor = query.value(11).toUInt();
+            mLibs[idLib].uIdCurrentBookForSeria = query.value(12).toUInt();
+            mLibs[idLib].uIdCurrentBookForGenre = query.value(13).toUInt();
+            mLibs[idLib].uIdCurrentBookForGroup = query.value(14).toUInt();
+            mLibs[idLib].sCurrentSearchingFilter = query.value(15).toString().trimmed();
+            mLibs[idLib].uIdCurrentTag = query.value(16).toUInt();
+            mLibs[idLib].sCurrentBookLanguage = query.value(17).toString().trimmed();
+        }
+
+        ui->Books->clear();
+        loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
+        UpdateBookLanguageControls(g_idCurrentLib);
+        FillFormatList(g_idCurrentLib); // заполнение комбобокса с форматами книг на вкладке Поиск
+        FillListWidgetAuthors(g_idCurrentLib);
+        FillListWidgetSerials(g_idCurrentLib);
+        FillTreeWidgetGenres(g_idCurrentLib);
+        FillListWidgetGroups(g_idCurrentLib);
+
+        switch (ui->tabWidget->currentIndex()) {
+        case 0:
+            btnAuthorClick();
+            break;
+        case 1:
+            btnSeriesClick();
+            break;
+        case 2:
+            btnGenresClick();
+            break;
+        case 3:
+            btnPageSearchClick();
+            break;
+        case 4:
+            btnPageGroupsClick();
+            break;
+        }
+    }
 }
