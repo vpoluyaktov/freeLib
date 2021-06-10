@@ -268,6 +268,8 @@ MainWindow::MainWindow(QWidget* parent) :
     CreateRatingMenu();
     // создание меню Прочитано/Не прочитано
     CreateReadedMenu();
+    // создание меню удаления книги
+    CreateBookDeleteMenu();
 
     UpdateTagsMenu();
     loadGenresFromSQLiteToLibraryStructure();
@@ -1997,11 +1999,8 @@ void MainWindow::ContextMenu(QPoint point)
             }
             // меню 'Удалить книгу'
             menu.addSeparator();
-            uint idBooks = ui->Books->selectedItems()[0]->data(0, Qt::UserRole).toUInt();
-            QAction* actionDeleteBook = new QAction(tr("Delete selected Book..."), this);
-            actionDeleteBook->setData(QString::number(idBooks).toUInt());
-            connect(actionDeleteBook, &QAction::triggered, this, &MainWindow::DeleteBookAction);
-            menu.addAction(actionDeleteBook);
+            // меню 'Удалить книгу только из базы данных'
+            menu.addMenu(menuBookDelete_);
         }
     }
     if(menu.actions().count() > 0)
@@ -3614,6 +3613,28 @@ void MainWindow::CreateReadedMenu()
 }
 
 /*
+    создание меню удаления книги
+*/
+void MainWindow::CreateBookDeleteMenu()
+{
+    menuBookDelete_ = new QMenu(tr("Delete selected Book"), this);
+    QAction* actionDeleteOnlyFromDataBase = new QAction(tr("Only from DataBase ..."), this);
+    actionDeleteOnlyFromDataBase->setData(QString::number(1).toInt());
+    connect(actionDeleteOnlyFromDataBase, &QAction::triggered, this, &MainWindow::DeleteBookOnlyFromDataBaseAction);
+    menuBookDelete_->addAction(actionDeleteOnlyFromDataBase);
+
+    QAction* actionDeleteOnlyFromDisk = new QAction(tr("Only from Disk ..."), this);
+    actionDeleteOnlyFromDisk->setData(QString::number(1).toInt());
+    connect(actionDeleteOnlyFromDisk, &QAction::triggered, this, &MainWindow::DeleteBookOnlyFromDiskAction);
+    menuBookDelete_->addAction(actionDeleteOnlyFromDisk);
+
+    QAction* actionDeleteFromDataBaseAndDisk = new QAction(tr("From DataBase and Disk ..."), this);
+    actionDeleteFromDataBaseAndDisk->setData(QString::number(1).toInt());
+    connect(actionDeleteFromDataBaseAndDisk, &QAction::triggered, this, &MainWindow::DeleteBookFromDataBaseAndDiskAction);
+    menuBookDelete_->addAction(actionDeleteFromDataBaseAndDisk);
+}
+
+/*
     Оптимизация базы данных
 */
 void MainWindow::DatabaseOptimization()
@@ -3834,9 +3855,9 @@ void MainWindow::actionAboutQt()
 }
 
 /*
-    удаление книги
+    обработчик экшена "Удалить книгу только из базы данных"
 */
-void MainWindow::DeleteBookAction()
+void MainWindow::DeleteBookOnlyFromDataBaseAction()
 {
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
     if (QMessageBox::question(
@@ -4029,4 +4050,18 @@ void MainWindow::DeleteBookAction()
             break;
         }
     }
+}
+
+/*
+    обработчик экшена "Удалить книгу только с диска"
+*/
+void MainWindow::DeleteBookOnlyFromDiskAction()
+{
+}
+
+/*
+    обработчик экшена "Удалить книгу из базы данных и с диска"
+*/
+void MainWindow::DeleteBookFromDataBaseAndDiskAction()
+{
 }

@@ -50,6 +50,7 @@ private:
     QMenu menuTag_;
     QMenu* menuRating_;
     QMenu* menuReaded_;
+    QMenu* menuBookDelete_;
     QObject* currentListForTag_;
     QList<Stag> tagsPicList_;
     QToolButton *FirstButton_;
@@ -116,6 +117,8 @@ private:
     void CreateRatingMenu();
     // создание меню Прочитано/Не прочитано
     void CreateReadedMenu();
+    // создание меню удаления книги
+    void CreateBookDeleteMenu();
     // переименование названия Группы с учетом числа книг в ней
     void SetNewGroupNameWithBookCount(int idLibrary, uint idGroup);
     // число книг в группе
@@ -209,7 +212,7 @@ private slots:
     void CheckBooks();
     // обработчик экшена "Настройки" 
     void Settings();
-
+    
     // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
     void MarkDeletedBooks();
     // Оптимизация базы данных
@@ -265,8 +268,12 @@ private slots:
     void dockClicked();
     void MinimizeWindow();
     void actionAboutQt();
-    // удаление книги
-    void DeleteBookAction();
+    // обработчик экшена "Удалить книгу только из базы данных"
+    void DeleteBookOnlyFromDataBaseAction();
+    // обработчик экшена "Удалить книгу только с диска"
+    void DeleteBookOnlyFromDiskAction();
+    // обработчик экшена "Удалить книгу из базы данных и с диска"
+    void DeleteBookFromDataBaseAndDiskAction();
 
     // обработчик переключения в режим конвертера из меню
     void on_actionSwitch_to_convert_mode_triggered();
