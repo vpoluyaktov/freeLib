@@ -1605,6 +1605,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="4097"/>
+        <location filename="mainwindow.cpp" line="4118"/>
+        <source>File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="mainwindow.cpp" line="4117"/>
         <source>Delete book from database and from disk</source>
         <translation type="unfinished"></translation>

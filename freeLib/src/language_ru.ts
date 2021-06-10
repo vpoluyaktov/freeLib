@@ -1706,6 +1706,12 @@
         <translation>Вы действительно хотите удалить выделенную книгу с диска (книга из базы данных НЕ удаляется)</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="4097"/>
+        <location filename="mainwindow.cpp" line="4118"/>
+        <source>File:</source>
+        <translation>Файл:</translation>
+    </message>
+    <message>
         <location filename="mainwindow.cpp" line="4117"/>
         <source>Delete book from database and from disk</source>
         <translation>Удаление книги из базы данных и с диска</translation>
