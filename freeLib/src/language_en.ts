@@ -1526,84 +1526,91 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3905"/>
-        <location filename="mainwindow.cpp" line="4110"/>
+        <location filename="mainwindow.cpp" line="3898"/>
+        <location filename="mainwindow.cpp" line="4096"/>
         <source>Delete book from disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3906"/>
+        <location filename="mainwindow.cpp" line="3899"/>
         <source>The file is not found on the disk!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3937"/>
+        <location filename="mainwindow.cpp" line="3920"/>
         <source>Remove the Group icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3943"/>
+        <location filename="mainwindow.cpp" line="3926"/>
         <source>Set the Group icon...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3950"/>
+        <location filename="mainwindow.cpp" line="3933"/>
         <source>Default icons...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3969"/>
+        <location filename="mainwindow.cpp" line="3952"/>
         <source>Remove the Group icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3970"/>
+        <location filename="mainwindow.cpp" line="3953"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3989"/>
+        <location filename="mainwindow.cpp" line="3972"/>
         <source>Open Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3989"/>
+        <location filename="mainwindow.cpp" line="3972"/>
         <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4017"/>
+        <location filename="mainwindow.cpp" line="4000"/>
         <source>Default icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4018"/>
+        <location filename="mainwindow.cpp" line="4001"/>
         <source>Are you sure you want to set default icons for blocked Groups?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4090"/>
+        <location filename="mainwindow.cpp" line="4073"/>
         <source>Delete book from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4091"/>
+        <location filename="mainwindow.cpp" line="4074"/>
         <source>Do you really want to delete the selected book from the database (the file from the disk is not deleted)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4111"/>
+        <location filename="mainwindow.cpp" line="4074"/>
+        <location filename="mainwindow.cpp" line="4097"/>
+        <location filename="mainwindow.cpp" line="4118"/>
+        <source>Book:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="4097"/>
         <source>You really want to delete the selected book from the disk (the book from the database is not deleted)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4130"/>
+        <location filename="mainwindow.cpp" line="4117"/>
         <source>Delete book from database and from disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4131"/>
+        <location filename="mainwindow.cpp" line="4118"/>
         <source>You really want to remove the selected book simultaneously from the database and from the disk</source>
         <translation type="unfinished"></translation>
     </message>

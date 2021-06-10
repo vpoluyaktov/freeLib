@@ -1627,84 +1627,91 @@
         <translation>Оптимизиция базы данных завершена.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3905"/>
-        <location filename="mainwindow.cpp" line="4110"/>
+        <location filename="mainwindow.cpp" line="3898"/>
+        <location filename="mainwindow.cpp" line="4096"/>
         <source>Delete book from disk</source>
         <translation>Удаление книги с диска</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3906"/>
+        <location filename="mainwindow.cpp" line="3899"/>
         <source>The file is not found on the disk!</source>
         <translation>Файл не найден на диске!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3937"/>
+        <location filename="mainwindow.cpp" line="3920"/>
         <source>Remove the Group icon...</source>
         <translation>Удалить иконку Группы...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3943"/>
+        <location filename="mainwindow.cpp" line="3926"/>
         <source>Set the Group icon...</source>
         <translation>Задать иконку Группы...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3950"/>
+        <location filename="mainwindow.cpp" line="3933"/>
         <source>Default icons...</source>
         <translation>Установить иконки по умолчанию...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3969"/>
+        <location filename="mainwindow.cpp" line="3952"/>
         <source>Remove the Group icon</source>
         <translation>Удалить иконку Группы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3970"/>
+        <location filename="mainwindow.cpp" line="3953"/>
         <source>Are you sure you want to remove the icon for the selected group?</source>
         <oldsource>Are you sure you want to remove the icon for the selected group? </oldsource>
         <translation>Вы действительно хотите удалить иконку для выделенной группы?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3989"/>
+        <location filename="mainwindow.cpp" line="3972"/>
         <source>Open Image</source>
         <translation>Выбрать иконку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="3989"/>
+        <location filename="mainwindow.cpp" line="3972"/>
         <source>Image Files (*.png *.jpg *.jpeg *.ico)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4017"/>
+        <location filename="mainwindow.cpp" line="4000"/>
         <source>Default icons</source>
         <translation>Иконки по умолчанию</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4018"/>
+        <location filename="mainwindow.cpp" line="4001"/>
         <source>Are you sure you want to set default icons for blocked Groups?</source>
         <translation>Вы действительно хотите установить иконки по умолчанию для заблокированных Групп?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4090"/>
+        <location filename="mainwindow.cpp" line="4073"/>
         <source>Delete book from database</source>
         <translation>Удаление книги из базы данных</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4091"/>
+        <location filename="mainwindow.cpp" line="4074"/>
         <source>Do you really want to delete the selected book from the database (the file from the disk is not deleted)</source>
         <translation>Вы действительно хотите удалить выделенную книгу из базы данных (файл на диске НЕ удаляется)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4111"/>
+        <location filename="mainwindow.cpp" line="4074"/>
+        <location filename="mainwindow.cpp" line="4097"/>
+        <location filename="mainwindow.cpp" line="4118"/>
+        <source>Book:</source>
+        <translation>Книга:</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="4097"/>
         <source>You really want to delete the selected book from the disk (the book from the database is not deleted)</source>
         <translation>Вы действительно хотите удалить выделенную книгу с диска (книга из базы данных НЕ удаляется)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4130"/>
+        <location filename="mainwindow.cpp" line="4117"/>
         <source>Delete book from database and from disk</source>
         <translation>Удаление книги из базы данных и с диска</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="4131"/>
+        <location filename="mainwindow.cpp" line="4118"/>
         <source>You really want to remove the selected book simultaneously from the database and from the disk</source>
         <translation>Вы действительно хотите удалить выделенную книгу одновременно из базы данных и с диска</translation>
     </message>
