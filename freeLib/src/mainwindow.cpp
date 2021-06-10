@@ -4057,6 +4057,40 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
 */
 void MainWindow::DeleteBookOnlyFromDiskAction()
 {
+    QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
+    if (QMessageBox::question(
+        this, tr("Delete book from disk"),
+        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "\n'" + bookItem->text(0) + "'?",
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+
+        QString filePath; QString archivePath;
+        uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
+        QSqlQuery query(QSqlDatabase::database("libdb"));
+        query.prepare("SELECT file, archive FROM book WHERE id_lib = :id_lib AND id = :book_id;");
+        query.bindValue(":book_id", idBook);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next()) {
+            filePath = query.value(0).toString();
+            archivePath = query.value(1).toString();
+            QString messageTitle = tr("Delete book from disk");
+            QString message = tr("The file is not found on the disk!") + "\n'";
+            if (archivePath.isEmpty()) {
+                // НЕ архивы
+                if (QFile::exists(filePath))
+                    QFile::remove(filePath);
+                else
+                    QMessageBox::warning(this, messageTitle, message + filePath, QMessageBox::Ok);
+            } else {
+                // архивы
+                if (QFile::exists(archivePath))
+                    QFile::remove(archivePath);
+                else
+                    QMessageBox::warning(this, messageTitle, message + archivePath, QMessageBox::Ok);
+            }
+        }
+    }
 }
 
 /*
