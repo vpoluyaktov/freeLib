@@ -1706,7 +1706,7 @@
     <message>
         <location filename="mainwindow.cpp" line="4131"/>
         <source>You really want to remove the selected book simultaneously from the database and from the disk</source>
-        <translation>Вы действительно хотите удалить выделенную книгу одновременно из базы данных И с диска</translation>
+        <translation>Вы действительно хотите удалить выделенную книгу одновременно из базы данных и с диска</translation>
     </message>
     <message>
         <source>Are you sure you want to delete all books of the selected group?</source>
