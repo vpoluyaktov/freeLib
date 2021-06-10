@@ -4115,7 +4115,7 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
     QString filePath = ReadBookPathFromLibrary(idBook, query);
     if (QMessageBox::question(
         this, tr("Delete book from database and from disk"),
-        tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\nFile:" + " " + filePath,
+        tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\n" + tr("File:") + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
         // удаление книги только с диска
