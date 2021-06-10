@@ -3212,6 +3212,7 @@ void MainWindow::SaveCurrentBookLanguageFilter(int idLibrary, const QString& lan
     query.bindValue(":currentBookLanguage", lang);
     query.bindValue(":id_lib", idLibrary);
     query.exec();
+    mLibs[g_idCurrentLib].sCurrentBookLanguage = lang;
 }
 
 /*
