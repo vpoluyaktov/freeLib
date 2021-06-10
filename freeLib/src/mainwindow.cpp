@@ -779,6 +779,8 @@ void MainWindow::FilterTagSelect(int index)
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
         FillTreeWidgetGenres(g_idCurrentLib);
+        FillListWidgetGroups(g_idCurrentLib);
+
         FillListBooks();
     }
 }
