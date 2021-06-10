@@ -2433,24 +2433,30 @@ void MainWindow::FillListWidgetGroups(int idLibrary)
             qDebug() << query.lastError().text();
         query.first();
         pixmap.loadFromData(query.value(0).toByteArray());
-        
-        int booksCountInGroup = currentLib.mGroupBooksLink.values(idGroup).count();
-        if (booksCountInGroup > 0)
-            item = new QListWidgetItem(QString("%1 (%2)").arg(GroupName).arg(booksCountInGroup));
+
+        QList<uint> booksId = currentLib.mGroupBooksLink.values(iGroup.key());
+        int count = 0;
+        foreach(uint idBook, booksId) {
+            SBook& book = currentLib.mBooks[idBook];
+            if (IsMatchingFilterConditions(idLibrary, book))
+                count++;
+        }
+        if (count > 0)
+            item = new QListWidgetItem(QString("%1 (%2)").arg(GroupName).arg(count));
         else
             item = new QListWidgetItem(GroupName);
+
         item->setData(Qt::UserRole, idGroup);
         item->setIcon(QIcon(pixmap));
-        
+
         if (iGroup->isBlocked())
             blockedItemList << item;
         else
             ui->GroupList->addItem(item);
-        
+
         // выделенная Группа по uIdCurrentGroup
         if (idGroup == mLibs[idLibrary].uIdCurrentGroup)
             selectedItem = item;
-        
         ++iGroup;
     }
 
