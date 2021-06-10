@@ -4094,7 +4094,7 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
     QString filePath = ReadBookPathFromLibrary(idBook, query);
     if (QMessageBox::question(
         this, tr("Delete book from disk"),
-        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\nFile:" + " " + filePath,
+        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\n" + tr("File:") + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
         // удаление книги только с диска
