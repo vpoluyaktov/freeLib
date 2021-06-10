@@ -4109,13 +4109,14 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
 void MainWindow::DeleteBookFromDataBaseAndDiskAction()
 {
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
+    uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    QString filePath = ReadBookPathFromLibrary(idBook, query);
     if (QMessageBox::question(
         this, tr("Delete book from database and from disk"),
-        tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0),
+        tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\nFile:" + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
-        
-        uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
-        QSqlQuery query(QSqlDatabase::database("libdb"));
+
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // удаление книги только из базы данных
