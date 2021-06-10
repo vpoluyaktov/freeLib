@@ -774,6 +774,7 @@ void MainWindow::FilterTagSelect(int index)
         query.bindValue(":currentTag", index);
         query.bindValue(":id_lib", g_idCurrentLib);
         query.exec();
+        mLibs[g_idCurrentLib].uIdCurrentTag = index;
 
         FillListWidgetAuthors(g_idCurrentLib);
         FillListWidgetSerials(g_idCurrentLib);
