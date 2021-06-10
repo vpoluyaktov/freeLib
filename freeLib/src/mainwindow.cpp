@@ -4088,7 +4088,7 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
     if (QMessageBox::question(
         this, tr("Delete book from database"),
-        tr("Do you really want to delete the selected book from the database (the file from the disk is not deleted)") + "\n'" + bookItem->text(0) + "'?",
+        tr("Do you really want to delete the selected book from the database (the file from the disk is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
         uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
@@ -4108,7 +4108,7 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
     if (QMessageBox::question(
         this, tr("Delete book from disk"),
-        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "\n'" + bookItem->text(0) + "'?",
+        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         
         uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
@@ -4128,7 +4128,7 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
     if (QMessageBox::question(
         this, tr("Delete book from database and from disk"),
-        tr("You really want to remove the selected book simultaneously from the database and from the disk") + "\n'" + bookItem->text(0) + "'?",
+        tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         
         uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
