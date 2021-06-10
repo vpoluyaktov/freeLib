@@ -3861,7 +3861,7 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
 {
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
     if (QMessageBox::question(
-        this, tr("Delete book"),
+        this, tr("Delete book from database"),
         tr("Do you really want to delete the selected book from the database (the file from the disk is not deleted)") + "\n'" + bookItem->text(0) + "'?",
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
