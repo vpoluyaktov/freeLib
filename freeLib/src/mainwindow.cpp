@@ -3893,31 +3893,14 @@ void MainWindow::UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery
 */
 void MainWindow::DeleteBookOnlyFromDisk(uint idBook, QSqlQuery& query)
 {
-    QString filePath; QString archivePath;
-    query.prepare("SELECT file, archive FROM book WHERE id_lib = :id_lib AND id = :book_id;");
-    query.bindValue(":book_id", idBook);
-    query.bindValue(":id_lib", g_idCurrentLib);
-    if (!query.exec())
-        qDebug() << query.lastError().text();
-    if (query.next()) {
-        filePath = query.value(0).toString();
-        archivePath = query.value(1).toString();
-        QString messageTitle = tr("Delete book from disk");
-        QString message = tr("The file is not found on the disk!") + "\n'";
-        if (archivePath.isEmpty()) {
-            // НЕ архивы
-            if (QFile::exists(filePath))
-                QFile::remove(filePath);
-            else
-                QMessageBox::warning(this, messageTitle, message + filePath, QMessageBox::Ok);
-        } else {
-            // архивы
-            if (QFile::exists(archivePath))
-                QFile::remove(archivePath);
-            else
-                QMessageBox::warning(this, messageTitle, message + archivePath, QMessageBox::Ok);
-        }
-    }
+    // чтение из базы данных расположения книги на диске
+    QString filePath = ReadBookPathFromLibrary(idBook, query);
+    QString messageTitle = tr("Delete book from disk");
+    QString message = tr("The file is not found on the disk!") + "\n'";
+    if (QFile::exists(filePath))
+        QFile::remove(filePath);
+    else
+        QMessageBox::warning(this, messageTitle, message + filePath, QMessageBox::Ok);
 }
 
 /*
@@ -4140,4 +4123,25 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
         // обновление структур библиотеки и контролов после удаления книги
         UpdateLibraryAndControllsAfterBookDelete(idBook, query);
     }
+}
+/*
+    чтение из базы данных расположения книги на диске
+*/
+QString MainWindow::ReadBookPathFromLibrary(uint idBook, QSqlQuery& query)
+{
+    QString filePath; QString archivePath;
+    query.prepare("SELECT file, archive FROM book WHERE id_lib = :id_lib AND id = :book_id;");
+    query.bindValue(":book_id", idBook);
+    query.bindValue(":id_lib", g_idCurrentLib);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (query.next()) {
+        filePath = query.value(0).toString();
+        archivePath = query.value(1).toString();
+        if (archivePath.isEmpty())
+            return filePath;
+        else
+            return archivePath;
+    }
+    return QString();
 }

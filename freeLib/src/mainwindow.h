@@ -131,6 +131,9 @@ private:
     void UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery& query);
     // удаление книги только с диска
     void DeleteBookOnlyFromDisk(uint idBook, QSqlQuery& query);
+    // чтение из базы данных расположения книги на диске
+    QString ReadBookPathFromLibrary(uint idBook, QSqlQuery& query);
+
 protected:
     APP_MODE mode;
 
