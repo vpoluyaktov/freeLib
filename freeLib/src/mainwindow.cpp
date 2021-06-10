@@ -3622,16 +3622,17 @@ void MainWindow::CreateBookDeleteMenu()
     actionDeleteOnlyFromDataBase->setData(QString::number(1).toInt());
     connect(actionDeleteOnlyFromDataBase, &QAction::triggered, this, &MainWindow::DeleteBookOnlyFromDataBaseAction);
     menuBookDelete_->addAction(actionDeleteOnlyFromDataBase);
-
-    QAction* actionDeleteOnlyFromDisk = new QAction(tr("Only from Disk ..."), this);
-    actionDeleteOnlyFromDisk->setData(QString::number(1).toInt());
-    connect(actionDeleteOnlyFromDisk, &QAction::triggered, this, &MainWindow::DeleteBookOnlyFromDiskAction);
-    menuBookDelete_->addAction(actionDeleteOnlyFromDisk);
+    menuBookDelete_->addSeparator();
 
     QAction* actionDeleteFromDataBaseAndDisk = new QAction(tr("From DataBase and Disk ..."), this);
     actionDeleteFromDataBaseAndDisk->setData(QString::number(1).toInt());
     connect(actionDeleteFromDataBaseAndDisk, &QAction::triggered, this, &MainWindow::DeleteBookFromDataBaseAndDiskAction);
     menuBookDelete_->addAction(actionDeleteFromDataBaseAndDisk);
+
+    QAction* actionDeleteOnlyFromDisk = new QAction(tr("Only from Disk ..."), this);
+    actionDeleteOnlyFromDisk->setData(QString::number(1).toInt());
+    connect(actionDeleteOnlyFromDisk, &QAction::triggered, this, &MainWindow::DeleteBookOnlyFromDiskAction);
+    menuBookDelete_->addAction(actionDeleteOnlyFromDisk);
 }
 
 /*
