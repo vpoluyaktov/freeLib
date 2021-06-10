@@ -125,6 +125,10 @@ private:
     int GetBookCountFromGroup(int idLibrary, uint idGroup);
     // название Группы без числа книг в ней
     QString GetGroupNameWhitoutBookCount(int idLibrary, uint idGroup);
+    // удаление книги только из базы данных
+    void DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query);
+    // обновление структур библиотеки и контролов после удаления книги
+    void UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery& query);
 
 protected:
     APP_MODE mode;
