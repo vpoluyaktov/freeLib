@@ -129,7 +129,8 @@ private:
     void DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query);
     // обновление структур библиотеки и контролов после удаления книги
     void UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery& query);
-
+    // удаление книги только с диска
+    void DeleteBookOnlyFromDisk(uint idBook, QSqlQuery& query);
 protected:
     APP_MODE mode;
 
