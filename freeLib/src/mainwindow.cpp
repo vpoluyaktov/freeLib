@@ -2423,7 +2423,6 @@ void MainWindow::FillListWidgetGroups(int idLibrary)
         QPixmap pixmap = QPixmap();
         uint idGroup = iGroup.key();
         QString GroupName = iGroup->getName();
-        int booksCountInGroup = currentLib.mGroupBooksLink.values(idGroup).count();
         // иконки Групп из базы
         query.prepare("SELECT icon FROM groups WHERE id_lib=:id_lib AND id = :idGroup;");
         query.bindValue(":idGroup", idGroup);
@@ -2433,6 +2432,7 @@ void MainWindow::FillListWidgetGroups(int idLibrary)
         query.first();
         pixmap.loadFromData(query.value(0).toByteArray());
         
+        int booksCountInGroup = currentLib.mGroupBooksLink.values(idGroup).count();
         if (booksCountInGroup > 0)
             item = new QListWidgetItem(QString("%1 (%2)").arg(GroupName).arg(booksCountInGroup));
         else
