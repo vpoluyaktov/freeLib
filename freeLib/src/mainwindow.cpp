@@ -4115,6 +4115,8 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
         QSqlQuery query(QSqlDatabase::database("libdb"));
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
+        // обновление структур библиотеки и контролов после удаления книги
+        UpdateLibraryAndControllsAfterBookDelete(idBook, query);
     }
 }
 
