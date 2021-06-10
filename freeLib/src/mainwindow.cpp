@@ -4089,13 +4089,14 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
 void MainWindow::DeleteBookOnlyFromDiskAction()
 {
     QTreeWidgetItem* bookItem = ui->Books->selectedItems()[0];
+    uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+    QString filePath = ReadBookPathFromLibrary(idBook, query);
     if (QMessageBox::question(
         this, tr("Delete book from disk"),
-        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0),
+        tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\nFile:" + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
-        
-        uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
-        QSqlQuery query(QSqlDatabase::database("libdb"));
+
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
