@@ -17,7 +17,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     query.setForwardOnly(true);
 
     SLib& lib = mLibs[idLibrary];
-    lib.mSerials.clear();
+    lib.clear();
     query.prepare("SELECT id, name, tag FROM seria WHERE id_lib=:id_lib;");
     //                    0    1     2
     query.bindValue(":id_lib", idLibrary);
@@ -33,7 +33,6 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     qDebug() << "loadSeria " << t_end-t_start << "msec";
 
     t_start = QDateTime::currentMSecsSinceEpoch();
-    lib.mAuthors.clear();
     lib.mAuthors.insert(0, SAuthor());
     query.prepare("SELECT author.id, LastName, FirstName, MiddleName, NickName, author.tag FROM author WHERE id_lib=:id_lib;");
     //                          0       1          2           3          4          5
@@ -52,7 +51,6 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug() << "loadAuthor " << t_end-t_start << "msec";
 
-    lib.mBooks.clear();
     query.setForwardOnly(true);
     query.prepare("SELECT id, name, star, id_seria, num_in_seria, language, file, size, deleted, date, format, id_inlib, archive, first_author_id, tag, readed, keys FROM book WHERE id_lib=:id_lib;");
     //                     0   1      2     3            4           5        6     7      8       9     10      11        12         13            14    15     16
@@ -88,7 +86,6 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
         book.sKeywords = query.value(16).toString();
     }
 
-    lib.mAuthorBooksLink.clear();
     query.prepare("SELECT id_book, id_author FROM book_author WHERE id_lib=:id_lib;");
     //                       0        1
     query.bindValue(":id_lib",idLibrary);
@@ -133,7 +130,6 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
             lib.mBooks[idBook].listIdGenres << idGenre;
     }
 
-    lib.mGroups.clear();
     query.prepare("SELECT id, name, blocked, blocked_name FROM groups WHERE id_lib=:id_lib;");
     query.bindValue(":id_lib", idLibrary);
     if (!query.exec())
@@ -152,7 +148,6 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
         idGroupList << idGroup;
     }
 
-    lib.mGroupBooksLink.clear();
     foreach(uint idGroup, idGroupList) {
         query.prepare("SELECT book.id, book_group.group_id FROM book, book_group WHERE book_group.book_id = book.id AND book_group.id_lib = book.id_lib AND book_group.group_id = :idGroup AND book.id_lib = :id_lib;");
         query.bindValue(":id_lib", idLibrary);
