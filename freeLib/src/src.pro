@@ -116,7 +116,8 @@ SOURCES += main.cpp\
     bookeditdlg.cpp \
     treebookitem.cpp \
     genresortfilterproxymodel.cpp \
-    utilities.cpp
+    utilities.cpp \
+    test.cpp
 
 HEADERS  += mainwindow.h \
     common.h \
@@ -167,7 +168,8 @@ HEADERS  += mainwindow.h \
     treebookitem.h \
     genresortfilterproxymodel.h \
     build_number.h \
-    utilities.h
+    utilities.h \
+    test.h
 
 FORMS    += mainwindow.ui \
     addlibrary.ui \

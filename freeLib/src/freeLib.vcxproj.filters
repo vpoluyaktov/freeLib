@@ -211,6 +211,9 @@
     <ClCompile Include="utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quazip\quazip\JlCompress.h">
@@ -361,6 +364,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="utilities.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="test.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
