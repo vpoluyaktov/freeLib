@@ -20,7 +20,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     lib.mSerials.clear();
     query.prepare("SELECT id, name, tag FROM seria WHERE id_lib=:id_lib;");
     //                    0    1     2
-    query.bindValue(":id_lib",idLibrary);
+    query.bindValue(":id_lib", idLibrary);
     if (!query.exec())
         qDebug() << query.lastError().text();
     while (query.next()) {
@@ -33,6 +33,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     qDebug() << "loadSeria " << t_end-t_start << "msec";
 
     t_start = QDateTime::currentMSecsSinceEpoch();
+    lib.mAuthors.clear();
     lib.mAuthors.insert(0, SAuthor());
     query.prepare("SELECT author.id, LastName, FirstName, MiddleName, NickName, author.tag FROM author WHERE id_lib=:id_lib;");
     //                          0       1          2           3          4          5
@@ -127,7 +128,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     while (query.next()) {
         uint idBook = query.value(0).toUInt();
         uint idGenre = query.value(1).toUInt();
-        if (idGenre == 0) idGenre = idGenreUnsorted;// 328; // Прочие/Неотсортированное
+        if (idGenre == 0) idGenre = idGenreUnsorted; // Прочие/Неотсортированное
         if (lib.mBooks.contains(idBook))
             lib.mBooks[idBook].listIdGenres << idGenre;
     }
@@ -136,7 +137,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     t_end = QDateTime::currentMSecsSinceEpoch();
     qDebug()<< "loadBooks " << t_end-t_start << "msec";
 
-    loadGroupsFromSQLiteToLibraryStructure(g_idCurrentLib);
+    loadGroupsFromSQLiteToLibraryStructure(idLibrary);
 }
 
 void loadGenresFromSQLiteToLibraryStructure()
