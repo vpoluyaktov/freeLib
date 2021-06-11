@@ -195,6 +195,7 @@ void loadGroupsFromSQLiteToLibraryStructure(int idLibrary)
         idGroupList << idGroup;
     }
 
+    lib.mGroupBooksLink.clear();
     foreach(uint idGroup, idGroupList) {
         query.prepare("SELECT book.id, book_group.group_id FROM book, book_group WHERE book_group.book_id = book.id AND book_group.id_lib = book.id_lib AND book_group.group_id = :idGroup AND book.id_lib = :id_lib;");
         query.bindValue(":id_lib", idLibrary);
