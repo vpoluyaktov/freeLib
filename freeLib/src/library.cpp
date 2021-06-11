@@ -17,7 +17,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
     query.setForwardOnly(true);
 
     SLib& lib = mLibs[idLibrary];
-    lib.clear();
+    lib.clearOnlyContainers();
     query.prepare("SELECT id, name, tag FROM seria WHERE id_lib=:id_lib;");
     //                    0    1     2
     query.bindValue(":id_lib", idLibrary);
