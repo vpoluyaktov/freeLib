@@ -39,16 +39,13 @@ void Test::print_mGenre(bool append)
         QString ParrentGenreName = "";
         while (iGenre != mGenre.constEnd()) {
             if (ParrentGenreName != mGenre[iGenre->idParrentGenre].sName) {
-                out << "id=" + QString::number(iGenre->idParrentGenre) + ": " + mGenre[iGenre->idParrentGenre].sName << endl;;
                 if (iGenre->idParrentGenre > 0) {
-                    out << "    id=" + QString::number(iGenre.key()) + ": " + QString::number(iGenre->id) << endl;;
-                    out << "    id=" + QString::number(iGenre.key()) + ": " + iGenre->sName + "( " + iGenre->sCode + ")" << endl;;
+                    out << "id=" + QString::number(iGenre->idParrentGenre) + ": " + mGenre[iGenre->idParrentGenre].sName << endl;;
+                    out << "    id=" + QString::number(iGenre.key()) + ": " + iGenre->sName + " (" + iGenre->sCode + ")" << endl;;
                 }
             } else {
-                if (iGenre->idParrentGenre > 0) {
-                    out << "    id=" + QString::number(iGenre.key()) + ": " + QString::number(iGenre->id) << endl;;
-                    out << "    id=" + QString::number(iGenre.key()) + ": " + iGenre->sName + "( " + iGenre->sCode + ")" << endl;;
-                }
+                if (iGenre->idParrentGenre > 0)
+                    out << "    id=" + QString::number(iGenre.key()) + ": " + iGenre->sName + " (" + iGenre->sCode + ")" << endl;;
             }
             ParrentGenreName = mGenre[iGenre->idParrentGenre].sName;
             ++iGenre;
