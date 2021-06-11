@@ -89,8 +89,8 @@ private:
     void UncheckBooks(QList<qlonglong> list);
     // сохранение настроек Библиотеки
     void SaveLibPosition(int idLibrary);
-    // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
-    int LoadLibraryPosition(int idLibrary);
+    // чтение из базы 'состояния' для текущей библиотеки с id = idLibrary
+    int LoadCurrentLibraryState(int idLibrary);
     void DeleteDropForm();
 
     // поиск книг по заданным критериям

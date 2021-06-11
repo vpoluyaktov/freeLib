@@ -248,7 +248,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     if (settings.value("store_position", true).toBool()) {
         // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-        nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
+        nCurrentTab = LoadCurrentLibraryState(g_idCurrentLib);
     }
     else {
         mLibs[g_idCurrentLib].uIdCurrentAuthor = 0;
@@ -1308,7 +1308,7 @@ void MainWindow::SelectLibrary()
     int nCurrentTab;
     if (settings.value("store_position", true).toBool()) {
         // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-        nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
+        nCurrentTab = LoadCurrentLibraryState(g_idCurrentLib);
     }
 
     loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
@@ -1732,7 +1732,7 @@ void MainWindow::ManageLibrary()
         int nCurrentTab;
         if (settings.value("store_position", true).toBool()) {
             // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
-            nCurrentTab = LoadLibraryPosition(g_idCurrentLib);
+            nCurrentTab = LoadCurrentLibraryState(g_idCurrentLib);
         }
         loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
@@ -3181,9 +3181,9 @@ void MainWindow::changeEvent(QEvent *event)
 }
 
 /*
-    чтение из базы данные 'позиции' библиотеки
+    чтение из базы 'состояния' для текущей библиотеки с id = idLibrary
 */
-int MainWindow::LoadLibraryPosition(int idLibrary)
+int MainWindow::LoadCurrentLibraryState(int idLibrary)
 {
     // чтение из базы 'позиции' для текущей библиотеки с id = idLibrary
     QSqlQuery query(QSqlDatabase::database("libdb"));
