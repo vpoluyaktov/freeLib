@@ -788,9 +788,9 @@ void MainWindow::FilterTagSelect(int index)
 }
 
 /*
-    сохранение настроек Библиотеки
+    сохранение 'состояния' текущей библиотеки с id = idLibrary
 */
-void MainWindow::SaveLibPosition(int idLibrary)
+void MainWindow::SaveCurrentLibraryState(int idLibrary)
 {
     // сохранение в базу данных 'позиции' текущей библиотеки с id = g_idCurrentLib
     QSqlQuery query(QSqlDatabase::database("libdb"));
@@ -819,7 +819,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (pHelpDlg_ != nullptr)
         delete pHelpDlg_;
 
-    SaveLibPosition(g_idCurrentLib);
+    SaveCurrentLibraryState(g_idCurrentLib);
     QSettings settings;
     settings.setValue("ApplicationMode", mode);
     if (mode == MODE_LIBRARY) {
@@ -869,11 +869,11 @@ void MainWindow::Settings()
         bUseTag_ = bUseTag;
         bShowDeleted_ = bShowDeleted;
         UpdateTagsMenu();
-//        SaveLibPosition();
+//        SaveCurrentLibraryState();
         // Проверить книги на их удаление с жесткого диска и пометить в базе удаленные
         MarkDeletedBooks();
     }
-    SaveLibPosition(g_idCurrentLib);
+    SaveCurrentLibraryState(g_idCurrentLib);
     SelectBook();
     opds_.server_run();
     UpdateExportMenu();
@@ -1298,7 +1298,7 @@ QList<uint> MainWindow::StartBooksSearch(
 void MainWindow::SelectLibrary()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    SaveLibPosition(g_idCurrentLib);
+    SaveCurrentLibraryState(g_idCurrentLib);
     ui->Books->clear();
     idCurrentLanguage_ = -1; // если не был задан язык фильтрации, то это - *, все языки
     QAction* action=qobject_cast<QAction*>(sender());
@@ -1723,7 +1723,7 @@ void MainWindow::UpdateBookLanguageControls(int idLibrary)
 */
 void MainWindow::ManageLibrary()
 {
-    SaveLibPosition(g_idCurrentLib);
+    SaveCurrentLibraryState(g_idCurrentLib);
     AddLibrary al(this);
     al.exec();
     if (al.IsLibraryChanged()) {

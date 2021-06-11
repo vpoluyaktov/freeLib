@@ -87,8 +87,8 @@ private:
     // обновление иконки тэга в списках Авторов, Серий, Книг
     void UpdateListPix(qlonglong id, int list, int tag_id);
     void UncheckBooks(QList<qlonglong> list);
-    // сохранение настроек Библиотеки
-    void SaveLibPosition(int idLibrary);
+    // сохранение 'состояния' текущей библиотеки с id = idLibrary
+    void SaveCurrentLibraryState(int idLibrary);
     // чтение из базы 'состояния' для текущей библиотеки с id = idLibrary
     int LoadCurrentLibraryState(int idLibrary);
     void DeleteDropForm();
