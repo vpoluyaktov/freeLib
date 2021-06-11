@@ -183,6 +183,16 @@ struct SLib
         mGroupBooksLink.clear();
         vLaguages.clear();
     }
+    void clearOnlyContainers()
+    {
+        mAuthors.clear();
+        mAuthorBooksLink.clear();
+        mBooks.clear();
+        mSerials.clear();
+        mGroups.clear();
+        mGroupBooksLink.clear();
+        vLaguages.clear();
+    }
 };
 
 void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
