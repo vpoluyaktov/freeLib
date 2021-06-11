@@ -32,7 +32,7 @@
 #include "treebookitem.h"
 #include "genresortfilterproxymodel.h"
 #include "library.h"
-
+#include "test.h"
 
 extern QSplashScreen *splash;
 
