@@ -187,6 +187,7 @@ void loadGenresFromSQLiteToLibraryStructure()
     while (query.next()) {
         uint idGenre = query.value(0).toUInt();
         SGenre &genre = mGenre[idGenre];
+        genre.id = idGenre;
         genre.sName = query.value(1).toString();
         genre.sNameEn = query.value(2).toString();
         genre.idParrentGenre = static_cast<ushort>(query.value(3).toUInt());
