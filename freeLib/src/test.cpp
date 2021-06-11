@@ -32,24 +32,24 @@ void Test::print_mGenre(bool append)
         QTextStream out(&file);
         out.setCodec("UTF-8");
         out.setGenerateByteOrderMark(false);
-
+        out << "mGenre.size() = " + QString::number(mGenre.size()) << endl;
         QMap <uint,SGenre>::const_iterator ciGenre = mGenre.constBegin();
         QString ParrentGenreName = "";
         while (ciGenre != mGenre.constEnd()) {
             if (ParrentGenreName != mGenre[ciGenre->idParrentGenre].sName) {
                 if (ciGenre->idParrentGenre > 0) {
-                    out << "id=" + QString::number(ciGenre->idParrentGenre) + ": " + mGenre[ciGenre->idParrentGenre].sName << endl;;
-                    out << "    id=" + QString::number(ciGenre.key()) + ": " + ciGenre->sName + " (" + ciGenre->sCode + ")" << endl;;
+                    out << "id=" + QString::number(ciGenre->idParrentGenre) + ": " + mGenre[ciGenre->idParrentGenre].sName << endl;
+                    out << "    id=" + QString::number(ciGenre->id) + ": " + ciGenre->sName + " (" + ciGenre->sCode + ")" << endl;
                 }
-            } else {
+            }
+            else {
                 if (ciGenre->idParrentGenre > 0)
-                    out << "    id=" + QString::number(ciGenre.key()) + ": " + ciGenre->sName + " (" + ciGenre->sCode + ")" << endl;;
+                    out << "    id=" + QString::number(ciGenre->id) + ": " + ciGenre->sName + " (" + ciGenre->sCode + ")" << endl;
             }
             ParrentGenreName = mGenre[ciGenre->idParrentGenre].sName;
             ++ciGenre;
         }
-        out << "mGenre.size() = " + QString::number(mGenre.size());
-        out << endl;
+        out << "mGenre.size() = " + QString::number(mGenre.size()) << endl;
         out << "=============================";
     }
     file.close();
