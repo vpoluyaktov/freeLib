@@ -101,7 +101,7 @@ private:
     );
     // выделение 1-го элемента списка јвторов, ∆анра или —ерии
     void SelectFirstItemList();
-    // сохранение €зыка фильтрации книг текущей библиотеки с id = g_idCurrentLib
+    // сохранение €зыка фильтрации книг текущей библиотеки с id = idLibrary
     void SaveCurrentBookLanguageFilter(int idLibrary, const QString& lang);
     // заполнение комбобокса рейтинга на вкладке ѕоиск
     void FillRatingList();
@@ -129,6 +129,8 @@ private:
     void DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query);
     // обновление структур библиотеки и контролов после удалени€ книги
     void UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery& query);
+    // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
+    void FillCurrentLibraryControls(int idLibrary);
     // удаление книги только с диска
     void DeleteBookOnlyFromDisk(uint idBook, QSqlQuery& query);
     // чтение из базы данных расположени€ книги на диске

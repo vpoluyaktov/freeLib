@@ -3860,15 +3860,21 @@ void MainWindow::UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery
         mLibs[idLib].uIdCurrentTag = query.value(16).toUInt();
         mLibs[idLib].sCurrentBookLanguage = query.value(17).toString().trimmed();
     }
+}
 
+/*
+    заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
+*/
+void MainWindow::FillCurrentLibraryControls(int idLibrary)
+{
     ui->Books->clear();
-    loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
-    UpdateBookLanguageControls(g_idCurrentLib);
-    FillFormatList(g_idCurrentLib); // заполнение комбобокса с форматами книг на вкладке Поиск
-    FillListWidgetAuthors(g_idCurrentLib);
-    FillListWidgetSerials(g_idCurrentLib);
-    FillTreeWidgetGenres(g_idCurrentLib);
-    FillListWidgetGroups(g_idCurrentLib);
+    loadBooksDataFromSQLiteToLibraryStructure(idLibrary);
+    UpdateBookLanguageControls(idLibrary);
+    FillFormatList(idLibrary); // заполнение комбобокса с форматами книг на вкладке Поиск
+    FillListWidgetAuthors(idLibrary);
+    FillListWidgetSerials(idLibrary);
+    FillTreeWidgetGenres(idLibrary);
+    FillListWidgetGroups(idLibrary);
 
     switch (ui->tabWidget->currentIndex()) {
     case 0:
@@ -4081,6 +4087,8 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
         DeleteBookOnlyFromDataBase(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
         UpdateLibraryAndControllsAfterBookDelete(idBook, query);
+        // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
+        FillCurrentLibraryControls(g_idCurrentLib);
     }
 }
 
@@ -4102,6 +4110,8 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
         DeleteBookOnlyFromDisk(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
         UpdateLibraryAndControllsAfterBookDelete(idBook, query);
+        // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
+        FillCurrentLibraryControls(g_idCurrentLib);
     }
 }
 
@@ -4125,6 +4135,8 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
         DeleteBookOnlyFromDataBase(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
         UpdateLibraryAndControllsAfterBookDelete(idBook, query);
+        // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
+        FillCurrentLibraryControls(g_idCurrentLib);
     }
 }
 /*
