@@ -127,8 +127,8 @@ private:
     QString GetGroupNameWhitoutBookCount(int idLibrary, uint idGroup);
     // удаление книги только из базы данных
     void DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query);
-    // обновление структур библиотеки и контролов после удаления книги
-    void UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery& query);
+    // чтение из базы 'состояния' всех библиотек
+    void LoadAllLibraries(QSqlQuery& query);
     // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
     void FillCurrentLibraryControls(int idLibrary);
     // удаление книги только с диска

@@ -3829,9 +3829,9 @@ void MainWindow::DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query)
 }
 
 /*
-    обновление структур библиотеки и контролов после удаления книги
+    чтение из базы 'состояния' всех библиотек
 */
-void MainWindow::UpdateLibraryAndControllsAfterBookDelete(uint idBook, QSqlQuery& query)
+void MainWindow::LoadAllLibraries(QSqlQuery& query)
 {
     // заполнение структуры библиотеки из базы данных
     mLibs.clear();
@@ -4086,7 +4086,7 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
         // удаление книги только из базы данных
         DeleteBookOnlyFromDataBase(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
-        UpdateLibraryAndControllsAfterBookDelete(idBook, query);
+        LoadAllLibraries(query);
         // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
         FillCurrentLibraryControls(g_idCurrentLib);
     }
@@ -4109,7 +4109,7 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
-        UpdateLibraryAndControllsAfterBookDelete(idBook, query);
+        LoadAllLibraries(query);
         // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
         FillCurrentLibraryControls(g_idCurrentLib);
     }
@@ -4134,7 +4134,7 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
         // удаление книги только из базы данных
         DeleteBookOnlyFromDataBase(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
-        UpdateLibraryAndControllsAfterBookDelete(idBook, query);
+        LoadAllLibraries(query);
         // заполнение структур списков библиотеки с id = idLibrary и контролов списков программы
         FillCurrentLibraryControls(g_idCurrentLib);
     }
