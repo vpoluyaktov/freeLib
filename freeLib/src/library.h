@@ -159,7 +159,6 @@ struct SLib
 
 void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
 void loadGenresFromSQLiteToLibraryStructure();
-void loadGroupsFromSQLiteToLibraryStructure(int idLibrary);
 
 extern bool db_is_open;
 

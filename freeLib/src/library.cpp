@@ -132,50 +132,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
         if (lib.mBooks.contains(idBook))
             lib.mBooks[idBook].listIdGenres << idGenre;
     }
-    lib.bLoaded = true;
 
-    t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug()<< "loadBooks " << t_end-t_start << "msec";
-
-    loadGroupsFromSQLiteToLibraryStructure(idLibrary);
-}
-
-void loadGenresFromSQLiteToLibraryStructure()
-{
-    if (!db_is_open)
-        return;
-    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
-    QSqlQuery query(QSqlDatabase::database("libdb"));
-
-    t_start = QDateTime::currentMSecsSinceEpoch();
-    mGenre.clear();
-    query.prepare("SELECT id, name, name_en, id_parent, sort_index, code FROM genre;");
-    //                    0     1       2       3           4        5
-    if (!query.exec())
-        qDebug() << query.lastError().text();
-    while (query.next()) {
-        uint idGenre = query.value(0).toUInt();
-        SGenre &genre = mGenre[idGenre];
-        genre.sName = query.value(1).toString();
-        genre.sNameEn = query.value(2).toString();
-        genre.idParrentGenre = static_cast<ushort>(query.value(3).toUInt());
-        genre.nSort = static_cast<ushort>(query.value(4).toUInt());
-        genre.sCode = query.value(5).toString();
-    }
-    qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug() << "loadGenre " << t_end-t_start << "msec";
-}
-
-void loadGroupsFromSQLiteToLibraryStructure(int idLibrary)
-{
-    if (!db_is_open)
-        return;
-
-    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
-    QSqlQuery query(QSqlDatabase::database("libdb"));
-    query.setForwardOnly(true);
-
-    SLib& lib = mLibs[idLibrary];
     lib.mGroups.clear();
     query.prepare("SELECT id, name, blocked, blocked_name FROM groups WHERE id_lib=:id_lib;");
     query.bindValue(":id_lib", idLibrary);
@@ -212,8 +169,37 @@ void loadGroupsFromSQLiteToLibraryStructure(int idLibrary)
         }
     }
 
+    lib.bLoaded = true;
+
+    t_end = QDateTime::currentMSecsSinceEpoch();
+    qDebug()<< "loadBooks " << t_end-t_start << "msec";
+
+}
+
+void loadGenresFromSQLiteToLibraryStructure()
+{
+    if (!db_is_open)
+        return;
+    qint64 t_start = QDateTime::currentMSecsSinceEpoch();
+    QSqlQuery query(QSqlDatabase::database("libdb"));
+
+    t_start = QDateTime::currentMSecsSinceEpoch();
+    mGenre.clear();
+    query.prepare("SELECT id, name, name_en, id_parent, sort_index, code FROM genre;");
+    //                    0     1       2       3           4        5
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    while (query.next()) {
+        uint idGenre = query.value(0).toUInt();
+        SGenre &genre = mGenre[idGenre];
+        genre.sName = query.value(1).toString();
+        genre.sNameEn = query.value(2).toString();
+        genre.idParrentGenre = static_cast<ushort>(query.value(3).toUInt());
+        genre.nSort = static_cast<ushort>(query.value(4).toUInt());
+        genre.sCode = query.value(5).toString();
+    }
     qint64 t_end = QDateTime::currentMSecsSinceEpoch();
-    qDebug() << "loadGroupsFromSQLiteToLibraryStructure " << t_end - t_start << "msec";
+    qDebug() << "loadGenre " << t_end-t_start << "msec";
 }
 
 QString SAuthor::getName() const
