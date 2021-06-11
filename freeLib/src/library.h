@@ -155,6 +155,34 @@ struct SLib
         uIdCurrentBookForGroup = 0;
         uIdCurrentTag = 0;
     }
+    void clear()
+    {
+        name = "";
+        path = "";
+        sInpx = "";
+        bFirstAuthor = false;;
+        bWoDeleted = false;;
+        bLoaded = false;
+        nCurrentTab = 0;
+        uIdCurrentAuthor = 0;
+        uIdCurrentSeria = 0;
+        uIdCurrentGenre = 0;
+        uIdCurrentGroup = 0;
+        uIdCurrentBookForAuthor = 0;
+        uIdCurrentBookForSeria = 0;
+        uIdCurrentBookForGenre = 0;
+        uIdCurrentBookForGroup = 0;
+        uIdCurrentTag = 0;
+        sCurrentBookLanguage = "";
+        sCurrentSearchingFilter = "";
+        mAuthors.clear();
+        mAuthorBooksLink.clear();
+        mBooks.clear();
+        mSerials.clear();
+        mGroups.clear();
+        mGroupBooksLink.clear();
+        vLaguages.clear();
+    }
 };
 
 void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
