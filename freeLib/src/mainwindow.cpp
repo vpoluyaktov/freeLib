@@ -1854,9 +1854,11 @@ void MainWindow::btnGenresClick()
     ui->comboBoxTagFilter->setEnabled(true);
     if (mLibs[g_idCurrentLib].uIdCurrentGenre > 0 && ui->GenreList->selectedItems().count() == 0) {
         const bool wasBlocked = ui->GenreList->blockSignals(true);
-        QTreeWidgetItem* item = new QTreeWidgetItem(ui->GenreList);
-        item->setSelected(true);
-        ui->GenreList->scrollToItem(item);
+        ui->GenreList->selectionModel()->select(
+            ui->GenreList->model()->index(0, 0),
+            QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows
+        );
+        ui->GenreList->scrollToItem(ui->GenreList->selectedItems()[0]);
         ui->GenreList->blockSignals(wasBlocked);
     }
     SelectGenre();
