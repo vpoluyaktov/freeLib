@@ -15,6 +15,8 @@ public:
 
     // печать в файл содержимого mGenre
     void print_mGenre(bool append = false);
+    // поиск в структуре данных QMap mGenre Названия Группы жанра по id его дочернего элемента, поскольку  в Qt глюк: прямое обращение к mGenre[id].sName добавляет к mGenre пустой элемент.
+    QString getGroupGenreName(ushort idParrentGenre) const;
 
 private:
     QString testFreeLidDir_;

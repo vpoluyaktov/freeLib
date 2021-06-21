@@ -36,9 +36,10 @@ void Test::print_mGenre(bool append)
         QMap <uint,SGenre>::const_iterator ciGenre = mGenre.constBegin();
         QString ParrentGenreName = "";
         while (ciGenre != mGenre.constEnd()) {
-            if (ParrentGenreName != mGenre[ciGenre->idParrentGenre].sName) {
+            QString GroupGenreName = getGroupGenreName(ciGenre->idParrentGenre);
+            if (ParrentGenreName != GroupGenreName) {
                 if (ciGenre->idParrentGenre > 0) {
-                    out << "id=" + QString::number(ciGenre->idParrentGenre) + ": " + mGenre[ciGenre->idParrentGenre].sName << endl;
+                    out << "id=" + QString::number(ciGenre->idParrentGenre) + ": " + GroupGenreName << endl;
                     out << "    id=" + QString::number(ciGenre->id) + ": " + ciGenre->sName + " (" + ciGenre->sCode + ")" << endl;
                 }
             }
@@ -46,11 +47,25 @@ void Test::print_mGenre(bool append)
                 if (ciGenre->idParrentGenre > 0)
                     out << "    id=" + QString::number(ciGenre->id) + ": " + ciGenre->sName + " (" + ciGenre->sCode + ")" << endl;
             }
-            ParrentGenreName = mGenre[ciGenre->idParrentGenre].sName;
+            ParrentGenreName = GroupGenreName;
             ++ciGenre;
         }
         out << "mGenre.size() = " + QString::number(mGenre.size()) << endl;
         out << "=============================";
     }
     file.close();
+}
+
+/*
+    поиск в структуре данных QMap mGenre Названия Группы жанра по id его дочернего элемента, поскольку  в Qt глюк: прямое обращение к mGenre[id].sName добавляет к mGenre пустой элемент.
+*/
+QString Test::getGroupGenreName(ushort idParrentGenre) const
+{
+    for (auto it = mGenre.begin(); it != mGenre.end(); it++) {
+        if (it.value().idParrentGenre == idParrentGenre) {
+            QString sName = it.value().sName;
+            return it.value().sName;
+        }
+    }
+    return "";
 }
