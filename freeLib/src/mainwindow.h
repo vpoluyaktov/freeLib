@@ -60,6 +60,7 @@ private:
     bool bUseTag_;
     bool bShowDeleted_;
     bool errorQuit_;
+    int IdCurrentGroupGenre_; 
 
 private:
     QPixmap GetTagFromTagsPicList(int id) const;

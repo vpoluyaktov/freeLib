@@ -1854,11 +1854,27 @@ void MainWindow::btnGenresClick()
     ui->comboBoxTagFilter->setEnabled(true);
     if (mLibs[g_idCurrentLib].uIdCurrentGenre > 0 && ui->GenreList->selectedItems().count() == 0) {
         const bool wasBlocked = ui->GenreList->blockSignals(true);
-        ui->GenreList->selectionModel()->select(
-            ui->GenreList->model()->index(0, 0),
-            QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows
-        );
-        ui->GenreList->scrollToItem(ui->GenreList->selectedItems()[0]);
+        QString GroupGenreName = mGenre[IdCurrentGroupGenre_].sName;
+        QList<QTreeWidgetItem*> ItemList = ui->GenreList->findItems(GroupGenreName, Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchContains | Qt::MatchRecursive);
+        int ItemListCount = ItemList.count();
+        if (ItemList.count() == 0) {
+            ui->GenreList->selectionModel()->select(
+                ui->GenreList->model()->index(0, 0),
+                QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows
+            );
+            ui->GenreList->scrollToItem(ui->GenreList->selectedItems()[0]);
+        } else {
+            int childCount = ItemList[0]->childCount();
+            if (ItemList[0]->childCount() > 0) {
+                ItemList[0]->child(0)->setSelected(true);
+                ItemList[0]->child(0)->setExpanded(true);
+                ui->GenreList->scrollToItem(ItemList[0]->child(0));
+            } else {
+                ItemList[0]->setSelected(true);
+                ItemList[0]->setExpanded(true);
+                ui->GenreList->scrollToItem(ItemList[0]);
+            }
+        }
         ui->GenreList->blockSignals(wasBlocked);
     }
     SelectGenre();
@@ -4085,6 +4101,8 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
 
         uint idBook = bookItem->data(0, Qt::UserRole).toUInt();
         QSqlQuery query(QSqlDatabase::database("libdb"));
+        // id Группы жанра удаляемой книги
+        IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
         // удаление книги только из базы данных
         DeleteBookOnlyFromDataBase(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
