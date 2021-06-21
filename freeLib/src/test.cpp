@@ -63,10 +63,8 @@ void Test::print_mGenre(bool append, int suxffix)
 QString Test::getGroupGenreName(ushort idParrentGenre) const
 {
     for (auto it = mGenre.begin(); it != mGenre.end(); it++) {
-        if (it.value().idParrentGenre == idParrentGenre) {
-            QString sName = it.value().sName;
+        if (it.value().idParrentGenre == idParrentGenre)
             return it.value().sName;
-        }
     }
     return "";
 }
