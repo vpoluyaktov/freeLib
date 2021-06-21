@@ -19,9 +19,9 @@ Test::~Test()
     1. С пересозданием файла:       Test* test = new Test(this); test->print_mGenre();
     2. С добавлением в конец файла: Test* test = new Test(this); test->print_mGenre(true);
 */
-void Test::print_mGenre(bool append)
+void Test::print_mGenre(bool append, int suxffix)
 {
-    QFile file(mGenreFile_);
+    QFile file(mGenreFile_.insert(mGenreFile_.length()-4, QString::number(suxffix)));
     bool isFileOpen = false;
     if (!append) {
         file.remove();
