@@ -4126,6 +4126,8 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
         tr("You really want to delete the selected book from the disk (the book from the database is not deleted)") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\n" + tr("File:") + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
+        // id Группы жанра удаляемой книги
+        IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
@@ -4149,6 +4151,8 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
         tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\n" + tr("File:") + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
+        // id Группы жанра удаляемой книги
+        IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // удаление книги только из базы данных
