@@ -21,7 +21,8 @@ Test::~Test()
 */
 void Test::print_mGenre(bool append, int suxffix)
 {
-    QFile file(mGenreFile_.insert(mGenreFile_.length()-4, QString::number(suxffix)));
+    QString filename = mGenreFile_;
+    QFile file(filename.insert(filename.length()-4, QString::number(suxffix)));
     bool isFileOpen = false;
     if (!append) {
         file.remove();
