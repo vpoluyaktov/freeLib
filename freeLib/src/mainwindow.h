@@ -62,6 +62,7 @@ private:
     bool errorQuit_;
     int IdCurrentGroupGenre_; 
     qlonglong IdSeriaBeforeDeletedSeriaItem_;
+    qlonglong IdAuthorBeforeDeletedAuthorItem_;
 
 private:
     QPixmap GetTagFromTagsPicList(int id) const;

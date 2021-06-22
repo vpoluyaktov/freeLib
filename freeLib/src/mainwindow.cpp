@@ -1809,7 +1809,18 @@ void MainWindow::btnAuthorClick()
     if (ui->AuthorList->count() > 0) {
         if (mLibs[g_idCurrentLib].uIdCurrentAuthor > 0 && ui->AuthorList->selectedItems().count() == 0) {
             const bool wasBlocked = ui->AuthorList->blockSignals(true);
-            ui->AuthorList->item(0)->setSelected(true);
+            if (IdAuthorBeforeDeletedAuthorItem_ != -1) {
+                for (int i = 0; i < ui->AuthorList->count(); ++i) {
+                    qlonglong id = ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong();
+                    if (IdAuthorBeforeDeletedAuthorItem_ == id) {
+                        ui->AuthorList->item(i)->setSelected(true);
+                        break;
+                    }
+                }
+            } else
+                ui->AuthorList->item(0)->setSelected(true);
+            if (ui->AuthorList->count() == 1)
+                ui->AuthorList->item(0)->setSelected(true);
             ui->AuthorList->blockSignals(wasBlocked);
         }
     }
@@ -4125,6 +4136,17 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
                 break;
             }
         }
+        // id автора для удаляемой книги
+        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        // id автора выше удаляемого автора
+        IdAuthorBeforeDeletedAuthorItem_ = -1;
+        for (int i = 0; i < ui->AuthorList->count(); ++i) {
+            qlonglong id = ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong();
+            if (IdCurrentAuthor == id) {
+                IdAuthorBeforeDeletedAuthorItem_ = ui->AuthorList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
+                break;
+            }
+        }
 
         // удаление книги только из базы данных
         DeleteBookOnlyFromDataBase(idBook, query);
@@ -4162,6 +4184,17 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
                 break;
             }
         }
+        // id автора для удаляемой книги
+        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        // id автора выше удаляемого автора
+        IdAuthorBeforeDeletedAuthorItem_ = -1;
+        for (int i = 0; i < ui->AuthorList->count(); ++i) {
+            qlonglong id = ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong();
+            if (IdCurrentAuthor == id) {
+                IdAuthorBeforeDeletedAuthorItem_ = ui->AuthorList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
+                break;
+            }
+        }
 
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
@@ -4196,6 +4229,17 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
             qlonglong id = ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong();
             if (IdCurrentSeria == id) {
                 IdSeriaBeforeDeletedSeriaItem_ = ui->SeriaList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
+                break;
+            }
+        }
+        // id автора для удаляемой книги
+        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        // id автора выше удаляемого автора
+        IdAuthorBeforeDeletedAuthorItem_ = -1;
+        for (int i = 0; i < ui->AuthorList->count(); ++i) {
+            qlonglong id = ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong();
+            if (IdCurrentAuthor == id) {
+                IdAuthorBeforeDeletedAuthorItem_ = ui->AuthorList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
                 break;
             }
         }
