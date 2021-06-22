@@ -1809,17 +1809,26 @@ void MainWindow::btnAuthorClick()
     if (ui->AuthorList->count() > 0) {
         if (mLibs[g_idCurrentLib].uIdCurrentAuthor > 0 && ui->AuthorList->selectedItems().count() == 0) {
             const bool wasBlocked = ui->AuthorList->blockSignals(true);
+            bool isSelect = false;
             if (IdAuthorBeforeDeletedAuthorItem_ != -1) {
                 for (int i = 0; i < ui->AuthorList->count(); ++i) {
                     qlonglong id = ui->AuthorList->item(i)->data(Qt::UserRole).toLongLong();
                     if (IdAuthorBeforeDeletedAuthorItem_ == id) {
                         ui->AuthorList->item(i)->setSelected(true);
+                        isSelect = true;
                         break;
                     }
                 }
-            } else
+            }
+            else {
                 ui->AuthorList->item(0)->setSelected(true);
-            if (ui->AuthorList->count() == 1)
+                isSelect = true;
+            }
+            if (ui->AuthorList->count() == 1) {
+                ui->AuthorList->item(0)->setSelected(true);
+                isSelect = true;
+            }
+            if (!isSelect)
                 ui->AuthorList->item(0)->setSelected(true);
             ui->AuthorList->blockSignals(wasBlocked);
         }
@@ -1843,18 +1852,27 @@ void MainWindow::btnSeriesClick()
     if (ui->SeriaList->count() > 0) {
         if (mLibs[g_idCurrentLib].uIdCurrentSeria > 0 && ui->SeriaList->selectedItems().count() == 0) {
             const bool wasBlocked = ui->SeriaList->blockSignals(true);
+            bool isSelect = false;
             if (IdSeriaBeforeDeletedSeriaItem_ != -1) {
                 for (int i = 0; i < ui->SeriaList->count(); ++i) {
                     qlonglong id = ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong();
                     if (IdSeriaBeforeDeletedSeriaItem_ == id) {
                         ui->SeriaList->item(i)->setSelected(true);
+                        isSelect = true;
                         break;
                     }
                 }
-            } else
+            }
+            else {
                 ui->SeriaList->item(0)->setSelected(true);
-            if (ui->SeriaList->count() == 1)
+                isSelect = true;
+            }
+            if (ui->SeriaList->count() == 1) {
                 ui->SeriaList->item(0)->setSelected(true);
+                isSelect = true;
+            }
+            if (!isSelect)
+                ui->AuthorList->item(0)->setSelected(true);
             ui->SeriaList->blockSignals(wasBlocked);
         }
     }
@@ -4147,7 +4165,9 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
         // id Группы жанра удаляемой книги
         IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
         // id серии для удаляемой книги
-        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems().count() > 0
+            ? ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong()
+            : -1;
         // id серии выше удаляемой серии
         IdSeriaBeforeDeletedSeriaItem_ = -1;
         for (int i = 0; i < ui->SeriaList->count(); ++i) {
@@ -4158,7 +4178,9 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
             }
         }
         // id автора для удаляемой книги
-        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems().count() > 0
+            ? ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong()
+            : -1;
         // id автора выше удаляемого автора
         IdAuthorBeforeDeletedAuthorItem_ = -1;
         for (int i = 0; i < ui->AuthorList->count(); ++i) {
@@ -4195,7 +4217,9 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
         // id Группы жанра удаляемой книги
         IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
         // id серии для удаляемой книги
-        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems().count() > 0
+            ? ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong()
+            : -1;
         // id серии выше удаляемой серии
         IdSeriaBeforeDeletedSeriaItem_ = -1;
         for (int i = 0; i < ui->SeriaList->count(); ++i) {
@@ -4206,7 +4230,9 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
             }
         }
         // id автора для удаляемой книги
-        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems().count() > 0
+            ? ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong()
+            : -1;
         // id автора выше удаляемого автора
         IdAuthorBeforeDeletedAuthorItem_ = -1;
         for (int i = 0; i < ui->AuthorList->count(); ++i) {
@@ -4243,7 +4269,9 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
         // id Группы жанра удаляемой книги
         IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
         // id серии для удаляемой книги
-        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems().count() > 0
+            ? ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong()
+            : -1;
         // id серии выше удаляемой серии
         IdSeriaBeforeDeletedSeriaItem_ = -1;
         for (int i = 0; i < ui->SeriaList->count(); ++i) {
@@ -4254,7 +4282,9 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
             }
         }
         // id автора для удаляемой книги
-        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        qlonglong IdCurrentAuthor = ui->AuthorList->selectedItems().count() > 0
+            ? ui->AuthorList->selectedItems()[0]->data(Qt::UserRole).toLongLong()
+            : -1;
         // id автора выше удаляемого автора
         IdAuthorBeforeDeletedAuthorItem_ = -1;
         for (int i = 0; i < ui->AuthorList->count(); ++i) {
