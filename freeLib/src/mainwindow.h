@@ -138,7 +138,7 @@ private:
     void DeleteBookOnlyFromDisk(uint idBook, QSqlQuery& query);
     // чтение из базы данных расположения книги на диске
     QString ReadBookPathFromLibrary(uint idBook, QSqlQuery& query);
-    // сбор данных по автору, серии, жанру для удаления книги
+    // сбор данных для выделения элементов списка по автору, серии, жанру для удаления книги
     void CollectDataForBookDelete();
 
 protected:

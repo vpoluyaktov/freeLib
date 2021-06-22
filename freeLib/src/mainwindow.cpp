@@ -4217,7 +4217,7 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
         tr("You really want to remove the selected book simultaneously from the database and from the disk") + "?\n" + tr("Book:") + " " + bookItem->text(0) + "\n" + tr("File:") + " " + filePath,
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
 
-        // сбор данных по автору, серии, жанру для удаления книги
+        // сбор данных для выделения элементов списка по автору, серии, жанру для удаления книги
         CollectDataForBookDelete();
 
         // удаление книги только с диска
