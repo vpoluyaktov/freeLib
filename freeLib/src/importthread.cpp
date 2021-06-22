@@ -609,7 +609,7 @@ void ImportThread::readBook(
     if (isBookWithoutTitle || isAuthorWithoutData || isSeriaWithoutName || isGenreaWithoutName) {
         qlonglong id_other_genre = GetOtherGenreId();
         Query_->prepare("INSERT INTO objects_without_data(id_lib, id_book_without_title, id_author_without_data, id_seria_without_name, id_genre_without_name) values(:id_lib, :id_book_without_title, :id_author_without_data, :id_seria_without_name, :id_genre_without_name)");
-        Query_->bindValue(":id_lib", ExistingLibID_);
+        Query_->bindValue(":id_lib", QVariant::fromValue(ExistingLibID_));
         Query_->bindValue(":id_book_without_title", isBookWithoutTitle ? id_book : -1);
         Query_->bindValue(":id_author_without_data", isAuthorWithoutData ? id_author : -1);
         Query_->bindValue(":id_seria_without_name", isSeriaWithoutName ? id_seria : -1);
