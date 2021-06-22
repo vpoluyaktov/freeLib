@@ -3741,14 +3741,16 @@ QString MainWindow::GetGroupNameWhitoutBookCount(int idLibrary, uint idGroup)
 void MainWindow::DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query)
 {
     /* получение id автора, серии, жанра и группы для удаляемой книги */
-    int idAuthor = -1; int idSeria = -1; int idGenre = -1; int idGroup = -1;
+    int idAuthor = -1; int idSeria = -1; int idGenre = -1; //int idGroup = -1;
+    QList<int> idAuthorList;
     query.prepare("SELECT id_author FROM book_author WHERE id_lib = :id_lib AND id_book = :book_id;");
     query.bindValue(":book_id", idBook);
     query.bindValue(":id_lib", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();
-    if (query.next())
-        idAuthor = query.value(0).toInt();
+    while (query.next())
+        idAuthorList.append(query.value(0).toInt());
+    idAuthor = idAuthorList[0];
 
     query.prepare("SELECT id_seria FROM book WHERE id_lib = :id_lib AND id = :book_id;");
     query.bindValue(":book_id", idBook);
@@ -3766,13 +3768,13 @@ void MainWindow::DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query)
     if (query.next())
         idGenre = query.value(0).toInt();
 
-    query.prepare("SELECT group_id FROM book_group WHERE id_lib = :id_lib AND book_id = :book_id;");
+    /*query.prepare("SELECT group_id FROM book_group WHERE id_lib = :id_lib AND book_id = :book_id;");
     query.bindValue(":book_id", idBook);
     query.bindValue(":id_lib", g_idCurrentLib);
     if (!query.exec())
         qDebug() << query.lastError().text();
     if (query.next())
-        idGroup = query.value(0).toInt();
+        idGroup = query.value(0).toInt();*/
 
     /* удаление из базы */
     query.prepare("DELETE FROM book_author WHERE id_lib = :id_lib AND id_book = :book_id;");
@@ -3865,6 +3867,25 @@ void MainWindow::DeleteBookOnlyFromDataBase(uint idBook, QSqlQuery& query)
         query.bindValue(":id_lib", g_idCurrentLib);
         if (!query.exec())
             qDebug() << query.lastError().text();
+    }
+    // удаление автора из таблицы author, если нет ни одной книги, связанными с ним
+    foreach(int id, idAuthorList) {
+        int book_id = -1;
+        query.prepare("SELECT id_book FROM book_author WHERE id_lib = :id_lib AND id_author = :id_author;");
+        query.bindValue(":id_author", id);
+        query.bindValue(":id_lib", g_idCurrentLib);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+        if (query.next())
+            book_id = query.value(0).toInt();
+        if (book_id == -1) {
+            // удаление автора из таблицы author, если нет ни одной книги, связанными с ним
+            query.prepare("DELETE FROM author WHERE id_lib = :id_lib AND id = :id_author;");
+            query.bindValue(":id_author", id);
+            query.bindValue(":id_lib", g_idCurrentLib);
+            if (!query.exec())
+                qDebug() << query.lastError().text();
+        }
     }
 }
 
