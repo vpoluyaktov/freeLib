@@ -1832,7 +1832,18 @@ void MainWindow::btnSeriesClick()
     if (ui->SeriaList->count() > 0) {
         if (mLibs[g_idCurrentLib].uIdCurrentSeria > 0 && ui->SeriaList->selectedItems().count() == 0) {
             const bool wasBlocked = ui->SeriaList->blockSignals(true);
-            ui->SeriaList->item(0)->setSelected(true);
+            if (IdSeriaBeforeDeletedSeriaItem_ != -1) {
+                for (int i = 0; i < ui->SeriaList->count(); ++i) {
+                    qlonglong id = ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong();
+                    if (IdSeriaBeforeDeletedSeriaItem_ == id) {
+                        ui->SeriaList->item(i)->setSelected(true);
+                        break;
+                    }
+                }
+            } else
+                ui->SeriaList->item(0)->setSelected(true);
+            if (ui->SeriaList->count() == 1)
+                ui->SeriaList->item(0)->setSelected(true);
             ui->SeriaList->blockSignals(wasBlocked);
         }
     }
@@ -4103,6 +4114,18 @@ void MainWindow::DeleteBookOnlyFromDataBaseAction()
         QSqlQuery query(QSqlDatabase::database("libdb"));
         // id Группы жанра удаляемой книги
         IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
+        // id серии для удаляемой книги
+        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        // id серии выше удаляемой серии
+        IdSeriaBeforeDeletedSeriaItem_ = -1;
+        for (int i = 0; i < ui->SeriaList->count(); ++i) {
+            qlonglong id = ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong();
+            if (IdCurrentSeria == id) {
+                IdSeriaBeforeDeletedSeriaItem_ = ui->SeriaList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
+                break;
+            }
+        }
+
         // удаление книги только из базы данных
         DeleteBookOnlyFromDataBase(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
@@ -4128,6 +4151,18 @@ void MainWindow::DeleteBookOnlyFromDiskAction()
 
         // id Группы жанра удаляемой книги
         IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
+        // id серии для удаляемой книги
+        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        // id серии выше удаляемой серии
+        IdSeriaBeforeDeletedSeriaItem_ = -1;
+        for (int i = 0; i < ui->SeriaList->count(); ++i) {
+            qlonglong id = ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong();
+            if (IdCurrentSeria == id) {
+                IdSeriaBeforeDeletedSeriaItem_ = ui->SeriaList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
+                break;
+            }
+        }
+
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // обновление структур библиотеки и контролов после удаления книги
@@ -4153,6 +4188,18 @@ void MainWindow::DeleteBookFromDataBaseAndDiskAction()
 
         // id Группы жанра удаляемой книги
         IdCurrentGroupGenre_ = mGenre[mLibs[g_idCurrentLib].uIdCurrentGenre].idParrentGenre;
+        // id серии для удаляемой книги
+        qlonglong IdCurrentSeria = ui->SeriaList->selectedItems()[0]->data(Qt::UserRole).toLongLong();
+        // id серии выше удаляемой серии
+        IdSeriaBeforeDeletedSeriaItem_ = -1;
+        for (int i = 0; i < ui->SeriaList->count(); ++i) {
+            qlonglong id = ui->SeriaList->item(i)->data(Qt::UserRole).toLongLong();
+            if (IdCurrentSeria == id) {
+                IdSeriaBeforeDeletedSeriaItem_ = ui->SeriaList->item(i == 0 ? 0 : (i - 1))->data(Qt::UserRole).toLongLong();
+                break;
+            }
+        }
+
         // удаление книги только с диска
         DeleteBookOnlyFromDisk(idBook, query);
         // удаление книги только из базы данных
