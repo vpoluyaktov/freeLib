@@ -1895,6 +1895,8 @@ void MainWindow::btnGenresClick()
     if (mLibs[g_idCurrentLib].uIdCurrentGenre > 0 && ui->GenreList->selectedItems().count() == 0) {
         const bool wasBlocked = ui->GenreList->blockSignals(true);
         QString GroupGenreName = mGenre[IdCurrentGroupGenre_].sName;
+        // удаление 'пустого' элемента структуры жанров, который появаляется в результате глюка в Qt по прямому доступу к элементу QMap по его индексу
+        EraseEmptyGenreElement();
         QList<QTreeWidgetItem*> ItemList = ui->GenreList->findItems(GroupGenreName, Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchContains | Qt::MatchRecursive);
         int ItemListCount = ItemList.count();
         if (ItemList.count() == 0) {

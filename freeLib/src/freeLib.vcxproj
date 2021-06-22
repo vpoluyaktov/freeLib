@@ -507,8 +507,7 @@
     <QtMoc Include="tagdialog.h">
     </QtMoc>
     <ClInclude Include="treebookitem.h" />
-    <QtMoc Include="utilities.h">
-    </QtMoc>
+    <ClInclude Include="utilities.h" />
     <QtMoc Include="test.h">
     </QtMoc>
   </ItemGroup>
