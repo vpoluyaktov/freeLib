@@ -1,4 +1,3 @@
-UTF8 // codepage
 Военное дело	  Military
  military_arts Боевые искусства	  Military Arts
  nonf_military Военная документалистика и аналитика	  Military Documentaries And Analytics
@@ -56,8 +55,9 @@ UTF8 // codepage
  child_verse Детские стихи	  Children's Verses
  child_horror Детские ужастики	  Children's Horror
  child_sf Детская фантастика	  Children's Science Fiction
- child_fantasy Детское фэнтези	  Children's Fantasy
  child_folklore Детский фольклор	  Child Folklore
+ child_fantasy Детское фэнтези	  Children's Fantasy
+ child_baby Для самых маленьких	  For Babies
  foreign_children Зарубежная детская литература	  Foreign Literature For Children
  child_classical Классическая детская литература	  Classical Children's Literature
  ya Подростковая литература	  Young-adult Fiction
@@ -71,8 +71,9 @@ UTF8 // codepage
  nonfiction Документальная литература	  Nonfiction Other
  naturalist_notes Заметки натуралиста	  Naturalist Notes
  travel_notes Записки путешественника	  Travel Notes
- sci_popular Научпоп	  Science Popular
+ letters Письма, переписки	  Letters & Correspondence
  nonf_publicism Публицистика	  Publicism
+ speech Речи, выступления, доклады	  Speech
 Домоводство (Дом и семья)	  Home & Family
  home_survival Выживание и личная безопасность	  Survival
  home_child Дети. Книги для родителей	  Child
@@ -80,10 +81,12 @@ UTF8 // codepage
  home_pets Домашние животные	  Pets
  home_housekeeping Домоводство	  Housekeeping
  home_health Здоровье	  Health
+ cats Кошки	  Cats
  home_beauty Красота	  Beauty
  home_cooking Кулинария	  Cooking
  home_entertain Развлечения	  Entertaining
  family Семейные отношения	  Family
+ dogs Собаки	  Dogs
  home_sex Эротика и секс	  Erotica & Sex
 Драматургия	  Dramaturgy
  drama_antique Античная драма	  Antique Drama
@@ -101,15 +104,21 @@ UTF8 // codepage
  scenarios Сценарий	  Scenarios
  tragedy Трагедия	  Tragedy
 История	  History
- sci_history История	  History
+ history_russia История России	  History of Russia
+ history_europe История Европы	  History of Europe
+ history_asia История Азии	  History of Asia
+ history_africa История Африки	  History of Africa
+ history_america История Америки	  History of America
+ history_australia История Австралии и Океании	  History of Australia and Oceania
+ history_world Мировая история	  History of World
  sci_history_0 История первобытного общества	  History of Primitive Society
- sci_history_4 История древнего мира	  Ancient World History
- sci_history_15 История средних веков	  Medieval History
- sci_history_18 История нового времени	  History of Modern Times
+ sci_history_4 История Древнего мира	  Ancient World History
+ sci_history_15 История Средних веков	  Medieval History
+ sci_history_18 История Нового времени	  History of Modern Times
  sci_history_20 Новейшая история	  Newest History
  sci_history_21 Современная история	  Contemporary History
+ sci_history История: прочее	  History Other
 Компьютеры и Интернет	  Computers & Internet
- comp_soft_cad CAD, CAM и CAE системы	  CAD, CAM and CAE
  comp_www_design Web-дизайн	  Web Design
  comp_db Базы данных	  Databases
  comp_design Графика. Дизайн. Мультимедиа	  Design
@@ -120,6 +129,7 @@ UTF8 // codepage
  computers Околокомпьютерная литература	  Computers Other
  comp_soft_office Офисные приложения	  Office Software
  comp_soft Программы	  Software
+ comp_soft_cad САПР	  CAD, CAM and CAE
  comp_osnet Сети	  Networking
  tbg_computers Учебники и самоучители по компьютеру	  Computers Textbook
  comp_hacking Хакерство	  Hacking
@@ -133,6 +143,7 @@ UTF8 // codepage
  comp_os_os2 OS/2	  OS/2
  comp_os_unix Unix	  Unix
  comp_os_windows Windows	  Windows
+ comp_os_admin ОС: администрирование, мониторинг, диагностика	  OS Administration
  comp_os_theory ОС: теоретические вопросы	  OS Theory
  comp_os Прочие ОС	  Other OS
 Компьютеры: Разработка ПО	  Soft Development
@@ -142,7 +153,7 @@ UTF8 // codepage
  comp_soft_dev_craking Крэкинг и реверсинжиниринг	  Craking And Reverse Engineering
  comp_soft_dev_man Менеджмент ПО	  Management
  comp_soft_dev_oop Объектно-ориентированное программирование	  OOP
- comp_soft_dev_debug Отладка и тестирование ПО	  Debuging
+ comp_soft_dev_debug Отладка, тестирование и оптимизация ПО	  Debuging
  comp_soft_dev_parallel Параллельное и распределенное программирование	  Parallel Programming
  comp_soft_dev_graphic Программирование графики	  Graphic Programming
  comp_soft_dev_games Программирование игр	  Games Programming
@@ -157,10 +168,10 @@ UTF8 // codepage
  comp_prog_forth Forth	  Forth
  comp_prog_fortran Fortran	  Fortran
  comp_prog_java Java, Java Script	  Java, Java Script
- comp_prog_lisp Lisp	  Lisp
+ comp_prog_lisp Lisp, Scheme	  Lisp, Scheme
  comp_prog_lua Lua	  Lua
  comp_prog_mfc MFC	  MFC
- comp_prog_oberon Modula-2, Modula-3, Oberon, Oberon-2	  Modula-2, Modula-3, Oberon, Oberon-2
+ comp_prog_oberon Modula-2, Modula-3, Oberon, Oberon-2, Component Pascal	  Modula-2, Modula-3, Oberon, Oberon-2, Component Pascal
  comp_prog_pascal Pascal, Delphi, Lazarus и т.п.	  Pascal, Delphi, Lazarus
  comp_prog_php PHP	  PHP
  comp_prog_prolog Prolog	  Prolog
@@ -182,7 +193,6 @@ UTF8 // codepage
  art_world_culture Мировая художественная культура	  Art World Culture
  fashion_style Мода и стиль	  Fashion Style
  music Музыка	  Music
- notes Партитуры	  Notes
  radio_tv Радио и телевидение	  Radio and TV
  art_dance Танцы и хореография	  Dance and Choreography
  theatre Театр	  Theatre
@@ -220,36 +230,24 @@ UTF8 // codepage
  love_contemporary Современные любовные романы	  Contemporary Romance
  love_femslash Фемслеш	  Love Femslash
  love_erotica Эротика	  Erotica
-Наука, образование	  Scientific-educational
+Наука и образование: прочее	  Scientific-educational
  sci_medicine_alternative Альтернативная медицина	  Alternative Medicine
- sci_theories Альтернативные науки и научные теории	  Theories
+ science_history История науки	  Science History
+ science Научная литература	  Science Other
+ sci_popular Научпоп	  Science Popular
+ sci_theories Паранаука, псевдонаука, альтернативные теории	  Theories
+Науки естественные	  Natural Sciences
  sci_anachem Аналитическая химия	  Analitic Chemistry
- sci_archeology Археология	  Archeology
  sci_cosmos Астрономия и Космос	  Cosmos
  sci_veterinary Ветеринария	  Veterinary
- sci_oriental Востоковедение	  Science Oriental
  sci_geography География	  Geography
- sci_geo Геология и геофизика	  Geology and Geophysics
- sci_state Государство и право	  State Science
- foreign_language Иностранные языки	  Foreign Languages
- science_history История науки	  Science History
- local_lore_study Краеведение	  Study of Local Lore
- sci_philology Литературоведение	  Philology
+ sci_geo Геологические науки и горное дело	  Geology and Geophysics
  sci_math Математика	  Mathematics
  sci_medicine Медицина	  Medicine
- science Научная литература	  Science Other
- sci_social_studies Обществознание	  Social Studies
  sci_orgchem Органическая химия	  Органическая химия
- sci_pedagogy Педагогика	  Pedagogy
- sci_politics Политика и дипломатия	  Politics and Diplomacy
- sci_religion Религиоведение	  Religious Studies
  sci_phys Физика	  Physics
  sci_physchem Физическая химия	  Physical Chemistry
- sci_philosophy Философия	  Philosophy
  sci_chem Химия	  Chemistry
- sci_economy Экономика	  Economic
- sci_juris Юриспруденция	  Jurisprudence
- sci_linguistic Языкознание	  Linguistics
 Науки о живой природе	  Biology
  sci_biology Биология	  Biology
  sci_biophys Биофизика	  Biophysics
@@ -258,7 +256,21 @@ UTF8 // codepage
  sci_zoo Зоология	  Zoology
  sci_paleontology Палеонтология	  Paleontology
  sci_evolutionism Эволюционизм	  Evolutionism
- sci_ecology Экология	  Ecology
+ sci_ecology Экология и защита природы	  Ecology
+Науки обществ. и гуманитарные	  Humanities
+ sci_archeology Археология	  Archeology
+ sci_oriental Востоковедение	  Science Oriental
+ sci_state Государство и право	  State Science
+ foreign_language Иностранные языки	  Foreign Languages
+ local_lore_study Краеведение	  Study of Local Lore
+ sci_philology Литературоведение	  Philology
+ sci_pedagogy Педагогика	  Pedagogy
+ sci_politics Политика и дипломатия	  Politics and Diplomacy
+ sci_social_studies Социология	  Social Studies
+ sci_philosophy Философия	  Philosophy
+ sci_economy Экономика	  Economic
+ sci_juris Юриспруденция	  Jurisprudence
+ sci_linguistic Языкознание	  Linguistics
 Поэзия	  Poetry
  fable Басни	  Fable
  in_verse В стихах	  In Verse
@@ -284,6 +296,7 @@ UTF8 // codepage
  adv_story Авантюрный роман	  Adventure story
  adv_western Вестерны	  Western
  adv_military Военные приключения	  Military Adventure
+ foreign_adventure Зарубежная приключенческая литература	  Foreign Adventure
  adv_history Исторические приключения	  History Fiction
  adv_maritime Морские приключения	  Maritime Fiction
  adv_modern Приключения в современном мире	  Adventure Modern
@@ -291,6 +304,7 @@ UTF8 // codepage
  adventure Приключения	  Adventure Other
  adv_animal Природа и животные	  Nature & Animals
  adv_geo Путешествия и география	  Travel & Geography
+ adv_rus Русская приключенческая литература	  Russian Adventure
  tale_chivalry Рыцарский роман	  Tale Chivalry
  adv_su Советская приключенческая литература	  Soviet Adventure
 Проза	  Prose
@@ -303,11 +317,7 @@ UTF8 // codepage
  prose_classic Классическая проза	  Classics Prose
  prose_counter Контркультура	  Counterculture
  prose_magic Магический реализм	  Magic Realism
- story Новелла	  Story
- great_story Повесть	  Great Story
  prose Проза	  Prose
- short_story Рассказ	  Short Story
- roman Роман	  Roman
  prose_rus_classic Русская классическая проза	  Russian Classics
  russian_contemporary Русская современная проза	  Russian Contemporary Prose
  sagas Семейная сага	  Saga
@@ -319,35 +329,33 @@ UTF8 // codepage
  prose_neformatny Экспериментальная, неформатная проза	  Experimental, Informal Prose
  epistolary_fiction Эпистолярная проза	  Epistolary Fiction
  prose_epic Эпопея	  Epic
- essay Эссе, очерк, этюд, набросок	  Essay
 Прочее	  Other
- autor_collection Авторские сборники, собрания сочинений	  Autor Collections
  dissident Антисоветская литература	  Anti-Soviet Literature
  bestseller Бестселлеры	  Bestsellers
  in_retelling В пересказе, в лит. обработке	  In retelling
  in_reduction В сокращении	  In reduction
- periodic Газеты и журналы	  Periodic
  diafilm Диафильмы	  Diafilm
  adult Для взрослых	  For Adults
+ invalid Для людей с ограниченными возможностями	  For Invalids
+ addition Дополнительные материалы к книге	  Addition
  prose_game Книга-игра	  Book-game
  comics Комиксы	  Comics
- compilation Компиляции	  Compilation
- cats Кошки	  Cats
  literary_fairy_tale Литературные сказки	  Literary Fairy Tales
  fan_translation Любительские переводы	  Fan Translations
- postcards Наборы открыток	  Postcards
  beginning_authors Начинающие авторы	  Beginning Authors
  unfinished Недописанное	  Unfinished
  other Неотсортированное	  Not Sorting
  novelization Новеллизации	  Novelization
  fragment Отрывок, ознакомительный фрагмент	  Fragment
- collection Сборники, альманахи, антологии	  Collections
+ presentation Презентация	  Presentation
+ outdated Устаревшие материалы	Outdated
  fanfiction Фанфики	  Fan Fictions
 Психология и психиатрия	  Psychology and Psychiatry
  sci_hypnosis Гипноз, внушение и самовнушение	  Hypnosis
  psy_childs Детская психология	  Child Psychology
  sci_psychiatry Психиатрия и наркология	  Psychiatry and Narcology
  sci_psychology Психология	  Psychology
+ sci_tech_ergonomics Психология труда, инж. психология и эргономика	  Labor Psychology, Engin. Psychology and Ergonomics
  psy_theraphy Психотерапия и консультирование	  Psychotherapy
  psy_sex_and_family Секс и семейная психология	  Sex and Family
 Религия и духовность	  Religion & Inspiration
@@ -360,12 +368,13 @@ UTF8 // codepage
  religion_catholicism Католицизм	  Catholicism
  religion_orthodoxy Православие	  Orthodoxy
  religion_protestantism Протестантизм	  Protestantism
- religion Религия и духовность: прочее	  Religion Other
+ sci_religion Религиоведение	  Religious Studies
  religion_rel Религия	  Religion
+ religion Религия и духовность: прочее	  Religion Other
  religion_self Самосовершенствование	  Self-improvement
  palmistry Хиромантия	  Palmistry
  religion_christianity Христианство	  Christianity
- religion_esoterics Эзотерика	  Esoterics
+ religion_esoterics Эзотерика, мистицизм, оккультизм	  Esoterics
  religion_paganism Язычество	  Paganism
 Справочная литература	  Reference
  geo_guides Путеводители	  Guides
@@ -383,33 +392,37 @@ UTF8 // codepage
  antique Старинная литература	  Other
 Техника	  Technics
  auto_business Автодело	  Auto Business
+ sci_instrumentation Автоматизация, приборостроение	  Instrument-Making Industry
  sci_aerodynamics Аэро-, газо- и гидродинамика	  Aerodynamics
- sci_tech_hydraulics Гидравлика	  Hydraulics
+ sci_tech_protection Безопасность жизнедеятельности и охрана труда	  Safety of vital activity and labor protection
+ sci_tech_hydraulics Гидравлика, пневматика	  Hydraulics
  equ_history История техники	  Equ History
- sci_engineering Конструирование	  Engineering
- sci_tech_materials Материаловедение, конструкционные материалы	  Materials
- sci_tech_machinery Машиностроение	  Machinery
+ sci_engineering Конструирование, изобретательство, рационализаторство	  Engineering
+ sci_tech_materials Материаловедение, конструкционные и прочие материалы	  Materials
+ sci_tech_machinery Машиностроение и металлообработка	  Machinery
  sci_metal Металлургия	  Metallurgy
  sci_tech_metrology Метрология, стандартизация и сертификация	  Metrology
- sci_tech_oil Нефтегазовая промышленность	  Oil Industry
- sci_tech_standards Нормативная техническая документация	  Tech Standards
- sci_instrumentation Приборостроение	  Instrument-Making Industry
+ sci_tech_mech Механика	  Mechanics
+ sci_tech_nano Наноматериалы и нанотехнологии	  Nano
+ sci_tech_drawing Начертательная геометрия, инженерная графика, черчение	  Drawing
+ sci_tech_oil Нефтегазовая и угольная промышленности	  Oil Industry
+ sci_tech_standards Нормативно-техническая документация	  Tech Standards
+ sci_tech_print Полиграфическое и упаковочное производство	  Polygraphy
  sci_radio Радиоэлектроника, радиотехника, связь	  Radio
- sci_tech_rockets Ракетостроение и космическая техника	  Rockets
+ sci_tech_rockets Ракетостроение, ракетная и космическая техника	  Rockets
  sci_tech_sopromat Строительная механика и сопромат	  Strength Of Materials
  sci_build Строительство	  Building
  sci_tech_theormech Теория механизмов и машин	  TMM
- sci_thermodynamics Термодинамика и теплотехника	  Thermodynamics
- sci_tech_mech Техническая механика	  Technical Mechanics
+ sci_thermodynamics Термодинамика, теплопередача, теплотехника	  Thermodynamics
  sci_tech Технические науки	  Technical
- sci_transport Транспорт и авиация	  Transport
- sci_tech_chem Химическая промышленность	  Chemical Industry
+ sci_transport Транспорт, авиация и флот	  Transport
+ sci_tech_chem Химическая и нефтехимическая промышленности	  Chemical Industry
  sci_electronics Электроника, микроэлектроника, схемотехника	  Electronics
- sci_energy Энергетика. Электротехника	  Energy
+ sci_energy Энергетика, электротехника	  Energy
 Учебники и пособия	  Textbook
  sci_thesis Диссертации, дипломные, курсовые и прочие работы	  Thesis
- sci_abstract Рефераты	  Abstract
  sci_textbook_su Советские учебники и пособия	  Soviet Textbook
+ sci_abstract Статьи и рефераты	  Abstract
  sci_textbook Учебники и пособия: прочее	  Textbook
  tbg_higher Учебники и пособия ВУЗов	  Textbook Higher
  tbg_secondary Учебники и пособия для среднего и специального образования	  Textbook Secondary
@@ -432,6 +445,7 @@ UTF8 // codepage
  sf_paleontological Палеонтологическая фантастика	  Paleontological Science Fiction
  popadanec Попаданцы	  Popadanec
  sf_postapocalyptic Постапокалипсис	  Postapocalyptic
+ sf_realrpg РеалРПГ	  RealRPG
  sf_rus Российская фантастика	  Russian Science Fiction
  sf_su Советская фантастика	  Soviet Science Fiction
  sf_social Социально-философская фантастика	  Social-philosophical
@@ -452,8 +466,22 @@ UTF8 // codepage
  folklore_rus Русский фольклор	  Russian Folklore
  folklore Фольклор: прочее	  Folklore
  limerick Частушки, прибаутки, потешки	  Limerick
+Формы произведений	  Forms
+ autor_collection Авторские сборники, собрания сочинений	  Autor Collections
+ periodic Газеты и журналы	  Periodic
+ compilation Компиляции	  Compilation
+ postcards Наборы открыток	  Postcards
+ story Новелла	  Story
+ notes Партитуры	  Notes
+ great_story Повесть	  Great Story
+ short_story Рассказ	  Short Story
+ roman Роман	  Roman
+ collection Сборники, альманахи, антологии	  Collections
+ article Статья	  Article
+ essay Эссе, очерк, этюд, набросок	  Essay
 Фэнтези	  Fantasy
  fantasy_fight Боевое фэнтези	  Fight Fantasy
+ fantasy_heroic Героическое фэнтези	  Heroic Fantasy
  sf_fantasy_city Городское фэнтези	  Fantasy City
  gothic_novel Готический роман	  Gothic Novel
  foreign_fantasy Зарубежное фэнтези	  Foreign Fantasy
@@ -463,16 +491,22 @@ UTF8 // codepage
  vampire_book О вампирах	  Vampire Fantasy
  dragon_fantasy О драконах	  Dragon Fantasy
  adventure_fantasy Приключенческое фэнтези	  Adventure Fantasy
+ fantasy_rus Российское фэнтези	  Russian Fantasy
  fairy_fantasy Сказочная фантастика	  Fairy Fantasy
  russian_fantasy Славянское фэнтези	  Slavic Fantasy
  modern_tale Современная сказка	  Modern Tale
+ fantasy_dark Темное фэнтези	  Dark Fantasy
  sf_technofantasy Технофэнтези	  Technofantasy
+ fantasy_wuxia Уся	  Wuxia
  sf_fantasy Фэнтези: прочее	  Fantasy
+ fantasy_epic Эпическое фэнтези	  Epic Fantasy
+ erotic_fantasy Эротическое фэнтези	  Erotic Fantasy
  humor_fantasy Юмористическое фэнтези	  Humor Fantasy
 Хобби и ремесла	  Hobbies & Crafts
- auto_regulations Авто- и мототранспорт, ПДД	  Auto Regulations
+ auto_regulations Авто-, мото- и велотранспорт, ПДД	  Auto Regulations
  home_aquarium Аквариумистика	  Aquarium
  home_mountain Альпинизм и скалолазание	  Mountaineering
+ publishing Библиотечное и редакционно-издательское дело	  Publishing
  home_winemaking Виноделие, спиртные напитки	  Winemaking
  home_livestock Животноводство и птицеводство	  Livestock Farming
  home_furniture Изготовление и ремонт мебели	  Furniture
@@ -480,7 +514,7 @@ UTF8 // codepage
  home_building Индивидуальное строительство и ремонт	  Building and Renovation
  home_bookmaking Книгоделие	  Bookmaking
  home_collecting Коллекционирование	  Collecting
- home_modelling Моделирование	  Modelling
+ home_modelling Моделизм	  Modelling
  home_marine Морское дело, парусный спорт	  Maritime Affairs
  home_hunt Охота и охотоведение	  Hunt
  home_writing_art Писательское искусство	  Writing Art
@@ -495,7 +529,7 @@ UTF8 // codepage
  home_sport Спорт	  Sports
  home_tourism Туризм	  Tourism
  home_crafts Хобби и ремесла: прочее	  Hobbies & Crafts Other
- home_floriculture Цветоводство	  Floriculture
+ home_floriculture Цветоводство и комнатное садоводство	  Floriculture
 Юмор	  Humor
  humor_anecdote Анекдоты	  Anecdote
  humor_tales Байки	  Tales
