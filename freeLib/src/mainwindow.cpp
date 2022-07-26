@@ -812,6 +812,10 @@ void MainWindow::SaveCurrentLibraryState(int idLibrary)
     query.bindValue(":currentBookLanguage", mLibs[idLibrary].sCurrentBookLanguage);
     query.bindValue(":id_lib", idLibrary);
     query.exec();
+
+    QSettings settings;
+    settings.setValue("LibID", idLibrary);
+    settings.sync();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
