@@ -339,7 +339,7 @@ bool ExportThread::convert(QList<QBuffer*> outbuff, QString file_name, int count
             qDebug()<<ex<<arg;
             proc.execute((ex+" "+arg).trimmed());
         }
-        return QFileInfo(book_file_name).exists();
+        return QFileInfo::exists(book_file_name);
     }
 }
 
