@@ -273,6 +273,10 @@ private slots:
     void SetGroupIconAction();
     // обработчик контекстного меню Групп по заданию иконок заблокированных Групп по умолчанию
     void SetGroupDefaultIconsAction();
+    // обработчик контекстного меню Групп сортировки по возрастанию
+    void SortGroupsAscendingOrder();
+    // обработчик контекстного меню Групп сортировки по убыванию
+    void SortGroupsDescendingOrder();
 
     void About();
     void HelpDlg();

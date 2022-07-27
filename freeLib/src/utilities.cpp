@@ -25,3 +25,15 @@ bool EraseEmptyGenreElement()
     return false;
 }
 
+/*
+    перемещение QListWidgetItem вверх в QListWidget
+*/
+void MoveQListWidgetItemToUp(QListWidget* lw, const QStringList& list)
+{
+    for (int i = 0; i <= 2; i++) {
+        QListWidgetItem* item = lw->findItems(list[i], Qt::MatchCaseSensitive)[0];
+        int row = lw->row(item);
+        QListWidgetItem* itemForInsert = lw->takeItem(row);
+        lw->insertItem(i, itemForInsert);
+    }
+}

@@ -4026,6 +4026,16 @@ void MainWindow::GroupContextMenu(QPoint point)
             actionSetDefaultIcon->setData(QString::number(idGroup).toUInt());
             connect(actionSetDefaultIcon, &QAction::triggered, this, &MainWindow::SetGroupDefaultIconsAction);
             menu.addAction(actionSetDefaultIcon);
+        } else {
+            menu.addSeparator();
+            QAction* actionSortGroupsAscendingOrder = new QAction(tr("Sort Groups Ascending Order"), this);
+            actionSortGroupsAscendingOrder->setData(QString::number(idGroup).toUInt());
+            connect(actionSortGroupsAscendingOrder, &QAction::triggered, this, &MainWindow::SortGroupsAscendingOrder);
+            menu.addAction(actionSortGroupsAscendingOrder);
+            QAction* actionSortGroupsDescendingOrder = new QAction(tr("Sort Groups Descending Order"), this);
+            actionSortGroupsDescendingOrder->setData(QString::number(idGroup).toUInt());
+            connect(actionSortGroupsDescendingOrder, &QAction::triggered, this, &MainWindow::SortGroupsDescendingOrder);
+            menu.addAction(actionSortGroupsDescendingOrder);
         }
 
         if (menu.actions().count() > 0)
@@ -4148,6 +4158,55 @@ void MainWindow::SetGroupDefaultIconsAction()
             }
         }
     }
+}
+
+/*
+    обработчик контекстного меню Групп сортировки по возрастанию
+*/
+void MainWindow::SortGroupsAscendingOrder()
+{
+    // общая сортировка по возрастанию
+    ui->GroupList->sortItems(Qt::AscendingOrder);
+    // перемещение неудаляемых групп вверх
+    for (int i = 0; i < ui->GroupList->count(); ++i) {
+        int idGroup = ui->GroupList->item(i)->data(Qt::UserRole).toInt();
+        if (mLibs[g_idCurrentLib].mGroups[idGroup].isBlocked()) {
+            QListWidgetItem* currentItem = ui->GroupList->takeItem(i);
+            ui->GroupList->insertItem(0, currentItem);
+        }
+    }
+    // сортировка неудаляемых групп по возрастанию
+    QStringList list;
+    for (int i = 0; i < 3; i++)
+        list.append(ui->GroupList->item(i)->text());
+    list.sort(Qt::CaseSensitive);
+    // перемещение QListWidgetItem вверх в QListWidget
+    MoveQListWidgetItemToUp(ui->GroupList, list);
+}
+
+/*
+    обработчик контекстного меню Групп сортировки по убыванию
+*/
+void MainWindow::SortGroupsDescendingOrder()
+{
+    // общая сортировка по убыванию
+    ui->GroupList->sortItems(Qt::DescendingOrder);
+    // перемещение неудаляемых групп вверх
+    for (int i = 0; i < ui->GroupList->count(); ++i) {
+        int idGroup = ui->GroupList->item(i)->data(Qt::UserRole).toInt();
+        if (mLibs[g_idCurrentLib].mGroups[idGroup].isBlocked()) {
+            QListWidgetItem* currentItem = ui->GroupList->takeItem(i);
+            ui->GroupList->insertItem(0, currentItem);
+        }
+    }
+    // сортировка неудаляемых групп по убыванию
+    QStringList list;
+    for (int i = 0; i < 3; i++)
+        list.append(ui->GroupList->item(i)->text());
+    list.sort(Qt::CaseSensitive);
+    std::reverse(list.begin(), list.end());
+    // перемещение QListWidgetItem вверх в QListWidget
+    MoveQListWidgetItemToUp(ui->GroupList, list);
 }
 
 void MainWindow::actionAboutQt()
