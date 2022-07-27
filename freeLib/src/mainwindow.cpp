@@ -455,8 +455,10 @@ MainWindow::MainWindow(QWidget* parent) :
         }
     }
 
-    // сортировка Групп книг по возрастанию
-    SortGroupsAscendingOrder();
+    if (ui->GroupList->count() > 0) {
+        // сортировка Групп книг по возрастанию
+        SortGroupsAscendingOrder();
+    }
 
     settings.endGroup();
 }
