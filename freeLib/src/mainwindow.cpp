@@ -455,6 +455,9 @@ MainWindow::MainWindow(QWidget* parent) :
         }
     }
 
+    // сортировка Групп книг по возрастанию
+    SortGroupsAscendingOrder();
+
     settings.endGroup();
 }
 
