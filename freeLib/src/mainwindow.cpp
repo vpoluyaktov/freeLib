@@ -59,7 +59,7 @@ QFileInfo GetBookFile(QBuffer &buffer_book, QBuffer &buffer_info, uint id_book, 
         buffer_book.setData(book_file.readAll());
         fi.setFile(book_file);
         if (file_data)
-            *file_data = fi.created();
+            *file_data = fi.birthTime();
         fi.setFile(file);
         QString fbd = fi.absolutePath() + "/" + fi.completeBaseName() + ".fbd";
         QFile info_file(fbd);
@@ -2860,7 +2860,7 @@ void MainWindow::UpdateExportMenu()
         return;
     }
     if (!ui->btnExport->defaultAction()) {
-        ui->btnExport->setDefaultAction(menu->actions()[0]);
+        ui->btnExport->setDefaultAction(menu->actions().constFirst());
     }
     foreach (QAction *action, menu->actions()) {
         connect(action, SIGNAL(triggered()), this, SLOT(ExportAction()));
