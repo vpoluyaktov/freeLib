@@ -169,9 +169,9 @@ QStringList fillParams(QStringList str, book_info& bi, QFileInfo book_file)
     qDebug() << bi.authors[0].firstname;
     qDebug() << bi.authors[0].author;
     qDebug() << str;
-    result.replaceInStrings("%fi", bi.authors[0].firstname.left(1) + ".").
-        replaceInStrings("%mi", bi.authors[0].middlename.left(1) + ".").
-        replaceInStrings("%li", bi.authors[0].lastname.left(1) + ".").
+    result.replaceInStrings("%fi", bi.authors[0].firstname.left(1) + (bi.authors[0].firstname.isEmpty() ? "" : ".")).
+        replaceInStrings("%mi", bi.authors[0].middlename.left(1) + (bi.authors[0].middlename.isEmpty() ? "" : ".")).
+        replaceInStrings("%li", bi.authors[0].lastname.left(1) + (bi.authors[0].lastname.isEmpty() ? UnknownAuthor : ".")).
         replaceInStrings("%nf", bi.authors[0].firstname.trimmed()).
         replaceInStrings("%nm", bi.authors[0].middlename.trimmed()).
         replaceInStrings("%nl", bi.authors[0].lastname.trimmed());
@@ -352,7 +352,7 @@ bool openDB(bool create, bool replace)
     if (fi.exists() && fi.isFile()) {
         db_file = fi.canonicalFilePath();
     } else {
-        sAppDir = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).first();
+        sAppDir = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).constFirst();
         db_file = sAppDir + "/freeLib.sqlite";
         settings.setValue("database_path", db_file);
     }
@@ -506,7 +506,7 @@ int main(int argc, char *argv[])
     if (QStandardPaths::standardLocations(QStandardPaths::HomeLocation).count() > 0)
         HomeDir = QStandardPaths::standardLocations(QStandardPaths::HomeLocation).at(0);
     QDir::setCurrent(HomeDir);
-    QString sDirTmp = QString("%1/freeLib").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).first());
+    QString sDirTmp = QString("%1/freeLib").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).constFirst());
     QDir dirTmp(sDirTmp);
     if (!dirTmp.exists())
         dirTmp.mkpath(sDirTmp);
