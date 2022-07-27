@@ -178,7 +178,7 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
                                                 zip_file.close();
 
                                                 //проверить как работает
-                                                QString sImgFile = QString("%1/freeLib/cover.jpg").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).first());
+                                                QString sImgFile = QString("%1/freeLib/cover.jpg").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).constFirst());
                                                 QPixmap image;
                                                 image.loadFromData(img.data());
                                                 // масштабирование обложки книги, если необходимо
@@ -217,7 +217,7 @@ void GetBookInfo(book_info &bi, const QByteArray &data, QString type,
                     QDomNodeList binarys = doc.elementsByTagName("binary");
                     for(int i = 0; i < binarys.count(); i++) {
                         if(binarys.at(i).attributes().namedItem("id").toAttr().value() == cover.right(cover.length()-1)) {
-                            QString sImgFile = QString("%1/freeLib/cover.jpg").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).first());
+                            QString sImgFile = QString("%1/freeLib/cover.jpg").arg(QStandardPaths::standardLocations(QStandardPaths::TempLocation).constFirst());
                             QPixmap image;
                             QByteArray ba;
                             ba.append(binarys.at(i).toElement().text());
