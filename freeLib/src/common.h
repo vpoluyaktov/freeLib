@@ -28,25 +28,23 @@
 #define default_cover_label "%abbrs - %n2"
 #define default_OPDS_port  8080
 #define default_proxy_port 8080
-
 #define default_dropcaps_font "sangha.ttf"
 
 extern QApplication* app;
 extern QTranslator* translator;
 extern QTranslator* translator_qt;
-extern bool db_is_open;
 extern QCommandLineParser CMDparser;
-
-enum SendType { ST_Device, ST_Mail };
-QSettings* GetSettings(bool need_copy = false, bool reopen = false);
-SendType SetCurrentExportSettings(int index);
-
-enum APP_MODE { MODE_LIBRARY, MODE_CONVERTER, MODE_SHELF };
+extern bool db_is_open;
+extern int g_idCurrentLib;
 
 const QString UnknownAuthor = "Unknown Author";
 const QString WithoutGenre = "Without Genre";
 const QString WithoutSeries = "{ " + QObject::tr("Without Series") + " }";
 const QString WithoutTitle = "[ " + QObject::tr("Without Title") + " ]";
+
+enum APP_MODE { MODE_LIBRARY, MODE_CONVERTER, MODE_SHELF };
+enum SendType { ST_Device, ST_Mail };
+SendType SetCurrentExportSettings(int index);
 
 struct genre_info
 {
@@ -148,29 +146,30 @@ struct tag
 };
 extern QList<tag> tag_list;
 
-QFileInfo GetBookFile(QBuffer& buffer, QBuffer& buffer_info, uint id_book, bool caption = false, QDateTime* file_data = nullptr);
+
 void GetBookInfo(
     book_info& bi, const QByteArray& data, QString type,
     bool& isBookWithoutTitle, bool& isAuthorWithoutData, bool& isSeriaWithoutName, bool& isGenreaWithoutName,
     bool info_only = false, uint id_book = 0
 );
-QPixmap CreateTag(QColor color, int size);
 void SetLocale();
-QString FindLocaleFile(QString locale, QString name, QString suffics);
-QString Transliteration(QString str);
-QString BuildFileName(QString filename);
 void ResetToDefaultSettings();
 void setProxy();
 bool openDB(bool create, bool replace);
-QStringList fillParams(QStringList str, book_info& bi, QFileInfo book_file = QFileInfo());
-QString fillParams(QString str, book_info& bi, QFileInfo book_file = QFileInfo());
-QString fillParams(QString str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
-QStringList fillParams(QStringList str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
-QString decodeStr(const QString& str);
 bool SetCurrentZipFileName(QuaZip* zip, const QString& name);
+QSettings* GetSettings(bool need_copy = false, bool reopen = false);
+QFileInfo GetBookFile(QBuffer& buffer, QBuffer& buffer_info, uint id_book, bool caption = false, QDateTime* file_data = nullptr);
+QPixmap CreateTag(QColor color, int size);
+QString FindLocaleFile(QString locale, QString name, QString suffics);
+QString Transliteration(QString str);
+QString BuildFileName(QString filename);
+QString decodeStr(const QString& str);
 QString RelativeToAbsolutePath(QString path);
 QString sizeToString(uint size);
 
-extern int g_idCurrentLib;
+QStringList fillParams(QStringList str, book_info& bi, QFileInfo book_file = QFileInfo());
+QString fillParams(QString str, book_info& bi, QFileInfo book_file = QFileInfo());
+QStringList fillParams(QStringList str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
+QString fillParams(QString str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
 
 #endif // COMMON_H
