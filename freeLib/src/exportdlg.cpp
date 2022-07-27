@@ -32,28 +32,25 @@ void ExportDlg::reject()
     }
 }
 
-void ExportDlg::exec(const QList<book_info> &list_books, SendType send, qlonglong id_author)
+void ExportDlg::exec(const QList<book_info>& list_books, SendType send, qlonglong id_author)
 {
     ui->Exporting->setText("0");
-    QSettings* settings=GetSettings();
+    QSettings* settings = GetSettings();
     ui->CloseAfter->setChecked(settings->value("CloseExpDlg").toBool());
     ui->progressBar->setValue(0);
-    ui->progressBar->setRange(0,100);
+    ui->progressBar->setRange(0, 100);
     QString dir;
-    if(send!=ST_Mail)
-    {
-        dir=SelectDir();
-        if(dir.isEmpty())
-        {
+    if (send != ST_Mail && !settings->value("PostprocessingCopy", false).toBool()) {
+        dir = SelectDir();
+        if (dir.isEmpty()) {
             return;
         }
     }
-    //qDebug()<<"ok";
     thread = new QThread;
-    worker=new ExportThread;
-    worker->start(dir,list_books,send,id_author);
+    worker = new ExportThread;
+    worker->start(dir, list_books, send, id_author);
     worker->moveToThread(thread);
-    connect(worker, SIGNAL(Progress(int,int)), this, SLOT(Process(int,int)));
+    connect(worker, SIGNAL(Progress(int, int)), this, SLOT(Process(int, int)));
     connect(thread, SIGNAL(started()), worker, SLOT(process()));
     connect(worker, SIGNAL(End()), thread, SLOT(quit()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -62,7 +59,7 @@ void ExportDlg::exec(const QList<book_info> &list_books, SendType send, qlonglon
     thread->start();
 
     QDialog::exec();
-    settings->setValue("CloseExpDlg",ui->CloseAfter->checkState()==Qt::Checked);
+    settings->setValue("CloseExpDlg", ui->CloseAfter->checkState() == Qt::Checked);
     settings->sync();
 }
 void ExportDlg::exec(const QStringList &list_books, SendType send)
