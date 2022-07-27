@@ -2,7 +2,6 @@
 #include <QDesktopWidget>
 #include <QNetworkProxy>
 #include <QStyleFactory>
-#include <quazip/quazip/quazip.h>
 #include <QLocale>
 #include <QTextCodec>
 #include <QTranslator>
@@ -12,10 +11,11 @@
 #include <QMap>
 #include <locale>
 
+#include "fb2mobi/hyphenations.h"
+#include <quazip/quazip/quazip.h>
 
 #include "mainwindow.h"
 #include "aboutdialog.h"
-#include "fb2mobi/hyphenations.h"
 #include "common.h"
 #include "build_number.h"
 
