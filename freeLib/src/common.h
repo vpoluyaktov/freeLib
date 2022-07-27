@@ -15,10 +15,11 @@
 #include <QDateTime>
 #include <QTranslator>
 #include <QApplication>
-#include "quazip/quazip/quazip.h"
 #include <QCommandLineParser>
 #include <QMultiMap>
 #include <QList>
+
+#include "quazip/quazip/quazip.h"
 
 #define AppName  QString("freeLib")
 #define OrgName  QString("freeLibOrg")
