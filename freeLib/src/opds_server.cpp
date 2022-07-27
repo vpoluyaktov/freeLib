@@ -935,7 +935,7 @@ void opds_server::process(QString url, QTextStream& ts, QString session)
         loadBooksDataFromSQLiteToLibraryStructure(id_lib);
 
     uint nPage = 0;
-    if (!QFileInfo(url).exists()) {
+    if (!QFileInfo::exists(url)) {
         if (strings.count() > 0) {
             QString last = strings.last();
             int pos = last.indexOf('?');
@@ -981,7 +981,7 @@ void opds_server::process(QString url, QTextStream& ts, QString session)
             ts.flush();
             ts.device()->write(file.readAll());
         }
-    } else if ((url.endsWith("cover.jpg/", Qt::CaseInsensitive) || url.endsWith("cover.jpg", Qt::CaseInsensitive)) && !QFileInfo(url).exists()) {
+    } else if ((url.endsWith("cover.jpg/", Qt::CaseInsensitive) || url.endsWith("cover.jpg", Qt::CaseInsensitive)) && !QFileInfo::exists(url)) {
         QString id = strings[2];
         fb2mobi fb;
         QString file = fb.convert(id.toLongLong());
