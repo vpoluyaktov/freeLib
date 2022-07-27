@@ -579,11 +579,12 @@ QList<uint> opds_server::book_list(SLib& lib, uint idAuthor, uint idSeria, uint 
     if (idGenre != 0) {
         auto iBook = lib.mBooks.constBegin();
         while (iBook != lib.mBooks.constEnd()) {
-            if (!iBook->bDeleted)
+            if (!iBook->bDeleted) {
                 foreach(auto iGenre, iBook->listIdGenres) {
-                if (iGenre == idGenre) {
-                    listBooks << iBook.key();
-                    break;
+                    if (iGenre == idGenre) {
+                        listBooks << iBook.key();
+                        break;
+                    }
                 }
             }
             ++iBook;
