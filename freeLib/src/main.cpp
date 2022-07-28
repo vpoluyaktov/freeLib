@@ -20,6 +20,7 @@
 #include "build_number.h"
 
 int g_idCurrentLib;
+bool db_is_open;
 QTranslator* translator;
 QTranslator* translator_qt;
 QList<tag> tag_list;

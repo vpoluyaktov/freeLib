@@ -35,7 +35,6 @@ extern QApplication* app;
 extern QTranslator* translator;
 extern QTranslator* translator_qt;
 extern QCommandLineParser CMDparser;
-extern bool db_is_open;
 extern int g_idCurrentLib;
 
 const QString UnknownAuthor = "Unknown Author";

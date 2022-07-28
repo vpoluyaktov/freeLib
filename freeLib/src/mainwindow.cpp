@@ -35,8 +35,7 @@
 #include "test.h"
 
 extern QSplashScreen *splash;
-
-bool db_is_open;
+extern bool db_is_open;
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
