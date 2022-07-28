@@ -197,14 +197,14 @@ struct SLib
     }
 };
 
-void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
-void loadGenresFromSQLiteToLibraryStructure();
-void UpdateLibs();
-
 extern bool g_db_is_open;
 
 extern SLib currentLib;
 extern QMap<int,SLib> mLibs;
 extern QMap <uint,SGenre> mGenre;
+
+void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
+void loadGenresFromSQLiteToLibraryStructure();
+void UpdateLibs();
 
 #endif // LIBRARY_H
