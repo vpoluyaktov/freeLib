@@ -934,8 +934,10 @@ void opds_server::process(QString url, QTextStream& ts, QString session)
         }
     }
     SLib& lib = mLibs[id_lib];
-    if (!lib.bLoaded)
-        loadBooksDataFromSQLiteToLibraryStructure(id_lib);
+    if (!lib.bLoaded) {
+        LibrarySQLiteWorker libSQLiteWorker;
+        libSQLiteWorker.loadBooksDataFromSQLiteToLibraryStructure(id_lib);
+    }
 
     uint nPage = 0;
     if (!QFileInfo::exists(url)) {

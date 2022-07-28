@@ -140,8 +140,9 @@ MainWindow::MainWindow(QWidget* parent) :
     CreateBookDeleteMenu();
 
     UpdateTagsMenu();
-    loadGenresFromSQLiteToLibraryStructure();
-    loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
+    LibrarySQLiteWorker libSQLiteWorker;
+    libSQLiteWorker.loadGenresFromSQLiteToLibraryStructure();
+    libSQLiteWorker.loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateBookLanguageControls(g_idCurrentLib);
     // заполнение комбобокса рейтинга на вкладке Поиск
     FillRatingList();
@@ -1188,7 +1189,8 @@ void MainWindow::SelectLibrary()
         nCurrentTab = LoadCurrentLibraryState(g_idCurrentLib);
     }
 
-    loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
+    LibrarySQLiteWorker libSQLiteWorker;
+    libSQLiteWorker.loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
     UpdateTagsMenu();
     UpdateBookLanguageControls(g_idCurrentLib);
     // заполнение комбобокса с форматами книг на вкладке Поиск
@@ -1611,7 +1613,8 @@ void MainWindow::ManageLibrary()
             // чтение из базы 'позиции' для текущей библиотеки с id = g_idCurrentLib
             nCurrentTab = LoadCurrentLibraryState(g_idCurrentLib);
         }
-        loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
+        LibrarySQLiteWorker libSQLiteWorker;
+        libSQLiteWorker.loadBooksDataFromSQLiteToLibraryStructure(g_idCurrentLib);
         UpdateTagsMenu();
         UpdateBookLanguageControls(g_idCurrentLib);
         // заполнение комбобокса с форматами книг на вкладке Поиск
@@ -3826,7 +3829,8 @@ void MainWindow::LoadAllLibraries(QSqlQuery& query)
 void MainWindow::FillCurrentLibraryControls(int idLibrary)
 {
     ui->Books->clear();
-    loadBooksDataFromSQLiteToLibraryStructure(idLibrary);
+    LibrarySQLiteWorker libSQLiteWorker;
+    libSQLiteWorker.loadBooksDataFromSQLiteToLibraryStructure(idLibrary);
     UpdateBookLanguageControls(idLibrary);
     FillFormatList(idLibrary); // заполнение комбобокса с форматами книг на вкладке Поиск
     FillListWidgetAuthors(idLibrary);

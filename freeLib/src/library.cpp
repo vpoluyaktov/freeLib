@@ -4,7 +4,11 @@
 QMap<int, SLib> mLibs;
 QMap <uint, SGenre> mGenre;
 
-void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
+LibrarySQLiteWorker::LibrarySQLiteWorker()
+{
+}
+
+void LibrarySQLiteWorker::loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
 {
     if (!g_db_is_open)
         return;
@@ -170,7 +174,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
 
 }
 
-void loadGenresFromSQLiteToLibraryStructure()
+void LibrarySQLiteWorker::loadGenresFromSQLiteToLibraryStructure()
 {
     if (!g_db_is_open)
         return;
@@ -197,19 +201,7 @@ void loadGenresFromSQLiteToLibraryStructure()
     qDebug() << "loadGenre " << t_end-t_start << "msec";
 }
 
-QString SAuthor::getName() const
-{
-    QString sAuthorName = QString("%1 %2 %3 (%4)").arg(sLastName, sFirstName, sMiddleName, sNickName.trimmed()).trimmed();
-    if (sAuthorName.indexOf("()") > 1) // только ФИО без nickname
-        sAuthorName = sAuthorName.remove(sAuthorName.length() - 3, 3);
-    else if (sAuthorName.length() > 3) // только nickname
-        return sAuthorName;
-    else // неизвестный автор - вообще без данных
-        sAuthorName = UnknownAuthor;
-    return sAuthorName;
-}
-
-void UpdateLibs()
+void LibrarySQLiteWorker::UpdateLibs()
 {
     g_db_is_open = false;
     //errorQuit = false;
@@ -257,4 +249,16 @@ void UpdateLibs()
                 g_idCurrentLib = -1;
         }
     }
+}
+
+QString SAuthor::getName() const
+{
+    QString sAuthorName = QString("%1 %2 %3 (%4)").arg(sLastName, sFirstName, sMiddleName, sNickName.trimmed()).trimmed();
+    if (sAuthorName.indexOf("()") > 1) // только ФИО без nickname
+        sAuthorName = sAuthorName.remove(sAuthorName.length() - 3, 3);
+    else if (sAuthorName.length() > 3) // только nickname
+        return sAuthorName;
+    else // неизвестный автор - вообще без данных
+        sAuthorName = UnknownAuthor;
+    return sAuthorName;
 }

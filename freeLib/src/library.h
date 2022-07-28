@@ -203,8 +203,11 @@ extern SLib currentLib;
 extern QMap<int,SLib> mLibs;
 extern QMap <uint,SGenre> mGenre;
 
-void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
-void loadGenresFromSQLiteToLibraryStructure();
-void UpdateLibs();
-
+class LibrarySQLiteWorker {
+public:
+    LibrarySQLiteWorker();
+    void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
+    void loadGenresFromSQLiteToLibraryStructure();
+    void UpdateLibs();
+};
 #endif // LIBRARY_H
