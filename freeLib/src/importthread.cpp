@@ -737,7 +737,7 @@ void ImportThread::process()
                 );
                 qlonglong t2 = QDateTime::currentMSecsSinceEpoch();
 
-                QStringList Authors = substrings[field_index[_AUTHORS]].split(':');
+                QStringList Authors = substrings[field_index[_AUTHORS]].split(':', Qt::SkipEmptyParts);
                 int author_count = 0;
                 foreach(QString author, Authors) {
                     int tag_auth = 0;
