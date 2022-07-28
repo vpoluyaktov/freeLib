@@ -1034,7 +1034,7 @@ void opds_server::process(QString url, QTextStream& ts, QString session)
 
             QDomElement entry;
             QDomElement el;
-            if (db_is_open) {
+            if (g_db_is_open) {
                 entry = doc.createElement("entry");
                 feed.appendChild(entry);
                 AddTextNode("updated", QDateTime::currentDateTimeUtc().toString(Qt::ISODate), entry);
@@ -1089,7 +1089,7 @@ void opds_server::process(QString url, QTextStream& ts, QString session)
             QDomElement div = doc.createElement("DIV");
             feed.appendChild(div);
             QDomElement el;
-            if (db_is_open) {
+            if (g_db_is_open) {
                 el = AddTextNode("A", tr("Finding books by authors"), div);
                 el.setAttribute("href", lib_url + "/authorsindex" + (session.isEmpty() ? "" : "?session=" + session));
                 div = doc.createElement("DIV");
@@ -1107,7 +1107,7 @@ void opds_server::process(QString url, QTextStream& ts, QString session)
                 el = AddTextNode("A", tr("Browse directory"), div);
                 el.setAttribute("href", lib_url + "/directory" + (session.isEmpty() ? "" : "?session=" + session));
             }
-            if (db_is_open) {
+            if (g_db_is_open) {
                 QDomElement hr = doc.createElement("HR");
                 hr.setAttribute("size", "3");
                 hr.setAttribute("color", "black");

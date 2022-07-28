@@ -7,7 +7,7 @@ QMap <uint,SGenre> mGenre;
 
 void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
 {
-    if (!db_is_open)
+    if (!g_db_is_open)
         return;
 
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
@@ -173,7 +173,7 @@ void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary)
 
 void loadGenresFromSQLiteToLibraryStructure()
 {
-    if (!db_is_open)
+    if (!g_db_is_open)
         return;
     qint64 t_start = QDateTime::currentMSecsSinceEpoch();
     QSqlQuery query(QSqlDatabase::database("libdb"));

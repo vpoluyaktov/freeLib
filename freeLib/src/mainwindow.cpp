@@ -35,7 +35,7 @@
 #include "test.h"
 
 extern QSplashScreen *splash;
-extern bool db_is_open;
+extern bool g_db_is_open;
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget* parent) :
     errorQuit_ = false;
     QSettings settings;
 
-    if (db_is_open) {
+    if (g_db_is_open) {
         QSqlQuery query(QSqlDatabase::database("libdb"));
         //query.exec("CREATE TABLE IF NOT EXISTS params (id INTEGER PRIMARY KEY, name TEXT, value TEXT)");
         query.exec(QString("SELECT value FROM params WHERE name='%1'").arg("version"));
@@ -357,7 +357,7 @@ QPixmap MainWindow::GetTagFromTagsPicList(int id) const
 */
 void MainWindow::UpdateTagsMenu()
 {
-    if (!db_is_open)
+    if (!g_db_is_open)
         return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -2124,7 +2124,7 @@ void MainWindow::ProcPath(QString path,QStringList *book_list)
 */
 void MainWindow::FillLibrariesMenu(int idLibrary)
 {
-    if (!db_is_open)
+    if (!g_db_is_open)
         return;
     QMenu *lib_menu = new QMenu(this);
     auto i = mLibs.constBegin();

@@ -20,7 +20,7 @@
 #include "build_number.h"
 
 int g_idCurrentLib;
-bool db_is_open;
+bool g_db_is_open;
 QTranslator* translator;
 QTranslator* translator_qt;
 QList<tag> tag_list;
@@ -364,12 +364,12 @@ bool openDB(bool create, bool replace)
             dbase.close();
             if (!file.remove()) {
                 qDebug() << ("Can't remove old database");
-                db_is_open = false;
+                g_db_is_open = false;
                 return false;
             }
         }
         if (!create && !replace) {
-            db_is_open = false;
+            g_db_is_open = false;
             return true;
         }
         QDir dir;
@@ -387,22 +387,22 @@ bool openDB(bool create, bool replace)
     dbase.setDatabaseName(db_file);
     if (!dbase.open()) {
         qDebug() << ("Error connect! ") << db_file;
-        db_is_open = false;
+        g_db_is_open = false;
         return false;
     }
-    db_is_open = true;
+    g_db_is_open = true;
     qDebug() << "Open DB OK. " << db_file;
     return true;
 }
 
 void UpdateLibs()
 {
-    db_is_open = false;
+    g_db_is_open = false;
     //errorQuit = false;
     openDB(true, false);
     //    if(!openDB(false, false))
     //        errorQuit = true;
-    if (!db_is_open)
+    if (!g_db_is_open)
         g_idCurrentLib = -1;
     else {
         QSettings settings/*=GetSettings()*/;

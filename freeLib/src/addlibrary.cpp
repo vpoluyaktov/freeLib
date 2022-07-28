@@ -176,7 +176,7 @@ void AddLibrary::SelectBooksDir()
 void AddLibrary::UpdateLibList()
 
 {
-    if (!db_is_open)
+    if (!g_db_is_open)
         return;
     bool block = ui->comboBoxExistingLibs->blockSignals(true);
     ui->comboBoxExistingLibs->clear();
@@ -250,9 +250,9 @@ void AddLibrary::StartImport(SLib &Lib)
 
 void AddLibrary::ImportNewLibrary(SLib &lib)
 {
-    if(!db_is_open)
+    if(!g_db_is_open)
     {
-        db_is_open=openDB(true,false);
+        g_db_is_open=openDB(true,false);
     }
     idCurrentLib_ =-1;
     StartImport(lib);

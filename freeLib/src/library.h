@@ -198,7 +198,7 @@ struct SLib
 void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
 void loadGenresFromSQLiteToLibraryStructure();
 
-extern bool db_is_open;
+extern bool g_db_is_open;
 
 extern SLib currentLib;
 extern QMap<int,SLib> mLibs;
