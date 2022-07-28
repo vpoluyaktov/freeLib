@@ -19,5 +19,7 @@ void MoveQListWidgetItemToUp(QListWidget* lw, const QStringList& list);
 QFileInfo GetBookFile(QBuffer& buffer, QBuffer& buffer_info, uint id_book, bool caption = false, QDateTime* file_data = nullptr);
 // создание цветной иконки тэга
 QPixmap CreateTag(QColor color, int size);
+// формирование строки размера файла
+QString sizeToString(uint size);
 
 #endif // UTILITIES_H
