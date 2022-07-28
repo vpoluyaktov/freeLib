@@ -175,6 +175,17 @@ QString sizeToString(uint size)
     double size_d = (float)size + (float)rest / 1024.0;
     return QString("%L1 %2").arg(size_d, 0, 'f', mem_i > 0 ? 1 : 0).arg(mem[mem_i]);
 }
+
+bool SetCurrentZipFileName(QuaZip* zip, const QString& name)
+{
+    bool result = zip->setCurrentFile(name, QuaZip::csInsensitive);
+    if (!result) {
+        zip->setFileNameCodec(QTextCodec::codecForName("IBM 866"));
+        result = zip->setCurrentFile(name, QuaZip::csInsensitive);
+    }
+    return result;
+}
+
 QStringList fillParams(QStringList str, book_info& bi, QFileInfo book_file)
 {
     QStringList result = str;

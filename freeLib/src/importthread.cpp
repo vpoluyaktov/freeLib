@@ -3,10 +3,12 @@
 #include <QBuffer>
 
 #include "importthread.h"
-#include "quazip/quazip/quazip.h"
-#include "quazip/quazip/quazipfile.h"
 #include "common.h"
 #include "library.h"
+#include "utilities.h"
+
+#include "quazip/quazip/quazip.h"
+#include "quazip/quazip/quazipfile.h"
 
 void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
 {

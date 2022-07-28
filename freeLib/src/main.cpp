@@ -29,16 +29,6 @@ QCommandLineParser CMDparser;
 QSplashScreen *splash;
 QApplication *app;
 
-bool SetCurrentZipFileName(QuaZip *zip, const QString& name)
-{
-    bool result = zip->setCurrentFile(name, QuaZip::csInsensitive);
-    if (!result) {
-        zip->setFileNameCodec(QTextCodec::codecForName("IBM 866"));
-        result = zip->setCurrentFile(name, QuaZip::csInsensitive);
-    }
-    return result;
-}
-
 QString RelativeToAbsolutePath(QString path)
 {
     if (QDir(path).isRelative() && path.indexOf("%") < 0) {

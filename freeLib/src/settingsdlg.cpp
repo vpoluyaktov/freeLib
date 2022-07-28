@@ -2,9 +2,11 @@
 #include <QToolButton>
 #include "settingsdlg.h"
 #include "ui_settingsdlg.h"
-#include "common.h"
 #include "fontframe.h"
 #include "exportframe.h"
+#include "common.h"
+#include "utilities.h"
+
 #include "./quazip/quazip/quazip.h"
 #include "./quazip/quazip/quazipfile.h"
 

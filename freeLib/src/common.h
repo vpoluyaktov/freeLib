@@ -156,7 +156,6 @@ void SetLocale();
 void ResetToDefaultSettings();
 void setProxy();
 bool openDB(bool create, bool replace);
-bool SetCurrentZipFileName(QuaZip* zip, const QString& name);
 QSettings* GetSettings(bool need_copy = false, bool reopen = false);
 QString FindLocaleFile(QString locale, QString name, QString suffics);
 QString Transliteration(QString str);

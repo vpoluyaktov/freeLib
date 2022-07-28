@@ -5,9 +5,11 @@
 #include "addlibrary.h"
 #include "ui_addlibrary.h"
 #include "common.h"
+#include "exportdlg.h"
+#include "utilities.h"
+
 #include "quazip/quazip/quazip.h"
 #include "quazip/quazip/quazipfile.h"
-#include "exportdlg.h"
 
 AddLibrary::AddLibrary(QWidget *parent) :
     QDialog(parent,Qt::Dialog|Qt::WindowSystemMenuHint),
