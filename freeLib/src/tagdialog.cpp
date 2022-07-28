@@ -1,6 +1,7 @@
 #include "tagdialog.h"
 #include "ui_tagdialog.h"
 #include "common.h"
+#include "utilities.h"
 
 TagDialog::TagDialog(QWidget *parent) :
     QDialog(parent),

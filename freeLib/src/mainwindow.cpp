@@ -38,26 +38,6 @@ extern QSplashScreen *splash;
 
 bool db_is_open;
 
-/*
-    создание цветной иконки тэга
-*/
-QPixmap CreateTag(QColor color, int size)
-{
-    QPixmap pixmap(size, size-4);
-    pixmap.fill(Qt::transparent);
-    QPainter paint(&pixmap);
-    paint.setBrush(QBrush(color));
-    QPen pen = QPen(QColor(
-        static_cast<int>(color.red()*0.5),
-        static_cast<int>(color.green()*0.5),
-        static_cast<int>(color.blue()*0.5),
-        static_cast<int>(color.alpha()*0.5)
-    ));
-    paint.setPen(pen);
-    paint.drawEllipse(2, 0, size-5, size-5);
-    return pixmap;
-}
-
 QString sizeToString(uint size)
 {
     QStringList mem;

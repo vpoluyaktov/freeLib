@@ -159,7 +159,6 @@ void setProxy();
 bool openDB(bool create, bool replace);
 bool SetCurrentZipFileName(QuaZip* zip, const QString& name);
 QSettings* GetSettings(bool need_copy = false, bool reopen = false);
-QPixmap CreateTag(QColor color, int size);
 QString FindLocaleFile(QString locale, QString name, QString suffics);
 QString Transliteration(QString str);
 QString BuildFileName(QString filename);

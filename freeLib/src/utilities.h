@@ -5,6 +5,7 @@
 #include <QKeySequence>
 #include <QShortcut>
 #include <QListWidgetItem>
+#include <QPainter>
 
 #include "library.h"
 
@@ -16,5 +17,7 @@ bool EraseEmptyGenreElement();
 void MoveQListWidgetItemToUp(QListWidget* lw, const QStringList& list);
 // получение данных о файле
 QFileInfo GetBookFile(QBuffer& buffer, QBuffer& buffer_info, uint id_book, bool caption = false, QDateTime* file_data = nullptr);
+// создание цветной иконки тэга
+QPixmap CreateTag(QColor color, int size);
 
 #endif // UTILITIES_H
