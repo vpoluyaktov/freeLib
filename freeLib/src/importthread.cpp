@@ -10,7 +10,10 @@
 #include "quazip/quazip/quazip.h"
 #include "quazip/quazip/quazipfile.h"
 
-void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
+/*
+    полная очистка базы данных
+*/
+void ImportThread::ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only)
 {
     QSqlQuery query(dbase);
     if(delete_only) {

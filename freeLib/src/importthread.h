@@ -10,11 +10,6 @@
 #define UT_DEL_AND_NEW 11
 #define UT_NEW 12
 
-
-
-void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only);
-
-
 class ImportThread : public QObject
 {
     Q_OBJECT
@@ -22,7 +17,10 @@ public:
     explicit ImportThread(QObject *parent = 0);
     void start(
         const QString& fileName, const QString& name, const QString& path, long ID, int update_type,
-        bool save_only = false, bool firstAuthor = false, bool bWoDeleted = false);
+        bool save_only = false, bool firstAuthor = false, bool bWoDeleted = false
+    );
+    // полная очистка базы данных
+    void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only);
     //void SaveLibrary();
     bool loop_;
 
