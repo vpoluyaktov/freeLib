@@ -9,6 +9,7 @@
 #include "exportthread.h"
 #include "library.h"
 #include "common.h"
+#include "utilities.h"
 
 #include "SmtpClient/smtpclient.h"
 #include "SmtpClient/mimeattachment.h"

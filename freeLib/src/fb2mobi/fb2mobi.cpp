@@ -7,7 +7,8 @@
 #include <QFileInfo>
 #include <QUuid>
 #include <QPainter>
-//#include <QWebEnginePage>
+
+#include "utilities.h"
 
 #include "../quazip/quazip/quazip.h"
 #include "../quazip/quazip/quazipfile.h"

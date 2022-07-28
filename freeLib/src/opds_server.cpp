@@ -7,6 +7,8 @@
 #include "aboutdialog.h"
 #include "opds_server.h"
 #include "build_number.h"
+#include "utilities.h"
+
 #include "fb2mobi/fb2mobi.h"
 
 #define SAVE_INDEX  4
