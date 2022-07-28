@@ -460,7 +460,7 @@ void ImportThread::start(
 )
 {
     InpxFileName_ = RelativeToAbsolutePath(InpxFileName);
-    if (!QFileInfo(InpxFileName_).exists() || !QFileInfo(InpxFileName_).isFile()) {
+    if (!QFileInfo::exists(InpxFileName_) || !QFileInfo(InpxFileName_).isFile()) {
         InpxFileName_ = InpxFileName;
     }
     LibName_ = LibName;
