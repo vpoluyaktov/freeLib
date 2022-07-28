@@ -22,4 +22,9 @@ QPixmap CreateTag(QColor color, int size);
 // формирование строки размера файла
 QString sizeToString(uint size);
 
+QStringList fillParams(QStringList str, book_info& bi, QFileInfo book_file = QFileInfo());
+QString fillParams(QString str, book_info& bi, QFileInfo book_file = QFileInfo());
+QStringList fillParams(QStringList str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
+QString fillParams(QString str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
+
 #endif // UTILITIES_H

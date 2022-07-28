@@ -164,9 +164,4 @@ QString BuildFileName(QString filename);
 QString decodeStr(const QString& str);
 QString RelativeToAbsolutePath(QString path);
 
-QStringList fillParams(QStringList str, book_info& bi, QFileInfo book_file = QFileInfo());
-QString fillParams(QString str, book_info& bi, QFileInfo book_file = QFileInfo());
-QStringList fillParams(QStringList str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
-QString fillParams(QString str, QFileInfo book_file, QString seria_name, QString book_name, QString author, QString ser_num);
-
 #endif // COMMON_H
