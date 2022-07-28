@@ -43,8 +43,6 @@ const QString WithoutSeries = "{ " + QObject::tr("Without Series") + " }";
 const QString WithoutTitle = "[ " + QObject::tr("Without Title") + " ]";
 
 enum APP_MODE { MODE_LIBRARY, MODE_CONVERTER, MODE_SHELF };
-enum SendType { ST_Device, ST_Mail };
-SendType SetCurrentExportSettings(int index);
 
 struct genre_info
 {
@@ -92,7 +90,6 @@ struct author_info
     QString lastname;
     QString nickname;
 };
-
 struct seria_info
 {
     seria_info(qlonglong id, QString seria, qlonglong number) : id(id), seria(seria), number(number)
@@ -102,7 +99,6 @@ struct seria_info
     QString seria;
     qlonglong number;
 };
-
 struct book_info
 {
     qlonglong id;
@@ -144,23 +140,5 @@ struct tag
     {
     }
 };
-extern QList<tag> tag_list;
-
-
-void GetBookInfo(
-    book_info& bi, const QByteArray& data, QString type,
-    bool& isBookWithoutTitle, bool& isAuthorWithoutData, bool& isSeriaWithoutName, bool& isGenreaWithoutName,
-    bool info_only = false, uint id_book = 0
-);
-void SetLocale();
-void ResetToDefaultSettings();
-void setProxy();
-bool openDB(bool create, bool replace);
-QSettings* GetSettings(bool need_copy = false, bool reopen = false);
-QString FindLocaleFile(QString locale, QString name, QString suffics);
-QString Transliteration(QString str);
-QString BuildFileName(QString filename);
-QString decodeStr(const QString& str);
-QString RelativeToAbsolutePath(QString path);
 
 #endif // COMMON_H

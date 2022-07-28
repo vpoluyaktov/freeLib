@@ -1,5 +1,6 @@
 #include "exportdlg.h"
 #include "ui_exportdlg.h"
+#include "utilities.h"
 
 ExportDlg::ExportDlg(QWidget *parent) :
     QDialog(parent,Qt::Window|Qt::WindowSystemMenuHint),

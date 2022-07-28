@@ -4,7 +4,9 @@
 #include <QMultiMap>
 #include <QList>
 #include <QDateTime>
+
 #include "common.h"
+#include "utilities.h"
 
 class SAuthor
 {
@@ -197,6 +199,7 @@ struct SLib
 
 void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
 void loadGenresFromSQLiteToLibraryStructure();
+void UpdateLibs();
 
 extern bool g_db_is_open;
 

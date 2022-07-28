@@ -18,71 +18,6 @@
 #include "quazip/quazip/quazip.h"
 #include "quazip/quazip/quazipfile.h"
 
-QString Transliteration(QString str)
-{
-    str = str.trimmed();
-    QString fn;
-    int i, rU, rL;
-    QString validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_,.()[]{}<>!@#$%^&+=\\/";
-    QString rusUpper = QString::fromUtf8("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ");
-    QString rusLower = QString::fromUtf8("абвгдеёжзийклмнопрстуфхцчшщыэюя");
-    QStringList latUpper, latLower;
-    latUpper << "A" << "B" << "V" << "G" << "D" << "E" << "Jo" << "Zh" << "Z" << "I" << "J" << "K" << "L" << "M" << "N"
-        << "O" << "P" << "R" << "S" << "T" << "U" << "F" << "H" << "C" << "Ch" << "Sh" << "Sh" << "I" << "E" << "Ju" << "Ja";
-    latLower << "a" << "b" << "v" << "g" << "d" << "e" << "jo" << "zh" << "z" << "i" << "j" << "k" << "l" << "m" << "n"
-        << "o" << "p" << "r" << "s" << "t" << "u" << "f" << "h" << "c" << "ch" << "sh" << "sh" << "i" << "e" << "ju" << "ja";
-    for (i = 0; i < str.size(); ++i) {
-        if (validChars.contains(str[i])) {
-            fn = fn + str[i];
-        }
-        else if (str[i] == ' ') {  //replace spaces
-            fn = fn + " ";
-        }
-        else if (str[i] == '?') {  //replace ?
-            fn = fn + ".";
-        }
-        else if (str[i] == '*') {  //replace *
-            fn = fn + ".";
-        }
-        else if (str[i] == '~') {  //replace ~
-            fn = fn + ".";
-        }
-        else {
-            rU = rusUpper.indexOf(str[i]);
-            rL = rusLower.indexOf(str[i]);
-            if (rU >= 0)         fn = fn + latUpper[rU];
-            else if (rL >= 0)   fn = fn + latLower[rL];
-        }
-    }
-    if (fn.isEmpty()) fn = "file";
-    return fn;
-}
-QString ValidateFileName(QString str)
-{
-    bool windows = false;
-    bool mac = false;
-#ifdef WIN32
-    windows = true;
-#endif
-#ifdef Q_OS_MAC
-    mac = true;
-#endif
-
-    QSettings* settings = GetSettings();
-    if (!settings->value("extended_symbols", false).toBool() || windows) {
-
-        str = str.replace("\"", "'");
-        str = str.replace(QRegExp("^([a-zA-Z]\\:|\\\\\\\\[^\\/\\\\:*?\"<>|]+\\\\[^\\/\\\\:*?\"<>|]+)(\\\\[^\\/\\\\:*?\"<>|]+)+(\\.[^\\/\\\\:*?\"<>|]+)$"), "_");
-        str = str.left(2) + str.mid(2).replace(":", "_");
-    } else {
-        if (mac)
-            str = str.replace(QRegExp("[:]"), "_");
-    }
-    str = str.replace(QRegExp("[/\\]"), "_");
-    qDebug() << str;
-    return str;
-}
-
 ExportThread::ExportThread(QObject* parent) :
     QObject(parent)
 {
@@ -116,11 +51,6 @@ void ExportThread::start(QString _export_dir, const QStringList& list_books, Sen
     IDauthor = 0;
     export_dir = RelativeToAbsolutePath(_export_dir);
     //  QThread::start();
-}
-
-QString BuildFileName(QString filename)
-{
-    return filename.replace("/", ".").replace("\\", ".").replace("*", ".").replace("|", ".").replace(":", ".").replace("?", ".").replace("<", ".").replace(">", ".").replace("\"", "'");
 }
 
 void ExportThread::FB2export()

@@ -16,6 +16,8 @@
 #include <importthread.h>
 #include "fb2mobi.h"
 
+extern QList<tag> tag_list;
+
 fb2mobi::fb2mobi()
 {
     QSettings *settings=GetSettings();
