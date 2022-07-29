@@ -20,7 +20,7 @@ public:
         bool save_only = false, bool firstAuthor = false, bool bWoDeleted = false
     );
     // полная очистка базы данных
-    void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only);
+    static void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only);
     //void SaveLibrary();
     bool loop_;
 

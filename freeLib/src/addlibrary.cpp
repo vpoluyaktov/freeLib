@@ -385,8 +385,7 @@ void AddLibrary::DeleteLibrary()
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->Log->clear();
-    ImportThread importThread;
-    importThread.ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_, false);
+    ImportThread::ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_, false);
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.exec("DELETE FROM lib where ID=" + QString::number(idCurrentLib_));
     mLibs.remove(idCurrentLib_);
