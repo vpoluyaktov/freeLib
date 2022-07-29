@@ -121,8 +121,7 @@ int main(int argc, char *argv[])
     a.processEvents();
     setProxy();
     //g_idCurrentLib=settings->value("LibID",-1).toInt();
-    LibrarySQLiteWorker libSQLiteWorker;
-    libSQLiteWorker.UpdateLibs();
+    LibrarySQLiteWorker::UpdateLibs();
     MainWindow w;
 #ifdef Q_OS_OSX
   //  w.setWindowFlags(w.windowFlags() & ~Qt::WindowFullscreenButtonHint);

@@ -208,6 +208,6 @@ public:
     LibrarySQLiteWorker();
     void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
     void loadGenresFromSQLiteToLibraryStructure();
-    void UpdateLibs();
+    static void UpdateLibs();
 };
 #endif // LIBRARY_H
