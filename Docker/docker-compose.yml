@@ -1,0 +1,23 @@
+version: "2.1"
+services:
+  calibre:
+    image: freelib 
+    container_name: freelib
+    security_opt:
+      - seccomp:unconfined #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles  
+      - GUAC_USER=admin
+      - GUAC_PASS=6024f9c5baaefa847379deecb6951d1d
+      - UMASK_SET=022
+      - CLI_ARGS=
+    volumes:
+      - ${PWD}/config:/config
+      - /mnt/NAS/EBooks:/books
+      - ${PWD}/downloads:/downloads
+    ports:
+      - 8980:8080
+      - 8981:8081
+    restart: unless-stopped
