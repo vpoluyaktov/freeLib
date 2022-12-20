@@ -10,7 +10,7 @@ services:
       - PGID=1000
       - TZ=America/Los_Angeles  
       - GUAC_USER=admin
-      - GUAC_PASS=6024f9c5baaefa847379deecb6951d1d
+      - GUAC_PASS=<a password md5 hash>
       - UMASK_SET=022
       - CLI_ARGS=
     volumes:
