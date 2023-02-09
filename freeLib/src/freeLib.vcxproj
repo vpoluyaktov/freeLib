@@ -391,6 +391,7 @@
     <ClCompile Include="fontframe.cpp" />
     <ClCompile Include="genresortfilterproxymodel.cpp" />
     <ClCompile Include="helpdialog.cpp" />
+    <ClCompile Include="statisticsdialog.cpp" />
     <ClCompile Include="fb2mobi\hyphenations.cpp" />
     <ClCompile Include="importthread.cpp" />
     <ClCompile Include="library.cpp" />
@@ -425,6 +426,7 @@
     <ClCompile Include="quazip\quazip\unzip.c" />
     <ClCompile Include="quazip\quazip\zip.c" />
     <ClCompile Include="utilities.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quazip\quazip\JlCompress.h" />
@@ -454,6 +456,8 @@
     <QtMoc Include="genresortfilterproxymodel.h">
     </QtMoc>
     <QtMoc Include="helpdialog.h">
+    </QtMoc>
+    <QtMoc Include="statisticsdialog.h">
     </QtMoc>
     <ClInclude Include="fb2mobi\hyphenations.h" />
     <QtMoc Include="importthread.h">
@@ -503,7 +507,8 @@
     <QtMoc Include="tagdialog.h">
     </QtMoc>
     <ClInclude Include="treebookitem.h" />
-    <QtMoc Include="utilities.h">
+    <ClInclude Include="utilities.h" />
+    <QtMoc Include="test.h">
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -555,6 +560,8 @@
     <QtUic Include="fontframe.ui">
     </QtUic>
     <QtUic Include="helpdialog.ui">
+    </QtUic>
+    <QtUic Include="statisticsdialog.ui">
     </QtUic>
     <QtUic Include="mainwindow.ui">
     </QtUic>

@@ -2,9 +2,11 @@
 #include <QToolButton>
 #include "settingsdlg.h"
 #include "ui_settingsdlg.h"
-#include "common.h"
 #include "fontframe.h"
 #include "exportframe.h"
+#include "common.h"
+#include "utilities.h"
+
 #include "./quazip/quazip/quazip.h"
 #include "./quazip/quazip/quazipfile.h"
 
@@ -60,10 +62,10 @@ SettingsDlg::~SettingsDlg()
 void SettingsDlg::LoadSettings()
 {
 #ifdef Q_OS_MAC
-//    ui->settings_to_file->setChecked(QFileInfo(app->applicationDirPath()+"/../../../freeLib/freeLib.cfg").exists());
-    ui->settings_to_file->setChecked(QFileInfo(app->applicationDirPath()+"/freeLib.cfg").exists());
+//    ui->settings_to_file->setChecked(QFileInfo::exists(app->applicationDirPath() + "/../../../freeLib/freeLib.cfg"));
+    ui->settings_to_file->setChecked(QFileInfo::exists(app->applicationDirPath() + "/freeLib.cfg"));
 #else
-    ui->settings_to_file->setChecked(QFileInfo(app->applicationDirPath()+"/freeLib.cfg").exists());
+    ui->settings_to_file->setChecked(QFileInfo::exists(app->applicationDirPath() + "/freeLib.cfg"));
 #endif
 
     ui->ApplicationList->setColumnWidth(0,100);

@@ -5,9 +5,11 @@
 #include "addlibrary.h"
 #include "ui_addlibrary.h"
 #include "common.h"
+#include "exportdlg.h"
+#include "utilities.h"
+
 #include "quazip/quazip/quazip.h"
 #include "quazip/quazip/quazipfile.h"
-#include "exportdlg.h"
 
 AddLibrary::AddLibrary(QWidget *parent) :
     QDialog(parent,Qt::Dialog|Qt::WindowSystemMenuHint),
@@ -176,7 +178,7 @@ void AddLibrary::SelectBooksDir()
 void AddLibrary::UpdateLibList()
 
 {
-    if (!db_is_open)
+    if (!g_db_is_open)
         return;
     bool block = ui->comboBoxExistingLibs->blockSignals(true);
     ui->comboBoxExistingLibs->clear();
@@ -216,8 +218,6 @@ void AddLibrary::StartImport(SLib &Lib)
     // UT_DEL_AND_NEW : Удалить несуществующие и добавить новые книги
     int update_type=(ui->rbtnAddNewBook->isChecked()?UT_NEW:ui->rbtnDeleleOldBook->isChecked()?UT_DEL_AND_NEW:UT_FULL);
     SaveLibrary(idCurrentLib_,Lib);
-    // занесение в таблицу groups две неудаляемые Группы
-    AddGroupToSQLite(idCurrentLib_);
 
     ui->btnExportLibrary->setDisabled(true);
     ui->btnUpdateLibrary->setDisabled(true);
@@ -232,6 +232,8 @@ void AddLibrary::StartImport(SLib &Lib)
     ui->btnCancel->setText(tr("Break"));
     ui->checkBoxShowLog->setChecked(true);
     ExpandLog();
+
+    timer_.start(); // запуска отсчета времени импорта книг в библиотеку
 
     thread_ = new QThread;
     imp_tr_=new ImportThread();
@@ -250,9 +252,9 @@ void AddLibrary::StartImport(SLib &Lib)
 
 void AddLibrary::ImportNewLibrary(SLib &lib)
 {
-    if(!db_is_open)
+    if(!g_db_is_open)
     {
-        db_is_open=openDB(true,false);
+        g_db_is_open=openDB(true,false);
     }
     idCurrentLib_ =-1;
     StartImport(lib);
@@ -383,7 +385,7 @@ void AddLibrary::DeleteLibrary()
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->Log->clear();
-    ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_, false);
+    ImportThread::ClearLib(QSqlDatabase::database("libdb"),idCurrentLib_, false);
     QSqlQuery query(QSqlDatabase::database("libdb"));
     query.exec("DELETE FROM lib where ID=" + QString::number(idCurrentLib_));
     mLibs.remove(idCurrentLib_);
@@ -402,6 +404,14 @@ void AddLibrary::DeleteLibrary()
 }
 void AddLibrary::EndUpdate()
 {
+    // завершение импорта книг в библиотеку
+    QTime time(0, 0);
+    time = time.addMSecs(timer_.elapsed());
+    LogList_.append(tr("The time taken to process books") + " : " + time.toString() + " " + tr("(hour:min:sec)"));
+
+    // занесение в таблицу groups три заблокированные от удаления Группы
+    AddGroupToSQLite(idCurrentLib_);
+    
     LogMessage(tr("Ending"));
     ui->btnExportLibrary->setDisabled(false);
     ui->btnUpdateLibrary->setDisabled(false);
@@ -588,51 +598,57 @@ void AddLibrary::SetEnabledOrDisabledControllsOfSelectedStateItemBooksDirs()
 void AddLibrary::AddGroupToSQLite(qlonglong libID)
 {
     QSqlQuery query(QSqlDatabase::database("libdb"));
+    query.prepare("SELECT name FROM groups WHERE groups.id_lib = :id_lib;");
+    query.bindValue(":id_lib", libID);
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    if (!query.next()) {
+        // защита от повторного занесения групп в базу
+        // Избранное
+        QPixmap favoritesPixmap(":/icons/img/icons/favorites.png");
+        QByteArray favoritesByteArray;
+        QBuffer favoritesBuffer(&favoritesByteArray);
+        favoritesBuffer.open(QIODevice::WriteOnly);
+        favoritesPixmap.save(&favoritesBuffer, "PNG");
+        query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
+        query.bindValue(":name", tr("Favorites"));
+        query.bindValue(":id_lib", libID);
+        query.bindValue(":blocked", true);
+        query.bindValue(":blocked_name", "favorites");
+        query.bindValue(":icon", favoritesByteArray);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
 
-    // Избранное
-    QPixmap favoritesPixmap(":/icons/img/icons/favorites.png");
-    QByteArray favoritesByteArray;
-    QBuffer favoritesBuffer(&favoritesByteArray);
-    favoritesBuffer.open(QIODevice::WriteOnly);
-    favoritesPixmap.save(&favoritesBuffer, "PNG");
-    query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
-    query.bindValue(":name", tr("Favorites"));
-    query.bindValue(":id_lib", libID);
-    query.bindValue(":blocked", true);
-    query.bindValue(":blocked_name", "favorites");
-    query.bindValue(":icon", favoritesByteArray);
-    if (!query.exec())
-        qDebug() << query.lastError().text();
+        // К прочтению
+        QPixmap toReadPixmap(":/icons/img/icons/toRead.png");
+        QByteArray toReadByteArray;
+        QBuffer toReadBuffer(&toReadByteArray);
+        toReadBuffer.open(QIODevice::WriteOnly);
+        toReadPixmap.save(&toReadBuffer, "PNG");
+        query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
+        query.bindValue(":name", tr("To read"));
+        query.bindValue(":id_lib", libID);
+        query.bindValue(":blocked", true);
+        query.bindValue(":blocked_name", "toRead");
+        query.bindValue(":icon", toReadByteArray);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
 
-    // К прочтению
-    QPixmap toReadPixmap(":/icons/img/icons/toRead.png");
-    QByteArray toReadByteArray;
-    QBuffer toReadBuffer(&toReadByteArray);
-    toReadBuffer.open(QIODevice::WriteOnly);
-    toReadPixmap.save(&toReadBuffer, "PNG");
-    query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
-    query.bindValue(":name", tr("To read"));
-    query.bindValue(":id_lib", libID);
-    query.bindValue(":blocked", true);
-    query.bindValue(":blocked_name", "toRead");
-    query.bindValue(":icon", toReadByteArray);
-    if (!query.exec())
-        qDebug() << query.lastError().text();
-   
-    // Читаю
-    QPixmap readPixmap(":/icons/img/icons/read.png");
-    QByteArray readByteArray;
-    QBuffer readBuffer(&readByteArray);
-    readBuffer.open(QIODevice::WriteOnly);
-    readPixmap.save(&readBuffer, "PNG");
-    query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
-    query.bindValue(":name", tr("I read"));
-    query.bindValue(":id_lib", libID);
-    query.bindValue(":blocked", true);
-    query.bindValue(":blocked_name", "read");
-    query.bindValue(":icon", readByteArray);
-    if (!query.exec())
-        qDebug() << query.lastError().text();
+        // Читаю
+        QPixmap readPixmap(":/icons/img/icons/read.png");
+        QByteArray readByteArray;
+        QBuffer readBuffer(&readByteArray);
+        readBuffer.open(QIODevice::WriteOnly);
+        readPixmap.save(&readBuffer, "PNG");
+        query.prepare("INSERT INTO groups(name, id_lib, blocked, blocked_name, icon) values(:name, :id_lib, :blocked, :blocked_name, :icon);");
+        query.bindValue(":name", tr("I read"));
+        query.bindValue(":id_lib", libID);
+        query.bindValue(":blocked", true);
+        query.bindValue(":blocked_name", "read");
+        query.bindValue(":icon", readByteArray);
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+    }
 }
 
 /*

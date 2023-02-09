@@ -10,22 +10,25 @@
 #define UT_DEL_AND_NEW 11
 #define UT_NEW 12
 
-
-
-void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only);
-
-
 class ImportThread : public QObject
 {
     Q_OBJECT
 public:
     explicit ImportThread(QObject *parent = 0);
-    void start(QString fileName, QString name, QString path, long ID, int update_type, bool save_only=false, bool firstAuthor=false, bool bWoDeleted=false);
+    void start(
+        const QString& fileName, const QString& name, const QString& path, long ID, int update_type,
+        bool save_only = false, bool firstAuthor = false, bool bWoDeleted = false
+    );
+    // полная очистка базы данных
+    static void ClearLib(QSqlDatabase dbase, qlonglong id_lib, bool delete_only);
     //void SaveLibrary();
     bool loop_;
 
+    // id жанра 'Неотсортированное'
+    qlonglong GetOtherGenreId() const;
+
 signals:
-    void Message(QString str);
+    void Message(const QString& str);
     void End();
 
 public slots:
@@ -33,13 +36,15 @@ public slots:
     void break_import();
 
 protected:
-    void importBooks(QString path,int &count);
-    void importBooksToLibrary(QString path);
+    ulong importBooksToLibrary(const QString& path);
+    ulong importBooks(const QString& path,int &count);
 
-    void readFB2_FBD(const QByteArray &ba, QString file_name, QString arh_name, qint32 file_size=0);
-    void readEPUB(const QByteArray &ba,QString file_name, QString arh_name,qint32 file_size=0);
-    void readFB2_test(const QByteArray& ba,QString file_name,QString arh_name);
-
+    bool readFB2_FBD(const QByteArray &ba, const QString& file_name, const QString& arh_name, qint32 file_size = 0);
+    bool readEPUB(const QByteArray &ba, const QString& file_name, const QString& arh_name, qint32 file_size = 0);
+    void readBook(
+        const QString& type, const QString& format, const QByteArray& ba,
+        const QString& file_name, const QString& arh_name, qint32 file_size = 0
+    );
 private:
     QString InpxFileName_;
     QString LibName_;
@@ -51,15 +56,16 @@ private:
     long ExistingLibID_;
     QSqlQuery *Query_;
 
-    qlonglong AddSeriaToSQLite(QString str,qlonglong libID,int tag);
-    qlonglong AddAuthorToSQLite(QString str,qlonglong libID,qlonglong id_book,bool first_author,QString language,int tag);
-    qlonglong AddGenreToSQLite(qlonglong id_book, QString genre, qlonglong id_lib, QString language);
-    qlonglong AddGroupToSQLite(qlonglong bookID, qlonglong libID, QString group);
+    qlonglong AddSeriaToSQLite(qlonglong libID, const QString& str, int tag);
+    qlonglong AddAuthorToSQLite(qlonglong libID, const QString& str, qlonglong id_book, bool first_author, const QString& language, int tag);
+    qlonglong AddGenreToSQLite(qlonglong id_lib, QString genre, qlonglong id_book, const QString& language);
+    //qlonglong AddGroupToSQLite(qlonglong libID, const QString& group, qlonglong bookID);
     qlonglong AddBookToSQLite(
-        qlonglong star, QString name, qlonglong id_seria, int num_in_seria, QString file,
-        int size, int IDinLib, bool deleted, QString format, QDate date, QString language,
-        QString keys, qlonglong id_lib, QString archive, int tag, bool readed
+        qlonglong id_lib, qlonglong star, const QString& name, qlonglong id_seria, int num_in_seria,
+        const QString& file, int size, int IDinLib, bool deleted, const QString& format, const QDate& date,
+        const QString& language, const QString& keys, const QString& archive, int tag, bool readed
     );
+
 };
 
 #endif // IMPORTTHREAD_H

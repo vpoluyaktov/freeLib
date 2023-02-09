@@ -91,6 +91,7 @@ SOURCES += main.cpp\
     exportdlg.cpp \
     aboutdialog.cpp \
     helpdialog.cpp \
+    statisticsdialog.cpp \
     fb2mobi/hyphenations.cpp \
     tagdialog.cpp \
     fb2mobi/fb2mobi.cpp \
@@ -115,7 +116,8 @@ SOURCES += main.cpp\
     bookeditdlg.cpp \
     treebookitem.cpp \
     genresortfilterproxymodel.cpp \
-    utilities.cpp
+    utilities.cpp \
+    test.cpp
 
 HEADERS  += mainwindow.h \
     common.h \
@@ -139,6 +141,7 @@ HEADERS  += mainwindow.h \
     exportdlg.h \
     aboutdialog.h \
     helpdialog.h \
+    statisticsdialog.h \
     fb2mobi/fb2mobi.h \
     fb2mobi/hyphenations.h \
     tagdialog.h \
@@ -165,7 +168,8 @@ HEADERS  += mainwindow.h \
     treebookitem.h \
     genresortfilterproxymodel.h \
     build_number.h \
-    utilities.h
+    utilities.h \
+    test.h
 
 FORMS    += mainwindow.ui \
     addlibrary.ui \
@@ -173,6 +177,7 @@ FORMS    += mainwindow.ui \
     exportdlg.ui \
     aboutdialog.ui \
     helpdialog.ui \
+    statisticsdialog.ui \
     tagdialog.ui \
     dropform.ui \
     fontframe.ui \

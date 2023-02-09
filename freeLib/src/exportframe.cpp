@@ -1,40 +1,13 @@
 #include "exportframe.h"
 #include "ui_exportframe.h"
-#include "QStandardPaths"
-#include "common.h"
+
 #include <QToolButton>
+#include "QStandardPaths"
 
-quint8 key[] = {1,65,245,245,235,2,34,61,0,32,54,12,66};
-QString encodeStr(const QString& str)
-{
-    QByteArray arr(str.toUtf8());
-    quint32 index=0;
-    for(int i =0; i<arr.size(); i++)
-    {
-        arr[i] = arr[i] ^ key[index];
-        index++;
-        if(index>=sizeof(key)/sizeof(quint32))
-            index=0;
-    }
+#include "common.h"
+#include "utilities.h"
 
-    return "#-#"+QString::fromLatin1(arr.toBase64());
-}
-
-QString decodeStr(const QString &str)
-{
-    if(str.left(3)!="#-#")
-        return str;
-    QByteArray arr = QByteArray::fromBase64(str.mid(3).toLatin1());
-    quint32 index=0;
-    for(int i =0; i<arr.size(); i++)
-    {
-        arr[i] =arr[i] ^ key[index];
-        index++;
-        if(index>=sizeof(key)/sizeof(quint32))
-            index=0;
-    }
-    return QString::fromUtf8(arr);
-}
+extern QList<tag> tag_list;
 
 ExportFrame::ExportFrame(QWidget *parent) :
     QFrame(parent),

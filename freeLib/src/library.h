@@ -4,7 +4,9 @@
 #include <QMultiMap>
 #include <QList>
 #include <QDateTime>
+
 #include "common.h"
+#include "utilities.h"
 
 class SAuthor
 {
@@ -19,6 +21,7 @@ public:
 
 struct SBook
 {
+    qlonglong id;
     QString sName;
     QString sAnnotation;
     QString sImg;
@@ -42,6 +45,7 @@ struct SBook
     bool bReaded;
     SBook()
     {
+        id = 0;
         idInLib = 0;
         idSerial = 0;
         idFirstAuthor = 0;
@@ -67,8 +71,9 @@ struct SSerial
 
 struct SGenre
 {
-    QString sName; // русское название ∆анра
-    QString sNameEn; // английское название ∆анра
+    ulong id; // id жанра в sqlite базе данных
+    QString sName; // русское название жанра
+    QString sNameEn; // английское название жанра
     ushort idParrentGenre;
     ushort nSort;
     QString sCode;
@@ -152,16 +157,57 @@ struct SLib
         uIdCurrentBookForGroup = 0;
         uIdCurrentTag = 0;
     }
+    void clear()
+    {
+        name = "";
+        path = "";
+        sInpx = "";
+        bFirstAuthor = false;;
+        bWoDeleted = false;;
+        bLoaded = false;
+        nCurrentTab = 0;
+        uIdCurrentAuthor = 0;
+        uIdCurrentSeria = 0;
+        uIdCurrentGenre = 0;
+        uIdCurrentGroup = 0;
+        uIdCurrentBookForAuthor = 0;
+        uIdCurrentBookForSeria = 0;
+        uIdCurrentBookForGenre = 0;
+        uIdCurrentBookForGroup = 0;
+        uIdCurrentTag = 0;
+        sCurrentBookLanguage = "";
+        sCurrentSearchingFilter = "";
+        mAuthors.clear();
+        mAuthorBooksLink.clear();
+        mBooks.clear();
+        mSerials.clear();
+        mGroups.clear();
+        mGroupBooksLink.clear();
+        vLaguages.clear();
+    }
+    void clearOnlyContainers()
+    {
+        mAuthors.clear();
+        mAuthorBooksLink.clear();
+        mBooks.clear();
+        mSerials.clear();
+        mGroups.clear();
+        mGroupBooksLink.clear();
+        vLaguages.clear();
+    }
 };
 
-void loadBooksDataFromSQLiteToLibraryStructure(uint idLibrary);
-void loadGenresFromSQLiteToLibraryStructure();
-void loadGroupsFromSQLiteToLibraryStructure(uint idLibrary);
-
-extern bool db_is_open;
+extern bool g_db_is_open;
 
 extern SLib currentLib;
 extern QMap<int,SLib> mLibs;
 extern QMap <uint,SGenre> mGenre;
 
+class LibrarySQLiteWorker {
+public:
+    LibrarySQLiteWorker();
+    void loadBooksDataFromSQLiteToLibraryStructure(int idLibrary);
+    void loadGenresFromSQLiteToLibraryStructure();
+    static void UpdateLibs();
+};
 #endif // LIBRARY_H

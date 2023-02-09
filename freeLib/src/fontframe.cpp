@@ -1,11 +1,15 @@
 #include "fontframe.h"
 #include "ui_fontframe.h"
+
 #include <QDir>
 #include <QFontDatabase>
 #include <QDebug>
-#include "common.h"
 #include <QFileDialog>
 
+#include "common.h"
+#include "utilities.h"
+
+extern QList<tag> tag_list;
 
 typedef struct _tagTT_OFFSET_TABLE{
     quint16	uMajorVersion;
